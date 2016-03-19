@@ -9,11 +9,11 @@ var session = require('express-session');
 
 
 var app = express();
-require('dotenv').load();
+if(process.env.NODE_ENV  !== 'production') require('dotenv').load();
 
 require('./app/config/passport')(passport);
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGOLAB_URI);
 
 app.use('/', express.static(process.cwd() + '/client/public'));
 
