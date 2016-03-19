@@ -1,0 +1,9 @@
+
+@import 'clementine.css';
+
+$test-color: #444;
+
+p.info {
+  padding-left: 20px;
+  color: $test-color;
+}
