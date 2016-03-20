@@ -8,3 +8,6 @@ data/
 
 # backups
 *~
+
+# sourcemaps
+*.map

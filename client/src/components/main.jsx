@@ -22,7 +22,7 @@ var Main = React.createClass({
         <div className="container">
           <img src="img/clementine_150.png" />
           <br />
-          <p className="clementine-text">Github Deploy Test</p>
+          <p className="clementine-text">Clementine.js</p>
         </div>
 
         <div className="container">
