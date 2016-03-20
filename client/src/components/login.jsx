@@ -12,7 +12,7 @@ var Login = React.createClass({
         <div className="login">
           <img src="img/clementine_150.png" />
           <br />
-          <p className="clementine-text">Deployment test</p>
+          <p className="clementine-text">Options Inc Deployment test</p>
           <a href="auth/twitter">
             <div className="btn" id="login-btn">
               <img src="img/twitter_w_32.png" alt="twitter logo" />
