@@ -14,7 +14,9 @@ var Login = React.createClass({
           <img src="img/clementine_150.png" />
           <br />
           <p className="clementine-text">Deployment test</p>
-          <Button bsStyle="primary" href="auth/twitter">Bootstrap Added</Button>
+          <Button bsStyle="primary" href="auth/twitter">
+            Added Customizable Bootstrap (I'm a btn-primary!)
+          </Button>
           <p>and jQuery...</p>
         </div>
       </div>
