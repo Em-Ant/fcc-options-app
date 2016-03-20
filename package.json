@@ -1,29 +1,32 @@
 {
-  "name": "clementinejs_react",
+  "name": "options_inc_webapp",
   "version": "1.0.1",
-  "description": "A full-stack app boilerplate for the freeCodeCamp Course.",
+  "description": "A transportation routing solution for Options Inc",
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Em-Ant/to-be-added"
+    "url": "git+https://github.com/Em-Ant/fcc-options-app.git"
   },
   "homepage": "http://www.herokuapp-to-be-added.com/",
-  "bugs": "https://github.com/Em-Ant/to-be-added/issues",
+  "bugs": "https://github.com/Em-Ant/fcc-options-app/issues",
   "keywords": [
     "MongoDB",
     "Mongoose",
-    "full stack",
+    "Full stack",
     "Express",
     "Node",
-    "javascript",
+    "Javascript",
     "React",
-    "boilerplate",
-    "webpack"
+    "Redux",
+    "Webpack"
   ],
   "scripts": {
     "start": "node server.js"
   },
-  "author": "Emanuele Antonelli",
+  "author": "Emanuele Antonelli <joshua999x@gmail.com> (http://emant.altervista.org/)",
+  "contributors": [
+    "Andre Alonzo <aalonzo@gmail.com>"
+  ],
   "license": "MIT",
   "dependencies": {
     "dotenv": "^1.2.0",
