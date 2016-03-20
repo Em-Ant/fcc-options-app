@@ -1,5 +1,4 @@
 
-var ajax = new(require('../js/ajax-functions.js'));
 
 var appUrl = window.location.origin;
 var history = require('./history.js');
@@ -19,11 +18,15 @@ function logIn(user, nClicks) {
 module.exports.reset = function() {
   return function(dispatch) {
     dispatch({type: 'LOADING', what:'clicks'});
-    ajax.ajaxRequest('delete', appUrl + '/api/user/clicks', function(j) {
-      ajax.ajaxRequest('get', appUrl + '/api/user/clicks', function(data) {
-        var nClicks = JSON.parse(data).clicks;
-        dispatch(setClicks(nClicks));
-      })
+    $.ajax({
+      type: "DELETE",
+      url: appUrl + '/api/user/clicks',
+      success: function(j) {
+        $.get(appUrl + '/api/user/clicks', function(data) {
+          var nClicks = data.clicks;
+          dispatch(setClicks(nClicks));
+        })
+      }
     })
   }
 }
@@ -31,9 +34,9 @@ module.exports.reset = function() {
 module.exports.click = function() {
   return function(dispatch) {
     dispatch({type: 'LOADING', what:'clicks'});
-    ajax.ajaxRequest('post', appUrl + '/api/user/clicks', function(j) {
-      ajax.ajaxRequest('get', appUrl + '/api/user/clicks', function(data) {
-        var nClicks = JSON.parse(data).clicks;
+    $.post(appUrl + '/api/user/clicks', function(j) {
+      $.get(appUrl + '/api/user/clicks', function(data) {
+        var nClicks = data.clicks;
         dispatch(setClicks(nClicks));
       })
     })
@@ -44,15 +47,15 @@ module.exports.click = function() {
 
 module.exports.requestUser = function() {
   return function(dispatch, getState) {
-    ajax.ajaxRequest('get', appUrl + '/api/user', function(data) {
-      var user = JSON.parse(data);
+    $.get(appUrl + '/api/user', function(data) {
+      var user = data;
       if(user.unauth) {
         dispatch(logOut());
         history.replaceState(null, '/login')
       } else {
         history.replaceState(null, '/main');
-        ajax.ajaxRequest('get', appUrl + '/api/user/clicks', function(data) {
-          var nClicks = JSON.parse(data).clicks;
+        $.get(appUrl + '/api/user/clicks', function(data) {
+          var nClicks = data.clicks;
           dispatch(logIn(user));
           dispatch(setClicks(nClicks));
         })

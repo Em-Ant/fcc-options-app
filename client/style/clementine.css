@@ -112,6 +112,12 @@ img {
 	color: #FFA000;
 }
 
+.btn-nofloat {
+  float: none !important;
+}
+
+/* MULTILINE COMMENT */
+.noop {
 /****** Click Styling ******/
 
 .btn-container {	/* Styling for the div that contains the buttons */
@@ -140,7 +146,7 @@ img {
 	-webkit-transform: scale(0.9, 0.9);
 	-moz-transform: scale(0.9, 0.9);
 }
-
+}
 .btn-delete {	/* Styling for delete button */
 	background-color: #ECEFF1;
 	color: #212121;

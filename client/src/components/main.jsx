@@ -6,6 +6,8 @@ var React = require('react');
 var connect = require('react-redux').connect;
 var actionCreators = require('../actions.js');
 
+var Button = require('react-bootstrap').Button;
+var ButtonToolbar = require('react-bootstrap').ButtonToolbar;
 
 var Main = React.createClass({
 
@@ -29,8 +31,10 @@ var Main = React.createClass({
           <p>You have clicked the button <span id="click-nbr">{this.props.clicks}</span> times.</p>
           <br />
           <div className="btn-container">
-            <button onClick={this.props.click} className="btn btn-add">CLICK ME!</button>
-            <button onClick={this.props.reset} className="btn btn-delete">RESET</button>
+            <ButtonToolbar className="text-center">
+              <Button onClick={this.props.click} className="btn-nofloat">CLICK ME!</Button>
+              <Button onClick={this.props.reset} className="btn-nofloat">RESET</Button>
+            </ButtonToolbar>
           </div>
         </div>
       </div>
