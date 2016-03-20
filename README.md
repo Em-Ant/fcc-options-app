@@ -4,7 +4,7 @@
 
 This is transportation routing web application for Options Inc.  This is a non profit project for [Free Code Camp](http://www.freecodecamp.com)
 
-A running version of this application can be found at [tranquil-sierra-11913.herokuapp.com](tranquil-sierra-11913.herokuapp.com)
+A running version of this application can be found at A running version of this application can be found at https://options-inc.herokuapp.com
 
 ## Features
 
