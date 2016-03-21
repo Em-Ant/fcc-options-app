@@ -56,6 +56,8 @@ module.exports = function(app, passport) {
 
   app.route('/api/signup')
     .post(userHandler.signup);
+  app.route('/api/login')
+    .post(userHandler.login);
 
   app.route('/*')
     .get(function(req, res) {
