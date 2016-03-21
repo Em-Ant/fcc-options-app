@@ -6,6 +6,33 @@ This is transportation routing web application for Options Inc.  This is a non p
 
 A running version of this application can be found at A running version of this application can be found at https://options-inc.herokuapp.com
 
+## Build
+
+To build and run the project, you must have the following applications installed.
+
+* Node    
+* NPM
+* MongoDB  
+
+Run the following command to install the dependencies the application needs
+
+    $ npm install 
+
+## Run
+
+Create a ```.env``` file in the root directory and input the environment variables.  There is a sample .env template found in ```/.env.sample``` that you can use.
+
+Start MongoDB
+
+In a separate terminal, run the following command to start the server 
+
+    $ node server
+
+Open your application url in a browser to view the application
+
+    http://localhost:8080
+
+
 ## Features
 
 | Front End Features 
