@@ -23,7 +23,8 @@ var thunk = require('redux-thunk');
 var actions = require('./actions.js');
 
 const store = createStore(reducer,applyMiddleware(thunk));
-
+var $ = require('jquery');
+require('bootstrap-loader');
 
 var App = React.createClass({
   componentDidMount: function() {

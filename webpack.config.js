@@ -3,13 +3,20 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: '#source-map',
-  entry:
-    path.join(__dirname,'client','src','index.jsx'),
+  entry: [
+    path.join(__dirname,'client','src','index.jsx')
+  ],
   output: {
     path: path.join( __dirname,'client','public','static'),
     filename: 'bundle.js',
     publicPath: '/static/'},
   target: "web",
+  plugins: [
+    new webpack.ProvidePlugin({
+       $: "jquery",
+       jQuery: "jquery"
+   })
+ ],
   module: {
     loaders: [
       {
