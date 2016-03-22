@@ -60,6 +60,7 @@
 	var Profile = __webpack_require__(483).ProfileContainer;
 	var Signup = __webpack_require__(484).Signup;
 	var Navigation = __webpack_require__(485);
+	var Routes = __webpack_require__(511);
 	
 	var reducer = __webpack_require__(486);
 	var Provider = __webpack_require__(215).Provider;
@@ -109,7 +110,8 @@
 	      React.createElement(Route, { path: '/main', component: Main }),
 	      React.createElement(Route, { path: '/profile', component: Profile }),
 	      React.createElement(Route, { path: '/login', component: Login }),
-	      React.createElement(Route, { path: '/signup', component: Signup })
+	      React.createElement(Route, { path: '/signup', component: Signup }),
+	      React.createElement(Route, { path: '/routes', component: Routes })
 	    )
 	  )
 	), document.getElementById('appView'));
@@ -20109,6 +20111,7 @@
 	var Main = React.createClass({
 	  displayName: 'Main',
 	
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -25364,13 +25367,11 @@
 	 * // => true
 	 */
 	function isPlainObject(value) {
-	  if (!isObjectLike(value) || objectToString.call(value) != objectTag || isHostObject(value)) {
+	  if (!isObjectLike(value) ||
+	      objectToString.call(value) != objectTag || isHostObject(value)) {
 	    return false;
 	  }
-	  var proto = objectProto;
-	  if (typeof value.constructor == 'function') {
-	    proto = getPrototypeOf(value);
-	  }
+	  var proto = getPrototypeOf(value);
 	  if (proto === null) {
 	    return true;
 	  }
@@ -25812,13 +25813,11 @@
 	 * // => true
 	 */
 	function isPlainObject(value) {
-	  if (!isObjectLike(value) || objectToString.call(value) != objectTag || isHostObject(value)) {
+	  if (!isObjectLike(value) ||
+	      objectToString.call(value) != objectTag || isHostObject(value)) {
 	    return false;
 	  }
-	  var proto = objectProto;
-	  if (typeof value.constructor == 'function') {
-	    proto = getPrototypeOf(value);
-	  }
+	  var proto = getPrototypeOf(value);
 	  if (proto === null) {
 	    return true;
 	  }
@@ -53005,6 +53004,7 @@
 	var Login = React.createClass({
 	  displayName: 'Login',
 	
+	
 	  contextTypes: {
 	    router: React.PropTypes.object.isRequired
 	  },
@@ -53381,6 +53381,7 @@
 	var Navigation = React.createClass({
 	  displayName: "Navigation",
 	
+	
 	  render: function () {
 	    return React.createElement(
 	      "nav",
@@ -53435,6 +53436,15 @@
 	                Link,
 	                { to: "Signup" },
 	                "Signup"
+	              )
+	            ),
+	            React.createElement(
+	              "li",
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "Routes" },
+	                "Routes"
 	              )
 	            )
 	          )
@@ -61013,6 +61023,198 @@
 	}(jQuery);
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(236)))
+
+/***/ },
+/* 511 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(2);
+	
+	var AddRoute = __webpack_require__(512);
+	// var Ajax = require('../../js/ajax-functions.js');
+	
+	var Routes = React.createClass({
+	  displayName: 'Routes',
+	
+	  //
+	  //   contextTypes: {
+	  //     router: React.PropTypes.object.isRequired
+	  //   },
+	  //
+	  // handleSubmit: function(e) {
+	  //   e.preventDefault();
+	  //
+	  //   Ajax.post('/api/login', this.state, function(err, user){
+	  //     if (err) {
+	  //       this.setState({
+	  //         message: err.responseJSON.msg
+	  //       });
+	  //     }else{
+	  //         this.setState({
+	  //           message: "Welcome " + user
+	  //         });
+	  //       // if (location.state && location.state.nextPathname) {
+	  //       //   this.context.router.replace(location.state.nextPathname)
+	  //       // }
+	  //       // else {
+	  //       //   console.log(this.context);
+	  //       //   this.context.router.replace('/main')
+	  //       // }
+	  //     }
+	  //   }.bind(this));
+	  // },
+	  // handleEmailChange: function(e) {
+	  //   this.setState({email: e.target.value});
+	  // },
+	  // handlePasswordChange: function(e) {
+	  //   this.setState({password: e.target.value});
+	  // },
+	  // getInitialState: function() {
+	  //   return ({email: '', password: ''});
+	  // },
+	  handleAddRouteButton: function (e) {
+	    //Toggle Add Route Button
+	    this.setState({ addRoute: !this.state.addRoute });
+	  },
+	  getInitialState: function () {
+	    return { addRoute: false };
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'container' },
+	      React.createElement(
+	        'button',
+	        { className: 'btn btn-primary', onClick: this.handleAddRouteButton },
+	        'Add Route'
+	      ),
+	      React.createElement(
+	        'button',
+	        { className: 'btn btn-info', onClick: this.handleAddRouteButton },
+	        'Edit Route'
+	      ),
+	      this.state.addRoute ? React.createElement(AddRoute, null) : null
+	    );
+	  }
+	});
+	module.exports = Routes;
+
+/***/ },
+/* 512 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(2);
+	// var Ajax = require('../../js/ajax-functions.js');
+	
+	var AddRoute = React.createClass({
+	  displayName: 'AddRoute',
+	
+	  //
+	  //   contextTypes: {
+	  //     router: React.PropTypes.object.isRequired
+	  //   },
+	  //
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    console.log(this.refs);
+	    var formData = {
+	      name: this.refs.name.value,
+	      vehicleCapacity: this.refs.vehicleCapacity.value,
+	      vehicleName: this.refs.vehicleName.value,
+	      vehicleCapacity: this.refs.vehicleCapacity.value
+	    };
+	    console.log(formData);
+	    console.log(this.refs.consumer);
+	    // Ajax.post('/api/route', this.state, function(err, user){
+	    //   if (err) {
+	    //     this.setState({
+	    //       message: err.responseJSON.msg
+	    //     });
+	    //   }else{
+	    //       this.setState({
+	    //         message: "Welcome " + user
+	    //       });
+	    //     // if (location.state && location.state.nextPathname) {
+	    //     //   this.context.router.replace(location.state.nextPathname)
+	    //     // }
+	    //     // else {
+	    //     //   console.log(this.context);
+	    //     //   this.context.router.replace('/main')
+	    //     // }
+	    //   }
+	    // }.bind(this));
+	  },
+	  getInitialState: function (e) {
+	    return {
+	      consumers: ['', '']
+	    };
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'div',
+	          { className: 'form-group' },
+	          React.createElement(
+	            'label',
+	            null,
+	            'Name'
+	          ),
+	          React.createElement('input', { ref: 'name', name: 'name', type: 'text', className: 'form-control' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'form-group' },
+	          React.createElement(
+	            'label',
+	            null,
+	            'Vehicle Capacity'
+	          ),
+	          React.createElement('input', { ref: 'vehicleCapacity', name: 'vehicleCapacity', type: 'text', className: 'form-control' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'form-group' },
+	          React.createElement(
+	            'label',
+	            null,
+	            'Vehicle Name'
+	          ),
+	          React.createElement('input', { ref: 'vehicleName', name: 'vehicleName', type: 'text', className: 'form-control' })
+	        ),
+	        this.state.consumers.map(function (consumer, index) {
+	          //make consumerIndex start with 1 instead of 0;
+	          var consumerIndex = index + 1;
+	          return React.createElement(
+	            'div',
+	            { key: consumerIndex, className: 'form-group' },
+	            React.createElement(
+	              'label',
+	              null,
+	              'Consumer ',
+	              consumerIndex
+	            ),
+	            React.createElement('input', { ref: 'consumer', name: "consumer" + consumerIndex, type: 'text', className: 'form-control' })
+	          );
+	        }),
+	        React.createElement(
+	          'button',
+	          { type: 'submit', className: 'btn btn-default' },
+	          'Submit'
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = AddRoute;
 
 /***/ }
 /******/ ]);

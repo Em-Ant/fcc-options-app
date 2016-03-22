@@ -8,14 +8,13 @@ var UserHandler = require(path + '/app/controllers/userHandler.server.js');
 module.exports = function(app, passport) {
 
   function isLoggedIn(req, res, next) {
-    return next();
-    // if (req.isAuthenticated()) {
-    //   return next();
-    // } else {
-    //   res.json({
-    //     status: 'forbidden'
-    //   });
-    // }
+    if (req.isAuthenticated()) {
+      return next();
+    } else {
+      res.json({
+        status: 'forbidden'
+      });
+    }
   }
 
   var clickHandler = new ClickHandler();
@@ -59,6 +58,9 @@ module.exports = function(app, passport) {
     .post(userHandler.signup);
   app.route('/api/login')
     .post(userHandler.login);
+
+  // app.route('/api/route')
+  //   .post(isLoggedIn, routeHandler.addRoute);
 
   app.route('/*')
     .get(function(req, res) {
