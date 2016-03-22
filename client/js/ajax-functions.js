@@ -1,30 +1,50 @@
-'use strict';
+var AjaxFunctions = {
 
-function AjaxFunctions() {
-   this.ready = function (fn) {
-      if (typeof fn !== 'function') {
-         return;
-      }
+    post: function(url, data, done) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: data,
+            success: function(data) {
+                done(null, data);
+            },
+            error: function(err) {
+                done(err);
+            }
+        });
+    },
+    get: function(url, done) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'GET',
+            success: function(data) {
+                done(null, data);
+            },
+            error: function(err) {
+                done(err);
+            }
+        });
+    },
+    delete: function(url, data,  done){
 
-      if (document.readyState === 'complete') {
-         return fn();
-      }
+        $.ajax({
+            type: "DELETE",
+            url: url,
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(data) {
+                done(null, data);
+            }.bind(this),
+            error: function(err) {
+                done(err)
+            },
+            dataType: 'json'
+        });
+    }
 
-      document.addEventListener('DOMContentLoaded', fn, false);
-   };
 
-   this.ajaxRequest = function (method, url, callback) {
-      var xmlhttp = new XMLHttpRequest();
-
-      xmlhttp.onreadystatechange = function () {
-         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-            callback(xmlhttp.response);
-         }
-      };
-
-      xmlhttp.open(method, url, true);
-      xmlhttp.send();
-   };
-};
+}
 
 module.exports = AjaxFunctions;

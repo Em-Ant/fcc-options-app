@@ -5,6 +5,8 @@ var css = require('../style/main.scss');
 var Main = require('./components/main.jsx').MainContainer;
 var Login = require('./components/login.jsx').Login;
 var Profile = require('./components/profile.jsx').ProfileContainer;
+var Signup = require('./components/signup.jsx').Signup;
+var Navigation = require('./components/navigation.jsx');
 
 var reducer = require('./reducer.js');
 var Provider = require('react-redux').Provider;
@@ -28,11 +30,12 @@ require('bootstrap-loader');
 
 var App = React.createClass({
   componentDidMount: function() {
-    store.dispatch(actions.requestUser());
+    //store.dispatch(actions.requestUser());
   },
   render: function () {
     return (
       <div>
+        <Navigation/>
         {this.props.children}
       </div>
     )
@@ -48,6 +51,7 @@ ReactDOM.render(
         <Route path="/main" component={Main} />
         <Route path="/profile"component={Profile} />
         <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
       </Route>
     </Router>
   </Provider>,

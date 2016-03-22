@@ -65,8 +65,8 @@ function UserHandler() {
             msg: 'There was an error saving user'
           });
         }
-        //return nothing if no error
-        return res.end();
+        //return email if no error
+        return res.json(user.email);
       });
     });
 
@@ -147,9 +147,8 @@ function UserHandler() {
           console.error(err);
           return next(err);
         }
-        return res.json({
-          msg: 'Success! You are logged in.'
-        });
+        //output the email when login is successful
+        return res.json(user.email);
       });
     })(req, res, next);
   };

@@ -8,13 +8,14 @@ var UserHandler = require(path + '/app/controllers/userHandler.server.js');
 module.exports = function(app, passport) {
 
   function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    } else {
-      res.json({
-        status: 'forbidden'
-      });
-    }
+    return next();
+    // if (req.isAuthenticated()) {
+    //   return next();
+    // } else {
+    //   res.json({
+    //     status: 'forbidden'
+    //   });
+    // }
   }
 
   var clickHandler = new ClickHandler();
