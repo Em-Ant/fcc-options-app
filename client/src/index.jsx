@@ -18,8 +18,7 @@ var applyMiddleware = require('redux').applyMiddleware;
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var IndexRoute = require('react-router').IndexRoute;
-
-var history = require('./history.js');
+var history = require('react-router').browserHistory;
 
 var thunk = require('redux-thunk');
 

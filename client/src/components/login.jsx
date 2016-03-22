@@ -17,17 +17,11 @@ var Login = React.createClass({
         this.setState({
           message: err.responseJSON.msg
         });
-      }else{
-          this.setState({
-            message: "Welcome " + user
-          });
-        // if (location.state && location.state.nextPathname) {
-        //   this.context.router.replace(location.state.nextPathname)
-        // }
-        // else {
-        //   console.log(this.context);
-        //   this.context.router.replace('/main')
-        // }
+      } else {
+        this.setState({
+          message: "Welcome " + user
+        });
+        this.props.history.push('/main');
       }
     }.bind(this));
   },
