@@ -106,9 +106,9 @@ img {
 
 .clementine-text { /* Styling for the Clementine.js text */
 	padding: 0;
-	margin: -25px 0 0 0;
+	margin: 25px 0 0 0;
 	font-weight: 500;
-	font-size: 60px;
+	font-size: 50px;
 	color: #FFA000;
 }
 

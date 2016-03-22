@@ -19820,7 +19820,7 @@
 	
 	
 	// module
-	exports.push([module.id, "/********* Fonts **********/\n\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Roboto'), local('Roboto-Regular'), url(" + __webpack_require__(164) + ") format('truetype');\n}\n\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 500;\n  src: local('Roboto Medium'), local('Roboto-Medium'), url(" + __webpack_require__(165) + ") format('truetype');\n}\n\n/****** Main Styling ******/\n\nbody {\n\tfont-family: 'Roboto', sans-serif;\n\tfont-size: 16px;\n\tmargin: 0;\n\tpadding: 0;\n}\n\nheader {\n\tcolor: #00BCD4;\n\theight: 56px;\n\tmargin: 0 0 14px 0;\n\ttext-align: center;\n}\n\np {\n\tmargin: 8px 0 0 0;\n}\n\n.container p {\n\ttext-align: center;\n\tpadding: 0;\n}\n\n/****** Header Styling ******/\n\nheader p {\n\tmargin: 16px 0 5px 0;\n}\n\n.menu {\n\ttext-decoration: none;\n\tpadding: 6px;\n\tmargin: 0;\n\tcolor: #727272;\n}\n\n.menu:visited {\n\tcolor: #727272;\n}\n\n.menu:hover {\n\tcolor: #FFA000;\n}\n\n.menu:active {\n\tcolor: #FF630D;\n}\n\nheader a ~ p {\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: inline;\n\tcolor: #ECEFF1;\n}\n\n#display-name {\n\tfont-weight: 400;\n}\n\n/****** Login Styling ******/\n\n.login {\n\tmargin: 86px auto 0 auto;\n\ttext-align: center;\n}\n\n#login-btn {\n\twidth: 225px;\n\tpadding: 7px 5px;\n}\n\n.btn p {\n\tmargin: 8px 0 0 0;\n\tpadding: 0;\n}\n\n.btn > img {\n\tfloat: left;\n\tmargin-left: 10px\n}\n\n/****** Logo Div Styling ******/\n\nimg {\n\tmargin: 0 auto;\n\tdisplay: block;\n}\n\n.clementine-text { /* Styling for the Clementine.js text */\n\tpadding: 0;\n\tmargin: -25px 0 0 0;\n\tfont-weight: 500;\n\tfont-size: 60px;\n\tcolor: #FFA000;\n}\n\n.btn-nofloat {\n  float: none !important;\n}\n\n/* MULTILINE COMMENT */\n.noop {\n/****** Click Styling ******/\n\n.btn-container {\t/* Styling for the div that contains the buttons */\n\tmargin: -10px auto 0 auto;\n\ttext-align: center;\n}\n\n.btn {\t/* Styling for buttons */\n\tmargin: 0 8px;\n  color: white;\n\tbackground-color: #00BCD4;\n\tdisplay: inline-block;\n\tfont-size: 14px;\n\tborder-radius: 3px;\n\tpadding: 10px 5px;\n\twidth: 100px;\n\tfont-weight: 500;\n}\n\n.btn:focus {\t/* Remove outline when hovering over button */\n\toutline: none;\n}\n\n.btn:active {\t/* Scale the button down by 10% when clicking on button */\n\ttransform: scale(0.9, 0.9);\n\t-webkit-transform: scale(0.9, 0.9);\n\t-moz-transform: scale(0.9, 0.9);\n}\n}\n.btn-delete {\t/* Styling for delete button */\n\tbackground-color: #ECEFF1;\n\tcolor: #212121;\n}\n\n#click-nbr {\n\tfont-weight: 400;\n}\n\n/****** Profile Styling ******/\n\n.twitter-profile {\n\twidth: 350px;\n\theight: 200px;\n\tborder-radius: 3px;\n\tmargin: 86px auto 0 auto;\n\tbackground-color: #EEE;\n\ttext-align: center;\n\tcolor: #000;\n}\n\n.twitter-profile p:first-child {\n\tpadding-top: 16px;\n}\n\n.twitter-profile p:nth-child(5) {\n\tmargin-bottom: 16px\n}\n\n.twitter-profile p {\n\tmargin: 0 0 0 16px;\n\ttext-align: left;\n}\n\n.profile-value {\n\tfont-weight: 400;\n}\n\nspan {\n\tfont-weight: 500;\n}\n\n.twitter-profile > img {\n\tpadding-top: 16px;\n\tmargin-bottom: 16px;\n}\n\n.twitter-profile .menu:hover {\n\tcolor: #FFA000;\n}\n\n.twitter-profile .menu:active {\n\tcolor: #FF630D;\n}\n\n#menu-divide {\n\tcolor: #FFFFFF;\n\tdisplay: inline;\n\tmargin: 0;\n}\n", ""]);
+	exports.push([module.id, "/********* Fonts **********/\n\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Roboto'), local('Roboto-Regular'), url(" + __webpack_require__(164) + ") format('truetype');\n}\n\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 500;\n  src: local('Roboto Medium'), local('Roboto-Medium'), url(" + __webpack_require__(165) + ") format('truetype');\n}\n\n/****** Main Styling ******/\n\nbody {\n\tfont-family: 'Roboto', sans-serif;\n\tfont-size: 16px;\n\tmargin: 0;\n\tpadding: 0;\n}\n\nheader {\n\tcolor: #00BCD4;\n\theight: 56px;\n\tmargin: 0 0 14px 0;\n\ttext-align: center;\n}\n\np {\n\tmargin: 8px 0 0 0;\n}\n\n.container p {\n\ttext-align: center;\n\tpadding: 0;\n}\n\n/****** Header Styling ******/\n\nheader p {\n\tmargin: 16px 0 5px 0;\n}\n\n.menu {\n\ttext-decoration: none;\n\tpadding: 6px;\n\tmargin: 0;\n\tcolor: #727272;\n}\n\n.menu:visited {\n\tcolor: #727272;\n}\n\n.menu:hover {\n\tcolor: #FFA000;\n}\n\n.menu:active {\n\tcolor: #FF630D;\n}\n\nheader a ~ p {\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: inline;\n\tcolor: #ECEFF1;\n}\n\n#display-name {\n\tfont-weight: 400;\n}\n\n/****** Login Styling ******/\n\n.login {\n\tmargin: 86px auto 0 auto;\n\ttext-align: center;\n}\n\n#login-btn {\n\twidth: 225px;\n\tpadding: 7px 5px;\n}\n\n.btn p {\n\tmargin: 8px 0 0 0;\n\tpadding: 0;\n}\n\n.btn > img {\n\tfloat: left;\n\tmargin-left: 10px\n}\n\n/****** Logo Div Styling ******/\n\nimg {\n\tmargin: 0 auto;\n\tdisplay: block;\n}\n\n.clementine-text { /* Styling for the Clementine.js text */\n\tpadding: 0;\n\tmargin: 25px 0 0 0;\n\tfont-weight: 500;\n\tfont-size: 50px;\n\tcolor: #FFA000;\n}\n\n.btn-nofloat {\n  float: none !important;\n}\n\n/* MULTILINE COMMENT */\n.noop {\n/****** Click Styling ******/\n\n.btn-container {\t/* Styling for the div that contains the buttons */\n\tmargin: -10px auto 0 auto;\n\ttext-align: center;\n}\n\n.btn {\t/* Styling for buttons */\n\tmargin: 0 8px;\n  color: white;\n\tbackground-color: #00BCD4;\n\tdisplay: inline-block;\n\tfont-size: 14px;\n\tborder-radius: 3px;\n\tpadding: 10px 5px;\n\twidth: 100px;\n\tfont-weight: 500;\n}\n\n.btn:focus {\t/* Remove outline when hovering over button */\n\toutline: none;\n}\n\n.btn:active {\t/* Scale the button down by 10% when clicking on button */\n\ttransform: scale(0.9, 0.9);\n\t-webkit-transform: scale(0.9, 0.9);\n\t-moz-transform: scale(0.9, 0.9);\n}\n}\n.btn-delete {\t/* Styling for delete button */\n\tbackground-color: #ECEFF1;\n\tcolor: #212121;\n}\n\n#click-nbr {\n\tfont-weight: 400;\n}\n\n/****** Profile Styling ******/\n\n.twitter-profile {\n\twidth: 350px;\n\theight: 200px;\n\tborder-radius: 3px;\n\tmargin: 86px auto 0 auto;\n\tbackground-color: #EEE;\n\ttext-align: center;\n\tcolor: #000;\n}\n\n.twitter-profile p:first-child {\n\tpadding-top: 16px;\n}\n\n.twitter-profile p:nth-child(5) {\n\tmargin-bottom: 16px\n}\n\n.twitter-profile p {\n\tmargin: 0 0 0 16px;\n\ttext-align: left;\n}\n\n.profile-value {\n\tfont-weight: 400;\n}\n\nspan {\n\tfont-weight: 500;\n}\n\n.twitter-profile > img {\n\tpadding-top: 16px;\n\tmargin-bottom: 16px;\n}\n\n.twitter-profile .menu:hover {\n\tcolor: #FFA000;\n}\n\n.twitter-profile .menu:active {\n\tcolor: #FF630D;\n}\n\n#menu-divide {\n\tcolor: #FFFFFF;\n\tdisplay: inline;\n\tmargin: 0;\n}\n", ""]);
 	
 	// exports
 
@@ -53011,13 +53011,13 @@
 	
 	  handleSubmit: function (e) {
 	    e.preventDefault();
+	
 	    Ajax.post('/api/login', this.state, function (err, user) {
 	      if (err) {
 	        this.setState({
 	          message: err.responseJSON.msg
 	        });
 	      } else {
-	
 	        this.setState({
 	          message: "Welcome " + user
 	        });
@@ -53044,42 +53044,60 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'container text-center' },
-	      ' ',
+	      this.state.message ? React.createElement(
+	        'div',
+	        { className: 'alert alert-info', role: 'alert' },
+	        this.state.message
+	      ) : null,
 	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
-	        this.state.message ? React.createElement(
-	          'div',
-	          { className: 'alert alert-info', role: 'alert' },
-	          this.state.message
-	        ) : null,
+	        'div',
+	        { className: 'login' },
+	        React.createElement('img', { src: 'img/logo.png' }),
+	        React.createElement('br', null),
 	        React.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          React.createElement(
-	            'label',
-	            null,
-	            'Email address'
-	          ),
-	          React.createElement('input', { type: 'email', className: 'form-control', id: 'email', value: this.state.email, onChange: this.handleEmailChange })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          React.createElement(
-	            'label',
-	            null,
-	            'Password'
-	          ),
-	          React.createElement('input', { type: 'password', className: 'form-control', id: 'password', value: this.state.password, onChange: this.handlePasswordChange })
+	          'p',
+	          { className: 'clementine-text' },
+	          'Login'
 	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'row' },
 	          React.createElement(
-	            'button',
-	            { type: 'submit', className: 'btn btn-default' },
-	            'Login'
+	            'div',
+	            { className: 'col-sm-6 col-sm-offset-3' },
+	            React.createElement(
+	              'form',
+	              { onSubmit: this.handleSubmit },
+	              React.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                React.createElement(
+	                  'label',
+	                  null,
+	                  'Email address'
+	                ),
+	                React.createElement('input', { type: 'email', className: 'form-control', id: 'email', value: this.state.email, onChange: this.handleEmailChange })
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                React.createElement(
+	                  'label',
+	                  null,
+	                  'Password'
+	                ),
+	                React.createElement('input', { type: 'password', className: 'form-control', id: 'password', value: this.state.password, onChange: this.handlePasswordChange })
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'row' },
+	                React.createElement(
+	                  'button',
+	                  { type: 'submit', className: 'btn btn-default' },
+	                  'Login'
+	                )
+	              )
+	            )
 	          )
 	        )
 	      )
@@ -53284,45 +53302,64 @@
 	        this.state.message
 	      ) : null,
 	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
+	        'div',
+	        { className: 'login' },
+	        React.createElement('img', { src: 'img/logo.png' }),
+	        React.createElement('br', null),
 	        React.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          React.createElement(
-	            'label',
-	            null,
-	            'Email address'
-	          ),
-	          React.createElement('input', { type: 'email', className: 'form-control', id: 'exampleInputEmail1', value: this.state.email, onChange: this.handleEmailChange })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          React.createElement(
-	            'label',
-	            null,
-	            'Password'
-	          ),
-	          React.createElement('input', { type: 'password', className: 'form-control', id: 'exampleInputPassword1', value: this.state.password, onChange: this.handlePasswordChange })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          React.createElement(
-	            'label',
-	            null,
-	            'Confirm Password'
-	          ),
-	          React.createElement('input', { type: 'password', className: 'form-control', id: 'exampleInputPassword1', value: this.state.confirmPassword, onChange: this.handleConfirmPasswordChange })
+	          'p',
+	          { className: 'clementine-text' },
+	          'Signup'
 	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'row' },
 	          React.createElement(
-	            'button',
-	            { type: 'submit', className: 'btn btn-default' },
-	            'Submit'
+	            'div',
+	            { className: 'col-sm-6 col-sm-offset-3' },
+	            React.createElement(
+	              'form',
+	              { onSubmit: this.handleSubmit },
+	              React.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                React.createElement(
+	                  'label',
+	                  null,
+	                  'Email address'
+	                ),
+	                React.createElement('input', { type: 'email', className: 'form-control', id: 'exampleInputEmail1', value: this.state.email, onChange: this.handleEmailChange })
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                React.createElement(
+	                  'label',
+	                  null,
+	                  'Password'
+	                ),
+	                React.createElement('input', { type: 'password', className: 'form-control', id: 'exampleInputPassword1', value: this.state.password, onChange: this.handlePasswordChange })
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                React.createElement(
+	                  'label',
+	                  null,
+	                  'Confirm Password'
+	                ),
+	                React.createElement('input', { type: 'password', className: 'form-control', id: 'exampleInputPassword1', value: this.state.confirmPassword, onChange: this.handleConfirmPasswordChange })
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'row' },
+	                React.createElement(
+	                  'button',
+	                  { type: 'submit', className: 'btn btn-default' },
+	                  'Submit'
+	                )
+	              )
+	            )
 	          )
 	        )
 	      )

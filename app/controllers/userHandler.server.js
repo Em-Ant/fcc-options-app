@@ -114,7 +114,7 @@ function UserHandler() {
    * Sign in using email and password.
    */
   this.login = function(req, res, next) {
-
+    console.log(req.body);
     // field validation
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password cannot be blank').notEmpty();

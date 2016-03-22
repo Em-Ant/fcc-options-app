@@ -29,27 +29,36 @@ var Signup = React.createClass({
   },
   render: function() {
     return (
-      <div className="container text-center">
+      <div className = "container text-center" >
         {this.state.message
           ? <div className="alert alert-info" role="alert">{this.state.message}</div>
           : null}
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label >Email address</label>
-            <input type="email" className="form-control" id="exampleInputEmail1" value={this.state.email} onChange={this.handleEmailChange}></input>
-          </div>
-          <div className="form-group">
-            <label >Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword1" value={this.state.password} onChange={this.handlePasswordChange}></input>
-          </div>
-          <div className="form-group">
-            <label >Confirm Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword1" value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange}></input>
-          </div>
+        <div className="login">
+          <img src="img/logo.png" />
+          <br />
+          <p className="clementine-text">Signup</p>
           <div className="row">
-            <button type="submit" className="btn btn-default">Submit</button>
+            <div className="col-sm-6 col-sm-offset-3">
+              <form onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                  <label >Email address</label>
+                  <input type="email" className="form-control" id="exampleInputEmail1" value={this.state.email} onChange={this.handleEmailChange}></input>
+                </div>
+                <div className="form-group">
+                  <label >Password</label>
+                  <input type="password" className="form-control" id="exampleInputPassword1" value={this.state.password} onChange={this.handlePasswordChange}></input>
+                </div>
+                <div className="form-group">
+                  <label >Confirm Password</label>
+                  <input type="password" className="form-control" id="exampleInputPassword1" value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange}></input>
+                </div>
+                <div className="row">
+                  <button type="submit" className="btn btn-default">Submit</button>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     )
   }
