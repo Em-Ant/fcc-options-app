@@ -28,9 +28,6 @@ var Navigation = React.createClass({
               <li >
                 <Link to={"Signup"}>Signup</Link>
               </li>
-              <li >
-                <Link to={"Routes"}>Routes</Link>
-              </li>
 
             </ul>
 
