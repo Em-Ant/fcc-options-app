@@ -10,12 +10,12 @@ var Consumer = new Schema({
   phone: String,
 
   // Details flags
-  needsWave: {type: Boolean, default: false},
-  canSitNearOppositeSex: {type: Boolean, default: true},
-  needsTwoSeats: {type: Boolean, default: false},
-  hasSeizures: {type: Boolean, default: false},
-  hasWeelchair: {type: Boolean, default: false},
-  hasMedications: {type: Boolean, default: false},
+  needsWave: Boolean,
+  cannotSitNearOppositeSex: Boolean,
+  needsTwoSeats: Boolean,
+  hasSeizures: Boolean,
+  hasWeelchair: Boolean,
+  hasMedications: Boolean
 });
 
 module.exports = mongoose.model('Consumer', Consumer);

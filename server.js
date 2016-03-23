@@ -18,6 +18,10 @@ require('./app/config/passport')(passport);
 
 mongoose.connect(process.env.MONGO_URI || process.env.MONGOLAB_URI);
 
+if(process.env.SEED_DB && process.env.SEED_DB==="true") {
+  require('./app/seed.js');
+}
+
 app.use('/', express.static(process.cwd() + '/client/public'));
 
 
