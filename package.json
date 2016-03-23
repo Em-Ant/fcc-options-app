@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "start": "node server.js",
-    "postinstall": "webpack --config ./webpack.config.js"
+    "postinstall": "webpack -p --config ./webpack.config.js"
   },
   "author": "Emanuele Antonelli <joshua999x@gmail.com> (http://emant.altervista.org/)",
   "contributors": [
@@ -36,6 +36,7 @@
     "express": "^4.12.4",
     "express-session": "^1.11.3",
     "express-validator": "^2.20.3",
+    "webpack": "^1.12.12",
     "immutable": "^3.7.6",
     "mongoose": "^4.1.0",
     "passport": "^0.3.0",
@@ -64,6 +65,5 @@
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
-    "webpack": "^1.12.12"
   }
 }
