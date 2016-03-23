@@ -3,6 +3,7 @@
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
 var UserHandler = require(path + '/app/controllers/userHandler.server.js');
+var RouteHandler = require(path + '/app/controllers/routeHandler.server.js');
 
 
 module.exports = function(app, passport) {
@@ -11,6 +12,7 @@ module.exports = function(app, passport) {
 
   var clickHandler = new ClickHandler();
   var userHandler = new UserHandler();
+  var routeHandler = new RouteHandler();
 
 
   app.use('/api/consumer', require('./consumer'));
@@ -52,6 +54,9 @@ module.exports = function(app, passport) {
     .post(userHandler.signup);
   app.route('/api/login')
     .post(userHandler.login);
+
+  app.route('/api/route')
+    .post(routeHandler.addRoute);
 
   app.route('/*')
     .get(function(req, res) {
