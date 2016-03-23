@@ -3,11 +3,15 @@
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
 var UserHandler = require(path + '/app/controllers/userHandler.server.js');
+var RouteHandler = require(path + '/app/controllers/routeHandler.server.js');
 
 
 module.exports = function(app, passport) {
 
   function isLoggedIn(req, res, next) {
+    
+    //TODO REMOVE
+    return next();
     if (req.isAuthenticated()) {
       return next();
     } else {
@@ -19,6 +23,7 @@ module.exports = function(app, passport) {
 
   var clickHandler = new ClickHandler();
   var userHandler = new UserHandler();
+  var routeHandler = new RouteHandler();
 
 
   app.route('/api/user')
@@ -59,8 +64,8 @@ module.exports = function(app, passport) {
   app.route('/api/login')
     .post(userHandler.login);
 
-  // app.route('/api/route')
-  //   .post(isLoggedIn, routeHandler.addRoute);
+  app.route('/api/route')
+    .post(routeHandler.addRoute);
 
   app.route('/*')
     .get(function(req, res) {

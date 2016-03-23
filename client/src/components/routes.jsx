@@ -2,7 +2,6 @@
 
 var React = require('react');
 
-var AddRoute = require('./addRoute.jsx');
 // var Ajax = require('../../js/ajax-functions.js');
 
 var Routes = React.createClass({
@@ -44,21 +43,46 @@ var Routes = React.createClass({
   // },
   handleAddRouteButton: function(e) {
     //Toggle Add Route Button
-    this.setState({addRoute: !this.state.addRoute});
+    this.setState({
+      addRoute: !this.state.addRoute
+    });
   },
   getInitialState: function() {
-    return ({addRoute: false});
+    return ({
+      "routes":[
+    {"name":"A", "locationServed":"Elk River"}, 
+    {"name":"B", "locationServed":"St. Cloud"}, 
+    {"name":"D","locationServed":"Monti/Otseg"}
+  ]
+    });
   },
   render: function() {
     return (
       <div className="container">
-        <button className="btn btn-primary" onClick={this.handleAddRouteButton}>Add Route</button>
-        <button className="btn btn-info" onClick={this.handleAddRouteButton}>Edit Route</button>
-
-      {this.state.addRoute?<AddRoute/>:null}
+      <h1>Routes</h1>
+      <table className="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location Served</th>
+        </tr>
+      </thead>
+      <tbody>
+          {
+            this.state.routes.map(function(route, index){
+              return(
+              <tr key={index}>
+              <td>{route.name}</td>
+              <td>{route.locationServed}</td>
+              </tr>
+              );
+            })
+          }
+      </tbody>
+    </table>
       </div>
 
     )
   }
 });
-module.exports= Routes;
+module.exports = Routes;
