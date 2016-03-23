@@ -3,9 +3,13 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: '#source-map',
-  entry: [
-    path.join(__dirname,'client','src','index.jsx')
-  ],
+  entry: {
+    app: path.join(__dirname,'client','src','index.jsx'),
+    vendors: [
+      'react', 'redux', 'react-router',
+      'jquery', 'bootstrap-sass', 'react-bootstrap'
+    ]
+  },
   output: {
     path: path.join( __dirname,'client','public','static'),
     filename: 'bundle.js',
@@ -15,7 +19,8 @@ module.exports = {
     new webpack.ProvidePlugin({
        $: "jquery",
        jQuery: "jquery"
-   })
+   }),
+   new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
  ],
   module: {
     loaders: [
