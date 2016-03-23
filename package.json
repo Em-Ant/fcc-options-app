@@ -39,7 +39,8 @@
     "mongoose": "^4.1.0",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
-    "passport-twitter": "^1.0.4"
+    "passport-twitter": "^1.0.4",
+    "lodash": "^3.10.1"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",

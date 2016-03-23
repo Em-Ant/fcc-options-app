@@ -8,7 +8,7 @@ var RouteHandler = require(path + '/app/controllers/routeHandler.server.js');
 
 module.exports = function(app, passport) {
 
-  var isLoggedIn = (require('./ensureAuth'))();
+  var isLoggedIn = require('./ensureAuth');
 
   var clickHandler = new ClickHandler();
   var userHandler = new UserHandler();
