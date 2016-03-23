@@ -21,7 +21,8 @@
     "Webpack"
   ],
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "webpack --config ./webpack.config.js"
   },
   "author": "Emanuele Antonelli <joshua999x@gmail.com> (http://emant.altervista.org/)",
   "contributors": [
