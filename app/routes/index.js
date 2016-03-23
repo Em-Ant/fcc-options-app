@@ -8,28 +8,19 @@ var RouteHandler = require(path + '/app/controllers/routeHandler.server.js');
 
 module.exports = function(app, passport) {
 
-  function isLoggedIn(req, res, next) {
-    
-    //TODO REMOVE
-    return next();
-    if (req.isAuthenticated()) {
-      return next();
-    } else {
-      res.json({
-        status: 'forbidden'
-      });
-    }
-  }
+  var isLoggedIn = require('./ensureAuth');
 
   var clickHandler = new ClickHandler();
   var userHandler = new UserHandler();
   var routeHandler = new RouteHandler();
 
 
+  app.use('/api/consumer', require('./consumer'));
+
   app.route('/api/user')
     .get(function(req, res) {
-      if (req.user && req.user.twitter) {
-        res.json(req.user.twitter);
+      if (req.user) {
+        res.json(req.user);
       } else {
         res.json({
           unauth: true
@@ -69,6 +60,6 @@ module.exports = function(app, passport) {
 
   app.route('/*')
     .get(function(req, res) {
-      res.sendFile(path + '/client/public/index.html');
+      res.redirect('/');
     });
 };
