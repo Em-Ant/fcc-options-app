@@ -17,3 +17,4 @@ data/
 
 #webpack bundles
 client/public/static/bundle.js*
+client/public/static/vendors.js*
