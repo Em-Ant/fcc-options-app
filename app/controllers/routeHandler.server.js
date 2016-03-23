@@ -1,15 +1,13 @@
 'use strict';
 
 var Route = require('../models/routes.js');
-var mongoose = require('mongoose');
 
 function RouteHandler() {
 
   this.addRoute = function(req, res, next) {
     //Validate input
-    req.assert('name', 'Email is not valid').isEmail();
-    req.assert('password', 'Password must be at least 4 characters long').len(4);
-    req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+    req.assert('name', 'Name must not be empty').notEmpty();
+    req.assert('locationServed', 'Location served must not be empty').notEmpty();
 
     //display validation errors and exit
     var errors = req.validationErrors();
@@ -25,6 +23,11 @@ function RouteHandler() {
       name: route.name
     }, function(err, existingRoute) {
 
+      if(err){
+        return res.status(400).json({
+           msg: 'There was an error finding route'
+          }); 
+      }
       //if route exists, then exit
       if (existingRoute) {
         return res.status(400).json({
