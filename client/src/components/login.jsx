@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react');
+var Link = require("react-router").Link;
 var Ajax = require('../../js/ajax-functions.js');
 
 var Login = React.createClass({
@@ -8,7 +9,6 @@ var Login = React.createClass({
     contextTypes: {
       router: React.PropTypes.object.isRequired
     },
-
   handleSubmit: function(e) {
     e.preventDefault();
 
@@ -18,9 +18,6 @@ var Login = React.createClass({
           message: err.responseJSON.msg
         });
       } else {
-        this.setState({
-          message: "Welcome " + user
-        });
         this.props.history.push('/main');
       }
     }.bind(this));
@@ -36,33 +33,43 @@ var Login = React.createClass({
   },
   render: function() {
     return (
-    <div className = "container text-center" >
-      {this.state.message
-        ? <div className="alert alert-info" role="alert">{this.state.message}</div>
-        : null}
-      <div className="login">
-        <img src="img/logo.png" />
-        <br />
-        <p className="clementine-text">Login</p>
-        <div className="row">
-          <div className="col-sm-6 col-sm-offset-3">
-            <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label >Email address</label>
-              <input type="email" className="form-control" id="email" value={this.state.email} onChange={this.handleEmailChange}></input>
+      <div className="login-box">
+        <div className="login-logo">
+          <a href="http://www.options-inc.org" target="_blank"><b>Options Inc.</b></a>
+        </div>
+
+        <div className="login-box-body">
+          <p className="login-box-msg">Sign in to start your session</p>
+            {this.state.message?
+            <div className="alert alert-info alert-dismissible">
+              <button type="button" className="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h4><i className="icon fa fa-info"></i> Alert!</h4>
+              {this.state.message}
+            </div>:null
+          }
+          <form  onSubmit={this.handleSubmit}>
+            <div className="form-group has-feedback">
+              <input type="email" className="form-control" placeholder="Email" value={this.state.email} onChange={this.handleEmailChange}/>
+              <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
-            <div className="form-group">
-              <label >Password</label>
-              <input type="password" className="form-control" id="password" value={this.state.password} onChange={this.handlePasswordChange}></input>
+            <div className="form-group has-feedback">
+              <input type="password" className="form-control" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}/>
+              <span className="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div className="row">
-              <button type="submit" className="btn btn-default">Login</button>
+              <div className="col-xs-8"/>
+              <div className="col-xs-4">
+                <button type="submit" className="btn btn-primary btn-block btn-flat">Sign In</button>
+              </div>
             </div>
           </form>
-          </div>
+
+
+
+              <Link to={"/signup"} className="text-center">Create a new account</Link>
+
         </div>
       </div>
-    </div>
     )
   }
 });

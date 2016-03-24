@@ -2,18 +2,17 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var css = require('../style/main.scss');
 
-var Main = require('./components/main.jsx').MainContainer;
+var Main = require('./components/adminLTE/main.jsx').MainContainer;
 var Login = require('./components/login.jsx').Login;
 var Profile = require('./components/profile.jsx').ProfileContainer;
 var Signup = require('./components/signup.jsx').Signup;
-var Navigation = require('./components/navigation.jsx');
 var Routes = require('./components/routes.jsx');
 var AddRoute = require('./components/addRoute.jsx');
 
 var reducer = require('./reducer.js');
-var Provider = require('react-redux').Provider;
-var createStore = require('redux').createStore;
-var applyMiddleware = require('redux').applyMiddleware;
+ var Provider = require('react-redux').Provider;
+ var createStore = require('redux').createStore;
+ var applyMiddleware = require('redux').applyMiddleware;
 
 
 var Router = require('react-router').Router;
@@ -36,7 +35,6 @@ var App = React.createClass({
   render: function () {
     return (
       <div>
-        <Navigation/>
         {this.props.children}
       </div>
     )
