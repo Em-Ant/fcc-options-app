@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     app: path.join(__dirname,'client','src','index.jsx'),
     vendors: [
-      'react', 'redux', 'react-router'
+      'react', 'redux', 'react-redux', 'react-router'
     ]
   },
   output: {
