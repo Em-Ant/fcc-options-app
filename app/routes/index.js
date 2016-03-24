@@ -15,7 +15,7 @@ module.exports = function(app, passport) {
   var routeHandler = new RouteHandler();
 
 
-  app.use('/api/consumer', require('./consumer'));
+  app.use('/api/consumer', require('./consumer.js'));
 
   app.route('/api/user')
     .get(function(req, res) {
