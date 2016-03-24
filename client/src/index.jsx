@@ -1,4 +1,3 @@
-require('bootstrap-loader');
 
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -48,7 +47,7 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={Login} />
-        <Route component={Main}>  
+        <Route component={Main}>
           <Route path="/routes" component={Routes} />
         </Route>
         <Route path="/profile"component={Profile} />
