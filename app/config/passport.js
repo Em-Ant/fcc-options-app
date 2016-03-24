@@ -1,9 +1,7 @@
 'use strict';
 
-var TwitterStrategy = require('passport-twitter').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/users');
-var configAuth = require('./auth');
 
 module.exports = function(passport) {
   passport.serializeUser(function(user, done) {
