@@ -6,8 +6,25 @@
 'use strict';
 
 var Consumer = require('./models/consumer.js');
+var User = require('./models/users.js');
 
-console.log('Populating DB...\n');
+/**
+* USERS
+*/
+
+User.find({}).remove(function() {
+  User.create({
+    email: 'test@test.com',
+    password: '12345',
+    role: 'user'
+  }, {
+    email: 'admin@test.com',
+    password: 'admin',
+    role: 'admin'
+  }, function() {
+    console.log('finished populating users');
+  });
+});
 
 /**
 * CONSUMERS
@@ -58,17 +75,4 @@ Consumer.find({}).remove(function() {
 
 /**
 * We can populate other collections in a similar way
-* ...
-*
-* We can populate users too, if needed
-*
-
-User.find({}).remove(function() {
-  User.create({
-    ...
-  }, function() {
-    console.log('finished populating users');
-  });
-});
-
 */

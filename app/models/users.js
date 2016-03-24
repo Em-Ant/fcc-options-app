@@ -6,7 +6,8 @@ var Schema = mongoose.Schema;
 
 var User = new Schema({
 	email: String,
-  password: String
+  password: String,
+  role: {type: String, enum:['admin', 'user']}
 });
 
 
