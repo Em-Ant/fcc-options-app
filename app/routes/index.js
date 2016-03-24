@@ -2,16 +2,13 @@
 
 var path = process.cwd();
 
-var UserHandler = require(path + '/app/controllers/userHandler.server.js');
-var RouteHandler = require(path + '/app/controllers/routeHandler.server.js');
-
+var UserHandler = require(path + '/app/controllers/userHandler.js');
 
 module.exports = function(app, passport) {
 
   var isLoggedIn = require('./ensureAuth');
 
   var userHandler = new UserHandler();
-  var routeHandler = new RouteHandler();
 
 
   app.use('/api/consumer', require('./consumer.js'));

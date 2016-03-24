@@ -2,7 +2,7 @@
 
 var express = require('express');
 var router = express.Router();
-var Controller = require('../controllers/consumerHandler.server.js');
+var Controller = require('../controllers/consumerHandler.js');
 var controller = new Controller();
 
 var isLoggedIn = require('./ensureAuth.js');
