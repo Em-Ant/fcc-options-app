@@ -8,6 +8,7 @@ var Login = require('./components/login.jsx').Login;
 var Profile = require('./components/profile.jsx').ProfileContainer;
 var Signup = require('./components/signup.jsx').Signup;
 var Routes = require('./components/routes.jsx');
+var Consumers = require('./components/consumers.jsx');
 var AddRoute = require('./components/addRoute.jsx');
 
 var reducer = require('./reducer.js');
@@ -49,6 +50,7 @@ ReactDOM.render(
         <IndexRoute component={Login} />
         <Route component={Main}>
           <Route path="/routes" component={Routes} />
+          <Route path="/consumers" component={Consumers} />
         </Route>
         <Route path="/profile"component={Profile} />
         <Route path="/login" component={Login} />

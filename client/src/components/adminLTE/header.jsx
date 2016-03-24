@@ -11,9 +11,9 @@ var Header = React.createClass({
 
         <a href="index2.html" className="logo">
           <span className="logo-mini">
-            <b>A</b>LT</span>
+            <img src="img/opt_logo_wht.png" height="30px"></img></span>
           <span className="logo-lg">
-            <b>Admin</b>LTE</span>
+            <b>Options</b> Inc.</span>
         </a>
 
         <nav className="navbar navbar-static-top" role="navigation">
