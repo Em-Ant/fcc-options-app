@@ -4,7 +4,7 @@ var Route = require('../models/routes.js');
 
 function RouteHandler() {
 
-  this.addRoute = function(req, res, next) {
+  this.create = function(req, res) {
     //Validate input
     req.assert('name', 'Name must not be empty').notEmpty();
     req.assert('locationServed', 'Location served must not be empty').notEmpty();
@@ -47,36 +47,18 @@ function RouteHandler() {
     });
   }
 
-  this.getAllRoutes = function(req, res, next) {
 
-    //create a new route from the request body
-    var route = new Route(req.body);
-
-    Users
-      .findOne({
-        'twitter.id': req.user.twitter.id
-      }, {
-        '_id': false
-      })
-      .exec(function(err, result) {
+  this.index = function(req,res) {
+    Route.find(function (err, routes) {
         if (err) {
-          throw err;
+          return res.status(400).json({
+            msg: 'There was an error retrieving routes'
+          });
         }
-
-        res.json(result.nbrClicks);
-      });
-
-    //look in the database to see if a user already exists
-    Route.find({}).exec(function(err, result) {
-      if (err) {
-        return res.status(400).json({
-          msg: 'There was an loading routes'
-        });
-      }
-
-      res.json(result);
+      return res.status(200).json(routes);
     });
   }
+
 }
 
 module.exports = RouteHandler;

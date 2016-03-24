@@ -7,6 +7,7 @@
 
 var Consumer = require('./models/consumer.js');
 var User = require('./models/users.js');
+var Route = require('./models/routes.js');
 
 /**
 * USERS
@@ -73,6 +74,26 @@ Consumer.find({}).remove(function() {
   });
 });
 
+
 /**
-* We can populate other collections in a similar way
+* ROUTES
+*
+* model:
+    name: {type: String, required: true},
+    locationServed: {type: String}
 */
+
+Route.find({}).remove(function() {
+  Route.create({
+    name: 'Route A',
+    locationServed: 'Elk River'
+  }, {
+    name: 'Route B',
+    locationServed: 'St. Cloud'
+  }, {
+    name: 'Route D',
+    locationServed: 'Monti/Otseg'
+  }, function() {
+    console.log('finished populating routes');
+  });
+});

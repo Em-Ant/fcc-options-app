@@ -16,6 +16,7 @@ module.exports = function(app, passport) {
 
 
   app.use('/api/consumer', require('./consumer.js'));
+  app.use('/api/route', require('./route.js'));
 
   app.route('/api/user')
     .get(function(req, res) {
@@ -55,9 +56,6 @@ module.exports = function(app, passport) {
     .post(userHandler.signup);
   app.route('/api/login')
     .post(userHandler.login);
-
-  app.route('/api/route')
-    .post(routeHandler.addRoute);
 
   app.route('/*')
     .get(function(req, res) {

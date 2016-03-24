@@ -2,7 +2,7 @@
 
 var React = require('react');
 
-// var Ajax = require('../../js/ajax-functions.js');
+var Ajax = require('../../js/ajax-functions.js');
 
 var Routes = React.createClass({
   //
@@ -49,37 +49,53 @@ var Routes = React.createClass({
   },
   getInitialState: function() {
     return ({
-      "routes":[
-    {"name":"A", "locationServed":"Elk River"}, 
-    {"name":"B", "locationServed":"St. Cloud"}, 
-    {"name":"D","locationServed":"Monti/Otseg"}
-  ]
+      "routes":[]
     });
+  },
+  componentDidMount: function() {
+    Ajax.get('/api/route/', function(err, data){
+      if(err) {
+        // TODO      
+      }
+      
+      this.setState({
+        routes: data
+      })
+    }.bind(this));
   },
   render: function() {
     return (
-      <div className="container">
-      <h1>Routes</h1>
-      <table className="table table-striped">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Location Served</th>
-        </tr>
-      </thead>
-      <tbody>
-          {
-            this.state.routes.map(function(route, index){
-              return(
-              <tr key={index}>
-              <td>{route.name}</td>
-              <td>{route.locationServed}</td>
+      <div className="content-wrapper">
+
+        <section className="content-header">
+          <h1>
+            Routes
+          </h1>
+        </section>
+
+        <section className="content">
+
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Location Served</th>
               </tr>
-              );
-            })
-          }
-      </tbody>
-    </table>
+            </thead>
+            <tbody>
+              {this.state.routes.map(function(route, index) {
+                return (
+                  <tr key={index}>
+                    <td>{route.name}</td>
+                    <td>{route.locationServed}</td>
+                  </tr>
+                );
+              })
+}
+            </tbody>
+          </table>
+        </section>
+
       </div>
 
     )

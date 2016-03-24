@@ -48,11 +48,12 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={Login} />
-        <Route path="/main" component={Main} />
+        <Route component={Main}>  
+          <Route path="/routes" component={Routes} />
+        </Route>
         <Route path="/profile"component={Profile} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/routes" component={Routes} />
         <Route path="/addRoute" component={AddRoute} />
       </Route>
     </Router>
