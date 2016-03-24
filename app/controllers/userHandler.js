@@ -3,7 +3,7 @@
 var User = require('../models/users.js');
 var passport = require('passport');
 var mongoose = require('mongoose');
-require('../config/passport')(passport);
+require('../auth/passport')(passport);
 
 function UserHandler() {
   // this.getUser = function(req, res) {

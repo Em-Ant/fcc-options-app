@@ -14,7 +14,7 @@ var app = express();
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').load();
 
-require('./app/config/passport')(passport);
+require('./app/auth/passport')(passport);
 
 mongoose.connect(process.env.MONGO_URI || process.env.MONGOLAB_URI);
 

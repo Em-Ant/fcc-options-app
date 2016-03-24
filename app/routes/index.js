@@ -6,26 +6,25 @@ var UserHandler = require(path + '/app/controllers/userHandler.js');
 
 module.exports = function(app, passport) {
 
-  var isLoggedIn = require('./ensureAuth');
-
   var userHandler = new UserHandler();
-
 
   app.use('/api/consumer', require('./consumer.js'));
 
   app.use('/api/route', require('./route.js'));
 
-  app.route('/api/user')
+  app.route('/api/me')
     .get(function(req, res) {
-      console.log("api user");
-      if (req.user) {
-        res.json(req.user);
+      if (req.isAuthenticated()) {
+        res.json({
+          loggedIn: true,
+          user: req.user.email,
+          role: req.user.role
+        });
       } else {
         res.json({
-          unauth: true
+          loggedIn: false
         });
       }
-
     });
 
   app.route('/logout')

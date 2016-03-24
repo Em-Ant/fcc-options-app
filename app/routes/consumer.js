@@ -5,7 +5,7 @@ var router = express.Router();
 var Controller = require('../controllers/consumerHandler.js');
 var controller = new Controller();
 
-var isLoggedIn = require('./ensureAuth.js');
+var isLoggedIn = require('../auth/ensureAuth.js').isLoggedIn;
 
 router.get('/', isLoggedIn, controller.index);
 router.get('/:id', isLoggedIn, controller.show);
