@@ -7,7 +7,7 @@ module.exports = {
     app: path.join(__dirname,'client','src','index.jsx'),
     vendors: [
       'react', 'redux', 'react-router',
-      'jquery', 'bootstrap-sass'
+      'bootstrap-sass'
     ]
   },
   output: {
@@ -16,10 +16,6 @@ module.exports = {
     publicPath: '/static/'},
   target: "web",
   plugins: [
-    new webpack.ProvidePlugin({
-       $: "jquery",
-       jQuery: "jquery"
-   }),
    new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
  ],
   module: {
