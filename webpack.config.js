@@ -7,7 +7,7 @@ module.exports = {
     app: path.join(__dirname,'client','src','index.jsx'),
     vendors: [
       'react', 'redux', 'react-router',
-      'jquery', 'bootstrap-sass', 'react-bootstrap'
+      'jquery', 'bootstrap-sass'
     ]
   },
   output: {

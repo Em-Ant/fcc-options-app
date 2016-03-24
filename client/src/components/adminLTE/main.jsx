@@ -10,9 +10,6 @@ var Sidebar = require('./sidebar.jsx');
 var Footer = require('./footer.jsx');
 var ControlSidebar = require('./controlSidebar.jsx');
 
-var Button = require('react-bootstrap').Button;
-var ButtonToolbar = require('react-bootstrap').ButtonToolbar;
-
 var Main = React.createClass({
 
   render: function() {
