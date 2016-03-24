@@ -36,13 +36,13 @@
     "express": "^4.12.4",
     "express-session": "^1.11.3",
     "express-validator": "^2.20.3",
-    "webpack": "^1.12.12",
     "immutable": "^3.7.6",
+    "lodash": "^3.10.1",
     "mongoose": "^4.1.0",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
-    "lodash": "^3.10.1"
+    "webpack": "^1.12.12"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",

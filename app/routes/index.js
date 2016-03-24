@@ -19,6 +19,7 @@ module.exports = function(app, passport) {
 
   app.route('/api/user')
     .get(function(req, res) {
+      console.log("api user");
       if (req.user) {
         res.json(req.user);
       } else {
@@ -60,6 +61,6 @@ module.exports = function(app, passport) {
 
   app.route('/*')
     .get(function(req, res) {
-      res.redirect('/');
+      res.sendFile(path + '/client/public/index.html');
     });
 };
