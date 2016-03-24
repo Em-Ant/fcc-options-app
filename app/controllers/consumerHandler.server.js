@@ -1,4 +1,4 @@
-/**
+	/**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /things              ->  index
  * POST    /things              ->  create
