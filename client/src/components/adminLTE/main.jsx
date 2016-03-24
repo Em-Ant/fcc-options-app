@@ -5,10 +5,10 @@ var Link = require('react-router').Link
 var React = require('react');
 var connect = require('react-redux').connect;
 var actionCreators = require('../../actions.js');
-var Header = require('./Header.jsx');
-var Sidebar = require('./Sidebar.jsx');
-var Footer = require('./Footer.jsx');
-var ControlSidebar = require('./ControlSidebar.jsx');
+var Header = require('./header.jsx');
+var Sidebar = require('./sidebar.jsx');
+var Footer = require('./footer.jsx');
+var ControlSidebar = require('./controlSidebar.jsx');
 
 var Button = require('react-bootstrap').Button;
 var ButtonToolbar = require('react-bootstrap').ButtonToolbar;
