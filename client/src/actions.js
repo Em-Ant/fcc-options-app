@@ -1,7 +1,7 @@
 
 
 var appUrl = window.location.origin;
-var history = require('./history.js');
+var history = require('react-router').browserHistory;
 
 function setClicks(nClicks) {
   return {type: 'SET_CLICKS', clicks: nClicks};
@@ -51,9 +51,9 @@ module.exports.requestUser = function() {
       var user = data;
       if(user.unauth) {
         dispatch(logOut());
-        history.replaceState(null, '/login')
+        history.replace('/login')
       } else {
-        history.replaceState(null, '/main');
+        history.replace('/main');
         $.get(appUrl + '/api/user/clicks', function(data) {
           var nClicks = data.clicks;
           dispatch(logIn(user));
