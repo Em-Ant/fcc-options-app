@@ -18,7 +18,7 @@ var Login = React.createClass({
           message: err.responseJSON.msg
         });
       } else {
-        this.props.history.push('/main');
+        this.props.history.push('/routes');
       }
     }.bind(this));
   },
