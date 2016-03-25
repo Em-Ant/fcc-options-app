@@ -16,11 +16,11 @@ var Routes = React.createClass({
     return ({"routes": []});
   },
   componentDidMount: function() {
-    Ajax.get('/api/route/', function(err, data) {
+    Ajax.get('/api/route/', function(err, routes) {
       if (err) {
         // TODO
       }
-      this.setState({routes: data})
+      this.setState({routes: routes});
     }.bind(this));
   },
   render: function(){

@@ -61,7 +61,7 @@ function RouteHandler() {
         });
       }
       return res.status(200).json(routes);
-    });
+    }).populate('consumers');
   }
 
   // return a single route
