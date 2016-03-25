@@ -2,23 +2,22 @@
 
 var React = require('react');
 var Link = require("react-router").Link;
+var browserHistory =require("react-router").browserHistory;
 var Ajax = require('../../js/ajax-functions.js');
 
 var Login = React.createClass({
 
-    contextTypes: {
-      router: React.PropTypes.object.isRequired
-    },
   handleSubmit: function(e) {
     e.preventDefault();
-
+    // call login api
     Ajax.post('/api/login', this.state, function(err, user){
       if (err) {
         this.setState({
           message: err.responseJSON.msg
         });
       } else {
-        this.props.history.push('/routes');
+        //redirect user to application after successful login
+        browserHistory.push('/routes');
       }
     }.bind(this));
   },
@@ -63,11 +62,7 @@ var Login = React.createClass({
               </div>
             </div>
           </form>
-
-
-
               <Link to={"/signup"} className="text-center">Create a new account</Link>
-
         </div>
       </div>
     )
