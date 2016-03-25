@@ -3,7 +3,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var css = require('../style/main.scss');
 
-var Main = require('./components/adminLTE/main.jsx').MainContainer;
+var Main = require('./components/adminLTE/main.jsx');
 var Login = require('./components/login.jsx').Login;
 var Profile = require('./components/profile.jsx').ProfileContainer;
 var Signup = require('./components/signup.jsx').Signup;

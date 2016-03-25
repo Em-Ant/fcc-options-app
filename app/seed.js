@@ -22,6 +22,10 @@ User.find({}).remove(function() {
     email: 'admin@test.com',
     password: 'admin',
     role: 'admin'
+  }, {
+    email: 'a@a.com',
+    password: 'asdf',
+    role: 'admin'
   }, function() {
     console.log('finished populating users');
   });
@@ -44,17 +48,19 @@ User.find({}).remove(function() {
     hasWeelchair: Boolean,
     hasMedications: Boolean
 */
-
+var consumer1 = new Consumer({
+  name: 'John D.',
+  sex: 'male',
+  address: '123, Main Road, NYC',
+  phone: '333-444555',
+  // Details flags
+  needsWave: true,
+  hasWeelchair: true,
+});
 Consumer.find({}).remove(function() {
-  Consumer.create({
-    name: 'John D.',
-    sex: 'male',
-    address: '123, Main Road, NYC',
-    phone: '333-444555',
-    // Details flags
-    needsWave: true,
-    hasWeelchair: true,
-  }, {
+  consumer1.save();
+  Consumer.create(
+    {
     name: 'Ashley B.',
     sex: 'female',
     address: '231, Secondary Street, NYC',
@@ -83,16 +89,28 @@ Consumer.find({}).remove(function() {
     locationServed: {type: String}
 */
 
+
+var route1 = new Route({
+  name: 'Route C',
+  locationServed: 'Uptown',
+  vehicle: 'Van 4',
+})
+route1.consumers.push(consumer1);
 Route.find({}).remove(function() {
+  route1.save();
   Route.create({
     name: 'Route A',
-    locationServed: 'Elk River'
+    locationServed: 'Bronx',
+    vehicle: 'Bus 1',
+
   }, {
     name: 'Route B',
-    locationServed: 'St. Cloud'
+    locationServed: 'Manhattan',
+    vehicle: 'Van 2'
   }, {
     name: 'Route D',
-    locationServed: 'Monti/Otseg'
+    locationServed: 'Queens',
+    vehicle: 'Bus 3'
   }, function() {
     console.log('finished populating routes');
   });
