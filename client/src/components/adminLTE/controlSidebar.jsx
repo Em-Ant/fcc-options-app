@@ -65,7 +65,7 @@ var ControlSidebar = React.createClass({
                 <div className="form-group">
                   <label className="control-sidebar-subheading">
                     Report panel usage
-                    <input type="checkbox" className="pull-right" checked/>
+                    <input type="checkbox" className="pull-right" defaultChecked/>
                   </label>
 
                   <p>

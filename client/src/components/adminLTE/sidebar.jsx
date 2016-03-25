@@ -1,12 +1,5 @@
 'use strict'
 
-/*
-<ul className="treeview-menu">
-  <li>
-    <Link to={"/addRoute"}>Add a Route</Link>
-  </li>
-</ul>
-*/
 var React = require('react');
 var Link = require('react-router').Link
 
@@ -45,18 +38,17 @@ var Sidebar = React.createClass({
           <ul className="sidebar-menu">
             <li className="header">HEADER</li>
 
-
             <li className="active">
               <Link to={"/routes"}>
                 <i className="fa fa-link"></i>
                 <span>Routes</span>
               </Link>
-              <li className="">
-                <Link to={"/consumers"}>
-                  <i className="fa fa-link"></i>
-                  <span>Consumers</span>
-                </Link>
-              </li>
+            </li>
+            <li>
+              <Link to={"/consumers"}>
+                <i className="fa fa-link"></i>
+                <span>Consumers</span>
+              </Link>
             </li>
           </ul>
 
