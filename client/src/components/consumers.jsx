@@ -100,6 +100,16 @@ var Consumers = React.createClass({
       })
     }.bind(this));
   },
+  handleEdit: function(id) {
+    Ajax.get('/api/consumer/' + id ,function(err, consumer) {
+      if (err) {
+        // Do something to handle error...
+        return;
+      }
+      
+      console.log(consumer);
+    } )
+  },
   render: function() {
     return (
       <div className="content-wrapper">
@@ -119,6 +129,7 @@ var Consumers = React.createClass({
                         <th>Address</th>
                         <th>Phone</th>
                         <th>Issues</th>
+                        <th>Edit</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -137,9 +148,12 @@ var Consumers = React.createClass({
                               {consumer.needsWave ? <span className="label label-info">Needs Wave</span> : null}
                               {consumer.cannotSitNearOppositeSex ? <span className="label label-success">Behavioral Issues</span> : null}
                             </td>
+                            <td>
+                            <button className="btn btn-sm" onClick={this.handleEdit.bind(this, consumer._id)} >Edit</button>
+                            </td>
                           </tr>
                           );
-                        })
+                        }.bind(this))
                       }
                     </tbody>
                   </table>
