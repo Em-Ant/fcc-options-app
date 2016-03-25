@@ -22,6 +22,10 @@ User.find({}).remove(function() {
     email: 'admin@test.com',
     password: 'admin',
     role: 'admin'
+  }, {
+    email: 'a@a.com',
+    password: 'asdf',
+    role: 'admin'
   }, function() {
     console.log('finished populating users');
   });
