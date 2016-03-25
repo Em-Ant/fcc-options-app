@@ -5,7 +5,18 @@ var router = express.Router();
 var Controller = require('../controllers/routeHandler.js');
 var controller = new Controller();
 
-router.get('/', controller.index);
-router.post('/', controller.create);
+var isLoggedIn = require('../auth/ensureAuth.js').isLoggedIn;
+
+//retrieves all routes
+router.get('/', isLoggedIn, controller.index);
+//retrieve a single route
+router.get('/:id', isLoggedIn, controller.show);
+//creates a route
+router.post('/', isLoggedIn, controller.create);
+//update an individual route
+router.put('/:id', isLoggedIn, controller.update);
+router.patch('/:id',  isLoggedIn, controller.update);
+//delete a route
+router.delete('/:id', isLoggedIn, controller.destroy);
 
 module.exports = router;
