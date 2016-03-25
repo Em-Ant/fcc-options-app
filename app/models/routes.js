@@ -4,8 +4,15 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Route = new Schema({
-	name: String,
-	locationServed: String
+	name: {type: String, required: true},
+	locationServed: String,
+	//this will be an object type
+	vehicle: String,
+	consumers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Consumer',
+  }]
+
 });
 
 

@@ -1,5 +1,16 @@
 /* Add custom styles here */
-
 .label {
   margin: auto 2px;
+}
+.route-header{
+  float:left;
+  line-height:30px;
+}
+.tools {
+  float: right;
+  color: #3c8dbc;
+}
+.tools>.fa {
+  margin-right: 5px;
+  cursor: pointer;
 }

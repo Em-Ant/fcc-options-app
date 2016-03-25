@@ -5,42 +5,7 @@ var React = require('react');
 var Ajax = require('../../js/ajax-functions.js');
 
 var Routes = React.createClass({
-  //
-  //   contextTypes: {
-  //     router: React.PropTypes.object.isRequired
-  //   },
-  //
-  // handleSubmit: function(e) {
-  //   e.preventDefault();
-  //
-  //   Ajax.post('/api/login', this.state, function(err, user){
-  //     if (err) {
-  //       this.setState({
-  //         message: err.responseJSON.msg
-  //       });
-  //     }else{
-  //         this.setState({
-  //           message: "Welcome " + user
-  //         });
-  //       // if (location.state && location.state.nextPathname) {
-  //       //   this.context.router.replace(location.state.nextPathname)
-  //       // }
-  //       // else {
-  //       //   console.log(this.context);
-  //       //   this.context.router.replace('/main')
-  //       // }
-  //     }
-  //   }.bind(this));
-  // },
-  // handleEmailChange: function(e) {
-  //   this.setState({email: e.target.value});
-  // },
-  // handlePasswordChange: function(e) {
-  //   this.setState({password: e.target.value});
-  // },
-  // getInitialState: function() {
-  //   return ({email: '', password: ''});
-  // },
+
   handleAddRouteButton: function(e) {
     //Toggle Add Route Button
     this.setState({
@@ -48,55 +13,54 @@ var Routes = React.createClass({
     });
   },
   getInitialState: function() {
-    return ({
-      "routes":[]
-    });
+    return ({"routes": []});
   },
   componentDidMount: function() {
-    Ajax.get('/api/route/', function(err, data){
-      if(err) {
-        // TODO      
+    Ajax.get('/api/route/', function(err, data) {
+      if (err) {
+        // TODO
       }
-      
-      this.setState({
-        routes: data
-      })
+      this.setState({routes: data})
     }.bind(this));
   },
-  render: function() {
-    return (
-      <div className="content-wrapper">
+  render: function(){
+return (
+  <div className="content-wrapper">
 
-        <section className="content-header">
-          <h1>
-            Routes
-          </h1>
-        </section>
+    <section className="content-header">
+      <h1>
+        Routes
+      </h1>
+    </section>
 
-        <section className="content">
-
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Location Served</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.routes.map(function(route, index) {
-                return (
-                  <tr key={index}>
-                    <td>{route.name}</td>
-                    <td>{route.locationServed}</td>
-                  </tr>
-                );
+    <section className="content">
+        <div className="row">
+          {this.state.routes.map(function(route, index) {
+            return (
+              <div key={index} className= "col-md-3" > <div className="box box-success">
+              <div className="box-header with-border">
+                <h3 className="box-title"><div className="route-header">{route.name} - {route.locationServed} <div className="tools"><i className="fa fa-edit"></i> <i className="fa fa-trash"></i></div></div></h3>
+              </div>
+              <div className="box-body">
+              <div>{route.vehicle}</div>
+              <div>Consumers</div>
+              {route.consumers.map(function(consumer, index){
+                  return (
+                      <div key={index}>
+                           {consumer.name}
+                         </div>)
               })
-}
-            </tbody>
-          </table>
-        </section>
+             }
 
-      </div>
+              </div>
+            </div>
+            </div>
+
+            );
+          })
+        }
+        </div>
+    </section> < /div>
 
     )
   }

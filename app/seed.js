@@ -90,13 +90,16 @@ Consumer.find({}).remove(function() {
 Route.find({}).remove(function() {
   Route.create({
     name: 'Route A',
-    locationServed: 'Elk River'
+    locationServed: 'Bronx',
+    vehicle: 'Bus 1'
   }, {
     name: 'Route B',
-    locationServed: 'St. Cloud'
+    locationServed: 'Manhattan',
+    vehicle: 'Van 2'
   }, {
     name: 'Route D',
-    locationServed: 'Monti/Otseg'
+    locationServed: 'Queens',
+    vehicle: 'Bus 3'
   }, function() {
     console.log('finished populating routes');
   });
