@@ -25,8 +25,9 @@ var history = require('react-router').browserHistory;
 var thunk = require('redux-thunk');
 
 var actions = require('./actions.js');
+//var store = createStore(reducer);
 
-const store = createStore(reducer,applyMiddleware(thunk));
+var store = createStore(reducer,applyMiddleware(thunk));
 
 
 var App = React.createClass({

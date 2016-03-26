@@ -3,6 +3,13 @@
 var appUrl = window.location.origin;
 var history = require('react-router').browserHistory;
 
+/*
+ Creates a CLICK_LINK action
+*/
+module.exports.clickLink = function (url){
+  return {type: 'CLICK_LINK', url: url }
+}
+
 function setClicks(nClicks) {
   return {type: 'SET_CLICKS', clicks: nClicks};
 };
@@ -14,6 +21,7 @@ function logOut() {
 function logIn(user, nClicks) {
   return {type: 'LOGIN', user: user, clicks: nClicks };
 }
+
 
 module.exports.reset = function() {
   return function(dispatch) {

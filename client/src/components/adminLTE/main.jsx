@@ -3,7 +3,7 @@
 var Link = require('react-router').Link
 var React = require('react');
 var Header = require('./header.jsx');
-var Sidebar = require('./sidebar.jsx');
+var SidebarContainer = require('../../containers/sidebarContainer.jsx');
 var Footer = require('./footer.jsx');
 var ControlSidebar = require('./controlSidebar.jsx');
 
@@ -23,7 +23,7 @@ var Main = React.createClass({
     return (
       <div className="wrapper">
         <Header/>
-        <Sidebar/> {this.props.children}
+        <SidebarContainer/> {this.props.children}
         <Footer/>
         <ControlSidebar/>
       </div>
