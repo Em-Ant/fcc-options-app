@@ -55,7 +55,7 @@ var consumer1 = new Consumer({
   phone: '333-444555',
   // Details flags
   needsWave: true,
-  hasWeelchair: true,
+  hasWheelchair: true,
 });
 Consumer.find({}).remove(function() {
   consumer1.save();

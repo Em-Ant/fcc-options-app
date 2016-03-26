@@ -14,7 +14,7 @@ var Consumer = new Schema({
   cannotSitNearOppositeSex: Boolean,
   needsTwoSeats: Boolean,
   hasSeizures: Boolean,
-  hasWeelchair: Boolean,
+  hasWheelchair: Boolean,
   hasMedications: Boolean
 });
 

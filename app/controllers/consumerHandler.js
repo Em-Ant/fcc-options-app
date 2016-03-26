@@ -41,6 +41,7 @@ function ConsumerHandler () {
   }
 
   this.update = function(req,res) {
+    console.log(req.body);
     if(req.body._id) { delete req.body._id; }
     Consumer.findById(req.params.id, function (err, consumer) {
       if (err) { return handleError(res, err); }
@@ -48,7 +49,8 @@ function ConsumerHandler () {
       var updated = merge(consumer, req.body);
       updated.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.status(200).json(consumer);
+        console.log(updated);
+        return res.status(200).json(updated);
       });
     });
   }
