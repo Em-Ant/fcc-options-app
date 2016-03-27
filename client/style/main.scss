@@ -1,6 +1,10 @@
 /* Add custom styles here */
 .label {
-  margin: auto 2px;
+  float: left;
+  margin: 3px 2px;
+}
+.margin-left {
+  margin: auto auto auto 10px;
 }
 .route-header{
   float:left;

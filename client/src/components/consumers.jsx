@@ -42,6 +42,28 @@ var Consumers = React.createClass({
   // getInitialState: function() {
   //   return ({email: '', password: ''});
   // },
+  handleEditConsumer: function(consumer) {
+    var self = this;
+    Ajax.put('/api/consumer/' + consumer._id, consumer, function(err) {
+      if(err) {
+        return;
+      }
+
+      Ajax.get('/api/consumer/', function(err, data){
+        if(err) {
+          // TODO
+        }
+        data.sort(function(a,b){
+          return a.name.localeCompare(b.name);
+        })
+        self.setState({
+          consumers: data,
+          editMode: false,
+          consumerToEdit: {}
+        })
+      })
+    })
+  },
   handleAddConsumer: function(newConsumer) {
 
     var self = this;
@@ -54,7 +76,9 @@ var Consumers = React.createClass({
         if(err) {
           // TODO
         }
-
+        data.sort(function(a,b){
+          return a.name.localeCompare(b.name);
+        })
         self.setState({
           consumers: data
         })
@@ -63,29 +87,29 @@ var Consumers = React.createClass({
   },
   getInitialState: function() {
     return ({
-      "consumers":[]
+      "consumers":[],
+      "consumerToEdit" : {},
+      "editMode": false
     });
+  },
+  resetEditMode : function() {
+    this.setState({consumerToEdit: {}, editMode: false});
   },
   componentDidMount: function() {
     Ajax.get('/api/consumer/', function(err, data){
       if(err) {
         // TODO
       }
-
+      data.sort(function(a,b){
+        return a.name.localeCompare(b.name);
+      })
       this.setState({
         consumers: data
       })
     }.bind(this));
   },
-  handleEdit: function(id) {
-    Ajax.get('/api/consumer/' + id ,function(err, consumer) {
-      if (err) {
-        // Do something to handle error...
-        return;
-      }
-      
-      console.log(consumer);
-    } )
+  handleEditBtn: function(index) {
+    this.setState({consumerToEdit: this.state.consumers[index], editMode: true});
   },
   render: function() {
     return (
@@ -118,7 +142,7 @@ var Consumers = React.createClass({
                             <td>{consumer.address}</td>
                             <td>{consumer.phone}</td>
                             <td>
-                              {consumer.hasWeelchair ? <span className="label label-primary">Weelchair</span> : null}
+                              {consumer.hasWheelchair ? <span className="label label-primary">Wheelchair</span> : null}
                               {consumer.hasSeizures ? <span className="label label-danger">Seizures</span> : null}
                               {consumer.hasMedications ? <span className="label label-warning">Medications</span> : null}
                               {consumer.needsTwoSeats ? <span className="label label-default">Two Seats</span> : null}
@@ -126,7 +150,7 @@ var Consumers = React.createClass({
                               {consumer.cannotSitNearOppositeSex ? <span className="label label-success">Behavioral Issues</span> : null}
                             </td>
                             <td>
-                            <button className="btn btn-sm" onClick={this.handleEdit.bind(this, consumer._id)} >Edit</button>
+                            <button className="btn btn-sm" onClick={this.handleEditBtn.bind(this, index)} >Edit</button>
                             </td>
                           </tr>
                           );
@@ -138,7 +162,11 @@ var Consumers = React.createClass({
               </div>
             </div>
           </div>
-          <ConsumerForm buttonHandles = {this.handleAddConsumer}/>
+          <ConsumerForm
+            verb={this.state.editMode ? "Edit": "Add"}
+            buttonHandles={this.state.editMode ? this.handleEditConsumer : this.handleAddConsumer}
+            defaults={this.state.consumerToEdit}
+            resetFn={this.resetEditMode}/>
 
         </section>
       </div>

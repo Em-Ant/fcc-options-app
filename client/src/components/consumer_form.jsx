@@ -1,17 +1,51 @@
 'use strict'
 
 var React = require('react');
-
+var findDOMNode = require('react-dom').findDOMNode;
 var Ajax = require('../../js/ajax-functions.js');
 
+
+
+
+
+
 var ConsumerForm = React.createClass({
-  
+  componentDidMount : function() {
+    $(".select2").select2();
+  },
+  componentWillReceiveProps : function(nextProps) {
+
+    /*
+    This is a Hack to allow uncontrolled forms to update when receiving
+    default value props. See https://facebook.github.io/react/docs/forms.html
+    and https://github.com/facebook/react/issues/461
+    I had to use jquery, don't know if it's the best way to do it,
+    or if it's a good 'React' solution
+    */
+
+    // handle component from Plugins
+    $(".select2").val(nextProps.defaults.sex).trigger("change");
+
+    $('input').iCheck('uncheck');
+
+    $('#c_name').val(nextProps.defaults.name);
+    $('#c_address').val(nextProps.defaults.address);
+    $('#c_phone').val(nextProps.defaults.phone);
+
+    if(nextProps.defaults.hasWheelchair) $('#c_wheel').iCheck('check');
+    if(nextProps.defaults.hasSeizures) $('#c_seiz').iCheck('check');
+    if(nextProps.defaults.hasMedications) $('#c_med').iCheck('check');
+    if(nextProps.defaults.needsWave) $('#c_wave').iCheck('check');
+    if(nextProps.defaults.needsTwoSeats) $('#c_twoseat').iCheck('check');
+    if(nextProps.defaults.cannotSitNearOppositeSex) $('#c_behavior').iCheck('check');
+  },
   handleSubmit: function(e) {
-    e.preventDefault();
-    
+
     // This function needs validation
     e.preventDefault();
     var newConsumer = {};
+    newConsumer._id = this.props.defaults._id;
+
     newConsumer.name = this.refs.name.value;
     newConsumer.address = this.refs.address.value;
     newConsumer.phone = this.refs.phone.value;
@@ -30,16 +64,19 @@ var ConsumerForm = React.createClass({
     this.refs.sex.value = '';
 
     $('input').iCheck('uncheck');
-    
+
     this.props.buttonHandles(newConsumer)
   },
   render: function() {
+    var cancel = this.props.verb === 'Edit' ?
+      <button className="btn btn-default margin-left"
+        onClick={this.props.resetFn}>Cancel</button> : null
     return (
           <div className="row">
             <div className="col-lg-6">
               <div className="box box-info">
                 <div className="box-header with-border">
-                  <h3 className="box-title">Add a Consumer</h3>
+                  <h3 className="box-title">{this.props.verb} a Consumer</h3>
                 </div>
 
                 <form className="form-horizontal" onSubmit={this.handleSubmit}>
@@ -47,15 +84,17 @@ var ConsumerForm = React.createClass({
                     <div className="form-group">
                       <label htmlFor="c_name" className="col-sm-2 control-label">Name</label>
                       <div className="col-sm-10">
-                        <input type="text" className="form-control" id="c_name" placeholder="Name" ref="name"/>
+                        <input type="text" className="form-control"
+                          id="c_name" placeholder="Name" ref="name" />
                       </div>
                     </div>
 
                     <div className="form-group">
                       <label htmlFor="c_sex" className="col-sm-2 control-label">Sex</label>
                       <div className="col-sm-10">
-                        <select className="form-control select2" style={{'width': '100%'}}  id="c_sex" ref="sex">
-                          <option defaultValue value="male">Male</option>
+                        <select className="form-control select2"
+                          style={{'width': '100%'}}  id="c_sex" ref="sex">
+                          <option value="male">Male</option>
                           <option value="female">Female</option>
                         </select>
                       </div>
@@ -64,56 +103,51 @@ var ConsumerForm = React.createClass({
                     <div className="form-group">
                       <label htmlFor="c_address" className="col-sm-2 control-label">Address</label>
                       <div className="col-sm-10">
-                        <input type="text" id="c_phone" className="form-control" id="c_address" placeholder="Address" ref="address"/>
+                        <input type="text" id="c_phone" className="form-control"
+                          id="c_address" placeholder="Address" ref="address"/>
                       </div>
                     </div>
 
                     <div className="form-group">
                       <label htmlFor="c_phone" className="col-sm-2 control-label">Phone</label>
                       <div className="col-sm-10">
-                        <input type="text" className="form-control" id="c_phone" placeholder="Phone" ref="phone"/>
+                        <input type="text" className="form-control" id="c_phone"
+                          placeholder="Phone" ref="phone"/>
                       </div>
                     </div>
 
 
                     <div className="form-group">
-                      <label htmlFor="c_wheel" className="col-sm-2 control-label">Weelchair</label>
-                      <div className="col-sm-10">
-                        <input type="checkbox" id="c_wheel" className="minimal" ref="wheel"/>
+                      <label htmlFor="c_wheel" className="col-sm-2 control-label">
+                        Weelchair</label>
+                      <div className="col-sm-4">
+                        <input type="checkbox" id="c_wheel" className="minimal"
+                          ref="wheel" />
                       </div>
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="c_twoseat" className="col-sm-2 control-label">Two Seats</label>
-                      <div className="col-sm-10">
+                      <label htmlFor="c_twoseat" className="col-sm-3 control-label">Two Seats</label>
+                      <div className="col-sm-3">
                         <input type="checkbox" id="c_twoseat" className="minimal" ref="twoSeats"/>
                       </div>
                     </div>
 
                     <div className="form-group">
                       <label htmlFor="c_wave" className="col-sm-2 control-label">Needs Wave</label>
-                      <div className="col-sm-10">
+                      <div className="col-sm-4">
                         <input type="checkbox" id="c_wave" className="minimal" ref="wave"/>
                       </div>
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="c_behavior" className="col-sm-2 control-label">Behavioral Issues</label>
-                      <div className="col-sm-10">
+                      <label htmlFor="c_behavior" className="col-sm-3 control-label">Behavioral Issues</label>
+                      <div className="col-sm-3">
                         <input type="checkbox" id="c_behavior" className="minimal" ref="behavior"/>
                       </div>
                     </div>
 
                     <div className="form-group">
                       <label htmlFor="c_seiz" className="col-sm-2 control-label">Seizures</label>
-                      <div className="col-sm-10">
+                      <div className="col-sm-4">
                         <input type="checkbox" id="c_seiz" className="minimal" ref="seiz"/>
                       </div>
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="c_med" className="col-sm-2 control-label">Medications</label>
-                      <div className="col-sm-10">
+                      <label htmlFor="c_med" className="col-sm-3 control-label">Medications</label>
+                      <div className="col-sm-3">
                         <input type="checkbox" id="c_med" className="minimal" ref="med"/>
                       </div>
                     </div>
@@ -121,13 +155,14 @@ var ConsumerForm = React.createClass({
                   </div>
                   <div className="box-footer">
                     <button type="submit" className="btn btn-primary">Submit</button>
+                    {cancel}
                   </div>
 
                 </form>
 
                 </div>
               </div>
-            </div> 
+            </div>
     )
   }
 });

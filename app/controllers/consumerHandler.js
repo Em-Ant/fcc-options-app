@@ -49,7 +49,6 @@ function ConsumerHandler () {
       var updated = merge(consumer, req.body);
       updated.save(function (err) {
         if (err) { return handleError(res, err); }
-        console.log(updated);
         return res.status(200).json(updated);
       });
     });
