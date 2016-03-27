@@ -45,7 +45,7 @@ User.find({}).remove(function() {
     cannotSitNearOppositeSex: Boolean,
     needsTwoSeats: Boolean,
     hasSeizures: Boolean,
-    hasWeelchair: Boolean,
+    hasWheelchair: Boolean,
     hasMedications: Boolean
 */
 var consumer1 = new Consumer({

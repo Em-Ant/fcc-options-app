@@ -49,7 +49,7 @@ var ConsumerForm = React.createClass({
 
     newConsumer.needsWave = this.refs.wave.checked;
     newConsumer.hasSeizures = this.refs.seiz.checked;
-    newConsumer.hasWeelchair = this.refs.wheel.checked;
+    newConsumer.hasWheelchair = this.refs.wheel.checked;
     newConsumer.needsTwoSeats = this.refs.twoSeats.checked;
     newConsumer.hasMedications = this.refs.med.checked;
     newConsumer.cannotSitNearOppositeSex = this.refs.behavior.checked;
@@ -113,7 +113,7 @@ var ConsumerForm = React.createClass({
 
                     <div className="form-group">
                       <label htmlFor="c_wheel" className="col-sm-2 control-label">
-                        Weelchair</label>
+                        Wheelchair</label>
                       <div className="col-sm-4">
                         <input type="checkbox" id="c_wheel" className="minimal"
                           ref="wheel" />
