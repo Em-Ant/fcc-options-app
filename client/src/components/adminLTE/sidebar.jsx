@@ -18,14 +18,11 @@ var Sidebar = React.createClass({
 
           <div className="user-panel">
             <div className="pull-left image">
-              <img src="static/adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User Image"/>
+              <img src="static/adminLTE/dist/img/default_avatar.jpg" className="img-circle" alt="User Image"/>
             </div>
             <div className="pull-left info">
-              <p>Alexander Pierce</p>
+              <p>Authenticated User</p>
 
-              <a href="#">
-                <i className="fa fa-circle text-success"></i>
-                Online</a>
             </div>
           </div>
 
@@ -41,7 +38,7 @@ var Sidebar = React.createClass({
           </form>
 
           <ul className="sidebar-menu">
-            <li className="header">HEADER</li>
+            <li className="header">SERVICES</li>
 
             <li className={this.props.activeLink=="/routes"?"active":null}>
               <Link to={"/routes"} onClick = {this.handleLinkClick}>

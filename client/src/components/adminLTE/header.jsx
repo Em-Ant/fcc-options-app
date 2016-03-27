@@ -101,8 +101,8 @@ var Header = React.createClass({
               </li>
               <li className="dropdown user user-menu">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                  <img src="static/adminLTE/dist/img/user2-160x160.jpg" className="user-image" alt="User Image"/>
-                  <span className="hidden-xs">Alexander Pierce</span>
+                  <img src="static/adminLTE/dist/img/default_avatar.jpg" className="user-image" alt="User Image"/>
+                  <span className="hidden-xs">Authenticated User</span>
                 </a>
                 <ul className="dropdown-menu">
                   <li className="user-header">
