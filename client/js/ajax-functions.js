@@ -14,6 +14,20 @@ var AjaxFunctions = {
             }
         });
     },
+    put: function(url, data, done) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'PUT',
+            data: data,
+            success: function(data) {
+                done(null, data);
+            },
+            error: function(err) {
+                done(err);
+            }
+        });
+    },
     get: function(url, done) {
         $.ajax({
             url: url,
