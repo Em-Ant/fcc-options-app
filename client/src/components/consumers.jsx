@@ -42,58 +42,46 @@ var Consumers = React.createClass({
   // getInitialState: function() {
   //   return ({email: '', password: ''});
   // },
-  handleEditConsumer: function(consumer) {
+  handleEditConsumer: function(consumer, index) {
     var self = this;
-    Ajax.put('/api/consumer/' + consumer._id, consumer, function(err) {
+    Ajax.put('/api/consumer/' + consumer._id, consumer,
+     function(err, updatedConsumer) {
       if(err) {
         return;
       }
+        var consumers = self.state.consumers;
+        consumers[index] = updatedConsumer;
 
-      Ajax.get('/api/consumer/', function(err, data){
-        if(err) {
-          // TODO
-        }
-        data.sort(function(a,b){
-          return a.name.localeCompare(b.name);
-        })
         self.setState({
-          consumers: data,
-          editMode: false,
-          consumerToEdit: {}
+          consumers: consumers,
+          editIndex: undefined
         })
       })
-    })
-  },
+    },
   handleAddConsumer: function(newConsumer) {
 
     var self = this;
-    Ajax.post('/api/consumer/', newConsumer, function(err, data) {
+    Ajax.post('/api/consumer/', newConsumer, function(err, addedConsumer) {
       if(err) {
         return;
       }
-
-      Ajax.get('/api/consumer/', function(err, data){
-        if(err) {
-          // TODO
-        }
-        data.sort(function(a,b){
-          return a.name.localeCompare(b.name);
-        })
-        self.setState({
-          consumers: data
-        })
+      var consumers = self.state.consumers;
+      consumers.push(addedConsumer);
+      consumers.sort(function(a,b){
+        return a.name.localeCompare(b.name);
+      })
+      self.setState({
+        consumers: consumers
       })
     })
   },
   getInitialState: function() {
     return ({
       "consumers":[],
-      "consumerToEdit" : {},
-      "editMode": false
     });
   },
   resetEditMode : function() {
-    this.setState({consumerToEdit: {}, editMode: false});
+    this.setState({editIndex: undefined});
   },
   componentDidMount: function() {
     Ajax.get('/api/consumer/', function(err, data){
@@ -109,7 +97,7 @@ var Consumers = React.createClass({
     }.bind(this));
   },
   handleEditBtn: function(index) {
-    this.setState({consumerToEdit: this.state.consumers[index], editMode: true});
+    this.setState({editIndex: index});
   },
   render: function() {
     return (
@@ -173,9 +161,12 @@ var Consumers = React.createClass({
             </div>
           </div>
           <ConsumerForm
-            verb={this.state.editMode ? "Edit": "Add"}
-            buttonHandles={this.state.editMode ? this.handleEditConsumer : this.handleAddConsumer}
-            defaults={this.state.consumerToEdit}
+            verb={this.state.editIndex !== undefined ? "Edit": "Add"}
+            buttonHandles={
+              this.state.editIndex !== undefined ? this.handleEditConsumer : this.handleAddConsumer}
+            defaults={
+              this.state.editIndex !== undefined ? this.state.consumers[this.state.editIndex] : {}}
+            editIndex={this.state.editIndex}
             resetFn={this.resetEditMode}/>
 
         </section>

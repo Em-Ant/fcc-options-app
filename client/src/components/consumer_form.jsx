@@ -61,7 +61,7 @@ var ConsumerForm = React.createClass({
 
     $('input').iCheck('uncheck');
 
-    this.props.buttonHandles(newConsumer)
+    this.props.buttonHandles(newConsumer, this.props.editIndex)
   },
   render: function() {
     var boxClass = this.props.verb === "Edit" ? "box box-warning" : "box box-info";
