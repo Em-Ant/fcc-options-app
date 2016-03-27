@@ -4,11 +4,6 @@ var React = require('react');
 var findDOMNode = require('react-dom').findDOMNode;
 var Ajax = require('../../js/ajax-functions.js');
 
-
-
-
-
-
 var ConsumerForm = React.createClass({
   componentDidMount : function() {
     $(".select2").select2();
@@ -28,16 +23,17 @@ var ConsumerForm = React.createClass({
 
     $('input').iCheck('uncheck');
 
-    $('#c_name').val(nextProps.defaults.name);
-    $('#c_address').val(nextProps.defaults.address);
-    $('#c_phone').val(nextProps.defaults.phone);
-
     if(nextProps.defaults.hasWheelchair) $('#c_wheel').iCheck('check');
     if(nextProps.defaults.hasSeizures) $('#c_seiz').iCheck('check');
     if(nextProps.defaults.hasMedications) $('#c_med').iCheck('check');
     if(nextProps.defaults.needsWave) $('#c_wave').iCheck('check');
     if(nextProps.defaults.needsTwoSeats) $('#c_twoseat').iCheck('check');
     if(nextProps.defaults.cannotSitNearOppositeSex) $('#c_behavior').iCheck('check');
+
+    // Handle inputs
+    $('#c_name').val(nextProps.defaults.name);
+    $('#c_address').val(nextProps.defaults.address);
+    $('#c_phone').val(nextProps.defaults.phone);
   },
   handleSubmit: function(e) {
 
@@ -68,13 +64,11 @@ var ConsumerForm = React.createClass({
     this.props.buttonHandles(newConsumer)
   },
   render: function() {
-    var cancel = this.props.verb === 'Edit' ?
-      <button className="btn btn-default margin-left"
-        onClick={this.props.resetFn}>Cancel</button> : null
+    var boxClass = this.props.verb === "Edit" ? "box box-warning" : "box box-info";
     return (
           <div className="row">
             <div className="col-lg-6">
-              <div className="box box-info">
+              <div className={boxClass}>
                 <div className="box-header with-border">
                   <h3 className="box-title">{this.props.verb} a Consumer</h3>
                 </div>
@@ -155,7 +149,10 @@ var ConsumerForm = React.createClass({
                   </div>
                   <div className="box-footer">
                     <button type="submit" className="btn btn-primary">Submit</button>
-                    {cancel}
+                      <button className="btn btn-default margin-left"
+                        onClick={this.props.resetFn} type="button">
+                        {this.props.verb === 'Edit' ? 'Cancel' : 'Reset'}
+                      </button>
                   </div>
 
                 </form>

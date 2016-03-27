@@ -130,7 +130,7 @@ var Consumers = React.createClass({
                         <th>Address</th>
                         <th>Phone</th>
                         <th>Issues</th>
-                        <th>Edit</th>
+                        <th className="text-center">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -149,8 +149,18 @@ var Consumers = React.createClass({
                               {consumer.needsWave ? <span className="label label-info">Needs Wave</span> : null}
                               {consumer.cannotSitNearOppositeSex ? <span className="label label-success">Behavioral Issues</span> : null}
                             </td>
-                            <td>
-                            <button className="btn btn-sm" onClick={this.handleEditBtn.bind(this, index)} >Edit</button>
+                            <td className="text-center">
+                                <button className="btn btn-sm btn-default in-table"
+                                  title="Edit" type="button"
+                                  onClick={this.handleEditBtn.bind(this, index)} >
+                                  <i className="fa fa-pencil-square-o"></i>
+                                </button>
+                                <button
+                                  className="btn btn-sm btn-default disabled in-table"
+                                  title="Delete"  data-toggle="modal"
+                                  data-target="#myModal" type="button">
+                                  <i className="fa fa-trash-o"></i>
+                                </button>
                             </td>
                           </tr>
                           );
