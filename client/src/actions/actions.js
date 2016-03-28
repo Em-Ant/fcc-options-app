@@ -127,9 +127,8 @@ var fetchVehicleRoutes = function() {
 
 module.exports.fetchVehicleRoutes = fetchVehicleRoutes;
 
-
 /*
-Retrieves the vehicle routes
+Adds the vehicle route
 */
 module.exports.addVehicleRoute = function(vehicleRoute) {
   // this will return a thunk
