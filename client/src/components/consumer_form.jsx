@@ -4,9 +4,7 @@ var React = require('react');
 var Ajax = require('../../js/ajax-functions.js');
 
 var ConsumerForm = React.createClass({
-  componentDidMount : function() {
-    $(".select2").select2();
-  },
+
   componentWillReceiveProps : function(nextProps) {
 
     /*

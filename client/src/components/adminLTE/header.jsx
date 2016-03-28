@@ -30,25 +30,11 @@ var Header = React.createClass({
                 </a>
                 <ul className="dropdown-menu">
                   <li className="user-header">
-                    <img src="static/adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User Image"/>
+                    <img src="static/adminLTE/dist/img/default_avatar.jpg" className="img-circle" alt="User Image"/>
 
                     <p>
-                      Alexander Pierce - Web Developer
-                      <small>Member since Nov. 2012</small>
+                      Authenticated User
                     </p>
-                  </li>
-                  <li className="user-body">
-                    <div className="row">
-                      <div className="col-xs-4 text-center">
-                        <a href="#">Followers</a>
-                      </div>
-                      <div className="col-xs-4 text-center">
-                        <a href="#">Sales</a>
-                      </div>
-                      <div className="col-xs-4 text-center">
-                        <a href="#">Friends</a>
-                      </div>
-                    </div>
                   </li>
                   <li className="user-footer">
                     <div className="pull-left">
@@ -60,11 +46,13 @@ var Header = React.createClass({
                   </li>
                 </ul>
               </li>
+              {/*
               <li>
                 <a href="#" data-toggle="control-sidebar">
                   <i className="fa fa-gears"></i>
                 </a>
               </li>
+              */}
             </ul>
           </div>
         </nav>
