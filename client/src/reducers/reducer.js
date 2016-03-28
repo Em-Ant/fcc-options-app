@@ -1,3 +1,5 @@
+var vehicleRoutes =require('./vehicleRoutesReducer.js');
+var currentPage = require('./currentPageReducer.js');
 var combineReducers = require('redux').combineReducers;
 Map = require('immutable').Map
 
@@ -29,19 +31,7 @@ function logOut(state) {
   return state.set('loggedIn', false).delete('user');
 }
 
-function clickLink(state, url) {
-  /*
-    When a click is linked, that link will now be the currentPage.
-  */
-  return url;
-}
 
-/*
-Sets the vehicleRoutes state
-*/
-function loadVehicleRoutes(state, vehicleRoutes) {
-  return vehicleRoutes;
-}
 
 // TODO remove.  inital state should be in each child reducer
 var initState = Map({clicks: 0, loggedIn: false, page: 'main'});
@@ -75,31 +65,8 @@ var clicks = function(state, action) {
   }
 };
 
-var currentPage = function(state, action) {
-  var initState = '/routes';
-  state = state || initState;
-  switch (action.type) {
-    case 'CLICK_LINK':
-      return clickLink(state, action.url);
-    default:
-      return state;
-  }
-};
-
-var vehicleRoutes = function(state, action) {
-  var init = [];
-  state = state || init;
-  switch (action.type) {
-    case 'RECEIVE_VEHICLE_ROUTES':
-      return loadVehicleRoutes(state, action.vehicleRoutes);
-    default:
-      return state;
-  }
-};
 
 var rootReducer = combineReducers({
-  loggedIn,
-  clicks,
   currentPage,
   vehicleRoutes
 });
