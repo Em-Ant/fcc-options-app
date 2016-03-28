@@ -17,7 +17,6 @@ function logOut(state) {
   return state.set('loggedIn', false).delete('user');
 }
 
-
 function clickLink(state, url) {
   /*
     When a click is linked, that link will now be the currentPage.

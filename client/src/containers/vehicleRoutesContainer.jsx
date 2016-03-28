@@ -1,5 +1,5 @@
 var connect = require('react-redux').connect;
-var Routes = require('../components/routes.jsx');
+var VehicleRoutes = require('../components/vehicleRoutes.jsx');
 /*
 Redux aware container that connects dispatch functions and app state to component properties
 */
@@ -10,6 +10,6 @@ var mapStateToProps = function(state){
   }
 }
 
-var RoutesContainer = connect(mapStateToProps)(Routes);
+var VehicleRoutesContainer = connect(mapStateToProps)(VehicleRoutes);
 
-module.exports = RoutesContainer;
+module.exports = VehicleRoutesContainer;

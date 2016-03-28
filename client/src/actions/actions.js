@@ -1,6 +1,6 @@
 var appUrl = window.location.origin;
 var history = require('react-router').browserHistory;
-var Ajax = require('../js/ajax-functions.js');
+var Ajax = require('../../js/ajax-functions.js');
 
 /*
  Creates a CLICK_LINK action
@@ -112,20 +112,15 @@ module.exports.fetchVehicleRoutes = function() {
     dispatch(requestRoutes());
     // call the external api endpoint to retrieve routes
     Ajax.get('/api/route/', function(err, vehicleRoutes) {
-
       // an error occurred retrieving vehicle routes
       if (err) {
         // TODO
       } else {
-
         // request was successful
         // dispatch an action with the received vehicle routes
         dispatch(receiveVehicleRoutes(vehicleRoutes));
       }
 
     });
-    // console.log('fetch vehicle routes action');
-    // var vehicleRoutes = [{name:"test1", locationServed:"locationServed", vehicle:'vehicle', consumers:[]}];
-    //  return {type: 'RECEIVED_ROUTES', vehicleRoutes:vehicleRoutes }
   }
 }

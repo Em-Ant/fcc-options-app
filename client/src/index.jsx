@@ -6,11 +6,11 @@ var Main = require('./components/adminLTE/main.jsx');
 var Login = require('./components/login.jsx').Login;
 var Profile = require('./components/profile.jsx').ProfileContainer;
 var Signup = require('./components/signup.jsx').Signup;
-var RoutesContainer = require('./containers/routesContainer.jsx');
+var VehicleRoutesContainer = require('./containers/vehicleRoutesContainer.jsx');
 var Consumers = require('./components/consumers.jsx');
 var AddRoute = require('./components/addRoute.jsx');
 
-var reducer = require('./reducer.js');
+var reducer = require('./reducers/reducer.js');
 var Provider = require('react-redux').Provider;
 var createStore = require('redux').createStore;
 var applyMiddleware = require('redux').applyMiddleware;
@@ -22,7 +22,7 @@ var history = require('react-router').browserHistory;
 
 var thunk = require('redux-thunk');
 
-var actions = require('./actions.js');
+var actions = require('./actions/actions.js');
 
 var store = createStore(reducer, applyMiddleware(thunk));
 
@@ -47,7 +47,7 @@ ReactDOM.render(
     <Route path="/" component={App}>
       <IndexRoute component={Login}/>
       <Route component={Main}>
-        <Route path="/routes" component={RoutesContainer}/>
+        <Route path="/routes" component={VehicleRoutesContainer}/>
         <Route path="/consumers" component={Consumers}/>
       </Route>
       <Route path="/profile" component={Profile}/>

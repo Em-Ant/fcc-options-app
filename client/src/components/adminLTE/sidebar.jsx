@@ -10,7 +10,6 @@ var Sidebar = React.createClass({
   },
 
   render: function() {
-    console.log(this.props);
     return (
       <aside className="main-sidebar">
 

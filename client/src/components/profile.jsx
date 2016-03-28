@@ -4,7 +4,7 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var actionCreators = require('../actions.js');
+var actionCreators = require('../actions/actions.js');
 
 var Link = require('react-router').Link;
 
