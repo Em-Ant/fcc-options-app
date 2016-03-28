@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react');
+var VehicleRoutesFormContainer = require('../containers/vehicleRoutesFormContainer.jsx');
 
 var Routes = React.createClass({
   getDefaultProps:function(){
@@ -29,12 +30,12 @@ return (
               <div className="box-body">
               <div>{route.vehicle}</div>
               <div>Consumers</div>
-              {route.consumers.map(function(consumer, index){
+              {route.consumers?route.consumers.map(function(consumer, index){
                   return (
                       <div key={index}>
                            {consumer.name}
                          </div>)
-              })
+              }):null
              }
 
               </div>
@@ -45,6 +46,8 @@ return (
           })
         }
         </div>
+
+        <VehicleRoutesFormContainer/>
     </section> < /div>
 
     )

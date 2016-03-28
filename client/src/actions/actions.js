@@ -39,13 +39,6 @@ function requestRoutes() {
   };
 }
 
-function receiveVehicleRoutes(vehicleRoutes) {
-  return {
-    type: 'RECEIVE_VEHICLE_ROUTES',
-    vehicleRoutes: vehicleRoutes
-  };
-}
-
 
 module.exports.reset = function() {
   return function(dispatch) {
@@ -102,10 +95,17 @@ module.exports.requestUser = function() {
   }
 }
 
+function receiveVehicleRoutes(vehicleRoutes) {
+  return {
+    type: 'RECEIVE_VEHICLE_ROUTES',
+    vehicleRoutes: vehicleRoutes
+  };
+}
+
 /*
 Retrieves the vehicle routes
 */
-module.exports.fetchVehicleRoutes = function() {
+var fetchVehicleRoutes = function() {
   // this will return a thunk
   return function(dispatch) {
     // dispatch an action stating that we are requesting routes
@@ -121,6 +121,39 @@ module.exports.fetchVehicleRoutes = function() {
         dispatch(receiveVehicleRoutes(vehicleRoutes));
       }
 
+    });
+  }
+}
+
+module.exports.fetchVehicleRoutes = fetchVehicleRoutes;
+
+
+/*
+Retrieves the vehicle routes
+*/
+module.exports.addVehicleRoute = function(vehicleRoute) {
+  // this will return a thunk
+  return function(dispatch) {
+    // dispatch an action stating that we are requesting routes
+    dispatch({
+      type: 'ADD_VEHICLE_ROUTE_REQUEST'
+    });
+    // call the external api endpoint to retrieve routes
+    Ajax.post('/api/route/', vehicleRoute, function(err) {
+      // an error occurred retrieving vehicle routes
+      if (err) {
+        dispatch({
+          type: 'ADD_VEHICLE_ROUTE_FAILURE',
+          message: err.responseJSON.msg
+        });
+      } else {
+        // request was successful
+        // not sure if this is supposed to be called to display the newly added route
+        dispatch({
+          type: 'ADD_VEHICLE_ROUTE_SUCCESS',
+          addedVehicleRoute: vehicleRoute
+        });
+      }
     });
   }
 }

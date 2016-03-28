@@ -47,7 +47,7 @@ function RouteHandler() {
           });
         }
         //return name if no error
-        return res.tatus(200).json(route.name);
+        return res.status(200).json(route.name);
       });
     });
   }
