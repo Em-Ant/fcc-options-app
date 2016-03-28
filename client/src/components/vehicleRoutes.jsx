@@ -2,26 +2,11 @@
 
 var React = require('react');
 
-var Ajax = require('../../js/ajax-functions.js');
-
 var Routes = React.createClass({
-
-  handleAddRouteButton: function(e) {
-    //Toggle Add Route Button
-    this.setState({
-      addRoute: !this.state.addRoute
-    });
-  },
-  getInitialState: function() {
-    return ({"routes": []});
-  },
-  componentDidMount: function() {
-    Ajax.get('/api/route/', function(err, routes) {
-      if (err) {
-        // TODO
-      }
-      this.setState({routes: routes});
-    }.bind(this));
+  getDefaultProps:function(){
+    return {
+      vehicleRoutes:[]
+    }
   },
   render: function(){
 return (
@@ -35,7 +20,7 @@ return (
 
     <section className="content">
         <div className="row">
-          {this.state.routes.map(function(route, index) {
+          {this.props.vehicleRoutes.map(function(route, index) {
             return (
               <div key={index} className= "col-md-3" > <div className="box box-success">
               <div className="box-header with-border">

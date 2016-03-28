@@ -28,7 +28,15 @@ function clickLink(state, url) {
   return state;
 }
 
-var initState = Map({clicks: 0, loggedIn: false, page: 'main', currentPage:'/routes'});
+/*
+Sets the vehicleRoutes state
+*/
+function loadVehicleRoutes(state, vehicleRoutes) {
+  var state = Object.assign({}, state, {vehicleRoutes:vehicleRoutes});
+  return state;
+}
+
+var initState = Map({clicks: 0, loggedIn: false, page: 'main', currentPage:'/routes', routes:[]});
 
 module.exports = function(state, action) {
   state = state || initState;
@@ -43,6 +51,8 @@ module.exports = function(state, action) {
       return logOut(state);
     case 'LOADING':
       return setLoading(state, action.what);
+    case 'RECEIVE_VEHICLE_ROUTES':
+      return loadVehicleRoutes(state, action.vehicleRoutes);
     default:
       return state;
   }
