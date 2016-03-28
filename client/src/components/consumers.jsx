@@ -4,6 +4,7 @@ var React = require('react');
 
 var Ajax = require('../../js/ajax-functions.js');
 var ConsumerForm = require('./consumer_form.jsx');
+var Alert = require('./alert_modal.jsx');
 
 var Consumers = React.createClass({
   //
@@ -99,9 +100,38 @@ var Consumers = React.createClass({
   handleEditBtn: function(index) {
     this.setState({editIndex: index});
   },
+  setDeleteMode: function(index) {
+    this.setState({deleteIndex: index});
+  },
+  handleDelete: function() {
+    var self = this;
+    var index = self.state.deleteIndex;
+    Ajax.delete('/api/consumer/' + self.state.consumers[index]._id,
+      {}, function(err, okMessage) {
+      if(err) {
+        return;
+      }
+      var consumers = self.state.consumers;
+      consumers.splice(index, 1)
+      consumers.sort(function(a,b){
+        return a.name.localeCompare(b.name);
+      })
+      self.setState({
+        consumers: consumers,
+        deleteIndex: undefined
+      })
+    })
+  },
   render: function() {
+    var modalBody = this.state.deleteIndex !== undefined ?
+    "Are You sure You want to delete Consumer '"
+      + this.state.consumers[this.state.deleteIndex].name + "' ?"
+      : "";
     return (
       <div className="content-wrapper">
+      <Alert modalId="myModal" modalTitle="Confirm Deletion..."
+        modalBody={modalBody}
+        handleConfirm={this.handleDelete}/>
         <section className="content">
           <div className="row">
             <div className="col-md-12">
@@ -140,13 +170,14 @@ var Consumers = React.createClass({
                             <td className="text-center">
                                 <button className="btn btn-sm btn-default in-table"
                                   title="Edit" type="button"
-                                  onClick={this.handleEditBtn.bind(this, index)} >
+                                  onClick={this.handleEditBtn.bind(null, index)} >
                                   <i className="fa fa-pencil-square-o"></i>
                                 </button>
                                 <button
-                                  className="btn btn-sm btn-default disabled in-table"
+                                  className="btn btn-sm btn-default in-table"
                                   title="Delete"  data-toggle="modal"
-                                  data-target="#myModal" type="button">
+                                  data-target="#myModal" type="button"
+                                  onClick={this.setDeleteMode.bind(null, index)}>
                                   <i className="fa fa-trash-o"></i>
                                 </button>
                             </td>

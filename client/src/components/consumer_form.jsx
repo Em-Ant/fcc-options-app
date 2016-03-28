@@ -1,7 +1,6 @@
 'use strict'
 
 var React = require('react');
-var findDOMNode = require('react-dom').findDOMNode;
 var Ajax = require('../../js/ajax-functions.js');
 
 var ConsumerForm = React.createClass({
