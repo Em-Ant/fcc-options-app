@@ -10,7 +10,6 @@ function fetch(state, vehicleRoutes) {
 function add(state, addedVehicleRoute) {
   var newItemsState = state.items.slice();
   newItemsState.push(addedVehicleRoute);
-  var formState = state.form;
   var newFormState = Object.assign({}, state.form, {
     item: {}, // clear out form fields
     message: {
@@ -26,7 +25,6 @@ function add(state, addedVehicleRoute) {
 }
 
 function addFailure(state, message) {
-  var formState = state.form;
   var newFormState = Object.assign({}, state.form, {
     message: {
       type: "error",
@@ -47,8 +45,30 @@ function update(state, vehicleRoute) {
       break;
     }
   }
+  var newFormState = Object.assign({}, state.form, {
+    item: {}, // clear out form fields
+    message: {
+      type: "success",
+      msg: "Vehicle route has been edited successfully"
+    }
+  })
   return Object.assign({}, state, {
     items: newItemsState
+  }, {
+    form: newFormState
+  });
+}
+
+
+function updateFailure(state, message) {
+  var newFormState = Object.assign({}, state.form, {
+    message: {
+      type: "error",
+      msg: message
+    }
+  })
+  return Object.assign({}, state, {
+    form: newFormState
   });
 }
 
@@ -110,7 +130,7 @@ var vehicleRoutesReducer = function(state, action) {
     case 'UPDATE_VEHICLE_ROUTE_REQUEST':
       return state;
     case 'UPDATE_VEHICLE_ROUTE_FAILURE':
-      return state;
+      return updateFailure(state, action.message);
     case 'UPDATE_VEHICLE_ROUTE_SUCCESS':
       return update(state, action.vehicleRoute);
     case 'DESTROY_VEHICLE_ROUTE_REQUEST':
