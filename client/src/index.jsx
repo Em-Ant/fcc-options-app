@@ -31,13 +31,9 @@ var App = React.createClass({
     //when the app loads up, retrieve the vehicle routes
     store.dispatch(actions.fetchVehicleRoutes());
     //store.dispatch(actions.requestUser());
-    
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-    
+
+
+
   },
   render: function() {
     return (

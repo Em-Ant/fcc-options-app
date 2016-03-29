@@ -21,3 +21,6 @@ client/public/static/vendors.js*
 
 # mac os files
 .DS_Store
+
+#start_script
+quick_start.sh
