@@ -13,17 +13,22 @@ var reducer = require('./reducers/reducer.js');
 var Provider = require('react-redux').Provider;
 var createStore = require('redux').createStore;
 var applyMiddleware = require('redux').applyMiddleware;
+var combineReducers = require('redux').combineReducers;
 
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var IndexRoute = require('react-router').IndexRoute;
-var history = require('react-router').browserHistory;
-
+var browserHistory = require('react-router').browserHistory;
 var thunk = require('redux-thunk');
+var syncHistoryWithStore = require('react-router-redux').syncHistoryWithStore;
+
 
 var vehicleRoutesActions = require('./actions/vehicleRoutesActions.js');
 
 var store = createStore(reducer, applyMiddleware(thunk));
+
+// Creates an enhanced history that syncs navigation events with the store
+var history = syncHistoryWithStore(browserHistory, store)
 
 var App = React.createClass({
   componentDidMount: function() {

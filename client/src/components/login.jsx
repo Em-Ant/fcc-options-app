@@ -31,6 +31,7 @@ var Login = React.createClass({
     return ({email: '', password: ''});
   },
   render: function() {
+
     return (
       <div className="login-box">
         <div className="login-logo">

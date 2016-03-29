@@ -1,6 +1,7 @@
 var vehicleRoutes =require('./vehicleRoutesReducer.js');
-var currentPage = require('./currentPageReducer.js');
+var routerReducer = require('react-router-redux').routerReducer;
 var combineReducers = require('redux').combineReducers;
+
 Map = require('immutable').Map
 
 /*
@@ -67,7 +68,8 @@ var clicks = function(state, action) {
 
 
 var rootReducer = combineReducers({
-  currentPage:currentPage,
+  // add the react router redux reducer
+  routing:routerReducer,
   vehicleRoutes:vehicleRoutes
 });
 module.exports = rootReducer;
