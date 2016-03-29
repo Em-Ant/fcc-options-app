@@ -8,10 +8,60 @@ function loadingConsumers(state) {
   });
 }
 
+function updatingConsumers(state) {
+  return _.assign({}, state, {
+    loadingConsumers: true,
+    updatingConsumers: true,
+  });
+}
+
+
 function setError(state, error) {
   return _.assign({}, state, {
     consumersNeedToBeFetched: true
   });
+}
+
+function setEditMode (state, index) {
+  return _.assign({}, state, {
+    editIndex: index
+  })
+}
+
+function updateConsumer (state, updatedConsumer, position) {
+  var consumers = state.consumers;
+  consumers[position] = updatedConsumer;
+    return _.assign({}, state, {
+      updatingConsumers: undefined,
+      loadingConsumers: undefined,
+      consumers : consumers,
+      editIndex: undefined
+    });
+}
+
+function deleteConsumer (state, position) {
+  var consumers = state.consumers;
+  consumers.splice(position, 1);
+    return _.assign({}, state, {
+      updatingConsumers: undefined,
+      loadingConsumers: undefined,
+      consumers : consumers,
+      deleteIndex: undefined
+    });
+}
+
+function addConsumer (state, newConsumer) {
+  var consumers = state.consumers;
+  consumers.push(newConsumer);
+  // Alphabetically sort by name
+  consumers.sort(function(a, b){
+    return a.name.localeCompare(b.name);
+  })
+    return _.assign({}, state, {
+      updatingConsumers: undefined,
+      loadingConsumers: undefined,
+      consumers : consumers,
+    });
 }
 
 function setConsumers(state, consumers) {
@@ -25,9 +75,16 @@ function setConsumers(state, consumers) {
   })
 }
 
+function setItemToDelete(state, index) {
+  return _.assign({}, state, {
+    deleteIndex: index
+  })
+}
+
 var initState = {consumers: [], consumersNeedToBeFetched: true};
 
-var consumerReducer = function(state, action) {
+// TODO: HANDLE ERRORS
+var reducer = function(state, action) {
   state = state || initState;
   console.log(action.type);
   switch (action.type){
@@ -36,10 +93,28 @@ var consumerReducer = function(state, action) {
     case 'CONSUMER_SHOW_SUCCESS':
       return setConsumers(state, action.consumers);
     case 'CONSUMER_SHOW_ERROR':
-      return setError(state, error)
+      return setError(state, error);
+    case 'CONSUMER_UPDATE_LOADING':
+      return updatingConsumers(state);
+    case 'CONSUMER_UPDATE_SUCCESS':
+      return updateConsumer(state, action.updatedConsumer, action.position);
+    case 'CONSUMER_CREATE_LOADING':
+      return updatingConsumers(state);
+    case 'CONSUMER_CREATE_SUCCESS':
+      return addConsumer(state, action.newConsumer);
+    case 'CONSUMER_SET_EDIT_MODE':
+      return setEditMode(state, action.index);
+    case 'CONSUMER_RESET_EDIT_MODE':
+      return setEditMode(state, undefined);
+    case 'CONSUMER_SET_ITEM_TO_DELETE':
+      return setItemToDelete(state, action.index);
+    case 'CONSUMER_DELETE_LOADING':
+      return updatingConsumers(state);
+    case 'CONSUMER_DELETE_SUCCESS':
+      return deleteConsumer(state, action.position);
     default:
       return state;
   }
 };
 
-module.exports = consumerReducer;
+module.exports = reducer;

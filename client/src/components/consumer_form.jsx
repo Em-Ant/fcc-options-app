@@ -1,7 +1,6 @@
 'use strict'
 
 var React = require('react');
-var Ajax = require('../../js/ajax-functions.js');
 
 var ConsumerForm = React.createClass({
   componentDidMount: function () {
@@ -161,7 +160,11 @@ var ConsumerForm = React.createClass({
                   </div>
 
                 </form>
-
+                {this.props.loading ?
+                <div className="overlay">
+                  <i className="fa fa-refresh fa-spin"></i>
+                </div>
+                : null }
                 </div>
               </div>
             </div>
