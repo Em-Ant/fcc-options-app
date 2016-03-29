@@ -7,12 +7,14 @@ var VehicleRoutes = React.createClass({
   handleEditButton:function(id, e){
     this.props.onEditButtonClick(id);
   },
-  handleDeleteButton:function(id, e){  
+  handleDeleteButton:function(id, e){
     this.props.onDeleteButtonClick(id);
   },
   getDefaultProps:function(){
     return {
-      vehicleRoutes:[]
+      vehicleRoutes:{
+        items:[]
+      }
     }
   },
   render: function(){
@@ -36,7 +38,7 @@ return (
                   </tr>
                 </thead>
                 <tbody>
-                  {this.props.vehicleRoutes.map(function(route, index) {
+                  {this.props.vehicleRoutes.items.map(function(route, index) {
                     return (
                       <tr key={index}>
                         <td>{route.name}</td>

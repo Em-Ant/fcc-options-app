@@ -1,6 +1,6 @@
 var connect = require('react-redux').connect;
 var VehicleRoutesForm = require('../components/vehicleRoutesForm.jsx');
-var addVehicleRoute = require('../actions/actions.js').addVehicleRoute;
+var addVehicleRoute = require('../actions/vehicleRoutesActions.js').addVehicleRoute;
 /*
 Redux aware container that connects dispatch functions and app state to component properties
 */

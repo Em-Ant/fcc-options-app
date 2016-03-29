@@ -2,19 +2,20 @@
 Sets the vehicleRoutes state
 */
 function loadVehicleRoutes(state, vehicleRoutes) {
-  return vehicleRoutes;
+  var state = Object.assign({}, state, {items:vehicleRoutes});
+  return state;
 }
 
 function addVehicleRoute(state, addedVehicleRoute){
-  //TODO maybe use immutable.js?
-  var newState = state.slice();
-  console.log("vehicle route to add",addedVehicleRoute);
-  newState.push(addedVehicleRoute);
-  console.log("new added vehicle state", newState);
+  var newItemsState = state.items.slice();
+  newItemsState.push(addedVehicleRoute);
+  var newState = Object.assign({}, state, {items:newItemsState})
   return newState;
 }
 
-var initState = [];
+var initState = {
+  items:[]
+};
 var vehicleRoutesReducer = function(state, action) {
   state = state || initState;
   switch (action.type){

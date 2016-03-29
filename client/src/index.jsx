@@ -22,17 +22,15 @@ var history = require('react-router').browserHistory;
 
 var thunk = require('redux-thunk');
 
-var actions = require('./actions/actions.js');
+var vehicleRoutesActions = require('./actions/vehicleRoutesActions.js');
 
 var store = createStore(reducer, applyMiddleware(thunk));
 
 var App = React.createClass({
   componentDidMount: function() {
     //when the app loads up, retrieve the vehicle routes
-    store.dispatch(actions.fetchVehicleRoutes());
+    store.dispatch(vehicleRoutesActions.fetchVehicleRoutes());
     //store.dispatch(actions.requestUser());
-
-
 
   },
   render: function() {
