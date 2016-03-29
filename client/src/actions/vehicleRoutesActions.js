@@ -1,29 +1,33 @@
-
 var Ajax = require('../../js/ajax-functions.js');
+var VEHICLE_ROUTES_REQUEST = "VEHICLE_ROUTES_REQUEST";
+var VEHICLE_ROUTES_FAILURE = "VEHICLE_ROUTES_FAILURE";
+var VEHICLE_ROUTES_SUCCESS = "VEHICLE_ROUTES_SUCCESS";
+var REQUEST_VEHICLE_ROUTES = "REQUEST_VEHICLE_ROUTES";
+var REQUEST_VEHICLE_ROUTES = "REQUEST_VEHICLE_ROUTES";
 
 /*
 Retrieves the vehicle routes
 */
-var fetchVehicleRoutes = function() {
+module.exports.fetch = function() {
   // this will return a thunk
   return function(dispatch) {
     // dispatch an action stating that we are requesting routes
     dispatch({
-      type: 'REQUEST_VEHICLE_ROUTES'
+      type: 'FETCH_VEHICLE_ROUTES_REQUEST',
     });
     // call the external api endpoint to retrieve routes
     Ajax.get('/api/route/', function(err, vehicleRoutes) {
       // an error occurred retrieving vehicle routes
       if (err) {
         dispatch({
-          type: 'REQUEST_VEHICLE_ROUTES',
+          type: 'FETCH_VEHICLE_ROUTES_FAILURE',
           message: err.responseJSON.msg
         });
       } else {
         // request was successful
         // dispatch an action with the received vehicle routes
         dispatch({
-          type: 'RECEIVE_VEHICLE_ROUTES',
+          type: 'FETCH_VEHICLE_ROUTES_SUCCESS',
           vehicleRoutes: vehicleRoutes
         });
       }
@@ -35,7 +39,7 @@ var fetchVehicleRoutes = function() {
 /*
 Adds the vehicle route
 */
-var addVehicleRoute = function(vehicleRoute) {
+module.exports.create = function(vehicleRoute) {
   // this will return a thunk
   return function(dispatch) {
     // dispatch an action stating that we are requesting routes
@@ -62,5 +66,31 @@ var addVehicleRoute = function(vehicleRoute) {
   }
 }
 
-module.exports.addVehicleRoute = addVehicleRoute;
-module.exports.fetchVehicleRoutes = fetchVehicleRoutes;
+module.exports.destroy = function(id) {
+  // this will return a thunk
+  return function(dispatch) {
+    // dispatch an action stating that we are requesting routes
+    dispatch({
+      type: 'DESTROY_VEHICLE_ROUTE_REQUEST',
+      id:id
+    });
+    // call the external api endpoint to retrieve routes
+    Ajax.delete('/api/route/'+id, {}, function(err) {
+      // an error occurred retrieving vehicle routes
+      if (err) {
+        dispatch({
+          type: 'DESTROY_VEHICLE_ROUTE_FAILURE',
+          id:id,
+          message: err.responseJSON.msg
+        });
+      } else {
+        // request was successful
+        // not sure if this is supposed to be called to display the newly added route
+        dispatch({
+          type: 'DESTROY_VEHICLE_ROUTE_SUCCESS',
+          id:id
+        });
+      }
+    });
+  }
+}

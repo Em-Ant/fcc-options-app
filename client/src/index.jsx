@@ -29,7 +29,7 @@ var store = createStore(reducer, applyMiddleware(thunk));
 var App = React.createClass({
   componentDidMount: function() {
     //when the app loads up, retrieve the vehicle routes
-    store.dispatch(vehicleRoutesActions.fetchVehicleRoutes());
+    store.dispatch(vehicleRoutesActions.fetch());
     //store.dispatch(actions.requestUser());
 
   },
