@@ -14,7 +14,7 @@ router.get('/:id', isLoggedIn, controller.show);
 //creates a route
 router.post('/', isLoggedIn, controller.create);
 //update an individual route
-router.put('/:id', isLoggedIn, controller.update);
+router.post('/:id', isLoggedIn, controller.update);
 router.patch('/:id',  isLoggedIn, controller.update);
 //delete a route
 router.delete('/:id', isLoggedIn, controller.destroy);

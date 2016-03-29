@@ -46,8 +46,8 @@ function RouteHandler() {
             msg: 'There was an error saving route'
           });
         }
-        //return name if no error
-        return res.status(200).json(route.name);
+        //return route if no error
+        return res.status(200).json(route);
       });
     });
   }
@@ -83,10 +83,9 @@ function RouteHandler() {
 
   //update a route
   this.update = function(req, res) {
-    // TODO why delete _id?  shouldn't the _id still be the same?
-    // if (req.body._id) {
-    //   delete req.body._id;
-    // }
+    if (req.body._id) {
+      delete req.body._id;
+    }
 
     //Validate input
     req.assert('name', 'Name must not be empty').notEmpty();

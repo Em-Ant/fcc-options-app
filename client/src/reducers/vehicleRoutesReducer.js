@@ -1,27 +1,146 @@
 /*
 Sets the vehicleRoutes state
 */
-function loadVehicleRoutes(state, vehicleRoutes) {
-  return vehicleRoutes;
+function fetch(state, vehicleRoutes) {
+  return Object.assign({}, state, {
+    items: vehicleRoutes
+  });
 }
 
-function addVehicleRoute(state, addedVehicleRoute){
-  //TODO maybe use immutable.js?
-  var newState = state.slice();
-  console.log("vehicle route to add",addedVehicleRoute);
-  newState.push(addedVehicleRoute);
-  console.log("new added vehicle state", newState);
-  return newState;
+function add(state, addedVehicleRoute) {
+  var newItemsState = state.items.slice();
+  newItemsState.push(addedVehicleRoute);
+  var newFormState = Object.assign({}, state.form, {
+    item: {}, // clear out form fields
+    message: {
+      type: "success",
+      msg: "Vehicle route has been added successfully"
+    }
+  })
+  return Object.assign({}, state, {
+    items: newItemsState
+  }, {
+    form: newFormState
+  });
 }
 
-var initState = [];
+function addFailure(state, message) {
+  var newFormState = Object.assign({}, state.form, {
+    message: {
+      type: "error",
+      msg: message
+    }
+  })
+  return Object.assign({}, state, {
+    form: newFormState
+  });
+}
+
+function update(state, vehicleRoute) {
+  var newItemsState = state.items.slice();
+  //replaces the item with matching id
+  for (var i = 0; i < newItemsState.length; i++) {
+    if (newItemsState[i]._id == vehicleRoute._id) {
+      newItemsState.splice(i, 1, vehicleRoute);
+      break;
+    }
+  }
+  var newFormState = Object.assign({}, state.form, {
+    item: {}, // clear out form fields
+    message: {
+      type: "success",
+      msg: "Vehicle route has been edited successfully"
+    }
+  })
+  return Object.assign({}, state, {
+    items: newItemsState
+  }, {
+    form: newFormState
+  });
+}
+
+
+function updateFailure(state, message) {
+  var newFormState = Object.assign({}, state.form, {
+    message: {
+      type: "error",
+      msg: message
+    }
+  })
+  return Object.assign({}, state, {
+    form: newFormState
+  });
+}
+
+function destroy(state, id) {
+  var newItemsState = state.items.slice();
+  //removes the item with matching id
+  for (var i = 0; i < newItemsState.length; i++) {
+    if (newItemsState[i]._id == id) {
+      newItemsState.splice(i, 1);
+      break;
+    }
+  }
+
+  return Object.assign({}, state, {
+    items: newItemsState
+  });
+}
+
+function setEditMode(state, id) {
+  var item = {};
+  //find item that will be edited
+  for (var i = 0; i < state.items.length; i++) {
+    if (state.items[i]._id == id) {
+      item = state.items[i];
+    }
+  }
+  return Object.assign({}, state, {
+    form: {
+      display: true,
+      verb: 'Edit',
+      item: item
+    }
+  });
+}
+
+var initState = {
+  items: [],
+  form: {
+    display: true,
+    verb: 'Add',
+    item: {}
+  }
+};
 var vehicleRoutesReducer = function(state, action) {
   state = state || initState;
-  switch (action.type){
-    case 'RECEIVE_VEHICLE_ROUTES':
-      return loadVehicleRoutes(state, action.vehicleRoutes);
+  switch (action.type) {
+    case 'FETCH_VEHICLE_ROUTES_REQUEST':
+      return state;
+    case 'FETCH_VEHICLE_ROUTES_FAILURE':
+      return state;
+    case 'FETCH_VEHICLE_ROUTES_SUCCESS':
+      return fetch(state, action.vehicleRoutes);
+    case 'ADD_VEHICLE_ROUTE_REQUEST':
+      return state;
+    case 'ADD_VEHICLE_ROUTE_FAILURE':
+      return addFailure(state, action.message);
     case 'ADD_VEHICLE_ROUTE_SUCCESS':
-      return addVehicleRoute(state, action.addedVehicleRoute);
+      return add(state, action.addedVehicleRoute);
+    case 'UPDATE_VEHICLE_ROUTE_REQUEST':
+      return state;
+    case 'UPDATE_VEHICLE_ROUTE_FAILURE':
+      return updateFailure(state, action.message);
+    case 'UPDATE_VEHICLE_ROUTE_SUCCESS':
+      return update(state, action.vehicleRoute);
+    case 'DESTROY_VEHICLE_ROUTE_REQUEST':
+      return state;
+    case 'DESTROY_VEHICLE_ROUTE_FAILURE':
+      return state;
+    case 'DESTROY_VEHICLE_ROUTE_SUCCESS':
+      return destroy(state, action.id);
+    case 'SET_EDIT_MODE':
+      return setEditMode(state, action.id);
     default:
       return state;
   }

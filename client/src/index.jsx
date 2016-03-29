@@ -7,32 +7,35 @@ var Login = require('./components/login.jsx').Login;
 var Profile = require('./components/profile.jsx').ProfileContainer;
 var Signup = require('./components/signup.jsx').Signup;
 var VehicleRoutesContainer = require('./containers/vehicleRoutesContainer.jsx');
+
 var Consumers = require('./components/consumers.jsx').ConsumersContainer;
-var AddRoute = require('./components/addRoute.jsx');
 
 var reducer = require('./reducers/reducer.js');
 var Provider = require('react-redux').Provider;
 var createStore = require('redux').createStore;
 var applyMiddleware = require('redux').applyMiddleware;
+var combineReducers = require('redux').combineReducers;
 
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var IndexRoute = require('react-router').IndexRoute;
-var history = require('react-router').browserHistory;
-
+var browserHistory = require('react-router').browserHistory;
 var thunk = require('redux-thunk');
+var syncHistoryWithStore = require('react-router-redux').syncHistoryWithStore;
 
-var actions = require('./actions/actions.js');
+
+var vehicleRoutesActions = require('./actions/vehicleRoutesActions.js');
 
 var store = createStore(reducer, applyMiddleware(thunk));
+
+// Creates an enhanced history that syncs navigation events with the store
+var history = syncHistoryWithStore(browserHistory, store)
 
 var App = React.createClass({
   componentDidMount: function() {
     //when the app loads up, retrieve the vehicle routes
-    store.dispatch(actions.fetchVehicleRoutes());
+    store.dispatch(vehicleRoutesActions.fetch());
     //store.dispatch(actions.requestUser());
-
-
 
   },
   render: function() {
@@ -56,7 +59,6 @@ ReactDOM.render(
       <Route path="/profile" component={Profile}/>
       <Route path="/login" component={Login}/>
       <Route path="/signup" component={Signup}/>
-      <Route path="/addRoute" component={AddRoute}/>
     </Route>
   </Router>
 </Provider>, document.getElementById('appView'));

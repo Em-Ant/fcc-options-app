@@ -4,10 +4,6 @@ var React = require('react');
 var Link = require('react-router').Link
 
 var Sidebar = React.createClass({
-  handleLinkClick:function(e){
-      //passes in the path name of the link that was clicked
-      this.props.onLinkClick(e.currentTarget.pathname);
-  },
 
   render: function() {
     return (
@@ -29,13 +25,13 @@ var Sidebar = React.createClass({
             <li className="header">SERVICES</li>
 
             <li className={this.props.activeLink=="/routes"?"active":null}>
-              <Link to={"/routes"} onClick = {this.handleLinkClick}>
+              <Link to={"/routes"}>
                 <i className="fa fa-link"></i>
                 <span>Routes</span>
               </Link>
             </li>
             <li className={this.props.activeLink=="/consumers"?"active":null}>>
-              <Link to={"/consumers"} onClick = {this.handleLinkClick}>
+              <Link to={"/consumers"}>
                 <i className="fa fa-link"></i>
                 <span>Consumers</span>
               </Link>
