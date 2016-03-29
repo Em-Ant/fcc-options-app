@@ -1,5 +1,6 @@
 var vehicleRoutes =require('./vehicleRoutesReducer.js');
 var currentPage = require('./currentPageReducer.js');
+var consumersPage = require('./consumerReducer')
 var combineReducers = require('redux').combineReducers;
 Map = require('immutable').Map
 
@@ -68,6 +69,7 @@ var clicks = function(state, action) {
 
 var rootReducer = combineReducers({
   currentPage,
-  vehicleRoutes
+  vehicleRoutes,
+  consumersPage
 });
 module.exports = rootReducer;

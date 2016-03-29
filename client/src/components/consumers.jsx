@@ -1,10 +1,12 @@
 'use strict'
 
 var React = require('react');
+var connect = require('react-redux').connect;
+var actions = require('../actions/consumer_actions');
 
 var Ajax = require('../../js/ajax-functions.js');
 var ConsumerForm = require('./consumer_form.jsx');
-var Alert = require('./alert_modal.jsx');
+//var Alert = require('./alert_modal.jsx');
 
 var Consumers = React.createClass({
   //
@@ -43,6 +45,7 @@ var Consumers = React.createClass({
   // getInitialState: function() {
   //   return ({email: '', password: ''});
   // },
+  /*
   handleEditConsumer: function(consumer, index) {
     var self = this;
     Ajax.put('/api/consumer/' + consumer._id, consumer,
@@ -122,16 +125,48 @@ var Consumers = React.createClass({
       })
     })
   },
+  */
+  componentDidMount: function () {
+    if(this.props.consumersNeedToBeFetched)
+      this.props.loadConsumers();
+  },
   render: function() {
+    /*
     var modalBody = this.state.deleteIndex !== undefined ?
     "Are You sure You want to delete Consumer '"
       + this.state.consumers[this.state.deleteIndex].name + "' ?"
-      : "";
+      : ""; */
+      /*<Alert modalId="myModal" modalTitle="Confirm Deletion..."
+        modalBody={modalBody}
+        handleConfirm={this.handleDelete}
+      />*/
+      /*
+        <button className="btn btn-sm btn-default in-table"
+          title="Edit" type="button"
+          onClick={this.handleEditBtn.bind(null, index)} >
+          <i className="fa fa-pencil-square-o"></i>
+        </button>
+        <button
+          className="btn btn-sm btn-default in-table"
+          title="Delete"  data-toggle="modal"
+          data-target="#myModal" type="button"
+          onClick={this.setDeleteMode.bind(null, index)}>
+          <i className="fa fa-trash-o"></i>
+        </button>*/
+        /*
+        <ConsumerForm
+          verb={this.state.editIndex !== undefined ? "Edit": "Add"}
+          buttonHandles={
+            this.state.editIndex !== undefined ? this.handleEditConsumer : this.handleAddConsumer}
+          defaults={
+            this.state.editIndex !== undefined ? this.state.consumers[this.state.editIndex] : {}}
+          editIndex={this.state.editIndex}
+          resetFn={this.resetEditMode}
+        />
+        */
     return (
       <div className="content-wrapper">
-      <Alert modalId="myModal" modalTitle="Confirm Deletion..."
-        modalBody={modalBody}
-        handleConfirm={this.handleDelete}/>
+
         <section className="content">
           <div className="row">
             <div className="col-md-12">
@@ -152,7 +187,7 @@ var Consumers = React.createClass({
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.consumers.map(function(consumer, index) {
+                      {this.props.consumers.map(function(consumer, index) {
                         return (
                           <tr key={index}>
                             <td>{consumer.name}</td>
@@ -168,18 +203,7 @@ var Consumers = React.createClass({
                               {consumer.cannotSitNearOppositeSex ? <span className="label label-success">Behavioral Issues</span> : null}
                             </td>
                             <td className="text-center">
-                                <button className="btn btn-sm btn-default in-table"
-                                  title="Edit" type="button"
-                                  onClick={this.handleEditBtn.bind(null, index)} >
-                                  <i className="fa fa-pencil-square-o"></i>
-                                </button>
-                                <button
-                                  className="btn btn-sm btn-default in-table"
-                                  title="Delete"  data-toggle="modal"
-                                  data-target="#myModal" type="button"
-                                  onClick={this.setDeleteMode.bind(null, index)}>
-                                  <i className="fa fa-trash-o"></i>
-                                </button>
+
                             </td>
                           </tr>
                           );
@@ -188,17 +212,14 @@ var Consumers = React.createClass({
                     </tbody>
                   </table>
                 </div>
+                {this.props.loadingConsumers ?
+                <div className="overlay">
+                  <i className="fa fa-refresh fa-spin"></i>
+                </div>
+                : null }
               </div>
             </div>
           </div>
-          <ConsumerForm
-            verb={this.state.editIndex !== undefined ? "Edit": "Add"}
-            buttonHandles={
-              this.state.editIndex !== undefined ? this.handleEditConsumer : this.handleAddConsumer}
-            defaults={
-              this.state.editIndex !== undefined ? this.state.consumers[this.state.editIndex] : {}}
-            editIndex={this.state.editIndex}
-            resetFn={this.resetEditMode}/>
 
         </section>
       </div>
@@ -206,4 +227,30 @@ var Consumers = React.createClass({
     )
   }
 });
-module.exports = Consumers;
+
+var mapStateToProps = function(state){
+  //gets the the currentPage of the app state and map it to the activeLink property of Sidebar
+  return {
+    consumersNeedToBeFetched: state.consumersPage.consumersNeedToBeFetched,
+    consumers: state.consumersPage.consumers,
+    loadingConsumers: state.consumersPage.loadingConsumers
+  }
+}
+var mapDispatchToProps = function(dispatch){
+  return {
+    loadConsumers: function () {
+      dispatch(actions.loadConsumers());
+    }
+  };
+  /*
+  //maps the onLinkClick property of Sidebar to a funciton that calls dipatch
+  return{
+    onLinkClick:function(urlPathName){
+      //clickLink is a function that creates an action for the dispatcher to use
+      dispatch(clickLink(urlPathName));
+    }
+  }
+  */
+}
+module.exports.Consumers = Consumers;
+module.exports.ConsumersContainer = connect(mapStateToProps, mapDispatchToProps)(Consumers);

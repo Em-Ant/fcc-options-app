@@ -7,7 +7,7 @@ var Login = require('./components/login.jsx').Login;
 var Profile = require('./components/profile.jsx').ProfileContainer;
 var Signup = require('./components/signup.jsx').Signup;
 var VehicleRoutesContainer = require('./containers/vehicleRoutesContainer.jsx');
-var Consumers = require('./components/consumers.jsx');
+var Consumers = require('./components/consumers.jsx').ConsumersContainer;
 var AddRoute = require('./components/addRoute.jsx');
 
 var reducer = require('./reducers/reducer.js');
