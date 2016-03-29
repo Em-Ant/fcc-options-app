@@ -8,7 +8,6 @@ var Profile = require('./components/profile.jsx').ProfileContainer;
 var Signup = require('./components/signup.jsx').Signup;
 var VehicleRoutesContainer = require('./containers/vehicleRoutesContainer.jsx');
 var Consumers = require('./components/consumers.jsx');
-var AddRoute = require('./components/addRoute.jsx');
 
 var reducer = require('./reducers/reducer.js');
 var Provider = require('react-redux').Provider;
@@ -54,7 +53,6 @@ ReactDOM.render(
       <Route path="/profile" component={Profile}/>
       <Route path="/login" component={Login}/>
       <Route path="/signup" component={Signup}/>
-      <Route path="/addRoute" component={AddRoute}/>
     </Route>
   </Router>
 </Provider>, document.getElementById('appView'));

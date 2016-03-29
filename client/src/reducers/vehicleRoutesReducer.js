@@ -25,6 +25,19 @@ function add(state, addedVehicleRoute) {
   });
 }
 
+function addFailure(state, message) {
+  var formState = state.form;
+  var newFormState = Object.assign({}, state.form, {
+    message: {
+      type: "error",
+      msg: message
+    }
+  })
+  return Object.assign({}, state, {
+    form: newFormState
+  });
+}
+
 function update(state, vehicleRoute) {
   var newItemsState = state.items.slice();
   //replaces the item with matching id
@@ -91,7 +104,7 @@ var vehicleRoutesReducer = function(state, action) {
     case 'ADD_VEHICLE_ROUTE_REQUEST':
       return state;
     case 'ADD_VEHICLE_ROUTE_FAILURE':
-      return state;
+      return addFailure(state, action.message);
     case 'ADD_VEHICLE_ROUTE_SUCCESS':
       return add(state, action.addedVehicleRoute);
     case 'UPDATE_VEHICLE_ROUTE_REQUEST':

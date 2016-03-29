@@ -46,8 +46,8 @@ function RouteHandler() {
             msg: 'There was an error saving route'
           });
         }
-        //return name if no error
-        return res.status(200).json(route.name);
+        //return route if no error
+        return res.status(200).json(route);
       });
     });
   }

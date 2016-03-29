@@ -39,7 +39,7 @@ module.exports.create = function(vehicleRoute) {
     dispatch({
       type: 'ADD_VEHICLE_ROUTE_REQUEST'
     });
-    Ajax.post('/api/route/', vehicleRoute, function(err) {
+    Ajax.post('/api/route/', vehicleRoute, function(err, addedVehicleRoute) {
       if (err) {
         dispatch({
           type: 'ADD_VEHICLE_ROUTE_FAILURE',
@@ -48,7 +48,7 @@ module.exports.create = function(vehicleRoute) {
       } else {
         dispatch({
           type: 'ADD_VEHICLE_ROUTE_SUCCESS',
-          addedVehicleRoute: vehicleRoute
+          addedVehicleRoute: addedVehicleRoute
         });
       }
     });
