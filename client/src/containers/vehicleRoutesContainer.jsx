@@ -16,6 +16,9 @@ var mapDispatchToProps = function(dispatch){
   return{
     onDeleteButtonClick:function(id){
       dispatch(actions.destroy(id));
+    },
+    onEditButtonClick:function(id){
+      dispatch(actions.setEditMode(id));
     }
 
   }

@@ -4,20 +4,24 @@ var actions = require('../actions/vehicleRoutesActions.js');
 /*
 Redux aware container that connects dispatch functions and app state to component properties
 */
-var mapDispatchToProps = function(dispatch){
+var mapStateToProps = function(state) {
+  return {form: state.vehicleRoutes.form}
+}
+var mapDispatchToProps = function(dispatch) {
   //maps the onAddVehicleRoute property of VehicleRoutesForm to a function that calls dispatch
-  return{
-    onAddVehicleRoute:function(vehicleRoute){
+  return {
+    onAddVehicleRoute: function(vehicleRoute) {
       //addVehicleRoute is a function that creates an action for the dispatcher to use
       dispatch(actions.create(vehicleRoute));
     },
-    onDeleteButtonClick:function(id){
-      dispatch(actions.destroy(id));
-    },
+    onEditVehicleRoute: function(vehicleRoute) {
+      //addVehicleRoute is a function that creates an action for the dispatcher to use
+      dispatch(actions.update(vehicleRoute));
+    }
 
   }
 }
 
-var VehicleRoutesFormContainer = connect(null, mapDispatchToProps)(VehicleRoutesForm);
+var VehicleRoutesFormContainer = connect(mapStateToProps, mapDispatchToProps)(VehicleRoutesForm);
 
 module.exports = VehicleRoutesFormContainer;

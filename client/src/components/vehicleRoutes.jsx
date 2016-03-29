@@ -33,7 +33,7 @@ return (
                   <tr>
                     <th>Name</th>
                     <th>Location Served</th>
-                    <th>Vehicle</th>
+
                     <th className="text-center">Actions</th>
                   </tr>
                 </thead>
@@ -43,7 +43,6 @@ return (
                       <tr key={index}>
                         <td>{route.name}</td>
                         <td>{route.locationServed}</td>
-                        <td>{route.vehicle}</td>
                         <td className="text-center">
                             <button className="btn btn-sm btn-default in-table"
                               title="Edit" type="button"
