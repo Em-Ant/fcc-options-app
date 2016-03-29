@@ -67,7 +67,7 @@ var clicks = function(state, action) {
 
 
 var rootReducer = combineReducers({
-  currentPage,
-  vehicleRoutes
+  currentPage:currentPage,
+  vehicleRoutes:vehicleRoutes
 });
 module.exports = rootReducer;

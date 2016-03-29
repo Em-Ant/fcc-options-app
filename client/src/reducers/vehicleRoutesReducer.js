@@ -10,8 +10,18 @@ function fetch(state, vehicleRoutes) {
 function add(state, addedVehicleRoute) {
   var newItemsState = state.items.slice();
   newItemsState.push(addedVehicleRoute);
+  var formState = state.form;
+  var newFormState = Object.assign({}, state.form, {
+    item: {}, // clear out form fields
+    message: {
+      type: "success",
+      msg: "Vehicle route has been added successfully"
+    }
+  })
   return Object.assign({}, state, {
     items: newItemsState
+  }, {
+    form: newFormState
   });
 }
 
@@ -66,7 +76,7 @@ var initState = {
   form: {
     display: true,
     verb: 'Add',
-    item:{}
+    item: {}
   }
 };
 var vehicleRoutesReducer = function(state, action) {

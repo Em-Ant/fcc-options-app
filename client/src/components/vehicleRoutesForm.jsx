@@ -1,14 +1,14 @@
 'use strict'
 
 var React = require('react');
-var VehicleRoutesForm = require('./vehicleRoutesForm.jsx');
+var Message = require('./message.jsx');
 
 var VehicleRoutesForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
     if (this.props.form.verb == "Add") {
       this.props.onAddVehicleRoute(this.state);
-    } else {
+    } else if(this.props.form.verb=="Edit"){
       this.props.onEditVehicleRoute(this.state);
     }
   },
@@ -21,10 +21,10 @@ var VehicleRoutesForm = React.createClass({
   getInitialState: function() {
     return ({email: '', password: ''});
   },
-  /*
-  I think this is the method to call to transfer the editable form field properties to the state
-  */
   componentWillReceiveProps: function(nextProps) {
+    /*
+    Transfer the editable form field properties to the state
+    */
     if (nextProps.form) {
       this.setState(nextProps.form.item);
     }
@@ -40,8 +40,8 @@ var VehicleRoutesForm = React.createClass({
             <div className="box-header with-border">
               <h3 className="box-title">{this.props.form.verb + " a Route"}</h3>
             </div>
-            {this.props.message
-              ? <div className="alert alert-info" role="alert">{this.props.message}</div>
+            {this.props.form.message
+              ? <Message message = {this.props.form.message}/>
               : null}
             <form className="form-horizontal" onSubmit={this.handleSubmit}>
               <div className="box-body">
