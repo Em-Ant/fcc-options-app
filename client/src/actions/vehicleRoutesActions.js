@@ -113,18 +113,18 @@ module.exports.destroy = function(id) {
 
 module.exports.setEditMode = function(id) {
   return{
-    type:'SET_EDIT_MODE',
+    type:'SET_VEHICLE_ROUTE_EDIT_MODE',
     id:id
   }
 }
 
 module.exports.setAddMode = function() {
   return{
-    type:'SET_ADD_MODE'
+    type:'SET_VEHICLE_ROUTE_ADD_MODE'
   }
 }
 module.exports.closeForm = function() {
   return{
-    type:'CLOSE_FORM'
+    type:'CLOSE_VEHICLE_ROUTE_FORM'
   }
 }

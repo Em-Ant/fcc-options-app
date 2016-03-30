@@ -210,11 +210,11 @@ var vehicleRoutesReducer = function(state, action) {
       return destroyFailure(state);
     case 'DESTROY_VEHICLE_ROUTE_SUCCESS':
       return destroy(state, action.id);
-    case 'SET_EDIT_MODE':
+    case 'SET_VEHICLE_ROUTE_EDIT_MODE':
       return setEditMode(state, action.id);
-    case 'SET_ADD_MODE':
+    case 'SET_VEHICLE_ROUTE_ADD_MODE':
       return setAddMode(state);
-    case 'CLOSE_FORM':
+    case 'CLOSE_VEHICLE_ROUTE_FORM':
       return closeForm(state);
     default:
       return state;
