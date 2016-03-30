@@ -45,7 +45,7 @@ var Consumers = React.createClass({
                         <th>Sex</th>
                         <th>Address</th>
                         <th>Phone</th>
-                        <th>Issues</th>
+                        <th>Needs</th>
                         <th className="text-center">Actions</th>
                       </tr>
                     </thead>

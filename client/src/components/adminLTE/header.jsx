@@ -9,7 +9,7 @@ var Header = React.createClass({
     return (
       <header className="main-header">
 
-        <a href="index2.html" className="logo">
+        <a href="/" className="logo">
           <span className="logo-mini">
             <img src="img/opt_logo_wht.png" height="30px"></img></span>
           <span className="logo-lg">
@@ -22,7 +22,7 @@ var Header = React.createClass({
           </a>
           <div className="navbar-custom-menu">
             <ul className="nav navbar-nav">
-              
+
               <li className="dropdown user user-menu">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                   <img src="static/adminLTE/dist/img/default_avatar.jpg" className="user-image" alt="User Image"/>
