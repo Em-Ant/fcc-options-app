@@ -39,7 +39,8 @@ var Login = React.createClass({
         </div>
 
         <div className="login-box-body">
-          <p className="login-box-msg">Sign in to start your session</p>
+            <p className="login-box-msg">Sign in to start your session</p>
+            <p className="login-box-msg">admin@test.com / admin</p>
             {this.state.message?
             <div className="alert alert-info alert-dismissible">
               <button type="button" className="close" data-dismiss="alert" aria-hidden="true">×</button>

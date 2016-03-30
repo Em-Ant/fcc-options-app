@@ -4,20 +4,27 @@ var React = require('react');
 var VehicleRoutesFormContainer = require('../containers/vehicleRoutesFormContainer.jsx');
 
 var VehicleRoutes = React.createClass({
-  handleEditButton:function(id, e){
+  handleEditButton:function(id){
     this.props.onEditButtonClick(id);
   },
-  handleDeleteButton:function(id, e){
+  handleDeleteButton:function(id){
     this.props.onDeleteButtonClick(id);
+  },
+  handleAddButton:function(){
+    this.props.onAddButtonClick();
   },
   getDefaultProps:function(){
     return {
       vehicleRoutes:{
-        items:[]
+        items:[],
+        form:{
+          display:false
+        }
       }
     }
   },
   render: function(){
+
 return (
   <div className="content-wrapper">
     <section className="content">
@@ -25,7 +32,12 @@ return (
         <div className="col-md-12">
           <div className="box box-primary">
             <div className="box-header with-border">
-              <h3 className="box-title">Routes</h3>
+              <h3 className="box-title">Routes </h3>
+                <span className="pull-right">
+                  <button className="btn btn-success" onClick={this.handleAddButton}>
+                    Add New Route
+                  </button>
+                </span>
             </div>
             <div className="box-body">
               <table className="table table-striped">
@@ -34,7 +46,7 @@ return (
                     <th>Name</th>
                     <th>Location Served</th>
 
-                    <th className="text-center">Actions</th>
+                    <th className="text-center">Actions </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -69,8 +81,10 @@ return (
       </div>
         {
           // Form to add, edit, and delete a Vehicle Route
+          this.props.vehicleRoutes.form.display?
+          <VehicleRoutesFormContainer/>:null
+
         }
-        <VehicleRoutesFormContainer/>
     </section> < /div>
 
     )

@@ -104,10 +104,28 @@ function setEditMode(state, id) {
   });
 }
 
+function setAddMode(state) {
+  return Object.assign({}, state, {
+    form: {
+      display: true,
+      verb: 'Add',
+      item: {}
+    }
+  });
+}
+
+function closeForm(state) {
+  return Object.assign({}, state, {
+    form: {
+      display: false
+    }
+  });
+}
+
 var initState = {
   items: [],
   form: {
-    display: true,
+    display: false,
     verb: 'Add',
     item: {}
   }
@@ -141,6 +159,10 @@ var vehicleRoutesReducer = function(state, action) {
       return destroy(state, action.id);
     case 'SET_EDIT_MODE':
       return setEditMode(state, action.id);
+    case 'SET_ADD_MODE':
+      return setAddMode(state);
+    case 'CLOSE_FORM':
+      return closeForm(state);
     default:
       return state;
   }

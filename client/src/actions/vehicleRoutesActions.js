@@ -117,3 +117,14 @@ module.exports.setEditMode = function(id) {
     id:id
   }
 }
+
+module.exports.setAddMode = function() {
+  return{
+    type:'SET_ADD_MODE'
+  }
+}
+module.exports.closeForm = function() {
+  return{
+    type:'CLOSE_FORM'
+  }
+}

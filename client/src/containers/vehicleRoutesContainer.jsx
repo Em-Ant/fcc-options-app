@@ -19,6 +19,9 @@ var mapDispatchToProps = function(dispatch){
     },
     onEditButtonClick:function(id){
       dispatch(actions.setEditMode(id));
+    },
+    onAddButtonClick:function(id){
+      dispatch(actions.setAddMode());
     }
 
   }
