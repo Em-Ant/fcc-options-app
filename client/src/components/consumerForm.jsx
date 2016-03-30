@@ -3,6 +3,61 @@
 var React = require('react');
 
 var ConsumerForm = React.createClass({
+  setDefaults: function (props) {
+
+        /*
+        This is a Hack to allow uncontrolled forms to update when receiving
+        default value props. See https://facebook.github.io/react/docs/forms.html
+        and https://github.com/facebook/react/issues/461
+        I had to use jquery, don't know if it's the best way to do it,
+        or if it's a good 'React' solution
+        */
+
+        // handle component from Plugins
+        $(".select2").val(props.defaults.sex).trigger("change");
+
+        $('input').iCheck('uncheck');
+
+        if(props.defaults.hasWheelchair) $('#c_wheel').iCheck('check');
+        if(props.defaults.hasSeizures) $('#c_seiz').iCheck('check');
+        if(props.defaults.hasMedications) $('#c_med').iCheck('check');
+        if(props.defaults.needsWave) $('#c_wave').iCheck('check');
+        if(props.defaults.needsTwoSeats) $('#c_twoseat').iCheck('check');
+        if(props.defaults.cannotSitNearOppositeSex) $('#c_behavior').iCheck('check');
+
+        // Handle inputs
+        $('#c_name').val(props.defaults.name);
+        $('#c_address').val(props.defaults.address);
+        $('#c_phone').val(props.defaults.phone);
+      },
+      handleSubmit: function(e) {
+
+        // This function needs validation
+        e.preventDefault();
+        var newConsumer = {};
+        newConsumer._id = this.props.defaults._id;
+
+        newConsumer.name = this.refs.name.value;
+        newConsumer.address = this.refs.address.value;
+        newConsumer.phone = this.refs.phone.value;
+        newConsumer.sex = this.refs.sex.value;
+
+        newConsumer.needsWave = this.refs.wave.checked;
+        newConsumer.hasSeizures = this.refs.seiz.checked;
+        newConsumer.hasWheelchair = this.refs.wheel.checked;
+        newConsumer.needsTwoSeats = this.refs.twoSeats.checked;
+        newConsumer.hasMedications = this.refs.med.checked;
+        newConsumer.cannotSitNearOppositeSex = this.refs.behavior.checked;
+
+        this.refs.name.value = '';
+        this.refs.address.value = '';
+        this.refs.phone.value = '';
+        this.refs.sex.value = '';
+
+        $('input').iCheck('uncheck');
+
+        this.props.buttonHandles(newConsumer, this.props.editIndex)
+  },
   componentDidMount: function () {
     $('input').iCheck({
       checkboxClass: 'icheckbox_square-blue',
@@ -11,61 +66,11 @@ var ConsumerForm = React.createClass({
     });
 
     $(".select2").select2();
+    this.setDefaults(this.props);
   },
+
   componentWillReceiveProps : function(nextProps) {
-
-    /*
-    This is a Hack to allow uncontrolled forms to update when receiving
-    default value props. See https://facebook.github.io/react/docs/forms.html
-    and https://github.com/facebook/react/issues/461
-    I had to use jquery, don't know if it's the best way to do it,
-    or if it's a good 'React' solution
-    */
-
-    // handle component from Plugins
-    $(".select2").val(nextProps.defaults.sex).trigger("change");
-
-    $('input').iCheck('uncheck');
-
-    if(nextProps.defaults.hasWheelchair) $('#c_wheel').iCheck('check');
-    if(nextProps.defaults.hasSeizures) $('#c_seiz').iCheck('check');
-    if(nextProps.defaults.hasMedications) $('#c_med').iCheck('check');
-    if(nextProps.defaults.needsWave) $('#c_wave').iCheck('check');
-    if(nextProps.defaults.needsTwoSeats) $('#c_twoseat').iCheck('check');
-    if(nextProps.defaults.cannotSitNearOppositeSex) $('#c_behavior').iCheck('check');
-
-    // Handle inputs
-    $('#c_name').val(nextProps.defaults.name);
-    $('#c_address').val(nextProps.defaults.address);
-    $('#c_phone').val(nextProps.defaults.phone);
-  },
-  handleSubmit: function(e) {
-
-    // This function needs validation
-    e.preventDefault();
-    var newConsumer = {};
-    newConsumer._id = this.props.defaults._id;
-
-    newConsumer.name = this.refs.name.value;
-    newConsumer.address = this.refs.address.value;
-    newConsumer.phone = this.refs.phone.value;
-    newConsumer.sex = this.refs.sex.value;
-
-    newConsumer.needsWave = this.refs.wave.checked;
-    newConsumer.hasSeizures = this.refs.seiz.checked;
-    newConsumer.hasWheelchair = this.refs.wheel.checked;
-    newConsumer.needsTwoSeats = this.refs.twoSeats.checked;
-    newConsumer.hasMedications = this.refs.med.checked;
-    newConsumer.cannotSitNearOppositeSex = this.refs.behavior.checked;
-
-    this.refs.name.value = '';
-    this.refs.address.value = '';
-    this.refs.phone.value = '';
-    this.refs.sex.value = '';
-
-    $('input').iCheck('uncheck');
-
-    this.props.buttonHandles(newConsumer, this.props.editIndex)
+    this.setDefaults(nextProps);
   },
   render: function() {
     var boxClass = this.props.verb === "Edit" ? "box box-warning" : "box box-info";
@@ -75,6 +80,11 @@ var ConsumerForm = React.createClass({
               <div className={boxClass}>
                 <div className="box-header with-border">
                   <h3 className="box-title">{this.props.verb} a Consumer</h3>
+                  <div className="box-tools pull-right">
+                    <button type="button" className="btn btn-box-tool" onClick={this.props.onClose} >
+                      <i className="fa fa-times"></i>
+                    </button>
+                  </div>
                 </div>
 
                 <form className="form-horizontal" onSubmit={this.handleSubmit}>
@@ -153,10 +163,6 @@ var ConsumerForm = React.createClass({
                   </div>
                   <div className="box-footer">
                     <button type="submit" className="btn btn-primary">Submit</button>
-                      <button className="btn btn-default margin-left"
-                        onClick={this.props.resetFn} type="button">
-                        {this.props.verb === 'Edit' ? 'Cancel' : 'Reset'}
-                      </button>
                   </div>
 
                 </form>

@@ -2,11 +2,11 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var actions = require('../actions/consumer_actions');
+var actions = require('../actions/consumerActions');
 
 var Ajax = require('../../js/ajax-functions.js');
-var ConsumerForm = require('./consumer_form.jsx');
-var Alert = require('./alert_modal.jsx');
+var ConsumerForm = require('./consumerForm.jsx');
+var Alert = require('./alertModal.jsx');
 
 var Consumers = React.createClass({
   componentDidMount: function () {
@@ -31,6 +31,11 @@ var Consumers = React.createClass({
               <div className="box box-primary">
                 <div className="box-header with-border">
                   <h3 className="box-title">Consumers</h3>
+                  <span className="pull-right">
+                    <button className="btn btn-success" onClick={this.props.setAddMode}>
+                      Add New Consumer
+                    </button>
+                  </span>
                 </div>
                 <div className="box-body">
                   <table className="table table-striped">
@@ -91,21 +96,23 @@ var Consumers = React.createClass({
               </div>
             </div>
           </div>
-
-          <ConsumerForm
-            verb={this.props.editIndex !== undefined ? "Edit": "Add"}
-            buttonHandles={
-              this.props.editIndex !== undefined ?
-              this.props.handleEditConsumer :
-              this.props.handleAddConsumer}
-            defaults={
-              this.props.editIndex !== undefined ?
-              this.props.consumers[this.props.editIndex] :
-              {}}
-            editIndex={this.props.editIndex}
-            resetFn={this.props.resetEditMode}
-            loading={this.props.formLoading}
-          />
+          {this.props.displayForm ?
+            <ConsumerForm
+              verb={this.props.editIndex !== undefined ? "Edit": "Add"}
+              buttonHandles={
+                this.props.editIndex !== undefined ?
+                this.props.handleEditConsumer :
+                this.props.handleAddConsumer}
+              defaults={
+                this.props.editIndex !== undefined ?
+                this.props.consumers[this.props.editIndex] :
+                {}}
+              editIndex={this.props.editIndex}
+              loading={this.props.formLoading}
+              onClose={this.props.resetEditMode}
+            />
+            : null
+        }
 
         </section>
       </div>
@@ -122,7 +129,8 @@ var mapStateToProps = function(state){
     loadingConsumers: state.consumersPage.loadingConsumers,
     editIndex: state.consumersPage.editIndex,
     formLoading : state.consumersPage.updatingConsumers,
-    deleteIndex: state.consumersPage.deleteIndex
+    deleteIndex: state.consumersPage.deleteIndex,
+    displayForm: state.consumersPage.displayForm
   }
 }
 
@@ -148,6 +156,9 @@ var mapDispatchToProps = function(dispatch){
     },
     deleteConsumer: function() {
       dispatch(actions.deleteConsumer())
+    },
+    setAddMode: function() {
+      dispatch(actions.setAddMode())
     }
   };
 }

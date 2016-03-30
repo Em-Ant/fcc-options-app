@@ -29,6 +29,12 @@ module.exports.setEditMode = function (index) {
   };
 }
 
+module.exports.setAddMode = function () {
+  return {
+    type: 'CONSUMER_SET_ADD_MODE',
+  };
+}
+
 module.exports.resetEditMode = function () {
   return {
     type: 'CONSUMER_RESET_EDIT_MODE',

@@ -24,7 +24,15 @@ function setError(state, error) {
 
 function setEditMode (state, index) {
   return _.assign({}, state, {
-    editIndex: index
+    editIndex: index,
+    displayForm: true
+  })
+}
+
+function resetEditMode (state) {
+  return _.assign({}, state, {
+    editIndex: undefined,
+    displayForm: undefined
   })
 }
 
@@ -35,7 +43,8 @@ function updateConsumer (state, updatedConsumer, position) {
       updatingConsumers: undefined,
       loadingConsumers: undefined,
       consumers : consumers,
-      editIndex: undefined
+      editIndex: undefined,
+      displayForm: undefined
     });
 }
 
@@ -61,6 +70,7 @@ function addConsumer (state, newConsumer) {
       updatingConsumers: undefined,
       loadingConsumers: undefined,
       consumers : consumers,
+      displayForm: undefined
     });
 }
 
@@ -105,13 +115,15 @@ var reducer = function(state, action) {
     case 'CONSUMER_SET_EDIT_MODE':
       return setEditMode(state, action.index);
     case 'CONSUMER_RESET_EDIT_MODE':
-      return setEditMode(state, undefined);
+      return resetEditMode(state);
     case 'CONSUMER_SET_ITEM_TO_DELETE':
       return setItemToDelete(state, action.index);
     case 'CONSUMER_DELETE_LOADING':
       return updatingConsumers(state);
     case 'CONSUMER_DELETE_SUCCESS':
       return deleteConsumer(state, action.position);
+    case 'CONSUMER_SET_ADD_MODE':
+      return setEditMode(state, undefined);
     default:
       return state;
   }
