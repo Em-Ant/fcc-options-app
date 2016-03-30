@@ -72,11 +72,9 @@ var clicks = function(state, action) {
 
 
 var rootReducer = combineReducers({
-  vehicleRoutes,
-  consumersPage,
-  // add the react router redux reducer
-  routing:routerReducer,
-  vehicleRoutes:vehicleRoutes
+  consumersPage: consumersPage,
+  routing: routerReducer,
+  vehicleRoutes: vehicleRoutes
 
 });
 module.exports = rootReducer;
