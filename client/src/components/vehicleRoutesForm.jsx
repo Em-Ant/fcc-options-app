@@ -74,6 +74,11 @@ var VehicleRoutesForm = React.createClass({
                   </div>
                 </div>
               </div>
+              {this.props.form.isLoading ?
+              <div className="overlay">
+                <i className="fa fa-refresh fa-spin"></i>
+              </div>
+              : null }
               <div className="box-footer">
                 <button type="submit" className="btn btn-primary">Submit</button>
 

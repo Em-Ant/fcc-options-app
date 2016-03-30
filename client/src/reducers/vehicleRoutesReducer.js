@@ -1,9 +1,49 @@
-/*
-Sets the vehicleRoutes state
-*/
-function fetch(state, vehicleRoutes) {
+
+
+function fetchRequest(state) {
   return Object.assign({}, state, {
+    isLoading:true
+  });
+}
+
+function fetchFailure(state, message) {
+  return Object.assign({}, state, {
+    isLoading:false,
+    message: {
+      type: "error",
+      msg: "There was an error retrieving vehicle routes"
+    }
+  });
+}
+
+function fetchSuccess(state, vehicleRoutes) {
+  return Object.assign({}, state, {
+    isLoading:false,
     items: vehicleRoutes
+  });
+}
+
+function addRequest(state, addedVehicleRoute) {
+    var newFormState = Object.assign({}, state.form, {
+      isLoading:true
+    });
+    return Object.assign({}, state, {
+      isLoading:true,
+      form:newFormState
+    });
+}
+
+function addFailure(state, message) {
+  var newFormState = Object.assign({}, state.form, {
+    isLoading:false,
+    message: {
+      type: "error",
+      msg: message
+    }
+  })
+  return Object.assign({}, state, {
+    isLoading:false,
+    form: newFormState
   });
 }
 
@@ -11,31 +51,40 @@ function add(state, addedVehicleRoute) {
   var newItemsState = state.items.slice();
   newItemsState.push(addedVehicleRoute);
   var newFormState = Object.assign({}, state.form, {
-    item: {}, // clear out form fields
-    message: {
-      type: "success",
-      msg: "Vehicle route has been added successfully"
-    }
+    display:false
   })
   return Object.assign({}, state, {
+    isLoading:false,
     items: newItemsState
   }, {
     form: newFormState
   });
 }
 
-function addFailure(state, message) {
+
+function updateRequest(state) {
   var newFormState = Object.assign({}, state.form, {
+    isLoading:true
+  });
+  return Object.assign({}, state, {
+    isLoading:true,
+    form:newFormState
+  });
+}
+
+function updateFailure(state, message) {
+  var newFormState = Object.assign({}, state.form, {
+    isLoading:false,
     message: {
       type: "error",
       msg: message
     }
   })
   return Object.assign({}, state, {
+    isLoading:false,
     form: newFormState
   });
 }
-
 function update(state, vehicleRoute) {
   var newItemsState = state.items.slice();
   //replaces the item with matching id
@@ -46,13 +95,11 @@ function update(state, vehicleRoute) {
     }
   }
   var newFormState = Object.assign({}, state.form, {
-    item: {}, // clear out form fields
-    message: {
-      type: "success",
-      msg: "Vehicle route has been edited successfully"
-    }
+    isLoading:false,
+    display:false
   })
   return Object.assign({}, state, {
+    isLoading:false,
     items: newItemsState
   }, {
     form: newFormState
@@ -60,15 +107,19 @@ function update(state, vehicleRoute) {
 }
 
 
-function updateFailure(state, message) {
-  var newFormState = Object.assign({}, state.form, {
+function destroyRequest(state) {
+  return Object.assign({}, state, {
+    isLoading:true
+  });
+}
+
+function destroyFailure(state) {
+  return Object.assign({}, state, {
+    isLoading:false,
     message: {
       type: "error",
-      msg: message
+      msg: "There was an error deleting route"
     }
-  })
-  return Object.assign({}, state, {
-    form: newFormState
   });
 }
 
@@ -83,6 +134,7 @@ function destroy(state, id) {
   }
 
   return Object.assign({}, state, {
+    isLoading:false,
     items: newItemsState
   });
 }
@@ -123,6 +175,7 @@ function closeForm(state) {
 }
 
 var initState = {
+  isLoading:false,
   items: [],
   form: {
     display: false,
@@ -134,27 +187,27 @@ var vehicleRoutesReducer = function(state, action) {
   state = state || initState;
   switch (action.type) {
     case 'FETCH_VEHICLE_ROUTES_REQUEST':
-      return state;
+      return fetchRequest(state);
     case 'FETCH_VEHICLE_ROUTES_FAILURE':
-      return state;
+      return fetchFailure(state);
     case 'FETCH_VEHICLE_ROUTES_SUCCESS':
-      return fetch(state, action.vehicleRoutes);
+      return fetchSuccess(state, action.vehicleRoutes);
     case 'ADD_VEHICLE_ROUTE_REQUEST':
-      return state;
+      return addRequest(state);
     case 'ADD_VEHICLE_ROUTE_FAILURE':
       return addFailure(state, action.message);
     case 'ADD_VEHICLE_ROUTE_SUCCESS':
       return add(state, action.addedVehicleRoute);
     case 'UPDATE_VEHICLE_ROUTE_REQUEST':
-      return state;
+      return updateRequest(state);
     case 'UPDATE_VEHICLE_ROUTE_FAILURE':
       return updateFailure(state, action.message);
     case 'UPDATE_VEHICLE_ROUTE_SUCCESS':
       return update(state, action.vehicleRoute);
     case 'DESTROY_VEHICLE_ROUTE_REQUEST':
-      return state;
+      return destroyRequest(state);
     case 'DESTROY_VEHICLE_ROUTE_FAILURE':
-      return state;
+      return destroyFailure(state);
     case 'DESTROY_VEHICLE_ROUTE_SUCCESS':
       return destroy(state, action.id);
     case 'SET_EDIT_MODE':

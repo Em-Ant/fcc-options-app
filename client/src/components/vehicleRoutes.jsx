@@ -24,7 +24,6 @@ var VehicleRoutes = React.createClass({
     }
   },
   render: function(){
-
 return (
   <div className="content-wrapper">
     <section className="content">
@@ -76,6 +75,12 @@ return (
                 </tbody>
               </table>
             </div>
+
+            {this.props.vehicleRoutes.isLoading ?
+            <div className="overlay">
+              <i className="fa fa-refresh fa-spin"></i>
+            </div>
+            : null }
           </div>
         </div>
       </div>
