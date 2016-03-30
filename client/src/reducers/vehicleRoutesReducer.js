@@ -126,6 +126,8 @@ var initState = {
   items: [],
   form: {
     display: false,
+    verb: 'Add',
+    item: {}
   }
 };
 var vehicleRoutesReducer = function(state, action) {

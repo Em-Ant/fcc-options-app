@@ -4,6 +4,9 @@ var React = require('react');
 var Message = require('./message.jsx');
 
 var VehicleRoutesForm = React.createClass({
+  setPropsToState: function(item) {
+    this.setState({item: item});
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     if (this.props.form.verb == "Add") {
@@ -23,12 +26,17 @@ var VehicleRoutesForm = React.createClass({
   getInitialState: function() {
     return {item: {}};
   },
+  componentDidMount: function() {
+    if (this.props.form) {
+      this.setPropsToState(this.props.form.item);
+    }
+  },
   componentWillReceiveProps: function(nextProps) {
     /*
     Transfer the editable form field properties to the state
     */
     if (nextProps.form) {
-      this.setState({item: nextProps.form.item});
+      this.setPropsToState(nextProps.form.item);
     }
   },
   render: function() {
@@ -41,9 +49,11 @@ var VehicleRoutesForm = React.createClass({
           <div className={boxClass}>
             <div className="box-header with-border">
               <h3 className="box-title">{this.props.form.verb + " a Route"}</h3>
-                <div className="box-tools pull-right">
-                  <button type="button" className="btn btn-box-tool" onClick={this.props.onCloseForm} data-widget="remove"><i className="fa fa-times"></i></button>
-                </div>
+              <div className="box-tools pull-right">
+                <button type="button" className="btn btn-box-tool" onClick={this.props.onCloseForm} data-widget="remove">
+                  <i className="fa fa-times"></i>
+                </button>
+              </div>
             </div>
             {this.props.form.message
               ? <Message message={this.props.form.message}/>
