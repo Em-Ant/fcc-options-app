@@ -3,7 +3,7 @@ var ReactDOM = require('react-dom');
 var css = require('../style/main.scss');
 
 var Main = require('./components/adminLTE/main.jsx');
-var Login = require('./components/login.jsx').Login;
+var Login = require('./containers/loginContainer.jsx');
 var Signup = require('./components/signup.jsx').Signup;
 var VehicleRoutesContainer = require('./containers/vehicleRoutesContainer.jsx');
 
