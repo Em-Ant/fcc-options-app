@@ -8,7 +8,7 @@ var passport = require('passport');
 var session = require('express-session');
 var expressValidator = require('express-validator');
 var bodyParser = require('body-parser');
-
+var favicon = require('serve-favicon');
 
 var app = express();
 
@@ -22,8 +22,8 @@ if(process.env.SEED_DB && process.env.SEED_DB==="true") {
   require('./app/seed.js');
 }
 
+app.use(favicon(process.cwd() + '/client/public/img/favicon.ico'));
 app.use('/', express.static(process.cwd() + '/client/public'));
-
 
 app.use(session({
   secret: process.env.SECRET_SESSION || 'secretClementine',
