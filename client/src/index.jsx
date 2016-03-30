@@ -4,7 +4,6 @@ var css = require('../style/main.scss');
 
 var Main = require('./components/adminLTE/main.jsx');
 var Login = require('./components/login.jsx').Login;
-var Profile = require('./components/profile.jsx').ProfileContainer;
 var Signup = require('./components/signup.jsx').Signup;
 var VehicleRoutesContainer = require('./containers/vehicleRoutesContainer.jsx');
 
@@ -56,7 +55,6 @@ ReactDOM.render(
         <Route path="/routes" component={VehicleRoutesContainer}/>
         <Route path="/consumers" component={Consumers}/>
       </Route>
-      <Route path="/profile" component={Profile}/>
       <Route path="/login" component={Login}/>
       <Route path="/signup" component={Signup}/>
     </Route>

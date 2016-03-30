@@ -1,6 +1,5 @@
 var connect = require('react-redux').connect;
 var Sidebar = require('../components/adminLTE/sidebar.jsx');
-var clickLink = require('../actions/actions.js').clickLink;
 /*
 Redux aware container that connects dispatch functions and app state to component properties
 */
