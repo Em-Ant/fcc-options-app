@@ -55,7 +55,10 @@ function deleteConsumer (state, position) {
       updatingConsumers: undefined,
       loadingConsumers: undefined,
       consumers : consumers,
-      deleteIndex: undefined
+      deleteIndex: undefined,
+      updatingConsumers: undefined,
+      loadingConsumers: undefined,
+      displayForm: undefined
     });
 }
 
