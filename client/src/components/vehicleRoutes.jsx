@@ -16,11 +16,15 @@ var VehicleRoutes = React.createClass({
   getDefaultProps:function(){
     return {
       vehicleRoutes:{
-        items:[]
+        items:[],
+        form:{
+          display:false
+        }
       }
     }
   },
   render: function(){
+
 return (
   <div className="content-wrapper">
     <section className="content">
@@ -77,8 +81,10 @@ return (
       </div>
         {
           // Form to add, edit, and delete a Vehicle Route
+          this.props.vehicleRoutes.form.display?
+          <VehicleRoutesFormContainer/>:null
+
         }
-        <VehicleRoutesFormContainer/>
     </section> < /div>
 
     )

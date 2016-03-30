@@ -41,6 +41,9 @@ var VehicleRoutesForm = React.createClass({
           <div className={boxClass}>
             <div className="box-header with-border">
               <h3 className="box-title">{this.props.form.verb + " a Route"}</h3>
+                <div className="box-tools pull-right">
+                  <button type="button" className="btn btn-box-tool" onClick={this.props.onCloseForm} data-widget="remove"><i className="fa fa-times"></i></button>
+                </div>
             </div>
             {this.props.form.message
               ? <Message message={this.props.form.message}/>

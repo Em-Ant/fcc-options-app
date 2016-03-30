@@ -17,6 +17,9 @@ var mapDispatchToProps = function(dispatch) {
     onEditVehicleRoute: function(vehicleRoute) {
       //addVehicleRoute is a function that creates an action for the dispatcher to use
       dispatch(actions.update(vehicleRoute));
+    },
+    onCloseForm:function(){
+      dispatch(actions.closeForm());
     }
 
   }

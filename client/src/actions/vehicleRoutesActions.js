@@ -123,3 +123,8 @@ module.exports.setAddMode = function() {
     type:'SET_ADD_MODE'
   }
 }
+module.exports.closeForm = function() {
+  return{
+    type:'CLOSE_FORM'
+  }
+}
