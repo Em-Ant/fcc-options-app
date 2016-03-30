@@ -1,4 +1,4 @@
-
+var actionTypes = require('../actions/vehicleRoutesActions.js');
 
 function fetchRequest(state) {
   return Object.assign({}, state, {
@@ -186,35 +186,35 @@ var initState = {
 var vehicleRoutesReducer = function(state, action) {
   state = state || initState;
   switch (action.type) {
-    case 'FETCH_VEHICLE_ROUTES_REQUEST':
+    case actionTypes.FETCH_VEHICLE_ROUTES_REQUEST:
       return fetchRequest(state);
-    case 'FETCH_VEHICLE_ROUTES_FAILURE':
+    case actionTypes.FETCH_VEHICLE_ROUTES_FAILURE:
       return fetchFailure(state);
-    case 'FETCH_VEHICLE_ROUTES_SUCCESS':
+    case actionTypes.FETCH_VEHICLE_ROUTES_SUCCESS:
       return fetchSuccess(state, action.vehicleRoutes);
-    case 'ADD_VEHICLE_ROUTE_REQUEST':
+    case actionTypes.ADD_VEHICLE_ROUTE_REQUEST:
       return addRequest(state);
-    case 'ADD_VEHICLE_ROUTE_FAILURE':
+    case actionTypes.ADD_VEHICLE_ROUTE_FAILURE:
       return addFailure(state, action.message);
-    case 'ADD_VEHICLE_ROUTE_SUCCESS':
+    case actionTypes.ADD_VEHICLE_ROUTE_SUCCESS:
       return add(state, action.addedVehicleRoute);
-    case 'UPDATE_VEHICLE_ROUTE_REQUEST':
+    case actionTypes.UPDATE_VEHICLE_ROUTE_REQUEST:
       return updateRequest(state);
-    case 'UPDATE_VEHICLE_ROUTE_FAILURE':
+    case actionTypes.UPDATE_VEHICLE_ROUTE_FAILURE:
       return updateFailure(state, action.message);
-    case 'UPDATE_VEHICLE_ROUTE_SUCCESS':
+    case actionTypes.UPDATE_VEHICLE_ROUTE_SUCCESS:
       return update(state, action.vehicleRoute);
-    case 'DESTROY_VEHICLE_ROUTE_REQUEST':
+    case actionTypes.DESTROY_VEHICLE_ROUTE_REQUEST:
       return destroyRequest(state);
-    case 'DESTROY_VEHICLE_ROUTE_FAILURE':
+    case actionTypes.DESTROY_VEHICLE_ROUTE_FAILURE:
       return destroyFailure(state);
-    case 'DESTROY_VEHICLE_ROUTE_SUCCESS':
+    case actionTypes.DESTROY_VEHICLE_ROUTE_SUCCESS:
       return destroy(state, action.id);
-    case 'SET_VEHICLE_ROUTE_EDIT_MODE':
+    case actionTypes.SET_VEHICLE_ROUTE_EDIT_MODE:
       return setEditMode(state, action.id);
-    case 'SET_VEHICLE_ROUTE_ADD_MODE':
+    case actionTypes.SET_VEHICLE_ROUTE_ADD_MODE:
       return setAddMode(state);
-    case 'CLOSE_VEHICLE_ROUTE_FORM':
+    case actionTypes.CLOSE_VEHICLE_ROUTE_FORM:
       return closeForm(state);
     default:
       return state;
