@@ -1,4 +1,4 @@
-var actionTypes = require('../actions/loginActions.js');
+var actionTypes = require('../constants/actionTypes/login.js');
 
 var loginRequest = function(state){
   return Object.assign({}, state, {

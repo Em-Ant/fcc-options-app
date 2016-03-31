@@ -1,4 +1,4 @@
-var actionTypes = require('../actions/vehicleRoutesActions.js');
+var actionTypes = require('../constants/actionTypes/vehicleRoutes');
 
 function fetchRequest(state) {
   return Object.assign({}, state, {
