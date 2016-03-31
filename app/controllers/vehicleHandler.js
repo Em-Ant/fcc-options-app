@@ -4,15 +4,19 @@ var Vehicle = require('../models/vehicle.js');
 var merge = require('lodash').merge;
 
 function VehicleHandler() {
-  this.create = function(req, res) {
+  var validateVehicle = function(req){
     //Validate input
     req.assert('name', 'Name must not be empty').notEmpty();
     req.assert('seatingCapacity', 'Seating capacity must not be empty').notEmpty();
     req.assert('seatingCapacity', 'Seating capacity must be a number').isInt();
     req.assert('wheelchairCapacity', 'Wheelchair capacity must be a number').isInt();
+    return req.validationErrors();
+  }
+
+  this.create = function(req, res) {
 
     //display validation errors and exit
-    var errors = req.validationErrors();
+    var errors = validateVehicle(req);
     if (errors) {
       //just display the first validation error
       return res.status(400).json(errors[0]);
@@ -85,14 +89,9 @@ function VehicleHandler() {
       delete req.body._id;
     }
 
-    //Validate input
-    req.assert('name', 'Name must not be empty').notEmpty();
-    req.assert('seatingCapacity', 'Seating capacity must not be empty').notEmpty();
-    req.assert('seatingCapacity', 'Seating capacity must be a number').isInt();
-    req.assert('wheelchairCapacity', 'Wheelchair capacity must be a number').isInt();
-
     //display validation errors and exit
-    var errors = req.validationErrors();
+    var errors = validateVehicle(req);
+
     if (errors) {
       //just display the first validation error
       return res.status(400).json(errors[0]);

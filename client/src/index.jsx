@@ -23,9 +23,6 @@ var browserHistory = require('react-router').browserHistory;
 var thunk = require('redux-thunk');
 var syncHistoryWithStore = require('react-router-redux').syncHistoryWithStore;
 
-
-var vehicleRoutesActions = require('./actions/vehicleRoutesActions.js');
-
 var store = createStore(reducer, applyMiddleware(thunk));
 
 // Creates an enhanced history that syncs navigation events with the store
@@ -33,10 +30,7 @@ var history = syncHistoryWithStore(browserHistory, store)
 
 var App = React.createClass({
   componentDidMount: function() {
-    //when the app loads up, retrieve the vehicle routes
-    store.dispatch(vehicleRoutesActions.fetch());
     //store.dispatch(actions.requestUser());
-
   },
   render: function() {
     return (

@@ -4,6 +4,9 @@ var React = require('react');
 var VehicleRoutesFormContainer = require('../containers/vehicleRoutesFormContainer.jsx');
 
 var VehicleRoutes = React.createClass({
+  componentDidMount:function(){
+    this.props.loadVehicleRoutes();
+  },
   handleEditButton:function(id){
     this.props.onEditButtonClick(id);
   },
