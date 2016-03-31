@@ -3,7 +3,7 @@
 var Link = require('react-router').Link
 var React = require('react');
 var Header = require('./header.jsx');
-var SidebarContainer = require('../../containers/sidebarContainer.jsx');
+var Sidebar = require('./sidebar.jsx');
 var Footer = require('./footer.jsx');
 var ControlSidebar = require('./controlSidebar.jsx');
 
