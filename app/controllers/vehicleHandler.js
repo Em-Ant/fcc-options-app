@@ -87,7 +87,9 @@ function VehicleHandler() {
 
     //Validate input
     req.assert('name', 'Name must not be empty').notEmpty();
-    req.assert('locationServed', 'Location served must not be empty').notEmpty();
+    req.assert('seatingCapacity', 'Seating capacity must not be empty').notEmpty();
+    req.assert('seatingCapacity', 'Seating capacity must be a number').isInt();
+    req.assert('wheelchairCapacity', 'Wheelchair capacity must be a number').isInt();
 
     //display validation errors and exit
     var errors = req.validationErrors();

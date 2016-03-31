@@ -1,4 +1,4 @@
-var actionTypes = require('../constants/actionTypes/vehicleRoutes');
+var actionTypes = require('../constants/actionTypes/vehicleActionTypes');
 
 function fetchRequest(state) {
   return Object.assign({}, state, {
@@ -16,14 +16,14 @@ function fetchFailure(state, message) {
   });
 }
 
-function fetchSuccess(state, vehicleRoutes) {
+function fetchSuccess(state, vehicles) {
   return Object.assign({}, state, {
     isLoading:false,
-    items: vehicleRoutes
+    items: vehicles
   });
 }
 
-function addRequest(state, addedVehicleRoute) {
+function addRequest(state, addedVehicle) {
     var newFormState = Object.assign({}, state.form, {
       isLoading:true
     });
@@ -47,9 +47,9 @@ function addFailure(state, message) {
   });
 }
 
-function add(state, addedVehicleRoute) {
+function add(state, addedVehicle) {
   var newItemsState = state.items.slice();
-  newItemsState.push(addedVehicleRoute);
+  newItemsState.push(addedVehicle);
   var newFormState = Object.assign({}, state.form, {
     display:false
   })
@@ -85,12 +85,12 @@ function updateFailure(state, message) {
     form: newFormState
   });
 }
-function update(state, vehicleRoute) {
+function update(state, vehicle) {
   var newItemsState = state.items.slice();
   //replaces the item with matching id
   for (var i = 0; i < newItemsState.length; i++) {
-    if (newItemsState[i]._id == vehicleRoute._id) {
-      newItemsState.splice(i, 1, vehicleRoute);
+    if (newItemsState[i]._id == vehicle._id) {
+      newItemsState.splice(i, 1, vehicle);
       break;
     }
   }
@@ -121,7 +121,7 @@ function destroyFailure(state) {
     isLoading:false,
     message: {
       type: "error",
-      msg: "There was an error deleting route"
+      msg: "There was an error deleting vehicle"
     }
   });
 }
@@ -186,42 +186,42 @@ var initState = {
     item: {}
   }
 };
-var vehicleRoutesReducer = function(state, action) {
+var vehiclesReducer = function(state, action) {
   state = state || initState;
   switch (action.type) {
-    case actionTypes.FETCH_VEHICLE_ROUTES_REQUEST:
+    case actionTypes.FETCH_VEHICLES_REQUEST:
       return fetchRequest(state);
-    case actionTypes.FETCH_VEHICLE_ROUTES_FAILURE:
+    case actionTypes.FETCH_VEHICLES_FAILURE:
       return fetchFailure(state);
-    case actionTypes.FETCH_VEHICLE_ROUTES_SUCCESS:
-      return fetchSuccess(state, action.vehicleRoutes);
-    case actionTypes.ADD_VEHICLE_ROUTE_REQUEST:
+    case actionTypes.FETCH_VEHICLES_SUCCESS:
+      return fetchSuccess(state, action.vehicles);
+    case actionTypes.ADD_VEHICLE_REQUEST:
       return addRequest(state);
-    case actionTypes.ADD_VEHICLE_ROUTE_FAILURE:
+    case actionTypes.ADD_VEHICLE_FAILURE:
       return addFailure(state, action.message);
-    case actionTypes.ADD_VEHICLE_ROUTE_SUCCESS:
-      return add(state, action.addedVehicleRoute);
-    case actionTypes.UPDATE_VEHICLE_ROUTE_REQUEST:
+    case actionTypes.ADD_VEHICLE_SUCCESS:
+      return add(state, action.addedVehicle);
+    case actionTypes.UPDATE_VEHICLE_REQUEST:
       return updateRequest(state);
-    case actionTypes.UPDATE_VEHICLE_ROUTE_FAILURE:
+    case actionTypes.UPDATE_VEHICLE_FAILURE:
       return updateFailure(state, action.message);
-    case actionTypes.UPDATE_VEHICLE_ROUTE_SUCCESS:
-      return update(state, action.vehicleRoute);
-    case actionTypes.DESTROY_VEHICLE_ROUTE_REQUEST:
+    case actionTypes.UPDATE_VEHICLE_SUCCESS:
+      return update(state, action.vehicle);
+    case actionTypes.DESTROY_VEHICLE_REQUEST:
       return destroyRequest(state);
-    case actionTypes.DESTROY_VEHICLE_ROUTE_FAILURE:
+    case actionTypes.DESTROY_VEHICLE_FAILURE:
       return destroyFailure(state);
-    case actionTypes.DESTROY_VEHICLE_ROUTE_SUCCESS:
+    case actionTypes.DESTROY_VEHICLE_SUCCESS:
       return destroy(state, action.id);
-    case actionTypes.SET_VEHICLE_ROUTE_EDIT_MODE:
+    case actionTypes.SET_VEHICLE_EDIT_MODE:
       return setEditMode(state, action.id);
-    case actionTypes.SET_VEHICLE_ROUTE_ADD_MODE:
+    case actionTypes.SET_VEHICLE_ADD_MODE:
       return setAddMode(state);
-    case actionTypes.CLOSE_VEHICLE_ROUTE_FORM:
+    case actionTypes.CLOSE_VEHICLE_FORM:
       return closeForm(state);
     default:
       return state;
   }
 };
 
-module.exports = vehicleRoutesReducer;
+module.exports = vehiclesReducer;

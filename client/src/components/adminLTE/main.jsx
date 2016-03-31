@@ -3,7 +3,7 @@
 var Link = require('react-router').Link
 var React = require('react');
 var Header = require('./header.jsx');
-var Sidebar = require('./sidebar.jsx');
+var Sidebar = require('../../containers/sidebarContainer.jsx');
 var Footer = require('./footer.jsx');
 var ControlSidebar = require('./controlSidebar.jsx');
 
@@ -24,7 +24,7 @@ var Main = React.createClass({
       <div className="wrapper">
         <Header/>
         //Force react-router properties to be passed to component
-        <SidebarContainer router={this.props}/>
+        <Sidebar router={this.props}/>
         {this.props.children}
         <Footer/>
         <ControlSidebar/>

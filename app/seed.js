@@ -8,6 +8,7 @@
 var Consumer = require('./models/consumer.js');
 var User = require('./models/users.js');
 var Route = require('./models/routes.js');
+var Vehicle = require('./models/vehicle.js');
 
 /**
 * USERS
@@ -113,5 +114,35 @@ Route.find({}).remove(function() {
     vehicle: 'Bus 3'
   }, function() {
     console.log('finished populating routes');
+  });
+});
+
+
+
+/**
+* VEHICLES
+*
+* model:
+    name: {type: String, required: true},
+    seatingCapacity:{type:Number, required:true},
+    wheelchairCapacity:{type:Number, default: 0}
+*/
+
+Vehicle.find({}).remove(function() {
+  Vehicle.create(
+    {
+    name: 'Minivan 1',
+    seatingCapacity:7,
+    wheelchairCapacity: 0
+  }, {
+    name: 'Van 1',
+    seatingCapacity:12,
+    wheelchairCapacity: 0
+  }, {
+    name: 'Bus 1',
+    seatingCapacity:14,
+    wheelchairCapacity: 5
+  }, function() {
+    console.log('finished populating vehicles');
   });
 });

@@ -5,7 +5,8 @@ var css = require('../style/main.scss');
 var Main = require('./components/adminLTE/main.jsx');
 var Login = require('./containers/loginContainer.jsx');
 var Signup = require('./components/signup.jsx').Signup;
-var VehicleRoutesContainer = require('./containers/vehicleRoutesContainer.jsx');
+var VehicleRoutes = require('./containers/vehicleRoutesContainer.jsx');
+var Vehicles = require('./containers/vehiclesContainer.jsx');
 
 var Consumers = require('./components/consumers.jsx').ConsumersContainer;
 
@@ -52,8 +53,9 @@ ReactDOM.render(
     <Route path="/" component={App}>
       <IndexRoute component={Login}/>
       <Route component={Main}>
-        <Route path="/routes" component={VehicleRoutesContainer}/>
+        <Route path="/routes" component={VehicleRoutes}/>
         <Route path="/consumers" component={Consumers}/>
+        <Route path="/vehicles" component={Vehicles}/>
       </Route>
       <Route path="/login" component={Login}/>
       <Route path="/signup" component={Signup}/>

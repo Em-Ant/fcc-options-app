@@ -36,6 +36,12 @@ var Sidebar = React.createClass({
                 <span>Consumers</span>
               </Link>
             </li>
+            <li className={this.props.activeLink=="/vehicles"?"active":null}>>
+              <Link to={"/vehicles"}>
+                <i className="fa fa-link"></i>
+                <span>Vehicles</span>
+              </Link>
+            </li>
           </ul>
 
         </section>
