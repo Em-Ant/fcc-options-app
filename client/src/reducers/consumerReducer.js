@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var actionTypes = require('../constants/actionTypes/consumerActions.js');
+var actionTypes = require('../constants/actionTypes/consumers.js');
 
 function loadingConsumers(state) {
   return _.assign({}, state, {
