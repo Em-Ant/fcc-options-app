@@ -1,5 +1,5 @@
-
 var _ = require('lodash');
+var actionTypes = require('../constants/actionTypes/consumerActions.js');
 
 function loadingConsumers(state) {
   return _.assign({}, state, {
@@ -101,31 +101,31 @@ var reducer = function(state, action) {
   state = state || initState;
   console.log(action.type);
   switch (action.type){
-    case 'CONSUMER_SHOW_LOADING':
+    case actionTypes.CONSUMER_SHOW_LOADING:
       return loadingConsumers(state);
-    case 'CONSUMER_SHOW_SUCCESS':
+    case actionTypes.CONSUMER_SHOW_SUCCESS:
       return setConsumers(state, action.consumers);
-    case 'CONSUMER_SHOW_ERROR':
-      return setError(state, error);
-    case 'CONSUMER_UPDATE_LOADING':
+    case actionTypes.CONSUMER_SHOW_ERROR:
+      return setError(state, action.error);
+    case actionTypes.CONSUMER_UPDATE_LOADING:
       return updatingConsumers(state);
-    case 'CONSUMER_UPDATE_SUCCESS':
+    case actionTypes.CONSUMER_UPDATE_SUCCESS:
       return updateConsumer(state, action.updatedConsumer, action.position);
-    case 'CONSUMER_CREATE_LOADING':
+    case actionTypes.CONSUMER_CREATE_LOADING:
       return updatingConsumers(state);
-    case 'CONSUMER_CREATE_SUCCESS':
+    case actionTypes.CONSUMER_CREATE_SUCCESS:
       return addConsumer(state, action.newConsumer);
-    case 'CONSUMER_SET_EDIT_MODE':
+    case actionTypes.CONSUMER_SET_EDIT_MODE:
       return setEditMode(state, action.index);
-    case 'CONSUMER_RESET_EDIT_MODE':
+    case actionTypes.CONSUMER_RESET_EDIT_MODE:
       return resetEditMode(state);
-    case 'CONSUMER_SET_ITEM_TO_DELETE':
+    case actionTypes.CONSUMER_SET_ITEM_TO_DELETE:
       return setItemToDelete(state, action.index);
-    case 'CONSUMER_DELETE_LOADING':
+    case actionTypes.CONSUMER_DELETE_LOADING:
       return updatingConsumers(state);
-    case 'CONSUMER_DELETE_SUCCESS':
+    case actionTypes.CONSUMER_DELETE_SUCCESS:
       return deleteConsumer(state, action.position);
-    case 'CONSUMER_SET_ADD_MODE':
+    case actionTypes.CONSUMER_SET_ADD_MODE:
       return setEditMode(state, undefined);
     default:
       return state;
