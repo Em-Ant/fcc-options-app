@@ -16,7 +16,13 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').load();
 
 require('./app/auth/passport')(passport);
 
-mongoose.connect(process.env.MONGO_URI || process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGO_URI || process.env.MONGOLAB_URI, function(err){
+  if(err){
+      console.log('There was an error connecting to the database.');
+      console.log(err);
+      process.exit(0);
+  }
+});
 
 if(process.env.SEED_DB && process.env.SEED_DB==="true") {
   require('./app/seed.js');
