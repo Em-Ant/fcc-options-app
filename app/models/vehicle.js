@@ -29,10 +29,6 @@ var Vehicle = new Schema({
     ref: 'Consumer',
   }],
 
-  availableWheelchairs: {
-    type: Number,
-    default: 0
-  }
 }, {
   toObject: {
     virtuals: true
@@ -47,8 +43,23 @@ var Vehicle = new Schema({
 Vehicle
 .virtual('availableSeats')
 .get(function () {
-  return this.maxFixedSeats;
+  return this.maxFixedSeats + this.maxFoldableSeats - this.consumers.length;
 });
 
+// Number of seats available to  wheelchair consumers.
+// Calculated values based on number of wheelchair consumers in vehicle.
+Vehicle
+.virtual('availableWheelchairs')
+.get(function () {
+  var consumerWheelchairs =  this.consumers.reduce(function(prev, curr){
+    if(curr.hasWheelchair){
+      return prev++;
+    }
+    return prev;
+  }, 0);
+  
+  return this.maxWheelchairs - consumerWheelchairs;
+
+});
 
 module.exports = mongoose.model('Vehicle', Vehicle);
