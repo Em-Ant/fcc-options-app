@@ -22,7 +22,8 @@
   ],
   "scripts": {
     "start": "node server.js",
-    "postinstall": "webpack -p --config ./webpack.config.js"
+    "postinstall": "webpack -p --config ./webpack.config.js",
+    "test": "make test"
   },
   "author": "Emanuele Antonelli <joshua999x@gmail.com> (http://emant.altervista.org/)",
   "contributors": [
@@ -61,5 +62,9 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.12"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^2.4.5"
   }
 }

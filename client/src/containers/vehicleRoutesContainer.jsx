@@ -14,7 +14,7 @@ var mapStateToProps = function(state){
 var mapDispatchToProps = function(dispatch){
   //maps the onAddVehicleRoute property of VehicleRoutesForm to a function that calls dispatch
   return{
-    loadVehicleRoutes:function(id){
+    loadVehicleRoutes:function(){
       dispatch(actions.fetch());
     },
     onDeleteButtonClick:function(id){
