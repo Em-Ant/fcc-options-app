@@ -16,7 +16,7 @@ To build and run the project, you must have the following applications installed
 
 Run the following command to install the dependencies the application needs
 
-    $ npm install 
+    $ npm install
 
 ## Run
 
@@ -24,7 +24,7 @@ Create a ```.env``` file in the root directory and input the environment variabl
 
 Start MongoDB
 
-In a separate terminal, run the following command to start the server 
+In a separate terminal, run the following command to start the server
 
     $ node server
 
@@ -32,22 +32,27 @@ Open your application url in a browser to view the application
 
     http://localhost:8080
 
+## Test
+
+Run the following command to execute the tests
+
+    $ npm test
 
 ## Features
 
-| Front End Features 
+| Front End Features
 |:---------    
 | Javascript
 | React    
 | Redux
 | Webpack  
 
-| Back End Features 
+| Back End Features
 |:---------   
 | Node.js     
 | Javascript    
 | MongoDB           
-| Mongoose 
+| Mongoose
 | Express      
 | Passport         
 
