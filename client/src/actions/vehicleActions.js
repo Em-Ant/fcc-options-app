@@ -6,7 +6,6 @@ Retrieves the vehicles
 module.exports.fetch = function() {
   // this will return a thunk
   return function(dispatch) {
-    console.log(actionTypes.FETCH_VEHICLES_REQUEST);
     dispatch({
       type: actionTypes.FETCH_VEHICLES_REQUEST,
     });
@@ -63,7 +62,7 @@ module.exports.update = function(vehicle) {
     dispatch({
       type: actionTypes.UPDATE_VEHICLE_REQUEST
     });
-    Ajax.post('/api/vehicle/' + vehicle._id, vehicle, function(err) {
+    Ajax.post('/api/vehicle/' + vehicle._id, vehicle, function(err, updatedVehicle) {
       if (err) {
         dispatch({
           type: actionTypes.UPDATE_VEHICLE_FAILURE,
@@ -72,7 +71,7 @@ module.exports.update = function(vehicle) {
       } else {
         dispatch({
           type: actionTypes.UPDATE_VEHICLE_SUCCESS,
-          vehicle: vehicle
+          vehicle: updatedVehicle
         });
       }
     });

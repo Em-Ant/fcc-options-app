@@ -49,6 +49,8 @@ return (
                     <th>Fixed Seats</th>
                     <th>Foldable Seats</th>
                     <th>Wheelchair Capacity</th>
+                    <th>Available Seats</th>
+                    <th>Available Wheelchair Spots</th>
                     <th className="text-center">Actions </th>
                   </tr>
                 </thead>
@@ -60,6 +62,8 @@ return (
                         <td>{vehicle.maxFixedSeats}</td>
                         <td>{vehicle.maxFoldableSeats}</td>
                         <td>{vehicle.maxWheelchairs}</td>
+                        <td>{vehicle.availableSeats}</td>
+                        <td>{vehicle.availableWheelchairs}</td>
                         <td className="text-center">
                             <button className="btn btn-sm btn-default in-table"
                               title="Edit" type="button"
