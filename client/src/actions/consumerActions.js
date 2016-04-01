@@ -2,12 +2,32 @@
 var Ajax = require('../../js/ajax-functions.js');
 var actionTypes = require('../constants/actionTypes/consumers.js');
 
-module.exports.addConsumer = function(newConsumer, index) {
+module.exports.loadConsumers = function() {
+  return function (dispatch) {
+    dispatch({
+      type: actionTypes.CONSUMER_INDEX_LOADING
+    });
+    Ajax.get('/api/consumer/', function(err, consumers) {
+      if (err) {
+        return dispatch({
+          type: actionTypes.CONSUMER_INDEX_ERROR,
+          error: err
+        });
+      }
+      dispatch({
+        type: actionTypes.CONSUMER_INDEX_SUCCESS,
+        consumers: consumers
+      })
+    })
+  }
+}
+
+module.exports.addConsumer = function(newConsumer) {
   return function (dispatch) {
     dispatch({
       type: actionTypes.CONSUMER_CREATE_LOADING
     });
-    Ajax.post('/api/consumer/' + newConsumer._id, newConsumer, function(err, consumer) {
+    Ajax.post('/api/consumer/', newConsumer, function(err, consumer) {
       if (err) {
         return dispatch({
           type: actionTypes.CONSUMER_CREATE_ERROR,
@@ -16,37 +36,10 @@ module.exports.addConsumer = function(newConsumer, index) {
       }
       dispatch({
         type: actionTypes.CONSUMER_CREATE_SUCCESS,
-        newConsumer: consumer,
-        position: index
+        newConsumer: consumer
       })
     })
   }
-}
-
-module.exports.setEditMode = function (index) {
-  return {
-    type: actionTypes.CONSUMER_SET_EDIT_MODE,
-    index: index
-  };
-}
-
-module.exports.setAddMode = function () {
-  return {
-    type: actionTypes.CONSUMER_SET_ADD_MODE,
-  };
-}
-
-module.exports.resetEditMode = function () {
-  return {
-    type: actionTypes.CONSUMER_RESET_EDIT_MODE,
-  };
-}
-
-module.exports.setDeleteIndex = function (index) {
-  return {
-    type: actionTypes.CONSUMER_SET_ITEM_TO_DELETE,
-    index: index
-  };
 }
 
 module.exports.editConsumer = function(updatedConsumer, index) {
@@ -92,42 +85,28 @@ module.exports.deleteConsumer = function() {
   }
 }
 
-module.exports.addConsumer = function(newConsumer) {
-  return function (dispatch) {
-    dispatch({
-      type: actionTypes.CONSUMER_CREATE_LOADING
-    });
-    Ajax.post('/api/consumer/', newConsumer, function(err, consumer) {
-      if (err) {
-        return dispatch({
-          type: actionTypes.CONSUMER_CREATE_ERROR,
-          error: err
-        });
-      }
-      dispatch({
-        type: actionTypes.CONSUMER_CREATE_SUCCESS,
-        newConsumer: consumer
-      })
-    })
-  }
+module.exports.setEditMode = function (index) {
+  return {
+    type: actionTypes.CONSUMER_SET_EDIT_MODE,
+    index: index
+  };
 }
 
-module.exports.loadConsumers = function() {
-  return function (dispatch) {
-    dispatch({
-      type: actionTypes.CONSUMER_SHOW_LOADING
-    });
-    Ajax.get('/api/consumer/', function(err, consumers) {
-      if (err) {
-        return dispatch({
-          type: actionTypes.CONSUMER_SHOW_ERROR,
-          error: err
-        });
-      }
-      dispatch({
-        type: actionTypes.CONSUMER_SHOW_SUCCESS,
-        consumers: consumers
-      })
-    })
-  }
+module.exports.setAddMode = function () {
+  return {
+    type: actionTypes.CONSUMER_SET_ADD_MODE,
+  };
+}
+
+module.exports.resetEditMode = function () {
+  return {
+    type: actionTypes.CONSUMER_RESET_EDIT_MODE,
+  };
+}
+
+module.exports.setDeleteIndex = function (index) {
+  return {
+    type: actionTypes.CONSUMER_SET_ITEM_TO_DELETE,
+    index: index
+  };
 }
