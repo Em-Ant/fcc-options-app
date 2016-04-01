@@ -10,6 +10,8 @@ var Vehicles = require('./containers/vehiclesContainer.jsx');
 
 var Consumers = require('./containers/consumersContainer.jsx');
 
+var GMap = require('./components/mapTest.jsx');
+
 var reducer = require('./reducers/reducer.js');
 var Provider = require('react-redux').Provider;
 var createStore = require('redux').createStore;
@@ -53,6 +55,7 @@ ReactDOM.render(
       </Route>
       <Route path="/login" component={Login}/>
       <Route path="/signup" component={Signup}/>
+      <Route path="/map-test" component={GMap} />
     </Route>
   </Router>
 </Provider>, document.getElementById('appView'));
