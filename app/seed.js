@@ -11,8 +11,8 @@ var Route = require('./models/routes.js');
 var Vehicle = require('./models/vehicle.js');
 
 /**
-* USERS
-*/
+ * USERS
+ */
 
 User.find({}).remove(function() {
   User.create({
@@ -60,8 +60,7 @@ var consumer1 = new Consumer({
 });
 Consumer.find({}).remove(function() {
   consumer1.save();
-  Consumer.create(
-    {
+  Consumer.create({
     name: 'Ashley B.',
     sex: 'female',
     address: '231, Secondary Street, NYC',
@@ -93,25 +92,20 @@ Consumer.find({}).remove(function() {
 
 var route1 = new Route({
   name: 'Route C',
-  locationServed: 'Uptown',
-  vehicle: 'Van 4',
+  locationServed: 'Uptown'
 })
-route1.consumers.push(consumer1);
 Route.find({}).remove(function() {
   route1.save();
   Route.create({
     name: 'Route A',
-    locationServed: 'Bronx',
-    vehicle: 'Bus 1',
+    locationServed: 'Bronx'
 
   }, {
     name: 'Route B',
-    locationServed: 'Manhattan',
-    vehicle: 'Van 2'
+    locationServed: 'Manhattan'
   }, {
     name: 'Route D',
-    locationServed: 'Queens',
-    vehicle: 'Bus 3'
+    locationServed: 'Queens'
   }, function() {
     console.log('finished populating routes');
   });
@@ -123,25 +117,39 @@ Route.find({}).remove(function() {
 * VEHICLES
 *
 * model:
-    name: {type: String, required: true},
-    seatingCapacity:{type:Number, required:true},
-    wheelchairCapacity:{type:Number, default: 0}
+  name: {type: String, required: true},
+  maxFixedSeats:{type:Number, required:true},
+  maxFoldableSeats:{type:Number, default:0},
+  maxWheelchairs:{type:Number, default: 0},
+  consumers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Consumer',
+  }],
 */
-
+var vehicle1 = new Vehicle({
+  name: 'Minivan 1',
+  maxFixedSeats: 7,
+  maxFoldableSeats: 0,
+  maxWheelchairs: 0
+});
+vehicle1.consumers.push(consumer1);
 Vehicle.find({}).remove(function() {
-  Vehicle.create(
-    {
-    name: 'Minivan 1',
-    seatingCapacity:7,
-    wheelchairCapacity: 0
-  }, {
+  vehicle1.save();
+  Vehicle.create({
     name: 'Van 1',
-    seatingCapacity:12,
-    wheelchairCapacity: 0
+    maxFixedSeats: 12,
+    maxFoldableSeats: 0,
+    maxWheelchairs: 0
   }, {
     name: 'Bus 1',
-    seatingCapacity:14,
-    wheelchairCapacity: 5
+    maxFixedSeats: 8,
+    maxFoldableSeats: 4,
+    maxWheelchairs: 5
+  }, {
+    name: 'Bus 2',
+    maxFixedSeats: 8,
+    maxFoldableSeats: 0,
+    maxWheelchairs: 4
   }, function() {
     console.log('finished populating vehicles');
   });

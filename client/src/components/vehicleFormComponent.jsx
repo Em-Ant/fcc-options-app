@@ -19,12 +19,16 @@ var VehicleForm = React.createClass({
     var itemState = Object.assign({}, this.state.item, {name: e.target.value})
     this.setState({item: itemState});
   },
-  handleSeatingCapacityChange: function(e) {
-    var itemState = Object.assign({}, this.state.item, {seatingCapacity: e.target.value})
+  handleFixedSeatsChange: function(e) {
+    var itemState = Object.assign({}, this.state.item, {maxFixedSeats: e.target.value})
+    this.setState({item: itemState});
+  },
+  handleFoldableSeatsChange: function(e) {
+    var itemState = Object.assign({}, this.state.item, {maxFoldableSeats: e.target.value})
     this.setState({item: itemState});
   },
   handleWheelchairCapacityChange: function(e) {
-    var itemState = Object.assign({}, this.state.item, {wheelchairCapacity: e.target.value})
+    var itemState = Object.assign({}, this.state.item, {maxWheelchairs: e.target.value})
     this.setState({item: itemState});
   },
   getInitialState: function() {
@@ -72,16 +76,23 @@ var VehicleForm = React.createClass({
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="c_seating_capacity" className="col-sm-2 control-label">Seating Capacity</label>
+                  <label htmlFor="c_max_fixed_seats" className="col-sm-2 control-label">Fixed Seats</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="c_seating_capacity" placeholder="Seating Capacity" value={this.state.item.seatingCapacity} onChange={this.handleSeatingCapacityChange}/>
+                    <input type="text" className="form-control" id="c_max_fixed_seats" placeholder="Fixed Seats" value={this.state.item.maxFixedSeats} onChange={this.handleFixedSeatsChange}/>
                   </div>
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="c_wheelchair_capacity" className="col-sm-2 control-label">Wheelchair Capacity</label>
+                  <label htmlFor="c_max_foldable_seats" className="col-sm-2 control-label">Foldable Seats</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="c_wheelchair_capacity" placeholder="Wheelchair Capacity" value={this.state.item.wheelchairCapacity} onChange={this.handleWheelchairCapacityChange}/>
+                    <input type="text" className="form-control" id="c_max_foldable_seats" placeholder="Foldable Seats" value={this.state.item.maxFoldableSeats} onChange={this.handleFoldableSeatsChange}/>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="c_max_wheelchairs" className="col-sm-2 control-label">Wheelchair Capacity</label>
+                  <div className="col-sm-10">
+                    <input type="text" className="form-control" id="c_max_wheelchairs" placeholder="Wheelchair Capacity" value={this.state.item.maxWheelchairs} onChange={this.handleWheelchairCapacityChange}/>
                   </div>
                 </div>
               </div>

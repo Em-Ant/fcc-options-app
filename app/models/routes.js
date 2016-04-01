@@ -7,11 +7,7 @@ var Route = new Schema({
 	name: {type: String, required: true, unique:true},
 	locationServed: String,
 	//this will be an object type
-	vehicle: String,
-	consumers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Consumer',
-  }]
+	vehicle: String
 
 });
 
