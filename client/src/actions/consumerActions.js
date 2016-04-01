@@ -1,6 +1,6 @@
 
 var Ajax = require('../../js/ajax-functions.js');
-var actionTypes = require('../constants/actionTypes/consumers.js');
+var actionTypes = require('../constants/actionTypes/consumerActionTypes.js');
 
 module.exports.loadConsumers = function() {
   return function (dispatch) {

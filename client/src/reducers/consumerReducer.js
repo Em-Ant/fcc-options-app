@@ -1,5 +1,5 @@
 
-var actionTypes = require('../constants/actionTypes/consumers.js');
+var actionTypes = require('../constants/actionTypes/consumerActionTypes.js');
 
 function loadingConsumers(state) {
   return Object.assign({}, state, {
@@ -30,7 +30,7 @@ function setErrorOnPageLoading(state, error) {
 
 function setError(state, error) {
   return Object.assign({}, state, {
-    
+
     // Reset Spinners
     updatingConsumers: undefined,
     loadingConsumers: undefined

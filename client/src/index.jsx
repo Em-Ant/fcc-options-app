@@ -8,7 +8,7 @@ var Signup = require('./components/signup.jsx').Signup;
 var VehicleRoutes = require('./containers/vehicleRoutesContainer.jsx');
 var Vehicles = require('./containers/vehiclesContainer.jsx');
 
-var Consumers = require('./components/consumers.jsx').ConsumersContainer;
+var Consumers = require('./containers/consumersContainer.jsx');
 
 var reducer = require('./reducers/reducer.js');
 var Provider = require('react-redux').Provider;

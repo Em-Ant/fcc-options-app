@@ -2,61 +2,67 @@
 
 var React = require('react');
 
+/**
+* Form to handle Consumer Create/Update
+* Author: Em-Ant
+*
+* When tried to implement this form as a Redux Container,
+* i discovered that ICheck checkboxes doesn't respond to onChange handler.
+* This form is a Passive 'Dumb' component, responding only to props
+* received from parent component.
+* I had to use jquery to update the select2 and ICheck form elements,
+* because they are handled by jQuery plugins.
+* I don't know if it's the best way to do it, or if it's a good 'React' solution
+*/
+
+
 var ConsumerForm = React.createClass({
   setDefaults: function (props) {
 
-        /*
-        This is a Hack to allow uncontrolled forms to update when receiving
-        default value props. See https://facebook.github.io/react/docs/forms.html
-        and https://github.com/facebook/react/issues/461
-        I had to use jquery, don't know if it's the best way to do it,
-        or if it's a good 'React' solution
-        */
+    // handle component from Plugins
+    $(".select2").val(props.defaults.sex).trigger("change");
 
-        // handle component from Plugins
-        $(".select2").val(props.defaults.sex).trigger("change");
+    $('input').iCheck('uncheck');
 
-        $('input').iCheck('uncheck');
+    if(props.defaults.hasWheelchair) $('#c_wheel').iCheck('check');
+    if(props.defaults.hasSeizures) $('#c_seiz').iCheck('check');
+    if(props.defaults.hasMedications) $('#c_med').iCheck('check');
+    if(props.defaults.needsWave) $('#c_wave').iCheck('check');
+    if(props.defaults.needsTwoSeats) $('#c_twoseat').iCheck('check');
+    if(props.defaults.cannotSitNearOppositeSex) $('#c_behavior').iCheck('check');
 
-        if(props.defaults.hasWheelchair) $('#c_wheel').iCheck('check');
-        if(props.defaults.hasSeizures) $('#c_seiz').iCheck('check');
-        if(props.defaults.hasMedications) $('#c_med').iCheck('check');
-        if(props.defaults.needsWave) $('#c_wave').iCheck('check');
-        if(props.defaults.needsTwoSeats) $('#c_twoseat').iCheck('check');
-        if(props.defaults.cannotSitNearOppositeSex) $('#c_behavior').iCheck('check');
+    // Handle inputs
+    $('#c_name').val(props.defaults.name);
+    $('#c_address').val(props.defaults.address);
+    $('#c_phone').val(props.defaults.phone);
+  },
+  handleSubmit: function(e) {
 
-        // Handle inputs
-        $('#c_name').val(props.defaults.name);
-        $('#c_address').val(props.defaults.address);
-        $('#c_phone').val(props.defaults.phone);
-      },
-      handleSubmit: function(e) {
+    // This function needs validation
+    e.preventDefault();
+    var newConsumer = {};
+    newConsumer._id = this.props.defaults._id;
 
-        // This function needs validation
-        e.preventDefault();
-        var newConsumer = {};
-        newConsumer._id = this.props.defaults._id;
+    newConsumer.name = this.refs.name.value;
+    newConsumer.address = this.refs.address.value;
+    newConsumer.phone = this.refs.phone.value;
+    newConsumer.sex = this.refs.sex.value;
 
-        newConsumer.name = this.refs.name.value;
-        newConsumer.address = this.refs.address.value;
-        newConsumer.phone = this.refs.phone.value;
-        newConsumer.sex = this.refs.sex.value;
+    newConsumer.needsWave = this.refs.wave.checked;
+    newConsumer.hasSeizures = this.refs.seiz.checked;
+    newConsumer.hasWheelchair = this.refs.wheel.checked;
+    newConsumer.needsTwoSeats = this.refs.twoSeats.checked;
+    newConsumer.hasMedications = this.refs.med.checked;
+    newConsumer.cannotSitNearOppositeSex = this.refs.behavior.checked;
 
-        newConsumer.needsWave = this.refs.wave.checked;
-        newConsumer.hasSeizures = this.refs.seiz.checked;
-        newConsumer.hasWheelchair = this.refs.wheel.checked;
-        newConsumer.needsTwoSeats = this.refs.twoSeats.checked;
-        newConsumer.hasMedications = this.refs.med.checked;
-        newConsumer.cannotSitNearOppositeSex = this.refs.behavior.checked;
+    this.refs.name.value = '';
+    this.refs.address.value = '';
+    this.refs.phone.value = '';
+    this.refs.sex.value = '';
 
-        this.refs.name.value = '';
-        this.refs.address.value = '';
-        this.refs.phone.value = '';
-        this.refs.sex.value = '';
+    $('input').iCheck('uncheck');
 
-        $('input').iCheck('uncheck');
-
-        this.props.buttonHandles(newConsumer, this.props.editIndex)
+    this.props.buttonHandles(newConsumer, this.props.editIndex)
   },
   componentDidMount: function () {
     $('input').iCheck({
