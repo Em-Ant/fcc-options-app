@@ -109,13 +109,13 @@ function VehicleHandler() {
         });
       }
       var updated = merge(vehicle, req.body);
-      updated.save(function(err) {
+      updated.save(function(err, savedVehicle) {
         if (err) {
           return res.status(400).json({
             msg: 'There was an error updating vehicle'
           });
         }
-        return res.status(200).json(vehicle);
+        return res.status(200).json(savedVehicle);
       });
     });
   }
