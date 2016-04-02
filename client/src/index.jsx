@@ -12,6 +12,7 @@ var Vehicles = require('./containers/vehiclesContainer.jsx');
 var Consumers = require('./containers/consumersContainer.jsx');
 
 var GMap = require('./components/mapTest.jsx');
+var ConsumerMap = require('./components/consumerMap.jsx');
 
 var reducer = require('./reducers/reducer.js');
 var Provider = require('react-redux').Provider;
@@ -54,6 +55,7 @@ ReactDOM.render(
         <Route path="/routes" component={VehicleRoutes}/>
         <Route path="/consumers" component={Consumers}/>
         <Route path="/vehicles" component={Vehicles}/>
+        <Route path="/consumer-map" component={ConsumerMap} />
       </Route>
       <Route path="/login" component={Login}/>
       <Route path="/signup" component={Signup}/>
