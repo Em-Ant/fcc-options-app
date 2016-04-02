@@ -67,18 +67,29 @@ var ConsumerMap = React.createClass({
       travelMode: google.maps.TravelMode.DRIVING
     }, function(response, status) {
       if (status === google.maps.DirectionsStatus.OK) {
+        console.log(response);
         directionsDisplay.setDirections(response);
         var route = response.routes[0];
         var summaryPanel = document.getElementById('directions-panel');
         summaryPanel.innerHTML = '';
         // For each route, display summary information.
+        var totalDuration = 0;
+        var totalDistance = 0;
         for (var i = 0; i < route.legs.length; i++) {
           var routeSegment = i + 1;
           summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
           summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
           summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-          summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+          summaryPanel.innerHTML += route.legs[i].distance.text + '<br>';
+          summaryPanel.innerHTML += route.legs[i].distance.value + ' meters<br>';
+          summaryPanel.innerHTML += route.legs[i].duration.text + '<br>';
+          summaryPanel.innerHTML += route.legs[i].duration.value + ' seconds<br><br>';
+          totalDuration +=route.legs[i].duration.value;
+          totalDistance +=route.legs[i].distance.value;
         }
+
+        summaryPanel.innerHTML += '<b>Total duration: ' + totalDuration/60 + ' minutes</b><br>';
+        summaryPanel.innerHTML += '<b>Total distance: ' + totalDistance * 0.00062137 + ' miles</b><br>';
       } else {
         window.alert('Directions request failed due to ' + status);
       }
