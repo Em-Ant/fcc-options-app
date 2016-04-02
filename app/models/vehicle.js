@@ -8,18 +8,18 @@ var Vehicle = new Schema({
     type: String,
     required: true
   },
-  // 1 non wheelchair consumer seats
+  // non wheelchair consumer seats
   maxFixedSeats: {
     type: Number,
     required: true
   },
-  // 1 non wheelchair consumer seats, or 2 foldable seats can accomodate 1 wheelchair consumer
-  maxFoldableSeats: {
+  // 1 non wheelchair consumer seat, or 2 foldable seats can accomodate 1 wheelchair consumer
+  maxFoldableSeatsForWheelchairs: {
     type: Number,
     default: 0
   },
-  // maximum amount of wheelchairs a vehicle can hold
-  maxWheelchairs: {
+  // maximum amount of fixed wheelchairs spots a vehicle can hold
+  maxFixedWheelchairs: {
     type: Number,
     default: 0
   },
@@ -43,7 +43,7 @@ var Vehicle = new Schema({
 Vehicle
 .virtual('availableSeats')
 .get(function () {
-  return this.maxFixedSeats + this.maxFoldableSeats - this.consumers.length;
+  return this.maxFixedSeats + this.maxFoldableSeatsForWheelchairs - this.consumers.length;
 });
 
 // Number of seats available to  wheelchair consumers.
@@ -51,14 +51,14 @@ Vehicle
 Vehicle
 .virtual('availableWheelchairs')
 .get(function () {
-  var consumerWheelchairs =  this.consumers.reduce(function(prev, curr){
+  var consumerWheelchairsCount =  this.consumers.reduce(function(prev, curr){
     if(curr.hasWheelchair){
       return prev++;
     }
     return prev;
   }, 0);
-  
-  return this.maxWheelchairs - consumerWheelchairs;
+
+  return this.maxFixedWheelchairs - consumerWheelchairsCount;
 
 });
 

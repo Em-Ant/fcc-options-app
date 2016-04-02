@@ -24,11 +24,11 @@ var VehicleForm = React.createClass({
     this.setState({item: itemState});
   },
   handleFoldableSeatsChange: function(e) {
-    var itemState = Object.assign({}, this.state.item, {maxFoldableSeats: e.target.value})
+    var itemState = Object.assign({}, this.state.item, {maxFoldableSeatsForWheelchairs: e.target.value})
     this.setState({item: itemState});
   },
   handleWheelchairCapacityChange: function(e) {
-    var itemState = Object.assign({}, this.state.item, {maxWheelchairs: e.target.value})
+    var itemState = Object.assign({}, this.state.item, {maxFixedWheelchairs: e.target.value})
     this.setState({item: itemState});
   },
   getInitialState: function() {
@@ -85,14 +85,14 @@ var VehicleForm = React.createClass({
                 <div className="form-group">
                   <label htmlFor="c_max_foldable_seats" className="col-sm-2 control-label">Foldable Seats</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="c_max_foldable_seats" placeholder="Foldable Seats" value={this.state.item.maxFoldableSeats} onChange={this.handleFoldableSeatsChange}/>
+                    <input type="text" className="form-control" id="c_max_foldable_seats" placeholder="Foldable Seats" value={this.state.item.maxFoldableSeatsForWheelchairs} onChange={this.handleFoldableSeatsChange}/>
                   </div>
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="c_max_wheelchairs" className="col-sm-2 control-label">Wheelchair Capacity</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="c_max_wheelchairs" placeholder="Wheelchair Capacity" value={this.state.item.maxWheelchairs} onChange={this.handleWheelchairCapacityChange}/>
+                    <input type="text" className="form-control" id="c_max_wheelchairs" placeholder="Wheelchair Capacity" value={this.state.item.maxFixedWheelchairs} onChange={this.handleWheelchairCapacityChange}/>
                   </div>
                 </div>
               </div>

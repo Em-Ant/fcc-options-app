@@ -47,8 +47,8 @@ return (
                   <tr>
                     <th>Name</th>
                     <th>Fixed Seats</th>
-                    <th>Foldable Seats</th>
-                    <th>Wheelchair Capacity</th>
+                    <th>Foldable Seats For Wheelchairs</th>
+                    <th>Fixed Wheelchairs</th>
                     <th>Available Seats</th>
                     <th>Available Wheelchair Spots</th>
                     <th className="text-center">Actions </th>
@@ -60,8 +60,8 @@ return (
                       <tr key={index}>
                         <td>{vehicle.name}</td>
                         <td>{vehicle.maxFixedSeats}</td>
-                        <td>{vehicle.maxFoldableSeats}</td>
-                        <td>{vehicle.maxWheelchairs}</td>
+                        <td>{vehicle.maxFoldableSeatsForWheelchairs}</td>
+                        <td>{vehicle.maxFixedWheelchairs}</td>
                         <td>{vehicle.availableSeats}</td>
                         <td>{vehicle.availableWheelchairs}</td>
                         <td className="text-center">
