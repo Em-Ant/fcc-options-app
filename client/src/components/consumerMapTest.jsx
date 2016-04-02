@@ -97,13 +97,13 @@ var ConsumerMap = React.createClass({
             markerColor:'blue',
             consumers: [
               {
-                name: "Thomas",
+                name: "Gordon",
                 address:"20083 January St,Big Lake, MN 55309, USA"
               }, {
-                name: "Percy",
+                name: "Edward",
                 address:"17270 US Highway 10 NW,Big Lake, MN 55309, USA"
               }, {
-                name: "James",
+                name: "Toby",
                 address:"15818 201st Ave NW,Big Lake, MN 55330, USA"
               }
             ]

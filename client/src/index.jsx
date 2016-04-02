@@ -12,7 +12,7 @@ var Vehicles = require('./containers/vehiclesContainer.jsx');
 var Consumers = require('./containers/consumersContainer.jsx');
 
 var GMap = require('./components/mapTest.jsx');
-var ConsumerMap = require('./components/consumerMap.jsx');
+var ConsumerMap = require('./components/consumerMapTest.jsx');
 
 var reducer = require('./reducers/reducer.js');
 var Provider = require('react-redux').Provider;
