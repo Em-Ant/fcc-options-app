@@ -12,13 +12,15 @@ var ConsumerMap = React.createClass({
   getInitialState: function() {
     return {markers: []}
   },
+
   getCenter: function(done) {
     var address = OPTION_INC_ADDRESS;
     geocoder.geocode({
       'address': address
     }, function(results, status) {
+
       done({lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()})
-    })
+    }
   },
   componentDidMount: function() {
 
@@ -93,6 +95,7 @@ var ConsumerMap = React.createClass({
             lat: results[0].geometry.location.lat(),
             lng: results[0].geometry.location.lng()
           }
+
           var icon = ICON_URL + vehicle.markerColor;
           var marker = new google.maps.Marker({position: position, map: map, title: consumer.name, icon: icon});
           var content = "<div>" + vehicle.name + "</div>" + "<div>" + consumer.name + "</div>" + "<div>" + consumer.address + "</div>";
