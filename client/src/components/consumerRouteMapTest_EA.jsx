@@ -66,7 +66,7 @@ var Vehicle = React.createClass({
 });
 
 var ConsumerMap = React.createClass({
-
+  tripPath: null,
   componentDidMount: function() {
 
     //get center
@@ -94,39 +94,54 @@ var ConsumerMap = React.createClass({
       _self.calculateAndDisplayRoute(directionsService, directionsDisplay);
       */
   },
-  calculateAndDisplayRoute(directionsService, directionsDisplay) {
-    /*
-    var waypts = [];
-    //calculate route for 1 vehicle
-    this.state.vehicles[0].consumers.forEach(function(consumer) {
-      waypts.push({location: consumer.address, stopover: true});
+  calculateAndDisplayRoute() {
+    if(!this.tripPath) {
+      var self = this;
+      var waypts = [];
+      //calculate route for 1 vehicle
+      this.state.vehicle.consumers.forEach(function(consumer) {
+        waypts.push({location: consumer.address, stopover: true});
+      });
 
-    });
 
-    directionsService.route({
-      origin: OPTION_INC_ADDRESS,
-      destination: OPTION_INC_ADDRESS,
-      waypoints: waypts,
-      optimizeWaypoints: true,
-      travelMode: google.maps.TravelMode.DRIVING
-    }, function(response, status) {
-      if (status === google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(response);
-        var route = response.routes[0];
-        var summaryPanel = document.getElementById('directions-panel');
-        summaryPanel.innerHTML = '';
-        // For each route, display summary information.
-        for (var i = 0; i < route.legs.length; i++) {
-          var routeSegment = i + 1;
-          summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
-          summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-          summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-          summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+      directionsService.route({
+        origin: OPTIONS_INC_ADDRESS,
+        destination: OPTIONS_INC_ADDRESS,
+        waypoints: waypts,
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.DRIVING
+      }, function(response, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+
+          self.tripPath = new google.maps.Polyline({
+             path: response.routes[0].overview_path,
+             geodesic: false,
+             strokeColor: '#0088AA',
+             strokeOpacity: 0.5,
+             strokeWeight: 4
+           });
+
+           self.tripPath.setMap(map);
+
+
+          var route = response.routes[0];
+          var summaryPanel = document.getElementById('directions-panel');
+          summaryPanel.innerHTML = '';
+          // For each route, display summary information.
+          for (var i = 0; i < route.legs.length; i++) {
+            var routeSegment = i + 1;
+            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+            summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+            summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+            summaryPanel.innerHTML += route.legs[i].distance.text + '<br>';
+            summaryPanel.innerHTML += route.legs[i].duration.text + '<br><br>';
+          }
+        } else {
+          window.alert('Directions request failed due to ' + status);
         }
-      } else {
-        window.alert('Directions request failed due to ' + status);
-      }
-    });*/
+      });
+
+    }
 
   },
   loadConsumers: function() {
@@ -164,7 +179,13 @@ var ConsumerMap = React.createClass({
             vehicle.consumers = consumersOnBoard;
             vehicle.occupiedSeats = occupiedSeats;
           }
+
+          if(self.tripPath) {
+            self.tripPath.setMap(null);
+            self.tripPath = null;
+          }
           self.setState({vehicle: vehicle});
+
         } else {
 
           if (!candidateConsumer.hasWheelchair
@@ -174,7 +195,13 @@ var ConsumerMap = React.createClass({
             var occupiedSeats = vehicle.occupiedSeats + 1;
             vehicle.consumers = consumersOnBoard;
             vehicle.occupiedSeats = occupiedSeats;
+
+            if(self.tripPath) {
+              self.tripPath.setMap(null);
+              self.tripPath = null;
+            }
             self.setState({vehicle: vehicle});
+
 
           } else if (candidateConsumer.hasWheelchair
             && vehicle.occupiedWheelchairs < vehicle.totalWheelchairs) {
@@ -183,7 +210,13 @@ var ConsumerMap = React.createClass({
             var occupiedWheelchairs = vehicle.occupiedWheelchairs + 1;
             vehicle.consumers = consumersOnBoard;
             vehicle.occupiedWheelchairs = occupiedWheelchairs;
-            self.setState({vehicle: vehicle});         }
+
+            if(self.tripPath) {
+              self.tripPath.setMap(null);
+              self.tripPath = null;
+            }
+            self.setState({vehicle: vehicle});
+          }
         }
         console.log(self.state.vehicle);
       }.bind(null, index));
@@ -237,6 +270,7 @@ var ConsumerMap = React.createClass({
         <section className="content">
           <div className="row">
             <div className="col-xs-3">
+              <button onClick={this.calculateAndDisplayRoute}>Optimize route</button>
               <Vehicle
                 vehicleObject={this.state.vehicle}
               />
