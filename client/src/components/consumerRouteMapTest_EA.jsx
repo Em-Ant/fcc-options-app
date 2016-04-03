@@ -39,13 +39,13 @@ var Vehicle = React.createClass({
         <div style={{
           color: seatsColor
         }}>
-          <i className="fa fa-male"></i>
+          <i className="fa fa-male"></i>&nbsp;
           {vehicle.occupiedSeats}/{vehicle.totalSeats}
         </div>
         <div style={{
           color: wheelchairsColor
         }}>
-          <i className="fa fa-wheelchair"></i>
+          <i className="fa fa-wheelchair"></i>&nbsp;
           {vehicle.occupiedWheelchairs}/{vehicle.totalWheelchairs}</div>
         {vehicle.consumers.map(function(consumer, index) {
           return (
@@ -133,7 +133,7 @@ var ConsumerMap = React.createClass({
             summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
             summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
             summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-            summaryPanel.innerHTML += route.legs[i].distance.text + '<br>';
+            summaryPanel.innerHTML += route.legs[i].distance.text + ' ';
             summaryPanel.innerHTML += route.legs[i].duration.text + '<br><br>';
           }
         } else {
@@ -155,10 +155,20 @@ var ConsumerMap = React.createClass({
       var iconOnBoard = ICON_URL + GREEN;
       var marker = new google.maps.Marker({position: position, map: map, title: consumer.name, icon: icon});
       var content = "<div>" + consumer.name + "</div>" + "<div>" + consumer.address + "</div>";
+
+      if (consumer.hasWheelchair) {
+        content += '<div><i class="fa fa-wheelchair"></i></div>'
+      }
       var infowindow = new google.maps.InfoWindow({content: content});
 
-      marker.addListener('rightclick', function() {
+
+
+      marker.addListener('mouseover', function() {
         infowindow.open(map, marker);
+      });
+
+      marker.addListener('mouseout', function() {
+        infowindow.close();
       });
 
       marker.addListener('click', function(index) {
@@ -183,6 +193,8 @@ var ConsumerMap = React.createClass({
           if(self.tripPath) {
             self.tripPath.setMap(null);
             self.tripPath = null;
+            var summaryPanel = document.getElementById('directions-panel');
+            summaryPanel.innerHTML = '';
           }
           self.setState({vehicle: vehicle});
 
@@ -199,6 +211,8 @@ var ConsumerMap = React.createClass({
             if(self.tripPath) {
               self.tripPath.setMap(null);
               self.tripPath = null;
+              var summaryPanel = document.getElementById('directions-panel');
+              summaryPanel.innerHTML = '';
             }
             self.setState({vehicle: vehicle});
 
@@ -214,6 +228,8 @@ var ConsumerMap = React.createClass({
             if(self.tripPath) {
               self.tripPath.setMap(null);
               self.tripPath = null;
+              var summaryPanel = document.getElementById('directions-panel');
+              summaryPanel.innerHTML = '';
             }
             self.setState({vehicle: vehicle});
           }
@@ -270,7 +286,12 @@ var ConsumerMap = React.createClass({
         <section className="content">
           <div className="row">
             <div className="col-xs-3">
-              <button onClick={this.calculateAndDisplayRoute}>Optimize route</button>
+              <button
+                className="btn btn-default"
+                onClick={this.calculateAndDisplayRoute}
+              >
+                Get Optimal Route
+              </button>
               <Vehicle
                 vehicleObject={this.state.vehicle}
               />
