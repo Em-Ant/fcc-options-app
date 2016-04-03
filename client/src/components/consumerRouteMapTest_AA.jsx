@@ -12,10 +12,11 @@ var directionsDisplay = new google.maps.DirectionsRenderer;
 var directionsService = new google.maps.DirectionsService;
 
 // COLORS
-var RED = "FE7569";
-var YELLOW = "FFD42A";
-var GREEN = "5AA02C";
-var BLUE = "0088AA"
+var RED = "FE7569";     //options inc address
+var YELLOW = "FFD42A";  //assigned to a vehicle
+var GREEN = "5AA02C";   //assigned to current selected vehicle
+var BLUE = "0088AA";
+var GRAY = "A6A6A6";    //unassigned user
 var Vehicle = React.createClass({
 
   handleOnClick:function(){
@@ -111,9 +112,14 @@ var ConsumerMap = React.createClass({
       */
   },
   handleVehicleClick:function(vehicleName){
+    //HACK. this should be automatically handled by react when the selectedVehicleName state is updated
+
     this.setState({
       selectedVehicleName:vehicleName
-    })
+    }, function(){
+      this.updateMarkers();
+    });
+
   },
   calculateAndDisplayRoute() {
     if(!this.tripPath) {
@@ -165,16 +171,67 @@ var ConsumerMap = React.createClass({
     }
 
   },
-  loadConsumers: function() {
+  getIcon: function(consumer){
 
+    var iconUnassigned = ICON_URL + GRAY;
+    var iconOnBoard = ICON_URL + GREEN;
+    var iconAssigned = ICON_URL + YELLOW;
+    //check if consumer is on current vehicle route
+    var selectedVehicle = this.getSelectedVehicle();
+    if (selectedVehicle.consumers.indexOf(consumer) > -1)
+    {
+      return iconOnBoard;
+    }
+    //check if consumer is on any other vehicle route
+    for(var i = 0; i < this.state.vehicles.length; i++){
+      var vehicle = this.state.vehicles[i];
+      //don't check the selected vehicle
+      if(selectedVehicle.name != vehicle.name){
+        if (vehicle.consumers.indexOf(consumer) > -1)
+        {
+          return iconAssigned;
+        }
+      }
+    }
+
+    //consumer is not assigned to any route
+    return iconUnassigned;
+  },
+  getSelectedVehicle: function(){
+    var vehicle;
+    for(var i =0; i < this.state.vehicles.length; i++){
+      vehicle = this.state.vehicles[i];
+      if(vehicle.name == this.state.selectedVehicleName){
+        return vehicle;
+      }
+    }
+  },
+  updateMarkers:function(){
+    var self = this;
+    self.state.markers.forEach(function(marker, index) {
+      var consumer = marker.consumer;
+      var icon = self.getIcon(consumer);
+      marker.marker.setIcon(icon);
+    });
+  },
+  loadConsumers: function() {
       var self = this;
+      var markers = [];
       this.state.consumers.forEach(function(consumer, index) {
 
       var position = consumer.position;
 
-      var icon = ICON_URL + YELLOW;
+      var iconUnassigned = ICON_URL + GRAY;
       var iconOnBoard = ICON_URL + GREEN;
+      var iconAssigned = ICON_URL + YELLOW;
+      //get icon
+      var icon = self.getIcon(consumer);
       var marker = new google.maps.Marker({position: position, map: map, title: consumer.name, icon: icon});
+      markers.push({
+        marker:marker,
+        consumer:consumer
+      })
+
       var content = "<div>" + consumer.name + "</div>" + "<div>" + consumer.address + "</div>";
 
       if (consumer.hasWheelchair) {
@@ -193,21 +250,17 @@ var ConsumerMap = React.createClass({
       });
 
       marker.addListener('click', function(index) {;
-        var vehicle;
-        //get the selected vechicle
-        for(var i =0; i < self.state.vehicles.length; i++){
-          if(self.state.vehicles[i].name == self.state.selectedVehicleName){
-            vehicle = self.state.vehicles[i];
-            break;
-          }
-        }
+        var vehicle = self.getSelectedVehicle();
 
         var consumersOnBoard = vehicle.consumers;
         var candidateConsumer = self.state.consumers[index];
+
         var ind = consumersOnBoard.indexOf(candidateConsumer);
+
         if (ind > -1) {
+          //Remove consumer from vehicle
           consumersOnBoard.splice(ind,1)
-          marker.setIcon(icon);
+          marker.setIcon(iconUnassigned);
           if (consumer.hasWheelchair) {
             var occupiedWheelchairs = vehicle.occupiedWheelchairs - 1;
             vehicle.consumers = consumersOnBoard;
@@ -227,10 +280,11 @@ var ConsumerMap = React.createClass({
           self.setState({vehicle: vehicle});
 
         } else {
-
+          // add consumer to vehicle
           if (!candidateConsumer.hasWheelchair
             && vehicle.occupiedSeats < vehicle.totalSeats ) {
             consumersOnBoard.push(self.state.consumers[index]);
+
             marker.setIcon(iconOnBoard);
             var occupiedSeats = vehicle.occupiedSeats + 1;
             vehicle.consumers = consumersOnBoard;
@@ -262,10 +316,14 @@ var ConsumerMap = React.createClass({
             self.setState({vehicle: vehicle});
           }
         }
-        console.log(self.state.vehicle);
       }.bind(null, index));
 
     });
+
+    //save markers state
+    this.setState({
+      markers:markers
+    })
   },
   getInitialState: function() {
     return {
