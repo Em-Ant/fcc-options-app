@@ -37,7 +37,7 @@ var Vehicle = React.createClass({
       wheelchairsColor = "red";
     }
     return (
-        <div className={ this.props.selected?"box box-warning box-solid":"box box-warning"}
+        <div className={ this.props.selected?"box box-success":"box box-warning"}
         onClick = {this.handleOnClick}>
             <div className="box-header with-border">
               <div className="box-title">{vehicle.name}&nbsp;
