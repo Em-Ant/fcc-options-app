@@ -37,7 +37,7 @@
   color: white;
   padding: 2px;
   border-radius: 2px;
-  margin: auto 1px;
+  margin: 1px;
 }
 
 .avail-color {
@@ -46,4 +46,12 @@
 
 .unavail-color {
   background-color: #DD4B39;
+}
+
+.cust-btn {
+  color: #D2D6DE;
+  cursor: pointer;
+  &:hover {
+    color: darken(#D2D6DE, 20%);
+  }
 }

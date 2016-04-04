@@ -1,5 +1,19 @@
 var React = require('react');
 
+var ConsumerInfoBox = React.createClass({
+    render: function() {
+    return (
+    <div>
+      <span>
+        <i className="fa fa-times cust-btn" onClick={this.props.remove}></i>
+        &nbsp;
+        {this.props.name}
+      </span>
+      {this.props.hasWheelchair ? <i className="fa fa-wheelchair pull-right" ></i>
+        : null}
+    </div>
+  )}
+})
 
 var CollapsibleBusBox = React.createClass({
   render: function() {
@@ -12,22 +26,23 @@ var CollapsibleBusBox = React.createClass({
       else
         seats++
       return (
-      <div key={this.props.name+'_c_'+index}>
-        {c.name}
-        {c.hasWheelchair ? <i className="fa fa-wheelchair pull-right" ></i>
-          : null}
-      </div>
+        <ConsumerInfoBox
+          key={'c_info_'+index}
+          name={c.name}
+          hasWheelchair={c.hasWheelchair}
+          remove={function(){console.log('remove')}}
+        />
       )
     }.bind(this)) : "Vehicle is empty";
 
-    var activeClass = this.props.active ? ' box-primary' : ' box-default';
+    var activeClass = this.props.active ? ' box-primary box-solid' : ' box-default';
 
     var availWheels = wheels < this.props.totalWheelchairs ?
       'avail-color' : 'unavail-color';
     var availSeats = seats < this.props.totalSeats ?
       'avail-color' : 'unavail-color';
     return (
-      <div className={"panel box box-solid" + activeClass}>
+      <div className={"panel box " + activeClass}>
         <div className="box-header with-border" role="tab" id={'head-'+this.props.collapseId}>
           <h4 className="box-title">
             <a role="button" data-toggle="collapse"
@@ -63,23 +78,7 @@ var CollapsibleBusBox = React.createClass({
 
 
 module.exports = React.createClass({
-/*
-  handleOnClick:function(){
-      this.props.onClick(this.props.vehicleObject.name);
-  },
-  var vehicle = this.props.vehicleObject;
-  var seatsColor;
-  var wheelchairsColor;
-  if (vehicle.occupiedSeats < vehicle.totalSeats) {
-    seatsColor = "green";
-  } else {
-    seatsColor = "red";
-  }
-  if (vehicle.occupiedWheelchairs < vehicle.totalWheelchairs) {
-    wheelchairsColor = "green";
-  } else {
-    wheelchairsColor = "red";
-  } */
+  
   getInitialState: function() {
     return {};
   },
@@ -145,48 +144,6 @@ module.exports = React.createClass({
             />
           </div>
         </div>
-        {/*
-          <div className={this.props.selected ? "box box-success box-solid":"box box-default"}
-          onClick = {this.handleOnClick}>
-              <div className="box-header with-border">
-                <div className="box-title">{vehicle.name}&nbsp;
-                  <span style={{
-                    color: seatsColor
-                  }}>
-                    <i className="fa fa-male"></i>&nbsp;
-                    {vehicle.occupiedSeats}/{vehicle.totalSeats}
-                  </span>
-                  <span style={{
-                    color: wheelchairsColor
-                  }}>
-                    <i className="fa fa-wheelchair"></i>&nbsp;
-                    {vehicle.occupiedWheelchairs}/{vehicle.totalWheelchairs}
-                  </span>
-                </div>
-                <div className="box-tools pull-right">
-                  <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i>
-                  </button>
-                </div>
-              </div>
-              <div className="box-body" style={{display: "block"}}>
-
-                {vehicle.consumers.map(function(consumer, index) {
-                  return (
-                    <div>
-
-                      {consumer.name} {consumer.hasWheelchair
-                          ? <i className="fa fa-wheelchair"></i>
-                          : null}
-
-
-                          <i className="fa fa-times pull-right" style={{color:"red"}}></i>
-                    </div>
-                  )
-                })
-              }
-              </div>
-            </div>
-          */}
       </div>
 
 
