@@ -13,7 +13,8 @@ var Vehicle = new Schema({
     type: Number,
     required: true
   },
-  // 1 non wheelchair consumer seat, or 2 foldable seats can accomodate 1 wheelchair consumer
+  // 1 non wheelchair consumer seat, or 2 foldable seats can accomodate 1
+  // wheelchair consumer
   maxFoldableSeatsForWheelchairs: {
     type: Number,
     default: 0
@@ -43,9 +44,13 @@ Vehicle
   .get(function() {
     var occupiedSeats = 0;
     this.consumers.forEach(function(consumer) {
-      if (!consumer.hasWheelchair) {
+      //TODO not sure if works.  Consumers are currently just ObjectIDs, so
+      //consumers don't have any properties.  Maybe when populate gets
+      //called on the query, consumers will have their properties show.
+      if (consumer.needsTwoSeats) {
+        occupiedSeats += 2;
+      } else if (!consumer.hasWheelchair)
         occupiedSeats++;
-      }
     });
     return occupiedSeats;
   });
@@ -71,7 +76,8 @@ Vehicle
 Vehicle
   .virtual('totalWheelchairs')
   .get(function() {
-    return this.maxFixedWheelchairs + Math.floor((this.maxFoldableSeatsForWheelchairs / 2));
+    return this.maxFixedWheelchairs +
+      Math.floor((this.maxFoldableSeatsForWheelchairs / 2));
   });
 
 
