@@ -45,14 +45,12 @@ var Header = React.createClass({
                     </div>
                   </li>
                 </ul>
-              </li>
-              {/*
+              </li>    
               <li>
                 <a href="#" data-toggle="control-sidebar">
                   <i className="fa fa-gears"></i>
                 </a>
               </li>
-              */}
             </ul>
           </div>
         </nav>
