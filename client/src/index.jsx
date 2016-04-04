@@ -29,6 +29,7 @@ var browserHistory = require('react-router').browserHistory;
 var thunk = require('redux-thunk');
 var syncHistoryWithStore = require('react-router-redux').syncHistoryWithStore;
 
+var settingsActions = require("./actions/settingsActions");
 var store = createStore(reducer, applyMiddleware(thunk));
 
 // Creates an enhanced history that syncs navigation events with the store
@@ -36,6 +37,7 @@ var history = syncHistoryWithStore(browserHistory, store)
 
 var App = React.createClass({
   componentDidMount: function() {
+    store.dispatch(settingsActions.load());
     //store.dispatch(actions.requestUser());
   },
   render: function() {

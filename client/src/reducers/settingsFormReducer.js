@@ -1,19 +1,19 @@
-var actionTypes = require('../constants/actionTypes/settingsActionTypes.js');
+var actionTypes = require('../constants/actionTypes/settingsFormActionTypes.js');
 
-var settingsUpdateRequest = function(state, settings) {
+var updateRequest = function(state, settings) {
 
   return Object.assign({}, state, {
     isLoading: true
   },settings)
 }
 
-var settingsUpdateFailure = function(state, message) {
+var updateFailure = function(state, message) {
   return Object.assign({}, state, {
     isLoading: false
   }, message)
 }
 
-var settingsUpdateSuccess = function(state, settings) {
+var updateSuccess = function(state, settings) {
   return Object.assign({}, state, {
     isLoading: false,
   })
@@ -25,12 +25,12 @@ var initState = {
 var settingsFormReducer = function(state, action) {
   state = state || initState;
   switch (action.type) {
-    case actionTypes.SETTINGS_UPDATE_REQUEST:
-      return settingsUpdateRequest(state, action.settings);
-    case actionTypes.SETTINGS_UPDATE_FAILURE:
-      return settingsUpdateFailure(state, action.message);
-    case actionTypes.SETTINGS_UPDATE_SUCCESS:
-      return settingsUpdateSuccess(state);
+    case actionTypes.SETTINGS_FORM_UPDATE_REQUEST:
+      return updateRequest(state, action.settings);
+    case actionTypes.SETTINGS_FORM_UPDATE_FAILURE:
+      return updateFailure(state, action.message);
+    case actionTypes.SETTINGS_FORM_UPDATE_SUCCESS:
+      return updateSuccess(state);
     default:
       return state;
   }

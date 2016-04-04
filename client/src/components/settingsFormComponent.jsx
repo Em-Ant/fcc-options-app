@@ -25,16 +25,18 @@ var Settings = React.createClass({
     return ({form: {}})
   },
   componentDidMount: function() {
-    if (this.props.form) {
-      this.setPropsToState(this.props.form);
-    }
+      this.setPropsToState(this.props);
   },
   componentWillReceiveProps: function(nextProps) {
-    if (nextProps.form) {
-      this.setPropsToState(nextProps.form);
-    }
+      this.setPropsToState(nextProps);
   },
-  setPropsToState: function(form) {
+  setPropsToState: function(props) {
+    // not really sure if this is correct
+    // we want to use prop.settings when the form is first loaded
+    // if an update request is made, we want to keep the form intact, while the
+    // form is processing. During this time, we do not want to overwrite
+    // with props.settings
+    var form = Object.assign({}, props.settings, props.form);
     this.setState({form: form});
   },
   render: function() {
@@ -42,7 +44,6 @@ var Settings = React.createClass({
 
       <form onSubmit={this.handleSubmit}>
         <h3 className="control-sidebar-heading">Global Settings</h3>
-
         <div className="form-group">
           <label className="control-sidebar-subheading">
             Options Inc Address
@@ -59,7 +60,9 @@ var Settings = React.createClass({
           </label>
           <input type="number" className="form-control" value={this.state.form.maxConsumerRouteTime} onChange={this.handleMaxRouteTimeChange}/>
           <p/>
-          <button type="submit" disabled={this.props.form.isLoading} className={this.props.form.isLoading?"btn btn-success disabled":"btn btn-success"}>Submit</button>
+          <button type="submit" disabled={this.props.form.isLoading} className={this.props.form.isLoading
+            ? "btn btn-success disabled"
+            : "btn btn-success"}>Submit</button>
         </div>
       </form>
 
