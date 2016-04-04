@@ -60,7 +60,7 @@ Vehicle
   .virtual('occupiedWheelchairs')
   .get(function() {
     var occupiedWheelchairs = 0;
-    this.consumers.populate().forEach(function(consumer) {
+    this.consumers.forEach(function(consumer) {
       if (consumer.hasWheelchair) {
         occupiedWheelchairs++;
       }
