@@ -10,7 +10,7 @@ var settings = require('./settingsReducer');
 var combineReducers = require('redux').combineReducers;
 
 var rootReducer = combineReducers({
-  // UI state
+  // UI states
   settingsForm:settingsForm,
   consumersPage: consumersPage,
   vehiclesPage: vehiclesPage,
@@ -18,7 +18,7 @@ var rootReducer = combineReducers({
   vehicleRoutes: vehicleRoutes,
   login:login,
 
-  // data state
+  // data states
   settings:settings
 
 

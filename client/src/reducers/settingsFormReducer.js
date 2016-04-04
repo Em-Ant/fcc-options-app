@@ -3,19 +3,28 @@ var actionTypes = require('../constants/actionTypes/settingsFormActionTypes.js')
 var updateRequest = function(state, settings) {
 
   return Object.assign({}, state, {
-    isLoading: true
+    isLoading: true,
+    message:null
   },settings)
 }
 
 var updateFailure = function(state, message) {
   return Object.assign({}, state, {
-    isLoading: false
-  }, message)
+    isLoading: false,
+    message:{
+      type:"error",
+      msg:message
+    }
+  })
 }
 
 var updateSuccess = function(state, settings) {
   return Object.assign({}, state, {
     isLoading: false,
+    message:{
+      type:"success",
+      msg:"Settings Updated!"
+    }
   })
 }
 

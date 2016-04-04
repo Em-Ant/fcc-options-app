@@ -1,5 +1,12 @@
 'use strict'
 var React = require("react");
+
+/*
+Usage:
+<Message message={type:error, msg:"There was an error"}/>
+<Message message={type:info, msg:"This is an info message"}/>
+<Message message={type:success, msg:"Login successful!"}/>
+*/
 module.exports = React.createClass({
   getAlertClass: function() {
     switch (this.props.message.type) {

@@ -5,6 +5,12 @@ var Settings = require('../models/settings.js');
 function SettingsHandler() {
   var validate = function(req){
     //Validate input
+    req.assert('optionsIncAddress', 'Address must not be empty').notEmpty();
+    req.assert('maxPassengersPerVehicle', 'Max passengers seats must not be empty').notEmpty();
+    req.assert('maxConsumerRouteTime', 'Max route time must not be empty').notEmpty();
+    req.assert('maxPassengersPerVehicle', 'Max passengers seats must be a number').isInt();
+    req.assert('maxConsumerRouteTime', 'Max route time must be a number').isInt();
+
     return req.validationErrors();
   }
 

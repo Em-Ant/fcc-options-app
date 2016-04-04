@@ -2,6 +2,7 @@
 
 var React = require('react');
 var Link = require('react-router').Link
+var Message = require('./message.jsx');
 
 var Settings = React.createClass({
 
@@ -39,12 +40,22 @@ var Settings = React.createClass({
     var form = Object.assign({}, props.settings, props.form);
     this.setState({form: form});
   },
+  getInitialState:function(){
+    return{
+      form:{}
+    }
+  },
   render: function() {
     return (
 
       <form onSubmit={this.handleSubmit}>
         <h3 className="control-sidebar-heading">Global Settings</h3>
         <div className="form-group">
+          {
+            this.state.form.message?
+              <Message message={this.state.form.message}/>:
+              null
+          }
           <label className="control-sidebar-subheading">
             Options Inc Address
           </label>
