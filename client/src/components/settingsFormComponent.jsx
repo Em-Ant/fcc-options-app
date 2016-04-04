@@ -11,15 +11,15 @@ var Settings = React.createClass({
     this.props.onSubmit(this.state.form);
   },
   handleAddressChange: function(e) {
-    var form = Object.assign({}, this.state.form, {address: e.target.value});
+    var form = Object.assign({}, this.state.form, {optionsIncAddress: e.target.value});
     this.setState({form: form})
   },
   handleMaxPassengersChange: function(e) {
-    var form = Object.assign({}, this.state.form, {maxPassengers: e.target.value});
+    var form = Object.assign({}, this.state.form, {maxPassengersPerVehicle: e.target.value});
     this.setState({form: form})
   },
   handleMaxRouteTimeChange: function(e) {
-    var form = Object.assign({}, this.state.form, {maxRouteTime: e.target.value});
+    var form = Object.assign({}, this.state.form, {maxConsumerRouteTime: e.target.value});
     this.setState({form: form})
   },
   getInitialState: function() {
@@ -51,17 +51,17 @@ var Settings = React.createClass({
           <label className="control-sidebar-subheading">
             Options Inc Address
           </label>
-          <input type="text" className="form-control" value={this.state.form.address} onChange={this.handleAddressChange}/>
+          <input type="text" className="form-control" value={this.state.form.optionsIncAddress} onChange={this.handleAddressChange}/>
 
           <label className="control-sidebar-subheading">
             Max passengers per vehicle
           </label>
-          <input type="number" className="form-control" value={this.state.form.maxPassengers} onChange={this.handleMaxPassengersChange}/>
+          <input type="number" className="form-control" value={this.state.form.maxPassengersPerVehicle} onChange={this.handleMaxPassengersChange}/>
 
           <label className="control-sidebar-subheading">
             Max route time (minutes)
           </label>
-          <input type="number" className="form-control" value={this.state.form.maxRouteTime} onChange={this.handleMaxRouteTimeChange}/>
+          <input type="number" className="form-control" value={this.state.form.maxConsumerRouteTime} onChange={this.handleMaxRouteTimeChange}/>
           <p/>
           <button type="submit" disabled={this.props.form.isLoading} className={this.props.form.isLoading?"btn btn-success disabled":"btn btn-success"}>Submit</button>
         </div>
