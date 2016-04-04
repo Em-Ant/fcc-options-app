@@ -23,6 +23,27 @@
   margin: auto 3px 3px auto;
 }
 
-#test-map{
+.map-height{
   height:600px;
+  overflow-y: scroll;
+}
+
+.cust-height {
+  max-height: 600px;
+}
+
+.cust-label {
+  background-color: 555;
+  color: white;
+  padding: 2px;
+  border-radius: 2px;
+  margin: auto 1px;
+}
+
+.avail-color {
+  background-color: #00A65A;
+}
+
+.unavail-color {
+  background-color: #DD4B39;
 }

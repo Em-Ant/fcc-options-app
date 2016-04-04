@@ -336,8 +336,8 @@ var ConsumerMap = React.createClass({
             <VehiclePanel/>
             </div>
             <div className="col-md-9 col-sm-8 col-xs-6">
-              <div className="box box-widget">
-              <div id="test-map"></div>
+              <div className="box box-widget map-height">
+              <div id="test-map" className="map-height"></div>
               </div>
               <div id="directions-panel"></div>
             </div>
