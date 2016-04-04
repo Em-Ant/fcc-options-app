@@ -26,7 +26,8 @@ function SettingsHandler() {
     if (errors) {
       return res.status(400).json(errors[0]);
     }
-    Settings.findOneAndUpdate({}, req.body, {upsert:true}, function(err, updatedSettings){
+    var settings = req.body;
+    Settings.findOneAndUpdate({}, settings, {upsert:true, new:true}, function(err, updatedSettings){
         if (err) {
           return res.status(400).json({
             msg: 'There was an error updating settings'

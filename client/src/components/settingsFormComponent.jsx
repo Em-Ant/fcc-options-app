@@ -7,7 +7,6 @@ var Settings = React.createClass({
 
   handleSubmit: function(e) {
     e.preventDefault();
-    console.log("here");
     this.props.onSubmit(this.state.form);
   },
   handleAddressChange: function(e) {
@@ -31,9 +30,6 @@ var Settings = React.createClass({
     }
   },
   componentWillReceiveProps: function(nextProps) {
-    /*
-    Transfer the editable form field properties to the state
-    */
     if (nextProps.form) {
       this.setPropsToState(nextProps.form);
     }

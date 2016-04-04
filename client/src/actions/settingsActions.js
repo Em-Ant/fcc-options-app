@@ -6,6 +6,7 @@ module.exports.update = function(settings) {
   return function(dispatch) {
     dispatch({
       type: actionTypes.SETTINGS_UPDATE_REQUEST,
+      settings:settings
     });
     Ajax.post('/api/settings', settings, function(err, updatedSettings) {
       if (err) {
