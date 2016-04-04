@@ -5,10 +5,26 @@
 
 'use strict';
 
+var Settings = require('./models/settings.js');
 var Consumer = require('./models/consumer.js');
 var User = require('./models/users.js');
 var Route = require('./models/routes.js');
 var Vehicle = require('./models/vehicle.js');
+
+
+/**
+ * SETTINGS
+ */
+ 
+Settings.find({}).remove(function() {
+  Settings.create({
+    optionsIncAddress: '16820 197th Ave NW, Big Lake, MN 55309',
+    maxPassengersPerVehicle: 14,
+    maxConsumerRouteTime: 90
+  }, function() {
+    console.log('finished populating settings');
+  });
+});
 
 /**
  * USERS
