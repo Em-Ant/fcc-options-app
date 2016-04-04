@@ -38,28 +38,41 @@ var Vehicle = new Schema({
   }
 });
 
-// Number of seats available to non wheelchair consumers.
-// Calculated values based on number of consumers in vehicle.
 Vehicle
-.virtual('availableSeats')
-.get(function () {
-  return this.maxFixedSeats + this.maxFoldableSeatsForWheelchairs - this.consumers.length;
-});
+  .virtual('occupiedSeats')
+  .get(function() {
+    var occupiedSeats = 0;
+    this.consumers.forEach(function(consumer) {
+      if (!consumer.hasWheelchair) {
+        occupiedSeats++;
+      }
+    });
+    return occupiedSeats;
+  });
 
-// Number of seats available to  wheelchair consumers.
-// Calculated values based on number of wheelchair consumers in vehicle.
 Vehicle
-.virtual('availableWheelchairs')
-.get(function () {
-  var consumerWheelchairsCount =  this.consumers.reduce(function(prev, curr){
-    if(curr.hasWheelchair){
-      return prev++;
-    }
-    return prev;
-  }, 0);
+  .virtual('totalSeats')
+  .get(function() {
+    return this.maxFixedSeats + this.maxFoldableSeatsForWheelchairs;
+  });
 
-  return this.maxFixedWheelchairs - consumerWheelchairsCount;
+Vehicle
+  .virtual('occupiedWheelchairs')
+  .get(function() {
+    var occupiedWheelchairs = 0;
+    this.consumers.populate().forEach(function(consumer) {
+      if (consumer.hasWheelchair) {
+        occupiedWheelchairs++;
+      }
+    });
+    return occupiedWheelchairs;
+  });
 
-});
+Vehicle
+  .virtual('totalWheelchairs')
+  .get(function() {
+    return this.maxFixedWheelchairs + Math.floor((this.maxFoldableSeatsForWheelchairs / 2));
+  });
+
 
 module.exports = mongoose.model('Vehicle', Vehicle);
