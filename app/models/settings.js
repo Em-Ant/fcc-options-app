@@ -5,6 +5,10 @@ var Schema = mongoose.Schema;
 
 var Settings = new Schema({
   optionsIncAddress: {type: String, required: true},
+  optionsIncCoords:{
+    lat:{type: Number, required: true},
+    lon:{type: Number, required: true}
+  },
   maxPassengersPerVehicle: {type: Number, required: true},
   maxConsumerRouteTime: {type: Number, required: true}
 });

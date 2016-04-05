@@ -44,6 +44,7 @@
     "express-validator": "^2.20.3",
     "file-loader": "^0.8.5",
     "mongoose": "^4.1.0",
+    "node-geocoder": "^3.9.1",
     "node-sass": "^3.4.2",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",

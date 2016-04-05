@@ -11,7 +11,7 @@ var consumers = require('./consumerReducer');
 var combineReducers = require('redux').combineReducers;
 
 var rootReducer = combineReducers({
-  // UI state
+  // UI states
   settingsForm:settingsForm,
   consumersForm: consumersForm,
   vehiclesPage: vehiclesPage,
