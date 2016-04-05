@@ -5,7 +5,7 @@ var actions = require('../actions/vehicleActions.js');
 Redux aware container that connects dispatch functions and app state to component properties
 */
 var mapStateToProps = function(state) {
-  return {form: state.vehicles.form}
+  return {form: state.vehiclesPage.form}
 }
 var mapDispatchToProps = function(dispatch) {
   return {

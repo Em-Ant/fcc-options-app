@@ -7,8 +7,8 @@ Redux aware container that connects dispatch functions and app state to componen
 var mapStateToProps = function(state){
 return{
     vehicles:state.vehicles,
-    isLoading:state.vehicles.isLoading,
-    displayForm:state.vehicles.form.display
+    isLoading:state.vehiclesPage.isLoading,
+    displayForm:state.vehiclesPage.form.display
   }
 }
 

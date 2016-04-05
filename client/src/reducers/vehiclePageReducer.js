@@ -2,13 +2,13 @@ var actionTypes = require('../constants/actionTypes/vehicleActionTypes');
 
 function fetchRequest(state) {
   return Object.assign({}, state, {
-    isLoading:true
+    isLoading: true
   });
 }
 
 function fetchFailure(state, message) {
   return Object.assign({}, state, {
-    isLoading:false,
+    isLoading: false,
     message: {
       type: "error",
       msg: "There was an error retrieving vehicle routes"
@@ -18,44 +18,41 @@ function fetchFailure(state, message) {
 
 function fetchSuccess(state, vehicles) {
   return Object.assign({}, state, {
-    isLoading:false,
+    isLoading: false,
     items: vehicles
   });
 }
 
 function addRequest(state, addedVehicle) {
-    var newFormState = Object.assign({}, state.form, {
-      isLoading:true
-    });
-    return Object.assign({}, state, {
-      isLoading:true,
-      form:newFormState
-    });
+  var newFormState = Object.assign({}, state.form, {
+    isLoading: true
+  });
+  return Object.assign({}, state, {
+    isLoading: true,
+    form: newFormState
+  });
 }
 
 function addFailure(state, message) {
   var newFormState = Object.assign({}, state.form, {
-    isLoading:false,
+    isLoading: false,
     message: {
       type: "error",
       msg: message
     }
   })
   return Object.assign({}, state, {
-    isLoading:false,
+    isLoading: false,
     form: newFormState
   });
 }
 
 function add(state, addedVehicle) {
-  var newItemsState = state.items.slice();
-  newItemsState.push(addedVehicle);
   var newFormState = Object.assign({}, state.form, {
-    display:false
+    display: false
   })
   return Object.assign({}, state, {
-    isLoading:false,
-    items: newItemsState
+    isLoading: false
   }, {
     form: newFormState
   });
@@ -64,43 +61,36 @@ function add(state, addedVehicle) {
 
 function updateRequest(state) {
   var newFormState = Object.assign({}, state.form, {
-    isLoading:true
+    isLoading: true
   });
   return Object.assign({}, state, {
-    isLoading:true,
-    form:newFormState
+    isLoading: true,
+    form: newFormState
   });
 }
 
 function updateFailure(state, message) {
   var newFormState = Object.assign({}, state.form, {
-    isLoading:false,
+    isLoading: false,
     message: {
       type: "error",
       msg: message
     }
   })
   return Object.assign({}, state, {
-    isLoading:false,
+    isLoading: false,
     form: newFormState
   });
 }
+
 function update(state, vehicle) {
-  var newItemsState = state.items.slice();
-  //replaces the item with matching id
-  for (var i = 0; i < newItemsState.length; i++) {
-    if (newItemsState[i]._id == vehicle._id) {
-      newItemsState.splice(i, 1, vehicle);
-      break;
-    }
-  }
+
   var newFormState = Object.assign({}, state.form, {
-    isLoading:false,
-    display:false
+    isLoading: false,
+    display: false
   })
   return Object.assign({}, state, {
-    isLoading:false,
-    items: newItemsState
+    isLoading: false
   }, {
     form: newFormState
   });
@@ -109,16 +99,16 @@ function update(state, vehicle) {
 
 function destroyRequest(state) {
   return Object.assign({}, state, {
-    isLoading:true,
-    form:{
-      display:false
+    isLoading: true,
+    form: {
+      display: false
     }
   });
 }
 
 function destroyFailure(state) {
   return Object.assign({}, state, {
-    isLoading:false,
+    isLoading: false,
     message: {
       type: "error",
       msg: "There was an error deleting vehicle"
@@ -127,18 +117,8 @@ function destroyFailure(state) {
 }
 
 function destroy(state, id) {
-  var newItemsState = state.items.slice();
-  //removes the item with matching id
-  for (var i = 0; i < newItemsState.length; i++) {
-    if (newItemsState[i]._id == id) {
-      newItemsState.splice(i, 1);
-      break;
-    }
-  }
-
   return Object.assign({}, state, {
-    isLoading:false,
-    items: newItemsState
+    isLoading: false
   });
 }
 
@@ -178,7 +158,7 @@ function closeForm(state) {
 }
 
 var initState = {
-  isLoading:false,
+  isLoading: false,
   items: [],
   form: {
     display: false,
@@ -200,19 +180,19 @@ var vehiclesReducer = function(state, action) {
     case actionTypes.ADD_VEHICLE_FAILURE:
       return addFailure(state, action.message);
     case actionTypes.ADD_VEHICLE_SUCCESS:
-      return add(state, action.addedVehicle);
+      return add(state);
     case actionTypes.UPDATE_VEHICLE_REQUEST:
       return updateRequest(state);
     case actionTypes.UPDATE_VEHICLE_FAILURE:
       return updateFailure(state, action.message);
     case actionTypes.UPDATE_VEHICLE_SUCCESS:
-      return update(state, action.vehicle);
+      return update(state);
     case actionTypes.DESTROY_VEHICLE_REQUEST:
       return destroyRequest(state);
     case actionTypes.DESTROY_VEHICLE_FAILURE:
       return destroyFailure(state);
     case actionTypes.DESTROY_VEHICLE_SUCCESS:
-      return destroy(state, action.id);
+      return destroy(state);
     case actionTypes.SET_VEHICLE_EDIT_MODE:
       return setEditMode(state, action.id);
     case actionTypes.SET_VEHICLE_ADD_MODE:

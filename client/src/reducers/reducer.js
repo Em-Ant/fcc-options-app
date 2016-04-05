@@ -15,7 +15,7 @@ var rootReducer = combineReducers({
   // UI states
   settingsForm:settingsForm,
   consumersForm: consumersForm,
-//  vehiclesPage: vehiclesPage,
+  vehiclesPage: vehiclesPage,
   routing: routerReducer,
   vehicleRoutes: vehicleRoutes,
   login:login,
