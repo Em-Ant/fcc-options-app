@@ -15,10 +15,14 @@ var Vehicle = require('./models/vehicle.js');
 /**
  * SETTINGS
  */
- 
+
 Settings.find({}).remove(function() {
   Settings.create({
     optionsIncAddress: '16820 197th Ave NW, Big Lake, MN 55309',
+    optionsIncCoords:{
+      lat:45.3292957,
+      lon:-93.69755090000001
+    },
     maxPassengersPerVehicle: 14,
     maxConsumerRouteTime: 90
   }, function() {
