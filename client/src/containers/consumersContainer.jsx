@@ -5,13 +5,12 @@ var actions = require('../actions/consumerActions.js');
 var mapStateToProps = function(state){
 
   return {
-    consumersNeedToBeFetched: state.consumersPage.consumersNeedToBeFetched,
-    consumers: state.consumersPage.consumers,
-    loadingConsumers: state.consumersPage.loadingConsumers,
-    editIndex: state.consumersPage.editIndex,
-    formLoading : state.consumersPage.updatingConsumers,
-    deleteIndex: state.consumersPage.deleteIndex,
-    displayForm: state.consumersPage.displayForm
+    consumers: state.consumers,
+    loadingConsumers: state.consumersForm.loadingConsumers,
+    editIndex: state.consumersForm.editIndex,
+    formLoading : state.consumersForm.updatingConsumers,
+    deleteIndex: state.consumersForm.deleteIndex,
+    displayForm: state.consumersForm.displayForm
   }
 }
 

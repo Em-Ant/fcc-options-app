@@ -4,15 +4,10 @@ var React = require('react');
 var connect = require('react-redux').connect;
 var actions = require('../actions/consumerActions');
 
-var Ajax = require('../../js/ajax-functions.js');
 var ConsumerForm = require('./consumerForm.jsx');
 var Alert = require('./alertModal.jsx');
 
 var Consumers = React.createClass({
-  componentDidMount: function () {
-    if(this.props.consumersNeedToBeFetched)
-      this.props.loadConsumers();
-  },
   render: function() {
 
     var modalBody = this.props.deleteIndex !== undefined ?

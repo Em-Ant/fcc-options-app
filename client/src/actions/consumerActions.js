@@ -65,8 +65,8 @@ module.exports.editConsumer = function(updatedConsumer, index) {
 
 module.exports.deleteConsumer = function() {
   return function (dispatch, getState) {
-    var index = getState().consumersPage.deleteIndex;
-    var id = getState().consumersPage.consumers[index]._id;
+    var index = getState().consumersForm.deleteIndex;
+    var id = getState().consumers[index]._id;
     dispatch({
       type: actionTypes.CONSUMER_DELETE_LOADING
     });
