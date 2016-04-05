@@ -78,21 +78,21 @@ var VehicleForm = React.createClass({
                 <div className="form-group">
                   <label htmlFor="c_max_fixed_seats" className="col-sm-2 control-label">Fixed Seats</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="c_max_fixed_seats" placeholder="Fixed Seats" value={this.state.item.maxFixedSeats} onChange={this.handleFixedSeatsChange}/>
+                    <input type="number" className="form-control" id="c_max_fixed_seats" placeholder="Fixed Seats" value={this.state.item.maxFixedSeats} onChange={this.handleFixedSeatsChange}/>
                   </div>
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="c_max_foldable_seats" className="col-sm-2 control-label">Foldable Seats</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="c_max_foldable_seats" placeholder="Foldable Seats" value={this.state.item.maxFoldableSeatsForWheelchairs} onChange={this.handleFoldableSeatsChange}/>
+                    <input type="number" className="form-control" id="c_max_foldable_seats" placeholder="Foldable Seats" value={this.state.item.maxFoldableSeatsForWheelchairs} onChange={this.handleFoldableSeatsChange}/>
                   </div>
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="c_max_wheelchairs" className="col-sm-2 control-label">Wheelchair Capacity</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="c_max_wheelchairs" placeholder="Wheelchair Capacity" value={this.state.item.maxFixedWheelchairs} onChange={this.handleWheelchairCapacityChange}/>
+                    <input type="number" className="form-control" id="c_max_wheelchairs" placeholder="Wheelchair Capacity" value={this.state.item.maxFixedWheelchairs} onChange={this.handleWheelchairCapacityChange}/>
                   </div>
                 </div>
               </div>
