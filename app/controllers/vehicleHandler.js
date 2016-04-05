@@ -56,14 +56,31 @@ function VehicleHandler() {
 
   //return all vehicles
   this.index = function(req, res) {
-    Vehicle.find(function(err, vehicles) {
-      if (err) {
-        return res.status(400).json({
-          msg: 'There was an error retrieving vehicles'
-        });
-      }
-      return res.status(200).json(vehicles);
-    });
+
+    // if query param 'populate' === 'true' populate consumers refs
+    if(req.query.populate === 'true') {
+      console.log('ok');
+      Vehicle.find({})
+      .populate('consumers')
+      .exec(function(err, vehicles) {
+        if (err) {
+          return res.status(400).json({
+            msg: 'There was an error retrieving vehicles'
+          });
+        }
+        return res.status(200).json(vehicles);
+      });
+    } else {
+      // send consumers objectId
+      Vehicle.find(function(err, vehicles) {
+        if (err) {
+          return res.status(400).json({
+            msg: 'There was an error retrieving vehicles'
+          });
+        }
+        return res.status(200).json(vehicles);
+      });
+    }
   }
 
   // return a single vehicle

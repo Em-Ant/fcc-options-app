@@ -8,8 +8,12 @@ var Consumer = new Schema({
   sex: {type: String, required: true, enum:['male', 'female']},
   address: {type: String, required: true},
   phone: String,
+  position: {
+    lat: Number,
+    lng: Number
+  },
 
-  // Details flags
+  // Needs flags
   needsWave: Boolean,
   cannotSitNearOppositeSex: Boolean,
   needsTwoSeats: Boolean,

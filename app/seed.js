@@ -69,32 +69,54 @@ User.find({}).remove(function() {
     hasWheelchair: Boolean,
     hasMedications: Boolean
 */
+
 var consumer1 = new Consumer({
   name: 'John D.',
   sex: 'male',
-  address: '123, Main Road, NYC',
+  address: "301 Donna Ct, Big Lake, MN 55309, USA",
+  position : {lat: 45.3289021, lng: -93.73277439999998},
   phone: '333-444555',
   // Details flags
   needsWave: true,
   hasWheelchair: true,
 });
+
 Consumer.find({}).remove(function() {
   consumer1.save();
   Consumer.create({
     name: 'Ashley B.',
     sex: 'female',
-    address: '231, Secondary Street, NYC',
+    address: "321 Washington Ave, Big Lake, MN 55309, USA",
+    position: {lat: 45.3414832, lng: -93.7440694},
     phone: '222-444555',
     hasSeizures: true,
     hasMedications: true
   }, {
     name: 'Henry F.',
     sex: 'male',
-    address: '456, Wide Avenue, NYC',
+    address: "14901 204th Ave NW,Big Lake, MN 55330, USA",
+    position: {lat: 45.3418199, lng: -93.77724039999998},
     phone: '222-111989',
     needsTwoSeats: true,
     cannotSitNearOppositeSex: true,
     hasMedications: true
+  }, {
+    name: "Gordon F.",
+    sex: "male",
+    address: "20083 January St,Big Lake, MN 55309, USA",
+    position: {lat: 45.3323147, lng: -93.6875397},
+    phone: '222-111987',
+  }, {
+    name: "Edward S.",
+    sex: "male",
+    address: "17270 US Highway 10 NW,Big Lake, MN 55309, USA",
+    position: {lat: 45.3330214, lng: -93.7109542},
+  }, {
+    name: "Mary J.",
+    address: "15818 201st Ave NW,Big Lake, MN 55330, USA",
+    position: {lat:45.33412389999999, lng: -93.67073979999998},
+    sex: "female",
+    hasWheelchair: true
   }, function() {
     console.log('finished populating consumers');
   });
@@ -147,7 +169,7 @@ Route.find({}).remove(function() {
   }],
 */
 var vehicle1 = new Vehicle({
-  name: 'Minivan 1',
+  name: 'Minivan 4',
   maxFixedSeats: 7,
   maxFoldableSeatsForWheelchairs: 0,
   maxFixedWheelchairs: 0
@@ -156,7 +178,7 @@ vehicle1.consumers.push(consumer1);
 Vehicle.find({}).remove(function() {
   vehicle1.save();
   Vehicle.create({
-    name: 'Van 1',
+    name: 'Van 3',
     maxFixedSeats: 12,
     maxFoldableSeatsForWheelchairs: 0,
     maxFixedWheelchairs: 0
