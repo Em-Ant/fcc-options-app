@@ -31,6 +31,7 @@ var syncHistoryWithStore = require('react-router-redux').syncHistoryWithStore;
 
 var settingsActions = require("./actions/settingsActions");
 var consumerActions = require("./actions/consumerActions");
+var vehicleActions = require("./actions/vehicleActions");
 var store = createStore(reducer, applyMiddleware(thunk));
 
 // Creates an enhanced history that syncs navigation events with the store
@@ -40,6 +41,7 @@ var App = React.createClass({
   componentDidMount: function() {
     store.dispatch(settingsActions.load());
     store.dispatch(consumerActions.loadConsumers());
+    store.dispatch(vehicleActions.fetch());
     //store.dispatch(actions.requestUser());
   },
   render: function() {

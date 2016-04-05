@@ -1,5 +1,6 @@
 var vehicleRoutes =require('./vehicleRoutesReducer');
-var vehiclesPage =require('./vehicleReducer');
+var vehicles =require('./vehicleReducer');
+var vehiclesPage =require('./vehiclePageReducer');
 var consumersForm = require('./consumerFormReducer');
 var settingsForm = require('./settingsFormReducer');
 var login = require('./loginReducer');
@@ -21,7 +22,8 @@ var rootReducer = combineReducers({
 
   // data state
   settings:settings,
-  consumers: consumers
+  consumers: consumers,
+  vehicles: vehicles
 
 });
 module.exports = rootReducer;

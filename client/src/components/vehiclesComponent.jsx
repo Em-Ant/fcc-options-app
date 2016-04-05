@@ -4,9 +4,6 @@ var React = require('react');
 var VehicleFormContainer = require('../containers/vehicleFormContainer.jsx');
 
 var Vehicles = React.createClass({
-  componentDidMount:function(){
-    this.props.loadVehicles();
-  },
   handleEditButton:function(id){
     this.props.onEditButtonClick(id);
   },
@@ -15,16 +12,6 @@ var Vehicles = React.createClass({
   },
   handleAddButton:function(){
     this.props.onAddButtonClick();
-  },
-  getDefaultProps:function(){
-    return {
-      vehicles:{
-        items:[],
-        form:{
-          display:false
-        }
-      }
-    }
   },
   render: function(){
 return (
@@ -53,7 +40,7 @@ return (
                   </tr>
                 </thead>
                 <tbody>
-                  {this.props.vehicles.items.map(function(vehicle, index) {
+                  {this.props.vehicles.map(function(vehicle, index) {
                     return (
                       <tr key={index}>
                         <td>{vehicle.name}</td>
@@ -82,7 +69,7 @@ return (
               </table>
             </div>
 
-            {this.props.vehicles.isLoading ?
+            {this.props.isLoading ?
             <div className="overlay">
               <i className="fa fa-refresh fa-spin"></i>
             </div>
@@ -92,7 +79,7 @@ return (
       </div>
         {
           // Form to add, edit, and delete a Vehicle Route
-          this.props.vehicles.form.display?
+          this.props.displayForm?
           <VehicleFormContainer/>:null
 
         }

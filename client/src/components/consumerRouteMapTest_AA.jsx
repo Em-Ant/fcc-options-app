@@ -69,8 +69,6 @@ var Vehicle = React.createClass({
                         ? <i className="fa fa-wheelchair"></i>
                         : null}
 
-
-                        <i className="fa fa-times pull-right" style={{color:"red"}}></i>
                   </div>
                 )
               })
@@ -152,16 +150,25 @@ var ConsumerMap = React.createClass({
 
 
           var route = response.routes[0];
+          console.log(route);
           var summaryPanel = document.getElementById('directions-panel');
           summaryPanel.innerHTML = '';
           // For each route, display summary information.
           for (var i = 0; i < route.legs.length; i++) {
             var routeSegment = i + 1;
+            var leg = route.legs[i];
             summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
-            summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-            summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-            summaryPanel.innerHTML += route.legs[i].distance.text + ' ';
-            summaryPanel.innerHTML += route.legs[i].duration.text + '<br><br>';
+            summaryPanel.innerHTML += leg.start_address + ' to ';
+            summaryPanel.innerHTML += leg.end_address + '<br>';
+            console.log("leg", leg);
+            console.log("leg steps length", leg.steps.length);
+            for(var j =0; j < leg.steps.length; j++){
+              console.log("inside for loop");
+              var step = leg.steps[j];
+              summaryPanel.innerHTML += step.instructions + '<br>';
+            }
+            summaryPanel.innerHTML += leg.distance.text + ' ';
+            summaryPanel.innerHTML += leg.duration.text + '<br><br>';
           }
         } else {
           window.alert('Directions request failed due to ' + status);
@@ -254,10 +261,17 @@ var ConsumerMap = React.createClass({
 
         var consumersOnBoard = vehicle.consumers;
         var candidateConsumer = self.state.consumers[index];
+        
+        
 
         var ind = consumersOnBoard.indexOf(candidateConsumer);
-
-        if (ind > -1) {
+        
+        //HACK
+        // if consumer is on another route
+        //if marker is yellow.  
+        if(marker.getIcon() == ICON_URL + YELLOW){
+          //don't do anything
+        }else if (ind > -1) {
           //Remove consumer from vehicle
           consumersOnBoard.splice(ind,1)
           marker.setIcon(iconUnassigned);
@@ -383,23 +397,26 @@ var ConsumerMap = React.createClass({
         <section className="content">
           <div className="row">
             <div className="col-xs-3">
+            <div>
               <button
                 className="btn btn-default"
                 onClick={this.calculateAndDisplayRoute}
               >
-                Get Optimal Route
+                Get Directions for Selected Bus
               </button>
-
+            </div>
+            <div>
                 <button
                   className="btn btn-default"
                 >
-                  Discard Changes
+                  <i className="fa fa-trash"/>
                 </button>
                   <button
                     className="btn btn-default"
                   >
-                    Save Changes
+                  <i className="fa fa-floppy-o"/>
                   </button>
+                  </div>
               {this.state.vehicles.map(function(vehicle, index){
                 return(
                   <Vehicle key={index}
@@ -411,7 +428,7 @@ var ConsumerMap = React.createClass({
               }.bind(this))}
             </div>
             <div className="col-xs-9">
-              <div id="test-map"></div>
+              <div id="test-map"  style={{height:"600px"}}></div>
               <div id="directions-panel"></div>
             </div>
           </div>
