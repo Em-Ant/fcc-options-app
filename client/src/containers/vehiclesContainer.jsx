@@ -14,9 +14,6 @@ return{
 
 var mapDispatchToProps = function(dispatch){
   return{
-    loadVehicles:function(){
-      dispatch(actions.fetch());
-    },
     onDeleteButtonClick:function(id){
       dispatch(actions.destroy(id));
     },
