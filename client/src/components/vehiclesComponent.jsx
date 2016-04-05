@@ -16,16 +16,6 @@ var Vehicles = React.createClass({
   handleAddButton:function(){
     this.props.onAddButtonClick();
   },
-  getDefaultProps:function(){
-    return {
-      vehicles:{
-        items:[],
-        form:{
-          display:false
-        }
-      }
-    }
-  },
   render: function(){
 return (
   <div className="content-wrapper">
@@ -82,7 +72,7 @@ return (
               </table>
             </div>
 
-            {this.props.vehicles.isLoading ?
+            {this.props.isLoading ?
             <div className="overlay">
               <i className="fa fa-refresh fa-spin"></i>
             </div>
@@ -92,7 +82,7 @@ return (
       </div>
         {
           // Form to add, edit, and delete a Vehicle Route
-          this.props.vehicles.form.display?
+          this.props.displayForm?
           <VehicleFormContainer/>:null
 
         }
