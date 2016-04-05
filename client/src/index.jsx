@@ -63,7 +63,7 @@ ReactDOM.render(
         <Route path="/consumers" component={Consumers}/>
         <Route path="/vehicles" component={Vehicles}/>
         {/*<Route path="/consumer-map" component={ConsumerMap} />*/}
-        <Route path="/map-test" component={ConsumerRoute3} />
+        <Route path="/map-test" component={ConsumerRoute2} />
         <Route path="/consumer-route" component={ConsumerRoute} />
         <Route path="/consumer-route2" component={ConsumerRoute2} />
       </Route>

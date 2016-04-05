@@ -153,10 +153,15 @@ var ConsumerMap = React.createClass({
           console.log(route);
           var summaryPanel = document.getElementById('directions-panel');
           summaryPanel.innerHTML = '';
+          var totalDuration = 0;
           // For each route, display summary information.
+          summaryPanel.innerHTML +=
+            '<b>Estimated best route</b><br>Duration (w/out stops and traffic): <span id="duration"></span><br><br>';
           for (var i = 0; i < route.legs.length; i++) {
             var routeSegment = i + 1;
             var leg = route.legs[i];
+            totalDuration += leg.duration.value;
+
             summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
             summaryPanel.innerHTML += leg.start_address + ' to ';
             summaryPanel.innerHTML += leg.end_address + '<br>';
@@ -170,6 +175,8 @@ var ConsumerMap = React.createClass({
             summaryPanel.innerHTML += leg.distance.text + ' ';
             summaryPanel.innerHTML += leg.duration.text + '<br><br>';
           }
+          var durationSpan = document.getElementById('duration');
+          durationSpan.innerHTML  = '' + Math.ceil(totalDuration / 60.0) + ' min';
         } else {
           window.alert('Directions request failed due to ' + status);
         }
@@ -261,14 +268,14 @@ var ConsumerMap = React.createClass({
 
         var consumersOnBoard = vehicle.consumers;
         var candidateConsumer = self.state.consumers[index];
-        
-        
+
+
 
         var ind = consumersOnBoard.indexOf(candidateConsumer);
-        
+
         //HACK
         // if consumer is on another route
-        //if marker is yellow.  
+        //if marker is yellow.
         if(marker.getIcon() == ICON_URL + YELLOW){
           //don't do anything
         }else if (ind > -1) {
