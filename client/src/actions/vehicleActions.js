@@ -21,19 +21,11 @@ module.exports.fetch = function() {
           message: err.responseJSON.msg
         });
       } else {
+
         dispatch({
           type: actionTypes.FETCH_VEHICLES_SUCCESS,
           vehicles: vehicles
         });
-
-              //TODO remove.  This is just for demo
-          var normalize = require('normalizr').normalize;
-          var Schema = require('normalizr').Schema;
-          var arrayOf = require('normalizr').arrayOf;
-          const vehicle = new Schema('vehicles',{ idAttribute: '_id' });
-          console.log("before normalizing vehicles", vehicles);
-          vehicles = normalize(vehicles, arrayOf(vehicle));
-          console.log("after normalizing vehicles", vehicles);
       }
 
     });
