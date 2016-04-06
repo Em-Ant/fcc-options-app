@@ -9,6 +9,7 @@ var session = require('express-session');
 var expressValidator = require('express-validator');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
+var config = require('./app/config/config');
 
 var app = express();
 
@@ -27,6 +28,9 @@ mongoose.connect(process.env.MONGO_URI || process.env.MONGOLAB_URI, function(err
 if(process.env.SEED_DB && process.env.SEED_DB==="true") {
   require('./app/seed.js');
 }
+if(process.env.NODE_ENV == "development"){
+  config.setHotReloading(app);
+}
 
 app.use(favicon(process.cwd() + '/client/public/img/favicon.ico'));
 app.use('/', express.static(process.cwd() + '/client/public'));
@@ -44,7 +48,6 @@ app.use(bodyParser.json());
 app.use(expressValidator());
 
 routes(app, passport);
-
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
