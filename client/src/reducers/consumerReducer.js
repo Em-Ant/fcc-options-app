@@ -4,24 +4,32 @@ var actionTypes = require('../constants/actionTypes/consumerActionTypes.js');
 
 
 function updateConsumer (state, updatedConsumer) {
-  var s = Object.assign({}, state);
-  s.data[updatedConsumer._id] = updatedConsumer;
-  return s;
+  var data = Object.assign({},state.data);
+  var ids = state.ids.slice();
+  data[updatedConsumer._id] = updatedConsumer;
+  
+  return Object.assign({}, state, {data: data, ids: ids});
 }
 
 function deleteConsumer (state, id) {
-  var s = Object.assign({}, state);
-  delete s.data[id];
-  var ind = s.ids.indexOf(id);
-  s.ids.splice(ind, 1);
-  return s;
+  var data = Object.assign({},state.data);
+  var ids = state.ids.slice();
+  delete data[id];
+  var ind = ids.indexOf(id);
+  ids.splice(ind, 1);
+  
+  return Object.assign({}, state, {ids: ids, data: data});
 }
 
 function addConsumer (state, newConsumer) {
-  var s = Object.assign({}, state);
-  s.data[newConsumer._id] = newConsumer;
-  s.ids.push(newConsumer._id);
-  return s;
+  
+  var data = Object.assign({},state.data);
+  var ids = state.ids.slice();
+  data[newConsumer._id] = newConsumer;
+  ids.push(newConsumer._id);
+  var newState = Object.assign({}, state, {ids: ids, data: data});
+
+  return newState;
 }
 
 function setConsumers(state, consumers) {
@@ -30,7 +38,7 @@ function setConsumers(state, consumers) {
     s[c._id] = c;
   });
   var ids = Object.keys(s);
-  return {ids: ids, data: s};
+  return Object.assign({}, state, {data: s, ids: ids});
 }
 
 

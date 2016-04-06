@@ -40,7 +40,8 @@ return (
                   </tr>
                 </thead>
                 <tbody>
-                  {this.props.vehicles.map(function(vehicle, index) {
+                  {this.props.vehiclesIds.map(function(id, index) {
+                    var vehicle = this.props.vehicles[id];
                     return (
                       <tr key={index}>
                         <td>{vehicle.name}</td>
