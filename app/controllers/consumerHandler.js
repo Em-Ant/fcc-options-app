@@ -59,7 +59,7 @@ function ConsumerHandler () {
       if(!consumer) { return res.status(404).send('Not Found'); }
       consumer.remove(function(err) {
         if(err) { return handleError(res, err); }
-        return res.status(204).send('No Content');
+        return res.status(200).json({status: 'delete ok'});
       });
     });
   }

@@ -5,11 +5,12 @@ var actions = require('../actions/consumerActions.js');
 var mapStateToProps = function(state){
 
   return {
-    consumers: state.consumers,
+    consumerIds: state.consumers.ids,
+    consumers: state.consumers.data,
     loadingConsumers: state.consumersForm.loadingConsumers,
-    editIndex: state.consumersForm.editIndex,
+    editId: state.consumersForm.editId,
     formLoading : state.consumersForm.updatingConsumers,
-    deleteIndex: state.consumersForm.deleteIndex,
+    deleteId: state.consumersForm.deleteId,
     displayForm: state.consumersForm.displayForm
   }
 }
@@ -19,20 +20,20 @@ var mapDispatchToProps = function(dispatch){
     loadConsumers: function () {
       dispatch(actions.loadConsumers());
     },
-    handleEditConsumer : function(newConsumer, index) {
-      dispatch(actions.editConsumer(newConsumer, index))
+    handleEditConsumer : function(updatedConsumer) {
+      dispatch(actions.editConsumer(updatedConsumer))
     },
     handleAddConsumer : function(newConsumer) {
       dispatch(actions.addConsumer(newConsumer))
     },
-    setEditMode: function (index) {
-      dispatch(actions.setEditMode(index))
+    setEditMode: function (id) {
+      dispatch(actions.setEditMode(id))
     },
     resetEditMode: function () {
       dispatch(actions.resetEditMode())
     },
-    setDeleteIndex: function(index) {
-      dispatch(actions.setDeleteIndex(index))
+    setDeleteIndex: function(id) {
+      dispatch(actions.setDeleteId(id))
     },
     deleteConsumer: function() {
       dispatch(actions.deleteConsumer())

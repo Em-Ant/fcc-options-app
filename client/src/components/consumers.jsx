@@ -10,9 +10,9 @@ var Alert = require('./alertModal.jsx');
 var Consumers = React.createClass({
   render: function() {
 
-    var modalBody = this.props.deleteIndex !== undefined ?
+    var modalBody = this.props.deleteId !== undefined ?
     "Are You sure You want to delete Consumer '"
-      + this.props.consumers[this.props.deleteIndex].name + "' ?"
+      + this.props.consumers[this.props.deleteId].name + "' ?"
       : "";
     return (
       <div className="content-wrapper">
@@ -45,7 +45,8 @@ var Consumers = React.createClass({
                       </tr>
                     </thead>
                     <tbody>
-                      {this.props.consumers.map(function(consumer, index) {
+                      {this.props.consumerIds.map(function(id, index) {
+                        var consumer = this.props.consumers[id];
                         return (
                           <tr key={index}>
                             <td>{consumer.name}</td>
@@ -64,14 +65,14 @@ var Consumers = React.createClass({
 
                                 <button className="btn btn-sm btn-default in-table"
                                   title="Edit" type="button"
-                                  onClick={this.props.setEditMode.bind(null, index)}>
+                                  onClick={this.props.setEditMode.bind(null, consumer._id)}>
                                   <i className="fa fa-pencil-square-o"></i>
                                 </button>
                                 <button
                                   className="btn btn-sm btn-default in-table"
                                   title="Delete"  data-toggle="modal"
                                   data-target="#consumer-delete-alert" type="button"
-                                  onClick={this.props.setDeleteIndex.bind(null, index)}>
+                                  onClick={this.props.setDeleteIndex.bind(null, consumer._id)}>
                                   <i className="fa fa-trash-o"></i>
                                 </button>
 
@@ -93,16 +94,16 @@ var Consumers = React.createClass({
           </div>
           {this.props.displayForm ?
             <ConsumerForm
-              verb={this.props.editIndex !== undefined ? "Edit": "Add"}
+              verb={this.props.editId !== undefined ? "Edit": "Add"}
               buttonHandles={
-                this.props.editIndex !== undefined ?
+                this.props.editId !== undefined ?
                 this.props.handleEditConsumer :
                 this.props.handleAddConsumer}
               defaults={
-                this.props.editIndex !== undefined ?
-                this.props.consumers[this.props.editIndex] :
+                this.props.editId !== undefined ?
+                this.props.consumers[this.props.editId] :
                 {}}
-              editIndex={this.props.editIndex}
+              editId={this.props.editId}
               loading={this.props.formLoading}
               onClose={this.props.resetEditMode}
             />

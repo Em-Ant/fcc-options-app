@@ -62,7 +62,7 @@ var ConsumerForm = React.createClass({
 
     $('input').iCheck('uncheck');
 
-    this.props.buttonHandles(newConsumer, this.props.editIndex)
+    this.props.buttonHandles(newConsumer)
   },
   componentDidMount: function () {
     $('input').iCheck({
@@ -71,7 +71,7 @@ var ConsumerForm = React.createClass({
       increaseArea: '20%' // optional
     });
 
-    $(".select2").select2();
+    $(".select2").select2()
     this.setDefaults(this.props);
   },
 

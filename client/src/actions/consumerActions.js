@@ -42,7 +42,7 @@ module.exports.addConsumer = function(newConsumer) {
   }
 }
 
-module.exports.editConsumer = function(updatedConsumer, index) {
+module.exports.editConsumer = function(updatedConsumer) {
   return function (dispatch) {
     dispatch({
       type: actionTypes.CONSUMER_UPDATE_LOADING
@@ -56,8 +56,7 @@ module.exports.editConsumer = function(updatedConsumer, index) {
       }
       dispatch({
         type: actionTypes.CONSUMER_UPDATE_SUCCESS,
-        updatedConsumer: consumer,
-        position: index
+        updatedConsumer: consumer
       })
     })
   }
@@ -65,8 +64,7 @@ module.exports.editConsumer = function(updatedConsumer, index) {
 
 module.exports.deleteConsumer = function() {
   return function (dispatch, getState) {
-    var index = getState().consumersForm.deleteIndex;
-    var id = getState().consumers[index]._id;
+    var id = getState().consumersForm.deleteId;
     dispatch({
       type: actionTypes.CONSUMER_DELETE_LOADING
     });
@@ -79,16 +77,16 @@ module.exports.deleteConsumer = function() {
       }
       dispatch({
         type: actionTypes.CONSUMER_DELETE_SUCCESS,
-        position: index
+        id: id
       })
     })
   }
 }
 
-module.exports.setEditMode = function (index) {
+module.exports.setEditMode = function (id) {
   return {
     type: actionTypes.CONSUMER_SET_EDIT_MODE,
-    index: index
+    id: id
   };
 }
 
@@ -104,9 +102,9 @@ module.exports.resetEditMode = function () {
   };
 }
 
-module.exports.setDeleteIndex = function (index) {
+module.exports.setDeleteId = function (id) {
   return {
     type: actionTypes.CONSUMER_SET_ITEM_TO_DELETE,
-    index: index
+    id: id
   };
 }
