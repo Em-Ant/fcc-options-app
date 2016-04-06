@@ -1,9 +1,13 @@
 var Ajax = require('../../js/ajax-functions.js');
 var actionTypes = require('../constants/actionTypes/vehicleActionTypes');
+
+
 /*
 Retrieves the vehicles
 */
 module.exports.fetch = function() {
+
+
   // this will return a thunk
   return function(dispatch) {
     dispatch({
@@ -21,6 +25,15 @@ module.exports.fetch = function() {
           type: actionTypes.FETCH_VEHICLES_SUCCESS,
           vehicles: vehicles
         });
+
+              //TODO remove.  This is just for demo
+          var normalize = require('normalizr').normalize;
+          var Schema = require('normalizr').Schema;
+          var arrayOf = require('normalizr').arrayOf;
+          const vehicle = new Schema('vehicles',{ idAttribute: '_id' });
+          console.log("before normalizing vehicles", vehicles);
+          vehicles = normalize(vehicles, arrayOf(vehicle));
+          console.log("after normalizing vehicles", vehicles);
       }
 
     });

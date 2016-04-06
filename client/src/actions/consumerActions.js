@@ -18,6 +18,15 @@ module.exports.loadConsumers = function() {
         type: actionTypes.CONSUMER_INDEX_SUCCESS,
         consumers: consumers
       })
+
+      //TODO remove.  This is just for demo
+      var normalize = require('normalizr').normalize;
+      var Schema = require('normalizr').Schema;
+      var arrayOf = require('normalizr').arrayOf;
+      const consumer = new Schema('consumers',{ idAttribute: '_id' });
+      console.log("before normalizing consumers", consumers);
+      consumers = normalize(consumers, arrayOf(consumer));
+      console.log("after normalizing consumers", consumers);
     })
   }
 }
