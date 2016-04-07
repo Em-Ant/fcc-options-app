@@ -1,14 +1,15 @@
 'use strict'
 
 var React = require('react');
-var MapPage = require('./consumerRouteMapTest_3.jsx')
+var MapPage = require('./mapMain.jsx')
 var connect = require('react-redux').connect;
 var c_actions = require('../../actions/consumerActions');
 var v_actions = require('../../actions/vehicleActions');
+var s_actions = require('../../actions/settingsActions');
 
 
-// When the map is rendered, we are sure that all needed data is properly loaded
-// so we can handle them in 'componentDidMount'
+// When the map is rendered, we are sure that all needed data
+// are properly loaded so we can handle them in 'componentDidMount'
 
 var MapWrapper = React.createClass({
   componentDidMount: function () {
@@ -16,6 +17,8 @@ var MapWrapper = React.createClass({
       this.props.loadConsumers();
     if(this.props.vehiclesNeedToBeFetched)
       this.props.loadVehicles();
+    if(this.props.settingsNeedToBeFetched)
+      this.props.loadSettings();
   },
     render: function() {
       var body = this.props.dataLoaded
@@ -23,7 +26,6 @@ var MapWrapper = React.createClass({
       : (<div id="map-loader">
           <i className="fa fa-refresh fa-spin"></i> Loading data...
         </div> )
-
 
     return (
       <div className="content-wrapper">
@@ -36,10 +38,12 @@ var MapWrapper = React.createClass({
 });
 
 var mapStateToProps = function(state){
-  return{
+  return {
     consumersNeedToBeFetched: state.consumers.needToBeFetched,
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
-    dataLoaded : (state.consumers.lastUpdated && state.vehicles.lastUpdated)
+    settingsNeedToBeFetched: state.settings.needToBeFetched,
+    dataLoaded : ((state.consumers.lastUpdated
+      && state.vehicles.lastUpdated) && state.settings.optionsIncAddress)
   }
 }
 var mapDispatchToProps = function(dispatch) {
@@ -49,6 +53,9 @@ var mapDispatchToProps = function(dispatch) {
     },
     loadVehicles : function() {
       dispatch(v_actions.fetch());
+    },
+    loadSettings: function() {
+      dispatch(s_actions.load())
     }
   }
 }
