@@ -39,7 +39,9 @@ var history = syncHistoryWithStore(browserHistory, store)
 
 var App = React.createClass({
   componentDidMount: function() {
-    store.dispatch(settingsActions.load());
+    if(store.getState().settings.needToBeFetched) {
+      store.dispatch(settingsActions.load());
+    }
     //store.dispatch(vehicleActions.fetch());
     //store.dispatch(actions.requestUser());
   },

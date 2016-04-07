@@ -1,8 +1,10 @@
 var actionTypes = require('../constants/actionTypes/settingsActionTypes.js');
 
 var loadRequest = function(state) {
-  // do nothing for now
-  return state;
+  // do no
+  return Object.assign({}, state, {
+    needToBeFetched: undefined
+  });
 }
 var loadFailure = function(state) {
   // do nothing for now
@@ -15,10 +17,8 @@ var update = function(state, settings) {
   return Object.assign({}, state, settings);
 }
 
-var initState = {
-};
 var settingsFormReducer = function(state, action) {
-  state = state || initState;
+  state = state || {needToBeFetched:true};
   switch (action.type) {
     case actionTypes.SETTINGS_LOAD_REQUEST:
       return loadRequest(state);
