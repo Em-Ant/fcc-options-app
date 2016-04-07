@@ -1,5 +1,5 @@
 var connect = require('react-redux').connect;
-var Consumers = require('../components/consumers.jsx');
+var Consumers = require('../components/consumersPage/consumersPageComponent.jsx');
 var actions = require('../actions/consumerActions.js');
 
 var mapStateToProps = function(state){

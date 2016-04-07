@@ -2,7 +2,7 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var actions = require('../actions/consumerActions');
+var actions = require('../../actions/consumerActions');
 
 var ICON_URL = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|";
 var OPTIONS_INC_ADDRESS = '16820 197th Ave NW,Big Lake, MN 55309, USA';

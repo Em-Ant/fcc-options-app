@@ -3,8 +3,8 @@
 var React = require('react');
 var MapPage = require('./consumerRouteMapTest_3.jsx')
 var connect = require('react-redux').connect;
-var c_actions = require('../actions/consumerActions');
-var v_actions = require('../actions/vehicleActions');
+var c_actions = require('../../actions/consumerActions');
+var v_actions = require('../../actions/vehicleActions');
 
 
 // When the map is rendered, we are sure that all needed data is properly loaded

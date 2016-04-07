@@ -9,9 +9,9 @@ var Signup = require('./components/signup.jsx').Signup;
 var VehicleRoutes = require('./containers/vehicleRoutesContainer.jsx');
 var Vehicles = require('./containers/vehiclesContainer.jsx');
 
-var Consumers = require('./containers/consumersContainer.jsx');
+var Consumers = require('./containers/consumersPageContainer.jsx');
 
-var ConsumerRoute3 = require('./components/MapWrapper.jsx');
+var ConsumerRoute3 = require('./components/mapPage/mapWrapper.jsx');
 var ConsumerRoute2 = require('./components/consumerRouteMapTest_AA.jsx');
 var ConsumerRoute = require('./components/consumerRouteMapTest_EA.jsx');
 
