@@ -18,15 +18,13 @@ function fetchFailure(state, message) {
 
 function fetchSuccess(state, vehicles) {
   return Object.assign({}, state, {
-    isLoading: false,
-    vehicles: vehicles
+    isLoading: false
   });
 }
 
-function addRequest(state, vehicle) {
+function addRequest(state) {
   var newFormState = Object.assign({}, state.form, {
-    isLoading: true,
-    vehicle:vehicle
+    isLoading: true
   });
   return Object.assign({}, state, {
     isLoading: true,
@@ -48,7 +46,7 @@ function addFailure(state, message) {
   });
 }
 
-function add(state, addedVehicle) {
+function add(state) {
   var newFormState = Object.assign({}, state.form, {
     display: false
   })
@@ -60,10 +58,9 @@ function add(state, addedVehicle) {
 }
 
 
-function updateRequest(state, vehicle) {
+function updateRequest(state) {
   var newFormState = Object.assign({}, state.form, {
-    isLoading: true,
-    vehicle:vehicle
+    isLoading: true
   });
   return Object.assign({}, state, {
     isLoading: true,
@@ -85,7 +82,7 @@ function updateFailure(state, message) {
   });
 }
 
-function update(state, vehicle) {
+function update(state) {
 
   var newFormState = Object.assign({}, state.form, {
     isLoading: false,
@@ -125,18 +122,12 @@ function destroy(state, id) {
 }
 
 function setEditMode(state, id) {
-  var vehicle = {};
-  //find vehicle that will be edited
-  for (var i = 0; i < state.vehicles.length; i++) {
-    if (state.vehicles[i]._id == id) {
-      vehicle = state.vehicles[i];
-    }
-  }
+
   return Object.assign({}, state, {
     form: {
       display: true,
       verb: 'Edit',
-      vehicle: vehicle
+      editId: id
     }
   });
 }
@@ -145,8 +136,7 @@ function setAddMode(state) {
   return Object.assign({}, state, {
     form: {
       display: true,
-      verb: 'Add',
-      vehicle: {}
+      verb: 'Add'
     }
   });
 }
@@ -161,11 +151,8 @@ function closeForm(state) {
 
 var initState = {
   isLoading: false,
-  vehicles: [],
   form: {
-    display: false,
-    verb: 'Add',
-    vehicle: {}
+    display: false
   }
 };
 var vehiclesReducer = function(state, action) {
@@ -176,15 +163,15 @@ var vehiclesReducer = function(state, action) {
     case actionTypes.FETCH_VEHICLES_FAILURE:
       return fetchFailure(state);
     case actionTypes.FETCH_VEHICLES_SUCCESS:
-      return fetchSuccess(state, action.vehicles);
+      return fetchSuccess(state);
     case actionTypes.ADD_VEHICLE_REQUEST:
-      return addRequest(state, action.vehicle);
+      return addRequest(state);
     case actionTypes.ADD_VEHICLE_FAILURE:
       return addFailure(state, action.message);
     case actionTypes.ADD_VEHICLE_SUCCESS:
       return add(state);
     case actionTypes.UPDATE_VEHICLE_REQUEST:
-      return updateRequest(state, action.vehicle);
+      return updateRequest(state);
     case actionTypes.UPDATE_VEHICLE_FAILURE:
       return updateFailure(state, action.message);
     case actionTypes.UPDATE_VEHICLE_SUCCESS:

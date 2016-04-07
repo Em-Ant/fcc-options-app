@@ -4,7 +4,8 @@ var React = require('react');
 var Message = require('./message.jsx');
 
 var VehicleForm = React.createClass({
-  setPropsToState: function(vehicle) {
+  setVehicleToEdit: function(vehicleId) {
+    var vehicle = this.props.vehicles[vehicleId];
     this.setState({vehicle: vehicle});
   },
   handleSubmit: function(e) {
@@ -35,13 +36,17 @@ var VehicleForm = React.createClass({
     return {vehicle: {}};
   },
   componentDidMount: function() {
-      this.setPropsToState(this.props.vehicle);
+    // set vehicle to edit only if there is no request pending
+    if (this.props.editId && !this.props.isLoading) {
+      this.setVehicleToEdit(this.props.editId);
+    }
   },
   componentWillReceiveProps: function(nextProps) {
-    /*
-    Transfer the editable form field properties to the state
-    */
-      this.setPropsToState(nextProps.vehicle);
+
+    // set vehicle to edit only if there is no request pending
+    if (nextProps.editId && !nextProps.isLoading) {
+      this.setVehicleToEdit(nextProps.editId);
+    }
   },
   render: function() {
     var boxClass = this.props.verb === "Edit"
@@ -92,11 +97,11 @@ var VehicleForm = React.createClass({
                   </div>
                 </div>
               </div>
-              {this.props.isLoading ?
-              <div className="overlay">
-                <i className="fa fa-refresh fa-spin"></i>
-              </div>
-              : null }
+              {this.props.isLoading
+                ? <div className="overlay">
+                    <i className="fa fa-refresh fa-spin"></i>
+                  </div>
+                : null}
               <div className="box-footer">
                 <button type="submit" className="btn btn-primary">Submit</button>
 
