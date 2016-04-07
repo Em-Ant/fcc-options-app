@@ -39,7 +39,8 @@ module.exports.create = function(vehicle) {
   // this will return a thunk
   return function(dispatch) {
     dispatch({
-      type: actionTypes.ADD_VEHICLE_REQUEST
+      type: actionTypes.ADD_VEHICLE_REQUEST,
+      vehicle:vehicle
     });
     Ajax.post('/api/vehicle/', vehicle, function(err, addedVehicle) {
       if (err) {
@@ -65,7 +66,8 @@ module.exports.update = function(vehicle) {
   // this will return a thunk
   return function(dispatch) {
     dispatch({
-      type: actionTypes.UPDATE_VEHICLE_REQUEST
+      type: actionTypes.UPDATE_VEHICLE_REQUEST,
+      vehicle:vehicle
     });
     Ajax.post('/api/vehicle/' + vehicle._id, vehicle, function(err, updatedVehicle) {
       if (err) {

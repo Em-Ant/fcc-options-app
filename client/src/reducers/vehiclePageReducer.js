@@ -23,9 +23,10 @@ function fetchSuccess(state, vehicles) {
   });
 }
 
-function addRequest(state, addedVehicle) {
+function addRequest(state, vehicle) {
   var newFormState = Object.assign({}, state.form, {
-    isLoading: true
+    isLoading: true,
+    vehicle:vehicle
   });
   return Object.assign({}, state, {
     isLoading: true,
@@ -59,9 +60,10 @@ function add(state, addedVehicle) {
 }
 
 
-function updateRequest(state) {
+function updateRequest(state, vehicle) {
   var newFormState = Object.assign({}, state.form, {
-    isLoading: true
+    isLoading: true,
+    vehicle:vehicle
   });
   return Object.assign({}, state, {
     isLoading: true,
@@ -176,13 +178,13 @@ var vehiclesReducer = function(state, action) {
     case actionTypes.FETCH_VEHICLES_SUCCESS:
       return fetchSuccess(state, action.vehicles);
     case actionTypes.ADD_VEHICLE_REQUEST:
-      return addRequest(state);
+      return addRequest(state, action.vehicle);
     case actionTypes.ADD_VEHICLE_FAILURE:
       return addFailure(state, action.message);
     case actionTypes.ADD_VEHICLE_SUCCESS:
       return add(state);
     case actionTypes.UPDATE_VEHICLE_REQUEST:
-      return updateRequest(state);
+      return updateRequest(state, action.vehicle);
     case actionTypes.UPDATE_VEHICLE_FAILURE:
       return updateFailure(state, action.message);
     case actionTypes.UPDATE_VEHICLE_SUCCESS:
