@@ -78,7 +78,6 @@ var consumer1 = new Consumer({
   phone: '333-444555',
   // Details flags
   needsWave: true,
-  hasWheelchair: true,
 });
 
 Consumer.find({}).remove(function() {
@@ -99,13 +98,14 @@ Consumer.find({}).remove(function() {
     phone: '222-111989',
     needsTwoSeats: true,
     cannotSitNearOppositeSex: true,
-    hasMedications: true
+    hasMedications: true,
   }, {
     name: "Gordon F.",
     sex: "male",
     address: "20083 January St,Big Lake, MN 55309, USA",
     position: {lat: 45.3323147, lng: -93.6875397},
     phone: '222-111987',
+    hasWheelchair: true
   }, {
     name: "Edward S.",
     sex: "male",
