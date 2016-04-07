@@ -28,57 +28,8 @@ var Vehicle = new Schema({
   consumers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Consumer',
-  }],
-
-}, {
-  toObject: {
-    virtuals: true
-  },
-  toJSON: {
-    virtuals: true
-  }
+  }]
 });
-
-Vehicle
-  .virtual('occupiedSeats')
-  .get(function() {
-    var occupiedSeats = 0;
-    this.consumers.forEach(function(consumer) {
-      //TODO not sure if works.  Consumers are currently just ObjectIDs, so
-      //consumers don't have any properties.  Maybe when populate gets
-      //called on the query, consumers will have their properties show.
-      if (consumer.needsTwoSeats) {
-        occupiedSeats += 2;
-      } else if (!consumer.hasWheelchair)
-        occupiedSeats++;
-    });
-    return occupiedSeats;
-  });
-
-Vehicle
-  .virtual('totalSeats')
-  .get(function() {
-    return this.maxFixedSeats + this.maxFoldableSeatsForWheelchairs;
-  });
-
-Vehicle
-  .virtual('occupiedWheelchairs')
-  .get(function() {
-    var occupiedWheelchairs = 0;
-    this.consumers.forEach(function(consumer) {
-      if (consumer.hasWheelchair) {
-        occupiedWheelchairs++;
-      }
-    });
-    return occupiedWheelchairs;
-  });
-
-Vehicle
-  .virtual('totalWheelchairs')
-  .get(function() {
-    return this.maxFixedWheelchairs +
-      Math.floor((this.maxFoldableSeatsForWheelchairs / 2));
-  });
 
 
 module.exports = mongoose.model('Vehicle', Vehicle);
