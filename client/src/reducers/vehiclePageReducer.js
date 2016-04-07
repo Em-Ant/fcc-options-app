@@ -19,7 +19,7 @@ function fetchFailure(state, message) {
 function fetchSuccess(state, vehicles) {
   return Object.assign({}, state, {
     isLoading: false,
-    items: vehicles
+    vehicles: vehicles
   });
 }
 
@@ -123,18 +123,18 @@ function destroy(state, id) {
 }
 
 function setEditMode(state, id) {
-  var item = {};
-  //find item that will be edited
-  for (var i = 0; i < state.items.length; i++) {
-    if (state.items[i]._id == id) {
-      item = state.items[i];
+  var vehicle = {};
+  //find vehicle that will be edited
+  for (var i = 0; i < state.vehicles.length; i++) {
+    if (state.vehicles[i]._id == id) {
+      vehicle = state.vehicles[i];
     }
   }
   return Object.assign({}, state, {
     form: {
       display: true,
       verb: 'Edit',
-      item: item
+      vehicle: vehicle
     }
   });
 }
@@ -144,7 +144,7 @@ function setAddMode(state) {
     form: {
       display: true,
       verb: 'Add',
-      item: {}
+      vehicle: {}
     }
   });
 }
@@ -159,11 +159,11 @@ function closeForm(state) {
 
 var initState = {
   isLoading: false,
-  items: [],
+  vehicles: [],
   form: {
     display: false,
     verb: 'Add',
-    item: {}
+    vehicle: {}
   }
 };
 var vehiclesReducer = function(state, action) {
