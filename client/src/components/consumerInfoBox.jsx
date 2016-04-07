@@ -1,9 +1,8 @@
 var React = require('react');
-var connect = require('react-redux').connect;
 
 var ConsumerInfoBox = React.createClass({
     render: function() {
-    var consumer = this.props.consumers[this.props.consumerId];
+    var consumer = this.props.consumer;
     return (
     <div>
       <span>
@@ -17,17 +16,4 @@ var ConsumerInfoBox = React.createClass({
   )}
 })
 
-var mapStateToProps = function(state){
-  return{
-    consumers: state.consumers.data
-  }
-}
-var mapDispatchToProps = function(dispatch) {
-  return {
-    
-    }
-  }
-}
-
-var ConsumerInfoBoxC = connect(mapStateToProps, mapDispatchToProps)(ConsumerInfoBox);
-module.exports = ConsumerInfoBoxC;
+module.exports = ConsumerInfoBox;

@@ -1,5 +1,6 @@
 var React = require('react');
 var connect = require('react-redux').connect;
+var CollapsibleBusBox = require('./collapsibleBusBox.jsx');
 
 var VehiclePanel = React.createClass({
   render : function() {
@@ -31,18 +32,25 @@ var VehiclePanel = React.createClass({
           </div>
         </div>
         <div className="box-body">
-          {//<div className="box-group" id="vehicle-accrd" role="tablist" aria-multiselectable="true">
-          }
+          <div className="box-group" id="vehicle-accrd" role="tablist" aria-multiselectable="true">
           {
             this.props.vehiclesIds.map(function(id, index) {
               var vehicle = this.props.vehicles[id];
               return (
-                <div key={index}>{vehicle.name}</div>
+                <CollapsibleBusBox
+                  name={vehicle.name}
+                  onBoardIds={vehicle.consumers}
+                  consumers={this.props.consumers}
+                  totalWheelchairs={vehicle.maxFixedWheelchairs}
+                  totalSeats={vehicle.maxFixedSeats}
+                  parentId={'vehicle-accrd'}
+                  collapseId={'vehicle-collapse_'+ index}
+                  key={index}
+                />
               )
             }.bind(this))
           }
-          {//</div>
-          }
+          </div>
         </div>
       </div>
     )
@@ -52,7 +60,8 @@ var VehiclePanel = React.createClass({
 var mapStateToProps = function(state){
   return{
     vehiclesIds: state.vehicles.ids,
-    vehicles: state.vehicles.data
+    vehicles: state.vehicles.data,
+    consumers: state.consumers.data
   }
 }
 var mapDispatchToProps = function(dispatch) {

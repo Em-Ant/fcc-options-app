@@ -1,22 +1,21 @@
 var React = require('react');
-var connect = require('react-redux').connect;
 var ConsumerInfoBox = require('./consumerInfoBox.jsx');
 
 var CollapsibleBusBox = React.createClass({
   render: function() {
     var seats = 0;
     var wheels = 0;
-    var body = (this.props.consumers && this.props.consumers.length > 0) ?
-    this.props.consumers.map(function(c, index) {
+    var body = (this.props.onBoardIds.length > 0) ?
+    this.props.onBoardIds.map(function(id, index) {
+      var c = this.props.consumers[id];
       if (c.hasWheelchair)
         wheels++
       else
         seats++
       return (
         <ConsumerInfoBox
-          key={'c_info_'+index}
-          name={c.name}
-          hasWheelchair={c.hasWheelchair}
+          key={'c_info_'+ index}
+          consumer={c}
           remove={function(){console.log('remove')}}
         />
       )
@@ -62,3 +61,5 @@ var CollapsibleBusBox = React.createClass({
     )
   }
 })
+
+module.exports = CollapsibleBusBox;
