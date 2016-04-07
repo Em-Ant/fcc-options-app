@@ -4,6 +4,10 @@ var React = require('react');
 var VehicleFormContainer = require('../containers/vehicleFormContainer.jsx');
 
 var Vehicles = React.createClass({
+  componentDidMount: function() {
+    if(this.props.needToBeFetched)
+      this.props.fetchVehicles()
+  },
   handleEditButton:function(id){
     this.props.onEditButtonClick(id);
   },

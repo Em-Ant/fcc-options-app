@@ -20,7 +20,7 @@ var Login = React.createClass({
       <div className="login-box">
         <div className="login-logo">
           <a href="http://www.options-inc.org" target="_blank">
-            <b>Options Inc.</b>
+            <b>Options, Inc.</b>
           </a>
         </div>
 

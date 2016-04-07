@@ -11,7 +11,7 @@ var Vehicles = require('./containers/vehiclesContainer.jsx');
 
 var Consumers = require('./containers/consumersContainer.jsx');
 
-var ConsumerRoute3 = require('./components/consumerRouteMapTest_3.jsx');
+var ConsumerRoute3 = require('./components/MapWrapper.jsx');
 var ConsumerRoute2 = require('./components/consumerRouteMapTest_AA.jsx');
 var ConsumerRoute = require('./components/consumerRouteMapTest_EA.jsx');
 
@@ -40,8 +40,7 @@ var history = syncHistoryWithStore(browserHistory, store)
 var App = React.createClass({
   componentDidMount: function() {
     store.dispatch(settingsActions.load());
-    store.dispatch(consumerActions.loadConsumers());
-    store.dispatch(vehicleActions.fetch());
+    //store.dispatch(vehicleActions.fetch());
     //store.dispatch(actions.requestUser());
   },
   render: function() {
@@ -63,7 +62,7 @@ ReactDOM.render(
         <Route path="/consumers" component={Consumers}/>
         <Route path="/vehicles" component={Vehicles}/>
         {/*<Route path="/consumer-map" component={ConsumerMap} />*/}
-        <Route path="/map-test" component={ConsumerRoute2} />
+        <Route path="/map-test" component={ConsumerRoute3} />
         <Route path="/consumer-route" component={ConsumerRoute} />
         <Route path="/consumer-route2" component={ConsumerRoute2} />
       </Route>

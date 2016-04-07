@@ -5,6 +5,7 @@ var actions = require('../actions/consumerActions.js');
 var mapStateToProps = function(state){
 
   return {
+    consumersNeedToBeFetched: state.consumers.needToBeFetched,
     consumerIds: state.consumers.ids,
     consumers: state.consumers.data,
     loadingConsumers: state.consumersForm.loadingConsumers,

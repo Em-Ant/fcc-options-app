@@ -3,8 +3,10 @@ var commonCRUD = require('../commons/commonReducerFunctions');
 
 
 var vehiclesReducer = function(state, action) {
-  state = state || {ids:[], data:{}};
+  state = state || {ids:[], data:{}, needToBeFetched: true};
   switch (action.type) {
+    case actionTypes.FETCH_VEHICLES_REQUEST:
+      return commonCRUD.setRequested(state);
     case actionTypes.FETCH_VEHICLES_SUCCESS:
       return commonCRUD.load(state, action.vehicles);
     case actionTypes.ADD_VEHICLE_SUCCESS:

@@ -8,6 +8,11 @@ var ConsumerForm = require('./consumerForm.jsx');
 var Alert = require('./alertModal.jsx');
 
 var Consumers = React.createClass({
+  componentDidMount: function () {
+    if(this.props.consumersNeedToBeFetched) {
+      this.props.loadConsumers();
+    }
+  },
   render: function() {
 
     var modalBody = this.props.deleteId !== undefined ?

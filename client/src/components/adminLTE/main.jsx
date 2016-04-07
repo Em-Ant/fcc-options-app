@@ -23,7 +23,9 @@ var Main = React.createClass({
     return (
       <div className="wrapper">
         <Header/>
-        //Force react-router properties to be passed to component
+        {
+          //Force react-router properties to be passed to component
+        }
         <Sidebar router={this.props}/>
         {this.props.children}
         <Footer/>
