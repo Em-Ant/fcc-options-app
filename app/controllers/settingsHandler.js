@@ -1,8 +1,6 @@
 'use strict';
 
-var geocoderProvider = 'google';
-var httpAdapter = 'http';
-var geocoder = require('node-geocoder')(geocoderProvider, httpAdapter);
+var geocoder = require('../utils/geocoder.js');
 var Settings = require('../models/settings.js');
 
 function SettingsHandler() {
@@ -38,7 +36,7 @@ function SettingsHandler() {
 
     req.body.id=null;
     var settings = req.body;
-    getCoords(settings.optionsIncAddress, function(err, coords) {
+    geocoder.getCoords(settings.optionsIncAddress, function(err, coords) {
       if (err || !coords) {
         return res.status(400).json({
           msg: 'Could not get coordinates of address'
@@ -57,26 +55,6 @@ function SettingsHandler() {
         return res.status(200).json(updatedSettings);
       });
     });
-
-  }
-
-  var getCoords = function(address, done) {
-    geocoder.geocode(address, function(err, res) {
-      if(err){
-        return done(err);
-      }
-      if(!res.length)
-      {
-        //no results returned
-        return done(null, null);
-      }
-      var coords ={
-        lat:res[0].latitude,
-        lng:res[0].longitude
-      }
-      done(null, coords);
-    });
-
 
   }
 }
