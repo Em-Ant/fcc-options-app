@@ -36,105 +36,102 @@ var ConsumerMap = React.createClass({
     this.showConsumersMarker();
   },
   setMarkersColor: function (nextActiveVehicleId, currActiveVehicleId) {
-    if (nextActiveVehicleId  !== currActiveVehicleId) {
-      // active vehicle has changed
-      var self = this;
-      if (nextActiveVehicleId) {
-        // active vehicle changed
-        var prevActiveVehicle = null;
-        var consumersOnPrevActive = [];
-        if (currActiveVehicleId) {
-          // there is a previous active vehicle. Reset its markers
-          prevActiveVehicle = this.props.vehicles[currActiveVehicleId];
-          consumersOnPrevActive = prevActiveVehicle.consumers;
-        }
-        var nextActiveVehicle = this.props.vehicles[nextActiveVehicleId];
-        var consumersOnNextActive = nextActiveVehicle.consumers;
-        consumersOnNextActive.forEach(function(c_id){
-          self.markers[c_id].setIcon(ICON_URL + GREEN);
-        })
-        consumersOnPrevActive.forEach(function(c_id){
-          self.markers[c_id].setIcon(ICON_URL + YELLOW);
-        })
-      } else {
-        // vehicle deactivated: all vehicle inactive
-        var prevActiveVehicle = this.props.vehicles[currActiveVehicleId];
-        var consumersOnPrevActive = prevActiveVehicle.consumers;
-        consumersOnPrevActive.forEach(function(c_id){
-          self.markers[c_id].setIcon(ICON_URL + YELLOW);
-        })
+    var self = this;
+    if (nextActiveVehicleId) {
+      // active vehicle changed
+      var prevActiveVehicle = null;
+      var consumersOnPrevActive = [];
+      if (currActiveVehicleId) {
+        // there is a previous active vehicle. Reset its markers
+        prevActiveVehicle = this.props.vehicles[currActiveVehicleId];
+        consumersOnPrevActive = prevActiveVehicle.consumers;
       }
+      var nextActiveVehicle = this.props.vehicles[nextActiveVehicleId];
+      var consumersOnNextActive = nextActiveVehicle.consumers;
+      consumersOnNextActive.forEach(function(c_id){
+        self.markers[c_id].setIcon(ICON_URL + GREEN);
+      })
+      consumersOnPrevActive.forEach(function(c_id){
+        self.markers[c_id].setIcon(ICON_URL + YELLOW);
+      })
+    } else {
+      // vehicle deactivated: all vehicle inactive
+      var prevActiveVehicle = this.props.vehicles[currActiveVehicleId];
+      var consumersOnPrevActive = prevActiveVehicle.consumers;
+      consumersOnPrevActive.forEach(function(c_id){
+        self.markers[c_id].setIcon(ICON_URL + YELLOW);
+      })
     }
   },
   componentWillReceiveProps: function(nextProps) {
-    this.setMarkersColor(nextProps.activeVehicleId, this.props.activeVehicleId);
+    if (nextProps.activeVehicleId !== this.props.activeVehicleId) {
+      // active vehicle has changed
+      this.setMarkersColor(nextProps.activeVehicleId, this.props.activeVehicleId);
+    }
   },
   mapConsumersToVehicles: function() {
     // NOTE this should be moved into a reducer,
     // Now this function is called on every rendering
-    if (!this.consumersToVehiclesMap) {
-      // first rendering only
-      var self = this;
-      self.consumersToVehiclesMap = {};
-      this.props.vehiclesIds.forEach(function(v_id) {
-        var vehicle = self.props.vehicles[v_id];
-        vehicle.consumers.forEach(function(c_id){
-          if(self.consumersToVehiclesMap[c_id]) {
-            throw new Error ("Consumer assigned to more than one vehicle");
-          } else {
-            self.consumersToVehiclesMap[c_id] = v_id;
-          }
-        })
+
+    var self = this;
+    self.consumersToVehiclesMap = {};
+    this.props.vehiclesIds.forEach(function(v_id) {
+      var vehicle = self.props.vehicles[v_id];
+      vehicle.consumers.forEach(function(c_id){
+        if(self.consumersToVehiclesMap[c_id]) {
+          throw new Error ("Consumer assigned to more than one vehicle");
+        } else {
+          self.consumersToVehiclesMap[c_id] = v_id;
+        }
       })
-    }
+    })
   },
   showConsumersMarker: function() {
-    if(!this.markers) {
-      // first rendering only
-      var ids = this.props.consumersIds;
-      var consumers = this.props.consumers;
-      var vehicles = this.props.vehicles;
-      var self = this;
-      this.markers = {};
-      var markers = this.markers;
 
-      ids.forEach(function(c_id, index) {
-        var consumer = consumers[c_id];
-        var position = consumer.position;
-        var icon = ICON_URL + GRAY;
+    var ids = this.props.consumersIds;
+    var consumers = this.props.consumers;
+    var vehicles = this.props.vehicles;
+    var self = this;
+    this.markers = {};
+    var markers = this.markers;
 
-        var content = "<div>" + consumer.name + "</div>" + "<div>" + consumer.address + "</div>";
-        if (consumer.hasWheelchair) {
-          content += '<div><i class="fa fa-wheelchair"></i></div>';
-        }
+    ids.forEach(function(c_id, index) {
+      var consumer = consumers[c_id];
+      var position = consumer.position;
+      var icon = ICON_URL + GRAY;
 
-        var v_id = self.consumersToVehiclesMap[c_id];
-        if (v_id) {
-          // assigned to a bus
-          icon = ICON_URL + YELLOW;
-          content += '<div><i class="fa fa-bus"></i> ' + vehicles[v_id].name + '</div>'
-        }
+      var content = "<div>" + consumer.name + "</div>" + "<div>" + consumer.address + "</div>";
+      if (consumer.hasWheelchair) {
+        content += '<div><i class="fa fa-wheelchair"></i></div>';
+      }
 
-        var marker = new google.maps.Marker(
-          {position: position, map: self.map, title: consumer.name, icon: icon});
+      var v_id = self.consumersToVehiclesMap[c_id];
+      if (v_id) {
+        // assigned to a bus
+        icon = v_id !== self.props.activeVehicleId ?
+          (ICON_URL + YELLOW)   // not active on bus
+          : (ICON_URL + GREEN); // on active bus  
+        content += '<div><i class="fa fa-bus"></i> ' + vehicles[v_id].name + '</div>';
+      }
+
+      var marker = new google.maps.Marker(
+        {position: position, map: self.map, title: consumer.name, icon: icon});
 
 
-        var infowindow = new google.maps.InfoWindow({content: content});
+      var infowindow = new google.maps.InfoWindow({content: content});
 
-        marker.addListener('mouseover', function() {
-          infowindow.open(self.map, marker);
-        });
+      marker.addListener('mouseover', function() {
+        infowindow.open(self.map, marker);
+      });
 
-        marker.addListener('mouseout', function() {
-          infowindow.close();
-        });
+      marker.addListener('mouseout', function() {
+        infowindow.close();
+      });
 
-        marker.addListener('click', self.markerLeftClick.bind(null, c_id));
+      marker.addListener('click', self.markerLeftClick.bind(null, c_id));
 
-        markers[c_id] = marker;
-      })
-
-    }
+      markers[c_id] = marker;
+    })
   },
   markerLeftClick: function (c_id) {
     if (this.consumersToVehiclesMap[c_id]) {

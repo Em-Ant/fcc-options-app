@@ -23,8 +23,12 @@ var CollapsibleBusBox = React.createClass({
       )
     }.bind(this)) : "Vehicle is empty";
 
-    var activeClass = this.props.activeVehicleId == this.props.vehicleId ? ' box-primary box-solid' : ' box-default';
-
+    var activeClass = this.props.activeVehicleId === this.props.vehicleId
+      ? ' box-primary box-solid' : ' box-default';
+    var collapseClass = this.props.activeVehicleId === this.props.vehicleId
+      ? 'panel-collapse collapse in' : 'panel-collapse collapse';
+    var ariaExpanded = this.props.activeVehicleId === this.props.vehicleId
+      ? 'true' : 'false';
     var availWheels = wheels < this.props.totalWheelchairs ?
       'avail-color' : 'unavail-color';
     var availSeats = seats < this.props.totalSeats ?
@@ -36,7 +40,7 @@ var CollapsibleBusBox = React.createClass({
             <a role="button" data-toggle="collapse"
               data-parent={'#' + this.props.parentId}
               href={'#' + this.props.collapseId}
-              aria-expanded="false" aria-controls={this.props.collapseId}
+              aria-expanded={ariaExpanded} aria-controls={this.props.collapseId}
               onClick={this.props.toggleActive.bind(null,this.props.vehicleId)}>
               {this.props.name}
             </a>
@@ -53,7 +57,7 @@ var CollapsibleBusBox = React.createClass({
             </span>: null}
           </div>
         </div>
-        <div id={this.props.collapseId} className="panel-collapse collapse"
+        <div id={this.props.collapseId} className={collapseClass}
           role="tabpanel" aria-labelledby={'head-'+this.props.collapseId}>
           <div className="box-body">
           {body}
