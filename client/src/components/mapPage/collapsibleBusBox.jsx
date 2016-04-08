@@ -1,5 +1,7 @@
 var React = require('react');
 var ConsumerInfoBox = require('./consumerInfoBox.jsx');
+var actions = require('../../actions/mapActions')
+var connect = require('react-redux').connect;
 
 var CollapsibleBusBox = React.createClass({
   render: function() {
@@ -21,7 +23,7 @@ var CollapsibleBusBox = React.createClass({
       )
     }.bind(this)) : "Vehicle is empty";
 
-    var activeClass = this.props.active ? ' box-primary box-solid' : ' box-default';
+    var activeClass = this.props.activeVehicleId == this.props.vehicleId ? ' box-primary box-solid' : ' box-default';
 
     var availWheels = wheels < this.props.totalWheelchairs ?
       'avail-color' : 'unavail-color';
@@ -35,7 +37,7 @@ var CollapsibleBusBox = React.createClass({
               data-parent={'#' + this.props.parentId}
               href={'#' + this.props.collapseId}
               aria-expanded="false" aria-controls={this.props.collapseId}
-              onClick={this.props.toggleActive}>
+              onClick={this.props.toggleActive.bind(null,this.props.vehicleId)}>
               {this.props.name}
             </a>
           </h4>
@@ -62,4 +64,26 @@ var CollapsibleBusBox = React.createClass({
   }
 })
 
-module.exports = CollapsibleBusBox;
+/**
+* props mapped to redux:
+*
+* activeVehicleId : String, MongoDB ObjId
+* toggleActive : function(vehicleId)
+*/
+
+var mapStateToProps = function(state){
+  return {
+    activeVehicleId : state.mapPage.activeVehicleId
+  }
+}
+var mapDispatchToProps = function(dispatch) {
+  return {
+    toggleActive: function(vehicleId) {
+      dispatch(actions.vehicleBoxClick(vehicleId))
+    }
+  }
+}
+
+var CBBContainer = connect(mapStateToProps, mapDispatchToProps)(CollapsibleBusBox);
+
+module.exports = CBBContainer;

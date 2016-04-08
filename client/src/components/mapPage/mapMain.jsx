@@ -14,12 +14,14 @@ var YELLOW = "FFD42A";  //assigned to a vehicle
 var GREEN = "5AA02C";   //assigned to current selected vehicle
 var BLUE = "0088AA";
 var GRAY = "A6A6A6";    //unassigned user
+var WHITE = "FFFFFF"    // loading state
 
 var VehiclePanel = require('./vehiclePanel.jsx')
 
 var ConsumerMap = React.createClass({
   map: null,
-  consumersToVehiclesMap: undefined,
+  consumersToVehiclesMap: null,
+  markers: null,
   componentDidMount: function() {
     var positionHome = this.props.homePosition
     this.map = new google.maps.Map(document.getElementById('test-map'), {
@@ -33,10 +35,45 @@ var ConsumerMap = React.createClass({
     this.mapConsumersToVehicles();
     this.showConsumersMarker();
   },
-  // NOTE this should be moved into a reducer,
-  // Now this function is called on every rendering
-  mapConsumersToVehicles: function() {    
+  setMarkersColor: function (nextActiveVehicleId, currActiveVehicleId) {
+    if (nextActiveVehicleId  !== currActiveVehicleId) {
+      // active vehicle has changed
+      var self = this;
+      if (nextActiveVehicleId) {
+        // active vehicle changed
+        var prevActiveVehicle = null;
+        var consumersOnPrevActive = [];
+        if (currActiveVehicleId) {
+          // there is a previous active vehicle. Reset its markers
+          prevActiveVehicle = this.props.vehicles[currActiveVehicleId];
+          consumersOnPrevActive = prevActiveVehicle.consumers;
+        }
+        var nextActiveVehicle = this.props.vehicles[nextActiveVehicleId];
+        var consumersOnNextActive = nextActiveVehicle.consumers;
+        consumersOnNextActive.forEach(function(c_id){
+          self.markers[c_id].setIcon(ICON_URL + GREEN);
+        })
+        consumersOnPrevActive.forEach(function(c_id){
+          self.markers[c_id].setIcon(ICON_URL + YELLOW);
+        })
+      } else {
+        // vehicle deactivated: all vehicle inactive
+        var prevActiveVehicle = this.props.vehicles[currActiveVehicleId];
+        var consumersOnPrevActive = prevActiveVehicle.consumers;
+        consumersOnPrevActive.forEach(function(c_id){
+          self.markers[c_id].setIcon(ICON_URL + YELLOW);
+        })
+      }
+    }
+  },
+  componentWillReceiveProps: function(nextProps) {
+    this.setMarkersColor(nextProps.activeVehicleId, this.props.activeVehicleId);
+  },
+  mapConsumersToVehicles: function() {
+    // NOTE this should be moved into a reducer,
+    // Now this function is called on every rendering
     if (!this.consumersToVehiclesMap) {
+      // first rendering only
       var self = this;
       self.consumersToVehiclesMap = {};
       this.props.vehiclesIds.forEach(function(v_id) {
@@ -52,51 +89,69 @@ var ConsumerMap = React.createClass({
     }
   },
   showConsumersMarker: function() {
-    var ids = this.props.consumersIds;
-    var consumers = this.props.consumers;
-    var vehicles = this.props.vehicles;
-    var self = this;
-    var markers = {};
+    if(!this.markers) {
+      // first rendering only
+      var ids = this.props.consumersIds;
+      var consumers = this.props.consumers;
+      var vehicles = this.props.vehicles;
+      var self = this;
+      this.markers = {};
+      var markers = this.markers;
 
-    ids.forEach(function(c_id, index) {
-      var consumer = consumers[c_id];
-      var position = consumer.position;
-      var icon = ICON_URL + GRAY;
+      ids.forEach(function(c_id, index) {
+        var consumer = consumers[c_id];
+        var position = consumer.position;
+        var icon = ICON_URL + GRAY;
 
-      var content = "<div>" + consumer.name + "</div>" + "<div>" + consumer.address + "</div>";
-      if (consumer.hasWheelchair) {
-        content += '<div><i class="fa fa-wheelchair"></i></div>';
-      }
+        var content = "<div>" + consumer.name + "</div>" + "<div>" + consumer.address + "</div>";
+        if (consumer.hasWheelchair) {
+          content += '<div><i class="fa fa-wheelchair"></i></div>';
+        }
 
-      var v_id = self.consumersToVehiclesMap[c_id];
-      if (v_id) {
-        // assigned to a bus
-        icon = ICON_URL + YELLOW;
-        content += '<div><i class="fa fa-bus"></i> ' + vehicles[v_id].name + '</div>'
-      }
+        var v_id = self.consumersToVehiclesMap[c_id];
+        if (v_id) {
+          // assigned to a bus
+          icon = ICON_URL + YELLOW;
+          content += '<div><i class="fa fa-bus"></i> ' + vehicles[v_id].name + '</div>'
+        }
 
-      var marker = new google.maps.Marker(
-        {position: position, map: self.map, title: consumer.name, icon: icon});
+        var marker = new google.maps.Marker(
+          {position: position, map: self.map, title: consumer.name, icon: icon});
 
 
-      var infowindow = new google.maps.InfoWindow({content: content});
+        var infowindow = new google.maps.InfoWindow({content: content});
 
-      marker.addListener('mouseover', function() {
-        infowindow.open(self.map, marker);
-      });
+        marker.addListener('mouseover', function() {
+          infowindow.open(self.map, marker);
+        });
 
-      marker.addListener('mouseout', function() {
-        infowindow.close();
-      });
+        marker.addListener('mouseout', function() {
+          infowindow.close();
+        });
 
-      markers[c_id] = marker;
-    })
+        marker.addListener('click', self.markerLeftClick.bind(null, c_id));
 
-    this.setState({
-      markers:markers
-    })
+        markers[c_id] = marker;
+      })
+
+    }
   },
+  markerLeftClick: function (c_id) {
+    if (this.consumersToVehiclesMap[c_id]) {
+      // marked consumer is on a vehicle
+      if (this.consumersToVehiclesMap[c_id] == this.props.activeVehicleId) {
+       // marked consumer is on the active vehicle
+       console.log('on board active');
+     } else {
+       // marked consumer is not on the active vehicle
+       console.log('on board not active');
+     }
+    } else {
+      // marked consumer is not on a vehicle
+      console.log('not on board');
+    }
 
+  },
   render: function() {
     return (
 
@@ -124,7 +179,8 @@ var mapStateToProps = function(state){
     consumersIds: state.consumers.ids,
     vehiclesIds: state.vehicles.ids,
     vehicles : state.vehicles.data,
-    consumers: state.consumers.data
+    consumers: state.consumers.data,
+    activeVehicleId : state.mapPage.activeVehicleId
   }
 }
 var mapDispatchToProps = function(dispatch) {

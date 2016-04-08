@@ -40,6 +40,7 @@ var VehiclePanel = React.createClass({
                 <CollapsibleBusBox
                   name={vehicle.name}
                   onBoardIds={vehicle.consumers}
+                  vehicleId={id}
                   consumers={this.props.consumers}
                   totalWheelchairs={vehicle.maxFixedWheelchairs}
                   totalSeats={vehicle.maxFixedSeats}

@@ -5,6 +5,7 @@ var consumersForm = require('./consumerFormReducer');
 var settingsForm = require('./settingsFormReducer');
 var login = require('./loginReducer');
 var routerReducer = require('react-router-redux').routerReducer;
+var mapPage = require('./mapReducer')
 
 var settings = require('./settingsReducer');
 var consumers = require('./consumerReducer');
@@ -18,7 +19,8 @@ var rootReducer = combineReducers({
   vehiclesPage: vehiclesPage,
   routing: routerReducer,
   vehicleRoutes: vehicleRoutes,
-  login:login,
+  mapPage: mapPage,
+  login: login,
 
   // data state
   settings:settings,
