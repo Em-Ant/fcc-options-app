@@ -2,6 +2,7 @@
 
 var geocoder = require('../utils/geocoder.js');
 var Settings = require('../models/settings.js');
+var merge = require('lodash').merge;
 
 function SettingsHandler() {
   var validate = function(req) {
@@ -26,35 +27,76 @@ function SettingsHandler() {
     });
   }
 
+  function saveSettings(settings, res) {
+    settings.save(function(err, savedSettings) {
+      if (err) {
+        return res.status(400).json({
+          msg: 'There was an error updating settings'
+        });
+      }
+      return res.status(200).json(savedSettings);
+    });
+  }
+
+
+  function updateSettings(settings, newSettings, res) {
+    settings.update(newSettings, function(err, savedSettings) {
+      if (err) {
+        return res.status(400).json({
+          msg: 'There was an error updating settings'
+        });
+      }
+      return res.status(200).json(savedSettings);
+    })
+  }
+
 
   this.update = function(req, res) {
     var errors = validate(req);
-
     if (errors) {
       return res.status(400).json(errors[0]);
     }
 
-    req.body.id=null;
-    var settings = req.body;
-    geocoder.getCoords(settings.optionsIncAddress, function(err, coords) {
-      if (err || !coords) {
-        return res.status(400).json({
-          msg: 'Could not get coordinates of address'
+    var newSettings = req.body;
+    //update fails if id is left on
+    if (newSettings._id) {
+      delete newSettings._id;
+    }
+
+    //get settings
+    Settings.findOne({}, function(err, settings) {
+      if (!settings) {
+        //no settings in the system
+        return geocoder.getCoords(newSettings.optionsIncAddress, function(err, coords) {
+
+          if (err || !coords) {
+            return res.status(400).json({
+              msg: 'Could not get coordinates of address'
+            });
+          }
+          newSettings.optionsIncCoords = coords;
+          var validSettings = new Settings(newSettings);
+          return saveSettings(validSettings, res);
         });
+
       }
-      settings.optionsIncCoords = coords;
-      Settings.findOneAndUpdate({}, settings, {
-        upsert: true,
-        new: true
-      }, function(err, updatedSettings) {
-        if (err) {
+
+      if (settings.optionsIncAddress == newSettings.optionsIncAddress) {
+        //don't geocode address
+        return updateSettings(settings, newSettings, res);
+      }
+      //geocode address, then save
+      geocoder.getCoords(newSettings.optionsIncAddress, function(err, coords) {
+        if (err || !coords) {
           return res.status(400).json({
-            msg: 'There was an error updating settings'
+            msg: 'Could not get coordinates of address'
           });
         }
-        return res.status(200).json(updatedSettings);
+        newSettings.optionsIncCoords = coords;
+        return updateSettings(settings, newSettings, res);
       });
-    });
+
+    })
 
   }
 }
