@@ -55,13 +55,6 @@ var ConsumerForm = React.createClass({
     newConsumer.hasMedications = this.refs.med.checked;
     newConsumer.cannotSitNearOppositeSex = this.refs.behavior.checked;
 
-    this.refs.name.value = '';
-    this.refs.address.value = '';
-    this.refs.phone.value = '';
-    this.refs.sex.value = '';
-
-    $('input').iCheck('uncheck');
-
     this.props.buttonHandles(newConsumer)
   },
   componentDidMount: function () {
@@ -72,11 +65,17 @@ var ConsumerForm = React.createClass({
     });
 
     $(".select2").select2()
-    this.setDefaults(this.props);
+    // prevents setting old default values while submitting an edit/add request
+    if(!this.props.loading){
+      this.setDefaults(this.props);
+    }
   },
 
   componentWillReceiveProps : function(nextProps) {
-    this.setDefaults(nextProps);
+    // prevents setting old default values while submitting an edit/add request
+    if(!nextProps.loading){
+      this.setDefaults(nextProps);
+    }
   },
   render: function() {
     var boxClass = this.props.verb === "Edit" ? "box box-warning" : "box box-info";
