@@ -72,7 +72,7 @@ function SettingsHandler() {
       }
       var coords ={
         lat:res[0].latitude,
-        lon:res[0].longitude
+        lng:res[0].longitude
       }
       done(null, coords);
     });
