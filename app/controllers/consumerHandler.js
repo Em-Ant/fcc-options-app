@@ -63,20 +63,31 @@ function ConsumerHandler () {
     Consumer.findById(req.params.id, function (err, consumer) {
       if (err) { return handleError(res, err); }
       if(!consumer) { return res.status(404).send('Not Found'); }
-      var updated = merge(consumer, req.body);
-      geocoder.getCoords(updated.address, function(err, coords){
-        if(err) { return handleError(res, err); }
-        //geocoder could not get coords for address
-        if(!coords){
-          return res.status(404).send('Invalid Address');
-        }
-        //set the coords to the consumer
-        updated.position = coords;
+      if (consumer.address !== req.body.address) {
+        // address has been modified: new geo-location is needed
+        var updated = merge(consumer, req.body);
+        geocoder.getCoords(updated.address, function(err, coords){
+          if(err) { return handleError(res, err); }
+          // geocoder could not get coords for address
+          if(!coords){
+            return res.status(404).send('Invalid Address');
+          }
+          // set the coords to the consumer
+          updated.position = coords;
+          updated.save(function (err) {
+            if (err) { return handleError(res, err); }
+            return res.status(200).json(updated);
+          });
+        });
+      } else {
+        // normally update the consumer
+        var updated = merge(consumer, req.body);
         updated.save(function (err) {
           if (err) { return handleError(res, err); }
           return res.status(200).json(updated);
         });
-      });
+      }
+
     });
   }
 
