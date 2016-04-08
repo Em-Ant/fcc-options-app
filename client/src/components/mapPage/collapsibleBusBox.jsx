@@ -4,6 +4,9 @@ var actions = require('../../actions/mapActions')
 var connect = require('react-redux').connect;
 
 var CollapsibleBusBox = React.createClass({
+  removeFromActiveBus: function(c_id) {
+    this.props.removeConsumerFromActiveBus(c_id, this.props.activeVehicleId);
+  },
   render: function() {
     var seats = 0;
     var wheels = 0;
@@ -18,7 +21,8 @@ var CollapsibleBusBox = React.createClass({
         <ConsumerInfoBox
           key={'c_info_'+ index}
           consumer={c}
-          remove={function(){console.log('remove')}}
+          consumerId={id}
+          remove={this.removeFromActiveBus}
         />
       )
     }.bind(this)) : "Vehicle is empty";
@@ -77,13 +81,17 @@ var CollapsibleBusBox = React.createClass({
 
 var mapStateToProps = function(state){
   return {
-    activeVehicleId : state.mapPage.activeVehicleId
+    activeVehicleId : state.mapPage.activeVehicleId,
+    vehicles: state.vehicles.data
   }
 }
 var mapDispatchToProps = function(dispatch) {
   return {
     toggleActive: function(vehicleId) {
       dispatch(actions.vehicleBoxClick(vehicleId))
+    },
+    removeConsumerFromActiveBus: function(c_id, active_v_id) {
+      dispatch(actions.removeFromActiveBus(c_id, active_v_id))
     }
   }
 }

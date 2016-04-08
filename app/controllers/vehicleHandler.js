@@ -161,6 +161,33 @@ function VehicleHandler() {
     });
   }
 
+  this.pullConsumer = function (req, res) {
+    Vehicle.update(
+      {_id: req.params.id},
+      {$pull:{consumers: req.params.c_id}},
+      function(err, status){
+      if (err) {
+        return res.status(400).json({
+          msg: 'There was an error updating vehicle'
+        });
+      }
+      return res.status(200).json(status);
+    });
+  }
+
+  this.pushConsumer = function (req, res) {
+    Vehicle.update(
+      {_id: req.params.id},
+      {$push:{consumers: req.params.c_id}},
+      function(err, status){
+      if (err) {
+        return res.status(400).json({
+          msg: 'There was an error updating vehicle'
+        });
+      }
+      return res.status(200).json(status);
+    });
+  }
 }
 
 module.exports = VehicleHandler;

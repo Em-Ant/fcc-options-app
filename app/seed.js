@@ -80,8 +80,18 @@ var consumer1 = new Consumer({
   needsWave: true,
 });
 
+var consumer2 = new Consumer({
+  name: "Gordon F.",
+  sex: "male",
+  address: "20083 January St,Big Lake, MN 55309, USA",
+  position: {lat: 45.3323147, lng: -93.6875397},
+  phone: '222-111987',
+  hasWheelchair: true
+});
+
 Consumer.find({}).remove(function() {
   consumer1.save();
+  consumer2.save();
   Consumer.create({
     name: 'Ashley B.',
     sex: 'female',
@@ -99,13 +109,6 @@ Consumer.find({}).remove(function() {
     needsTwoSeats: true,
     cannotSitNearOppositeSex: true,
     hasMedications: true,
-  }, {
-    name: "Gordon F.",
-    sex: "male",
-    address: "20083 January St,Big Lake, MN 55309, USA",
-    position: {lat: 45.3323147, lng: -93.6875397},
-    phone: '222-111987',
-    hasWheelchair: true
   }, {
     name: "Edward S.",
     sex: "male",
@@ -174,19 +177,24 @@ var vehicle1 = new Vehicle({
   maxFoldableSeatsForWheelchairs: 0,
   maxFixedWheelchairs: 0
 });
+
+var vehicle2 = new Vehicle({
+  name: 'Bus 1',
+  maxFixedSeats: 8,
+  maxFoldableSeatsForWheelchairs: 4,
+  maxFixedWheelchairs: 5
+});
+
 vehicle1.consumers.push(consumer1);
+vehicle2.consumers.push(consumer2);
 Vehicle.find({}).remove(function() {
   vehicle1.save();
+  vehicle2.save();
   Vehicle.create({
     name: 'Van 3',
     maxFixedSeats: 12,
     maxFoldableSeatsForWheelchairs: 0,
     maxFixedWheelchairs: 0
-  }, {
-    name: 'Bus 1',
-    maxFixedSeats: 8,
-    maxFoldableSeatsForWheelchairs: 4,
-    maxFixedWheelchairs: 5
   }, {
     name: 'Bus 2',
     maxFixedSeats: 8,

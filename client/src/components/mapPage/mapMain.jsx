@@ -18,6 +18,8 @@ var WHITE = "FFFFFF"    // loading state
 
 var VehiclePanel = require('./vehiclePanel.jsx')
 
+var _addFlags = require('../../utils/addConsumerFlags');
+
 var ConsumerMap = React.createClass({
   map: null,
   consumersToVehiclesMap: null,
@@ -30,29 +32,37 @@ var ConsumerMap = React.createClass({
     });
     var iconHome = ICON_URL + RED;
     var markerHome = new google.maps.Marker(
-      {position: positionHome, map: this.map, title: "Options, Inc.", icon: iconHome});
+      {
+        position: positionHome,
+        map: this.map,
+        title: "Options, Inc.",
+        icon: iconHome
+      });
 
     this.mapConsumersToVehicles();
     this.showConsumersMarker();
   },
-  setMarkersColor: function (nextActiveVehicleId, currActiveVehicleId) {
+  setMarkersColorOnActiveBusChange: function (
+    nextActiveVehicleId, currActiveVehicleId) {
+
     var self = this;
     if (nextActiveVehicleId) {
-      // active vehicle changed
+      // next state has an active vehicle
       var prevActiveVehicle = null;
       var consumersOnPrevActive = [];
       if (currActiveVehicleId) {
-        // there is a previous active vehicle. Reset its markers
+        // there is a previously active vehicle. Reset its markers
         prevActiveVehicle = this.props.vehicles[currActiveVehicleId];
         consumersOnPrevActive = prevActiveVehicle.consumers;
       }
+      consumersOnPrevActive.forEach(function(c_id){
+        self.markers[c_id].setIcon(ICON_URL + YELLOW);
+      })
+      // set markers for next active vehicle
       var nextActiveVehicle = this.props.vehicles[nextActiveVehicleId];
       var consumersOnNextActive = nextActiveVehicle.consumers;
       consumersOnNextActive.forEach(function(c_id){
         self.markers[c_id].setIcon(ICON_URL + GREEN);
-      })
-      consumersOnPrevActive.forEach(function(c_id){
-        self.markers[c_id].setIcon(ICON_URL + YELLOW);
       })
     } else {
       // vehicle deactivated: all vehicle inactive
@@ -65,8 +75,25 @@ var ConsumerMap = React.createClass({
   },
   componentWillReceiveProps: function(nextProps) {
     if (nextProps.activeVehicleId !== this.props.activeVehicleId) {
-      // active vehicle has changed
-      this.setMarkersColor(nextProps.activeVehicleId, this.props.activeVehicleId);
+      // active vehicle status has changed
+      this.setMarkersColorOnActiveBusChange(
+        nextProps.activeVehicleId,
+        this.props.activeVehicleId
+      );
+    }
+
+    if (nextProps.markerLoading && !this.props.markerLoading) {
+      // a marker/consumer is in put loading state
+      console.log('marker loading');
+      this.markers[nextProps.markerLoading].setIcon(ICON_URL + WHITE);
+      this.markers[nextProps.markerLoading].setOpacity(0.5);
+    }
+
+    if (!nextProps.markerLoading && this.props.markerLoading) {
+      // a marker/consumer is removed from loading state
+      console.log('marker loading end');
+      this.markers[this.props.markerLoading].setIcon(ICON_URL + GRAY);
+      this.markers[this.props.markerLoading].setOpacity(1);
     }
   },
   mapConsumersToVehicles: function() {
@@ -101,8 +128,11 @@ var ConsumerMap = React.createClass({
       var icon = ICON_URL + GRAY;
 
       var content = "<div>" + consumer.name + "</div>" + "<div>" + consumer.address + "</div>";
-      if (consumer.hasWheelchair) {
-        content += '<div><i class="fa fa-wheelchair"></i></div>';
+
+      // add flags div
+      var flags = _addFlags(consumer);
+      if(flags.needs) {
+        content += '<div>' + 'Needs : ' + flags.flagsString + '</div>';
       }
 
       var v_id = self.consumersToVehiclesMap[c_id];
@@ -110,8 +140,8 @@ var ConsumerMap = React.createClass({
         // assigned to a bus
         icon = v_id !== self.props.activeVehicleId ?
           (ICON_URL + YELLOW)   // not active on bus
-          : (ICON_URL + GREEN); // on active bus  
-        content += '<div><i class="fa fa-bus"></i> ' + vehicles[v_id].name + '</div>';
+          : (ICON_URL + GREEN); // on active bus
+        content += 'Vehicle: ' + vehicles[v_id].name + '</div>';
       }
 
       var marker = new google.maps.Marker(
@@ -149,13 +179,14 @@ var ConsumerMap = React.createClass({
     }
 
   },
+
   render: function() {
     return (
 
           <div className="row">
             <div className="col-md-3 col-sm-4 col-xs-5">
 
-            <VehiclePanel/>
+            <VehiclePanel />
             </div>
             <div className="col-md-9 col-sm-8 col-xs-6">
               <div className="box box-widget map-height">
@@ -177,7 +208,8 @@ var mapStateToProps = function(state){
     vehiclesIds: state.vehicles.ids,
     vehicles : state.vehicles.data,
     consumers: state.consumers.data,
-    activeVehicleId : state.mapPage.activeVehicleId
+    activeVehicleId : state.mapPage.activeVehicleId,
+    markerLoading: state.mapPage.markerLoading
   }
 }
 var mapDispatchToProps = function(dispatch) {

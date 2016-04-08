@@ -69,7 +69,7 @@ module.exports.update = function(vehicle) {
       type: actionTypes.UPDATE_VEHICLE_REQUEST,
       vehicle:vehicle
     });
-    Ajax.post('/api/vehicle/' + vehicle._id, vehicle, function(err, updatedVehicle) {
+    Ajax.put('/api/vehicle/' + vehicle._id, vehicle, function(err, updatedVehicle) {
       if (err) {
         dispatch({
           type: actionTypes.UPDATE_VEHICLE_FAILURE,

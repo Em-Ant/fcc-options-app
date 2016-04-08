@@ -11,6 +11,17 @@ var setActiveVehicleBox = function (state, v_id) {
   }
 }
 
+var removeRequest = function(state, c_id) {
+  return Object.assign({}, state, {
+    markerLoading : c_id
+  });
+}
+
+var removeSuccess = function(state) {
+  return Object.assign({}, state, {
+    markerLoading : undefined
+  });
+}
 
 var initState = {};
 
@@ -19,6 +30,10 @@ var reducer = function(state, action) {
   switch (action.type){
     case (actionTypes.MAP_VEHICLE_BOX_CLICK) :
       return setActiveVehicleBox(state, action.id);
+    case (actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_REQUEST) :
+      return removeRequest(state, action.id);
+    case (actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS) :
+      return removeSuccess(state);
     default:
       return state;
   }

@@ -1,6 +1,23 @@
 var actionTypes = require('../constants/actionTypes/vehicleActionTypes');
 var commonCRUD = require('../commons/commonReducerFunctions');
+var mapActions = require('../constants/actionTypes/mapActionTypes.js');
 
+function removeFromActiveVehicle(state, v_id, c_id) {
+  var data = Object.assign({}, state.data);
+
+  var vehicle = Object.assign({}, state.data[v_id]);
+  var consumers = vehicle.consumers.slice();
+  consumers.splice(consumers.indexOf(c_id), 1);
+  vehicle.consumers = consumers;
+  data[v_id] = vehicle;
+
+
+
+  return Object.assign({}, state, {
+    data: data,
+  });
+  
+};
 
 var vehiclesReducer = function(state, action) {
   state = state || {ids:[], data:{}, needToBeFetched: true};
@@ -15,6 +32,8 @@ var vehiclesReducer = function(state, action) {
       return commonCRUD.update(state, action.vehicle);
     case actionTypes.DESTROY_VEHICLE_SUCCESS:
       return commonCRUD.destroy(state, action.id);
+    case mapActions.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS:
+      return removeFromActiveVehicle(state, action.v_id, action.c_id);
     default:
       return state;
   }

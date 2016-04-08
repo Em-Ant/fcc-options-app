@@ -47,6 +47,7 @@ var VehiclePanel = React.createClass({
                   parentId={'vehicle-accrd'}
                   collapseId={'vehicle-collapse_'+ index}
                   key={index}
+                  remove={this.props.remove}
                 />
               )
             }.bind(this))

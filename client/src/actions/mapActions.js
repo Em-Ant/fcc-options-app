@@ -8,3 +8,28 @@ module.exports.vehicleBoxClick = function (v_id) {
     id: v_id
   }
 }
+
+module.exports.removeFromActiveBus = function (c_id, active_v_id) {
+  return function (dispatch) {
+    dispatch({
+      type: actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_REQUEST,
+      id : c_id
+    });
+
+    Ajax.post('/api/vehicle/' + active_v_id + '/pull/' + c_id, {}, function(err, retVehicle){
+      if(err) {
+        return dispatch({
+          type: actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_ERROR,
+          msg: 'Error updating Vehicle'
+        });
+      }
+
+      dispatch({
+        type: actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS,
+        v_id: active_v_id,
+        c_id: c_id
+      })
+    })
+
+  }
+}
