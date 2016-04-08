@@ -4,8 +4,7 @@ var React = require('react');
 var Message = require('./message.jsx');
 
 var VehicleForm = React.createClass({
-  setVehicleToEdit: function(vehicleId) {
-    var vehicle = this.props.vehicles[vehicleId];
+  setVehicleToEdit: function(vehicle) {
     this.setState({vehicle: vehicle});
   },
   handleSubmit: function(e) {
@@ -37,15 +36,15 @@ var VehicleForm = React.createClass({
   },
   componentDidMount: function() {
     // set vehicle to edit only if there is no request pending
-    if (this.props.editId && !this.props.isLoading) {
-      this.setVehicleToEdit(this.props.editId);
+    if (this.props.vehicle && !this.props.isLoading) {
+      this.setVehicleToEdit(this.props.vehicle);
     }
   },
   componentWillReceiveProps: function(nextProps) {
 
     // set vehicle to edit only if there is no request pending
-    if (nextProps.editId && !nextProps.isLoading) {
-      this.setVehicleToEdit(nextProps.editId);
+    if (nextProps.vehicle && !nextProps.isLoading) {
+      this.setVehicleToEdit(nextProps.vehicle);
     }
   },
   render: function() {

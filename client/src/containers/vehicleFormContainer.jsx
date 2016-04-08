@@ -5,10 +5,15 @@ var actions = require('../actions/vehicleActions.js');
 Redux aware container that connects dispatch functions and app state to component properties
 */
 var mapStateToProps = function(state) {
-
+  //if editing, get vehicle to edit
+  var vehicle;
+  var editId = state.vehiclesPage.form.editId;
+  if (editId) {
+    vehicle = state.vehicles.data[editId];
+  }
   //Not sure if it's smart to use Object.assign here.  I don't want to map
   //every property in form individually
-  return Object.assign({}, state.vehiclesPage.form, {vehicles:state.vehicles.data});
+  return Object.assign({}, state.vehiclesPage.form, {vehicle: vehicle});
 }
 var mapDispatchToProps = function(dispatch) {
   return {
