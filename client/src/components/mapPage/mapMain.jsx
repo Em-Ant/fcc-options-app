@@ -19,7 +19,7 @@ var VehiclePanel = require('./vehiclePanel.jsx')
 
 var ConsumerMap = React.createClass({
   map: null,
-  consumersToVehiclesMap: {},
+  consumersToVehiclesMap: undefined,
   componentDidMount: function() {
     var positionHome = this.props.homePosition
     this.map = new google.maps.Map(document.getElementById('test-map'), {
@@ -33,20 +33,23 @@ var ConsumerMap = React.createClass({
     this.mapConsumersToVehicles();
     this.showConsumersMarker();
   },
-  // NOTE Maybe we can move this into a reducer,
-  // or we can calculate it somewhere else (before) if needed
-  mapConsumersToVehicles: function() {
-    var self = this;
-    this.props.vehiclesIds.forEach(function(v_id) {
-      var vehicle = self.props.vehicles[v_id];
-      vehicle.consumers.forEach(function(c_id){
-        if(self.consumersToVehiclesMap[c_id]) {
-          throw new Error ("Consumer assigned to more than one vehicle");
-        } else {
-          self.consumersToVehiclesMap[c_id] = v_id;
-        }
+  // NOTE this should be moved into a reducer,
+  // Now this function is called on every rendering
+  mapConsumersToVehicles: function() {    
+    if (!this.consumersToVehiclesMap) {
+      var self = this;
+      self.consumersToVehiclesMap = {};
+      this.props.vehiclesIds.forEach(function(v_id) {
+        var vehicle = self.props.vehicles[v_id];
+        vehicle.consumers.forEach(function(c_id){
+          if(self.consumersToVehiclesMap[c_id]) {
+            throw new Error ("Consumer assigned to more than one vehicle");
+          } else {
+            self.consumersToVehiclesMap[c_id] = v_id;
+          }
+        })
       })
-    })
+    }
   },
   showConsumersMarker: function() {
     var ids = this.props.consumersIds;
