@@ -63,7 +63,7 @@ var CollapsibleBusBox = React.createClass({
               <i className="fa fa-male"></i>&nbsp;
               {seats}/{totalSeats}
             </span>
-            {this.props.totalWheelchairs
+            {totalWheelchairs
               ? <span className={'cust-label ' + availWheels}>
                 <i className="fa fa-wheelchair"></i>&nbsp;
               {wheels}/{totalWheelchairs}
