@@ -2,7 +2,6 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  devtool: '#source-map',
   entry: {
     app: path.join(__dirname,'client','src','index.jsx'),
     vendors: [
