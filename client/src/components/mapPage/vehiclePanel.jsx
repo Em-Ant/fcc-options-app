@@ -21,7 +21,7 @@ var VehiclePanel = React.createClass({
                 className="btn btn-default disabled"
                 title='Get Optimal Route'
               >
-                <i className="fa fa-cogs"></i>
+                <i className="fa fa-location-arrow"></i>
               </button>
           </div>
         </div>
