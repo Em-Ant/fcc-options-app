@@ -1,6 +1,9 @@
 var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
 
-var setActiveVehicleBox = function (state, v_id) {
+var vehicleBoxClick = function (state, v_id) {
+
+  $('#vp-'+v_id).collapse('toggle');
+
   var activeVId = state.activeVehicleId;
   if ( activeVId === v_id) {
     // click on the active box : set none active
@@ -29,7 +32,7 @@ var reducer = function(state, action) {
   state = state || initState;
   switch (action.type){
     case (actionTypes.MAP_VEHICLE_BOX_CLICK) :
-      return setActiveVehicleBox(state, action.id);
+      return vehicleBoxClick(state, action.id);
     case (actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_REQUEST) :
       return request(state, action.id);
     case (actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS) :

@@ -18,22 +18,7 @@ var VehiclePanel = require('./vehiclePanel.jsx')
 
 var _addFlags = require('../../utils/addConsumerFlags');
 
-var _generateInfoBoxContent = function (consumer, v_onBoard) {
-  var content = "<div>" + consumer.name + "</div>" + "<div>" + consumer.address + "</div>";
 
-  // add flags div
-  var flags = _addFlags(consumer);
-  if(flags.needs) {
-    content += '<div>' + 'Needs : ' + flags.flagsString + '</div>';
-  }
-
-  if (v_onBoard) {
-    // assigned to a bus
-    content += 'Vehicle: ' + v_onBoard.name + '</div>';
-  }
-
-  return content;
-};
 
 /**
 * TODO:
@@ -97,8 +82,8 @@ var ConsumerMap = React.createClass({
     }
   },
   componentWillReceiveProps: function(nextProps) {
+    // Make markers be driven by props is possible only here
 
-    // Make markers be 'event driven' is possible only here
     if (nextProps.activeVehicleId !== this.props.activeVehicleId) {
       // active vehicle status has changed
       this.setMarkersColorOnActiveBusChange(
@@ -120,12 +105,9 @@ var ConsumerMap = React.createClass({
       // a marker/consumer is removed from loading state
       console.log('marker loading end');
 
-
       // update InfoBox
       var c_id = this.props.markerLoading;
-      var content = _generateInfoBoxContent(
-        this.props.consumers[c_id],
-        this.props.vehicles[this.consumersToVehiclesMap[c_id]]);
+      var content = this.generateInfoBoxContent(c_id);
       this.infoBoxes[c_id].setContent(content);
 
       if (this.consumersToVehiclesMap[this.props.markerLoading]) {
@@ -167,6 +149,26 @@ var ConsumerMap = React.createClass({
       })
     })
   },
+  generateInfoBoxContent: function (c_id) {
+    var consumer = this.props.consumers[c_id];
+    var vehicleOnBoardId = this.consumersToVehiclesMap[c_id];
+    var v_onBoard = this.props.vehicles[vehicleOnBoardId];
+
+    var content = "<div>" + consumer.name + "</div>" + "<div>" + consumer.address + "</div>";
+
+    // add flags div
+    var flags = _addFlags(consumer);
+    if(flags.needs) {
+      content += '<div>' + 'Needs : ' + flags.flagsString + '</div>';
+    }
+
+    if (v_onBoard) {
+      // assigned to a bus
+      content += 'Vehicle: ' + v_onBoard.name + '</div>';
+    }
+
+    return content;
+  },
   showConsumersMarker: function() {
 
     var ids = this.props.consumersIds;
@@ -182,8 +184,7 @@ var ConsumerMap = React.createClass({
       var position = consumer.position;
       var icon = ICON_URL + GRAY;
 
-      var content = _generateInfoBoxContent(
-        consumer, vehicles[self.consumersToVehiclesMap[c_id]]);
+      var content = self.generateInfoBoxContent(c_id);
 
         if (self.consumersToVehiclesMap[c_id]) {
           // consumer is on board
@@ -228,6 +229,9 @@ var ConsumerMap = React.createClass({
        } else {
          // marked consumer is not on the active vehicle
          console.log('on board not active');
+
+         // activate the vehicle which the consumers is on
+         this.props.activateVehicleByConsumer(this.consumersToVehiclesMap[c_id]);
        }
       } else {
         // marked consumer is not on a vehicle
@@ -280,6 +284,9 @@ var mapDispatchToProps = function(dispatch) {
   return {
     loadConsumers: function() {
       dispatch(cActions.loadConsumers());
+    },
+    activateVehicleByConsumer: function(vehicleId) {
+      dispatch(mActions.vehicleBoxClick(vehicleId))
     },
     addConsumerToActiveBus: function(c_id, active_v_id) {
       dispatch(mActions.addToActiveBus(c_id, active_v_id))

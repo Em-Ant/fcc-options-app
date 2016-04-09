@@ -31,7 +31,6 @@ var VehiclePanel = React.createClass({
                   totalWheelchairs={vehicle.maxFixedWheelchairs}
                   totalSeats={vehicle.maxFixedSeats}
                   parentId={'vehicle-accrd'}
-                  collapseId={'vehicle-collapse_'+ index}
                   key={index}
                   remove={this.props.remove}
                 />

@@ -39,12 +39,12 @@ var CollapsibleBusBox = React.createClass({
       'avail-color' : 'unavail-color';
     return (
       <div className={"panel box " + activeClass}>
-        <div className="box-header with-border" role="tab" id={'head-'+this.props.collapseId}>
+        <div className="box-header with-border" role="tab" id={'head-'+this.props.vehicleId}>
           <h4 className="box-title">
             <a role="button" data-toggle="collapse"
               data-parent={'#' + this.props.parentId}
-              href={'#' + this.props.collapseId}
-              aria-expanded={ariaExpanded} aria-controls={this.props.collapseId}
+              href={'#vp-' + this.props.vehicleId}
+              aria-expanded="false" aria-controls={'vp-'+this.props.vehicleId}
               onClick={this.props.toggleActive.bind(null,this.props.vehicleId)}>
               {this.props.name}
             </a>
@@ -61,8 +61,8 @@ var CollapsibleBusBox = React.createClass({
             </span>: null}
           </div>
         </div>
-        <div id={this.props.collapseId} className={collapseClass}
-          role="tabpanel" aria-labelledby={'head-'+this.props.collapseId}>
+        <div id={'vp-'+this.props.vehicleId} className="panel-collapse collapse"
+          role="tabpanel" aria-labelledby={'head-'+this.props.vehicleId}>
           <div className="box-body">
           {body}
           </div>
