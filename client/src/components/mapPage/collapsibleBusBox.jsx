@@ -3,6 +3,11 @@ var ConsumerInfoBox = require('./consumerInfoBox.jsx');
 var actions = require('../../actions/mapActions')
 var connect = require('react-redux').connect;
 
+/**
+* TODO Let collapsibleBusBox get consumers and vwhicle info from reducer
+* and handle foldable seats.
+*/
+
 var CollapsibleBusBox = React.createClass({
   removeFromActiveBus: function(c_id) {
     this.props.removeConsumerFromActiveBus(c_id, this.props.activeVehicleId);

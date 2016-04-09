@@ -4,7 +4,8 @@ var React = require('react');
 var connect = require('react-redux').connect;
 var cActions = require('../../actions/consumerActions');
 var mActions = require('../../actions/mapActions');
-var ICON_URL = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|";
+var VehiclePanel = require('./vehiclePanel.jsx')
+var _addFlags = require('../../utils/addConsumerFlags');
 
 // COLORS
 var RED = "FE7569";     //options inc address
@@ -14,17 +15,15 @@ var BLUE = "0088AA";
 var GRAY = "A6A6A6";    //unassigned user
 var WHITE = "FFFFFF"    // loading state
 
-var VehiclePanel = require('./vehiclePanel.jsx')
-
-var _addFlags = require('../../utils/addConsumerFlags');
-
-
+var ICON_URL =
+  "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|";
 
 /**
-* TODO:
+* THINGS TODO:
 * 1. Handle driving directions
 * 2. Include bus with foldable seats
-* 3. If possible give a better structure to this file
+* 3. Handle errors with infoboxes
+* 4. If possible give a better structure to this huge file
 */
 
 var ConsumerMap = React.createClass({

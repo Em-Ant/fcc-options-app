@@ -30,6 +30,10 @@ var success = function(state) {
 
 var initState = {};
 
+/** 
+* TODO IMPORTANT handle errors
+*/
+
 var reducer = function(state, action) {
   state = state || initState;
   switch (action.type){

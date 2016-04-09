@@ -2,6 +2,11 @@ var React = require('react');
 var connect = require('react-redux').connect;
 var CollapsibleBusBox = require('./collapsibleBusBox.jsx');
 
+/**
+* TODO Let collapsibleBusBox get consumers and vwhicle info from reducer
+* and handle foldable seats.
+*/
+
 var VehiclePanel = React.createClass({
   componentDidMount: function () {
     if(this.props.activeVehicleId) {
