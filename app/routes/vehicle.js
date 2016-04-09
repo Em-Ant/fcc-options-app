@@ -7,7 +7,7 @@ var controller = new Controller();
 
 var isLoggedIn = require('../auth/ensureAuth.js').isLoggedIn;
 
-//router.post('/:id/push/:c_id', isLoggedIn, controller.pushConsumer);
+router.post('/:id/push/:c_id', isLoggedIn, controller.pushConsumer);
 router.post('/:id/pull/:c_id', isLoggedIn, controller.pullConsumer);
 router.get('/', isLoggedIn, controller.index);
 router.get('/:id', isLoggedIn, controller.show);

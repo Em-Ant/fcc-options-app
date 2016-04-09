@@ -16,7 +16,22 @@ function removeFromActiveVehicle(state, v_id, c_id) {
   return Object.assign({}, state, {
     data: data,
   });
-  
+
+};
+
+function addToActiveVehicle(state, v_id, c_id) {
+  var data = Object.assign({}, state.data);
+
+  var vehicle = Object.assign({}, state.data[v_id]);
+  var consumers = vehicle.consumers.slice();
+  consumers.push(c_id);
+  vehicle.consumers = consumers;
+  data[v_id] = vehicle;
+
+  return Object.assign({}, state, {
+    data: data,
+  });
+
 };
 
 var vehiclesReducer = function(state, action) {
@@ -34,6 +49,8 @@ var vehiclesReducer = function(state, action) {
       return commonCRUD.destroy(state, action.id);
     case mapActions.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS:
       return removeFromActiveVehicle(state, action.v_id, action.c_id);
+    case mapActions.MAP_ADD_TO_ACTIVE_BUS_SUCCESS:
+      return addToActiveVehicle(state, action.v_id, action.c_id);
     default:
       return state;
   }

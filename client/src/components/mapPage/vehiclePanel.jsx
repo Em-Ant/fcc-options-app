@@ -9,26 +9,12 @@ var VehiclePanel = React.createClass({
         <div className="box-header with-border">
           <h3 className="box-title">Vehicles</h3>
           <div className="pull-right">
-            <div className="btn-group">
               <button
-                className="btn btn-default"
+                className="btn btn-default disabled"
                 title='Get Optimal Route'
               >
                 <i className="fa fa-cogs"></i>
               </button>
-              <button
-                className="btn btn-default"
-                title='Discard Changes'
-              >
-                <i className="fa fa-trash-o"></i>
-              </button>
-              <button
-                className="btn btn-default"
-                title="Save Changes"
-              >
-                <i className="fa fa-floppy-o"></i>
-              </button>
-            </div>
           </div>
         </div>
         <div className="box-body">
@@ -54,6 +40,11 @@ var VehiclePanel = React.createClass({
           }
           </div>
         </div>
+        {this.props.loading ?
+        <div className="overlay">
+          <i className="fa fa-refresh fa-spin"></i>
+        </div>
+        : null }
       </div>
     )
   }
@@ -63,7 +54,8 @@ var mapStateToProps = function(state){
   return{
     vehiclesIds: state.vehicles.ids,
     vehicles: state.vehicles.data,
-    consumers: state.consumers.data
+    consumers: state.consumers.data,
+    loading: state.mapPage.markerLoading
   }
 }
 var mapDispatchToProps = function(dispatch) {
