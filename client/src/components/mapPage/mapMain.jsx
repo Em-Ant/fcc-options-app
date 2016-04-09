@@ -93,7 +93,6 @@ var ConsumerMap = React.createClass({
 
     if (nextProps.markerLoading && !this.props.markerLoading) {
       // a marker/consumer is in put loading state
-      console.log('marker loading');
 
       // set loading icon
       this.markers[nextProps.markerLoading].setIcon(ICON_URL + WHITE);
@@ -102,12 +101,6 @@ var ConsumerMap = React.createClass({
 
     if (!nextProps.markerLoading && this.props.markerLoading) {
       // a marker/consumer is removed from loading state
-      console.log('marker loading end');
-
-      // update InfoBox
-      var c_id = this.props.markerLoading;
-      var content = this.generateInfoBoxContent(c_id);
-      this.infoBoxes[c_id].setContent(content);
 
       if (this.consumersToVehiclesMap[this.props.markerLoading]) {
         // consumer is being removed from active bus
@@ -129,6 +122,12 @@ var ConsumerMap = React.createClass({
         this.consumersToVehiclesMap[this.props.markerLoading]
           = this.props.activeVehicleId;
       }
+
+      // update InfoBox, after updating consumer -> vehicles map
+      var c_id = this.props.markerLoading;
+      var content = this.generateInfoBoxContent(c_id);
+      this.infoBoxes[c_id].setContent(content);
+
     }
   },
   mapConsumersToVehicles: function() {
@@ -222,19 +221,17 @@ var ConsumerMap = React.createClass({
         // marked consumer is on a vehicle
         if (this.consumersToVehiclesMap[c_id] == this.props.activeVehicleId) {
          // marked consumer is on the active vehicle
-         console.log('on board active');
 
          this.props.removeConsumerFromActiveBus(c_id, this.props.activeVehicleId);
        } else {
          // marked consumer is not on the active vehicle
-         console.log('on board not active');
 
          // activate the vehicle which the consumers is on
          this.props.activateVehicleByConsumer(this.consumersToVehiclesMap[c_id]);
        }
       } else {
         // marked consumer is not on a vehicle
-        console.log('not on board');
+
         if (this.props.activeVehicleId) {
           // A vehicle is active (A Collapsible Box is open)
 
@@ -243,25 +240,25 @@ var ConsumerMap = React.createClass({
         }
       }
     } else {
-      console.log('markers frozen');
+      console.log('WARN: markers frozen in loading state');
     }
   },
 
   render: function() {
     return (
 
-          <div className="row">
-            <div className="col-md-3 col-sm-4 col-xs-5">
+      <div className="row">
+        <div className="col-md-3 col-sm-4 col-xs-5">
 
-            <VehiclePanel />
-            </div>
-            <div className="col-md-9 col-sm-8 col-xs-6">
-              <div className="box box-widget map-height">
-              <div id="test-map" className="map-height"></div>
-              </div>
-              <div id="directions-panel"></div>
-            </div>
+        <VehiclePanel />
+        </div>
+        <div className="col-md-9 col-sm-8 col-xs-6">
+          <div className="box box-widget map-height">
+          <div id="test-map" className="map-height"></div>
           </div>
+          <div id="directions-panel"></div>
+        </div>
+      </div>
 
     );
   }
