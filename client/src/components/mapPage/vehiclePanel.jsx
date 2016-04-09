@@ -33,18 +33,11 @@ var VehiclePanel = React.createClass({
           <div className="box-group" id="vehicle-accrd" role="tablist" aria-multiselectable="true">
           {
             this.props.vehiclesIds.map(function(id, index) {
-              var vehicle = this.props.vehicles[id];
               return (
                 <CollapsibleBusBox
-                  name={vehicle.name}
-                  onBoardIds={vehicle.consumers}
                   vehicleId={id}
-                  consumers={this.props.consumers}
-                  totalWheelchairs={vehicle.maxFixedWheelchairs}
-                  totalSeats={vehicle.maxFixedSeats}
                   parentId={'vehicle-accrd'}
                   key={index}
-                  remove={this.props.remove}
                 />
               )
             }.bind(this))
@@ -70,11 +63,6 @@ var mapStateToProps = function(state){
     activeVehicleId: state.mapPage.activeVehicleId
   }
 }
-var mapDispatchToProps = function(dispatch) {
-  return {
 
-  }
-}
-
-var VehiclePanelContainer = connect(mapStateToProps, mapDispatchToProps)(VehiclePanel);
+var VehiclePanelContainer = connect(mapStateToProps)(VehiclePanel);
 module.exports = VehiclePanelContainer;

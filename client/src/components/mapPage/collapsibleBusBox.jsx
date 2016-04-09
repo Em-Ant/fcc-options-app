@@ -3,20 +3,20 @@ var ConsumerInfoBox = require('./consumerInfoBox.jsx');
 var actions = require('../../actions/mapActions')
 var connect = require('react-redux').connect;
 
-/**
-* TODO Let collapsibleBusBox get consumers and vwhicle info from reducer
-* and handle foldable seats.
-*/
 
 var CollapsibleBusBox = React.createClass({
-  removeFromActiveBus: function(c_id) {
-    this.props.removeConsumerFromActiveBus(c_id, this.props.activeVehicleId);
-  },
   render: function() {
     var seats = 0;
     var wheels = 0;
-    var body = (this.props.onBoardIds.length > 0) ?
-    this.props.onBoardIds.map(function(id, index) {
+
+    var vehicle = this.props.vehicles[this.props.vehicleId];
+    var onBoardIds = vehicle.consumers;
+    var totalWheelchairs = vehicle.maxFixedWheelchairs;
+    var totalSeats = vehicle.maxFixedSeats;
+    var name = vehicle.name;
+
+    var body = (onBoardIds.length > 0) ?
+        onBoardIds.map(function(id, index) {
       var c = this.props.consumers[id];
       if (c.hasWheelchair)
         wheels++
@@ -24,20 +24,19 @@ var CollapsibleBusBox = React.createClass({
         seats++
       return (
         <ConsumerInfoBox
-          key={'c_info_'+ index}
-          consumer={c}
           consumerId={id}
-          remove={this.removeFromActiveBus}
+          key={'c_info_'+ index}
         />
       )
     }.bind(this)) : "Vehicle is empty";
 
     var activeClass = this.props.activeVehicleId === this.props.vehicleId
       ? ' box-primary box-solid' : ' box-default';
-    var availWheels = wheels < this.props.totalWheelchairs ?
+    var availWheels = wheels < totalWheelchairs ?
       'avail-color' : 'unavail-color';
-    var availSeats = seats < this.props.totalSeats ?
+    var availSeats = seats < totalSeats ?
       'avail-color' : 'unavail-color';
+
     return (
       <div className={"panel box " + activeClass}>
         <div className="box-header with-border" role="tab" id={'head-'+this.props.vehicleId}>
@@ -47,18 +46,18 @@ var CollapsibleBusBox = React.createClass({
               href={'#vp-' + this.props.vehicleId}
               aria-expanded="false" aria-controls={'vp-'+this.props.vehicleId}
               onClick={this.props.toggleActive.bind(null,this.props.vehicleId)}>
-              {this.props.name}
+              {name}
             </a>
           </h4>
           <div className="pull-right">
             <span className={'cust-label ' + availSeats}>
               <i className="fa fa-male"></i>&nbsp;
-              {seats}/{this.props.totalSeats}
+              {seats}/{totalSeats}
             </span>
             {this.props.totalWheelchairs
               ? <span className={'cust-label ' + availWheels}>
                 <i className="fa fa-wheelchair"></i>&nbsp;
-              {wheels}/{this.props.totalWheelchairs}
+              {wheels}/{totalWheelchairs}
             </span>: null}
           </div>
         </div>
@@ -73,17 +72,11 @@ var CollapsibleBusBox = React.createClass({
   }
 })
 
-/**
-* props mapped to redux:
-*
-* activeVehicleId : String, MongoDB ObjId
-* toggleActive : function(vehicleId)
-*/
-
 var mapStateToProps = function(state){
   return {
     activeVehicleId : state.mapPage.activeVehicleId,
-    vehicles: state.vehicles.data
+    vehicles: state.vehicles.data,
+    consumers: state.consumers.data
   }
 }
 var mapDispatchToProps = function(dispatch) {
