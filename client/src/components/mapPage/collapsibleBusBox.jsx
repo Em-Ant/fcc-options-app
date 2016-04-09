@@ -9,6 +9,10 @@ var connect = require('react-redux').connect;
 *   parentId - DOM id of the parent element, needed by bootstrap
 */
 
+/**
+* TODO handle foldable seats.
+*/
+
 var CollapsibleBusBox = React.createClass({
   render: function() {
     var seats = 0;
