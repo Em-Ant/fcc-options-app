@@ -6,7 +6,6 @@ var update = function (state, updatedObj) {
   return Object.assign({}, state, {
     data: data,
     ids: ids,
-    lastUpdated: {type: 'update', id: updatedObj._id}
   });
 }
 
@@ -20,7 +19,6 @@ var destroy = function(state, id) {
   return Object.assign({}, state, {
     ids: ids,
     data: data,
-    lastUpdated: {type: 'destroy', id: id}
   });
 }
 
@@ -33,7 +31,7 @@ var add = function(state, obj) {
   var newState = Object.assign({}, state, {
     ids: ids,
     data: data,
-    lastUpdated: {type: 'add', id: obj._id}});
+  });
 
   return newState;
 }
@@ -47,7 +45,7 @@ var load = function(state, objsArray) {
   return Object.assign({}, state, {
     data: s,
     ids: ids,
-    lastUpdated: {type: 'all'}});
+    loaded: true});
 }
 
 var setRequested = function(state) {

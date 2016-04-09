@@ -42,8 +42,8 @@ var mapStateToProps = function(state){
     consumersNeedToBeFetched: state.consumers.needToBeFetched,
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     settingsNeedToBeFetched: state.settings.needToBeFetched,
-    dataLoaded : ((state.consumers.lastUpdated
-      && state.vehicles.lastUpdated) && state.settings.optionsIncAddress)
+    dataLoaded : ((state.consumers.loaded
+      && state.vehicles.loaded) && state.settings.optionsIncAddress)
   }
 }
 var mapDispatchToProps = function(dispatch) {
