@@ -33,7 +33,7 @@ var ConsumerMap = React.createClass({
   infoBoxes: null,
   componentDidMount: function() {
     var positionHome = this.props.homePosition
-    this.map = new google.maps.Map(document.getElementById('test-map'), {
+    var map = this.map = new google.maps.Map(document.getElementById('test-map'), {
       center: positionHome,
       zoom: 12
     });
@@ -41,10 +41,16 @@ var ConsumerMap = React.createClass({
     var markerHome = new google.maps.Marker(
       {
         position: positionHome,
-        map: this.map,
+        map: map,
         title: "Options, Inc.",
         icon: iconHome
       });
+    var center;
+
+    // centering map on window resize
+    google.maps.event.addDomListener(window, 'resize', function(){
+      map.setCenter(positionHome);
+    });
 
     this.mapConsumersToVehicles();
     this.showConsumersMarker();
