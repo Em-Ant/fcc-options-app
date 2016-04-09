@@ -3,6 +3,11 @@ var ConsumerInfoBox = require('./consumerInfoBox.jsx');
 var actions = require('../../actions/mapActions')
 var connect = require('react-redux').connect;
 
+/**
+* Props that have to be passed from parent :
+*   vehicleId - id of the related vehicle
+*   parentId - DOM id of the parent element, needed by bootstrap
+*/
 
 var CollapsibleBusBox = React.createClass({
   render: function() {

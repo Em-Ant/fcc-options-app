@@ -4,6 +4,11 @@ var connect = require('react-redux').connect;
 
 var _addFlags = require('../../utils/addConsumerFlags');
 
+/**
+* Props that have to be passed from parent :
+*   consumerId - id of the related consumer
+*/
+
 var ConsumerInfoBox = React.createClass({
     render: function() {
     var consumer = this.props.consumers[this.props.consumerId];
