@@ -33,6 +33,13 @@ var success = function(state) {
   });
 }
 
+var highlightMarker = function (state, id) {
+  return Object.assign({}, state, {highlightedMarker: id})
+}
+
+var highlightMarkerOff = function (state, id) {
+  return Object.assign({}, state, {highlightedMarker: undefined})
+}
 var initState = {};
 
 /**
@@ -52,6 +59,10 @@ var reducer = function(state, action) {
       return request(state, action.id);
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_SUCCESS) :
       return success(state);
+    case (actionTypes.MAP_HIGHLIGHT_MARKER) :
+      return highlightMarker(state, action.id);
+    case (actionTypes.MAP_HIGHLIGHT_MARKER_OFF) :
+      return highlightMarkerOff(state, action.id);
     default:
       return state;
   }

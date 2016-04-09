@@ -35,7 +35,12 @@ var ConsumerInfoBox = React.createClass({
             )}
         ></i>
         &nbsp;
-        {consumer.name}
+        <span
+          onMouseOver={this.props.nameHoverOn.bind(null,this.props.consumerId)}
+          onMouseOut={this.props.nameHoverOff.bind(null,this.props.consumerId)}
+        >
+          {consumer.name}
+        </span>
       </span>
       {flagsSpan}
     </div>
@@ -50,6 +55,12 @@ var mapStateToProps = function(state){
 }
 var mapDispatchToProps = function(dispatch) {
   return {
+    nameHoverOn: function(c_id) {
+      dispatch(actions.highlightMarker(c_id))
+    },
+    nameHoverOff: function(c_id) {
+      dispatch(actions.highlightMarkerOff(c_id))
+    },
     removeConsumerFromActiveBus: function(c_id, active_v_id) {
       dispatch(actions.removeFromActiveBus(c_id, active_v_id))
     }

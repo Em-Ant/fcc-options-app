@@ -11,7 +11,7 @@ var _addFlags = require('../../utils/addConsumerFlags');
 var RED = "FE7569";     //options inc address
 var YELLOW = "FFD42A";  //assigned to a vehicle
 var GREEN = "5AA02C";   //assigned to current selected vehicle
-var BLUE = "0088AA";
+var GREEN_H = "78EA2F";
 var GRAY = "A6A6A6";    //unassigned user
 var WHITE = "FFFFFF"    // loading state
 
@@ -133,6 +133,18 @@ var ConsumerMap = React.createClass({
       var c_id = this.props.markerLoading;
       var content = this.generateInfoBoxContent(c_id);
       this.infoBoxes[c_id].setContent(content);
+    }
+
+    if(nextProps.highlightedMarker !== this.props.highlightedMarker) {
+      // marker highlightening change related to name hover in vehicle panel
+
+      if(nextProps.highlightedMarker) {
+        this.markers[nextProps.highlightedMarker].setIcon(ICON_URL + GREEN_H);
+      } else {
+        // this assumes that hover can happen only in the active bus panel.
+        // may change in the future
+        this.markers[this.props.highlightedMarker].setIcon(ICON_URL + GREEN);
+      }
 
     }
   },
@@ -279,7 +291,8 @@ var mapStateToProps = function(state){
     vehicles : state.vehicles.data,
     consumers: state.consumers.data,
     activeVehicleId : state.mapPage.activeVehicleId,
-    markerLoading: state.mapPage.markerLoading
+    markerLoading: state.mapPage.markerLoading,
+    highlightedMarker: state.mapPage.highlightedMarker
   }
 }
 var mapDispatchToProps = function(dispatch) {

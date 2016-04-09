@@ -9,6 +9,20 @@ module.exports.vehicleBoxClick = function (v_id) {
   }
 }
 
+module.exports.highlightMarker = function(c_id) {
+  return {
+    type: actionTypes.MAP_HIGHLIGHT_MARKER,
+    id: c_id
+  }
+};
+
+module.exports.highlightMarkerOff = function(c_id) {
+  return {
+    type: actionTypes.MAP_HIGHLIGHT_MARKER_OFF,
+    id: c_id
+  }
+};
+
 module.exports.removeFromActiveBus = function (c_id, active_v_id) {
   return function (dispatch) {
     dispatch({
