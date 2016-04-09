@@ -1,8 +1,7 @@
 var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
+var vActions = require('../constants/actionTypes/vehicleActionTypes.js');
 
 var vehicleBoxClick = function (state, v_id) {
-
-
 
   var activeVId = state.activeVehicleId;
   if ( activeVId === v_id) {
@@ -42,6 +41,15 @@ var highlightMarkerOff = function (state, id) {
 }
 var initState = {};
 
+var checkActiveVehicleIdForDelete = function (state, id) {
+  // checks if the active Vehicle has been deleted,
+  // if yes reset relative field - Fix for #14
+  if (state.activeVehicleId === id) {
+    return Object.assign({}, state, {activeVehicleId: undefined})
+  }
+  return state;
+}
+
 /**
 * TODO IMPORTANT handle errors
 */
@@ -63,6 +71,8 @@ var reducer = function(state, action) {
       return highlightMarker(state, action.id);
     case (actionTypes.MAP_HIGHLIGHT_MARKER_OFF) :
       return highlightMarkerOff(state, action.id);
+    case (vActions.DESTROY_VEHICLE_SUCCESS) :
+      return checkActiveVehicleIdForDelete(state, action.id)
     default:
       return state;
   }
