@@ -2,16 +2,21 @@ var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
 
 var vehicleBoxClick = function (state, v_id) {
 
-  $('#vp-'+v_id).collapse('toggle');
+
 
   var activeVId = state.activeVehicleId;
   if ( activeVId === v_id) {
     // click on the active box : set none active
 
+    $('#vp-'+v_id).collapse('toggle');
+
     return Object.assign({}, state, {activeVehicleId: undefined})
   } else {
-
     // click on a non-active box : activate it
+
+    $('#vp-'+v_id).collapse('toggle');
+    $('#vp-'+activeVId).collapse('toggle');
+
     return Object.assign({}, state, {activeVehicleId: v_id})
   }
 }
@@ -30,7 +35,7 @@ var success = function(state) {
 
 var initState = {};
 
-/** 
+/**
 * TODO IMPORTANT handle errors
 */
 
