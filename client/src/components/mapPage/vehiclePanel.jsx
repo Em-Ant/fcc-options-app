@@ -3,6 +3,13 @@ var connect = require('react-redux').connect;
 var CollapsibleBusBox = require('./collapsibleBusBox.jsx');
 
 var VehiclePanel = React.createClass({
+  componentDidMount: function () {
+    if(this.props.activeVehicleId) {
+
+      // Open the active Collapsible box
+      $('#vp-'+this.props.activeVehicleId).collapse('show');
+    }
+  },
   render : function() {
     return (
       <div className="box box-widget cust-height">
@@ -54,7 +61,8 @@ var mapStateToProps = function(state){
     vehiclesIds: state.vehicles.ids,
     vehicles: state.vehicles.data,
     consumers: state.consumers.data,
-    loading: state.mapPage.markerLoading
+    loading: state.mapPage.markerLoading,
+    activeVehicleId: state.mapPage.activeVehicleId
   }
 }
 var mapDispatchToProps = function(dispatch) {

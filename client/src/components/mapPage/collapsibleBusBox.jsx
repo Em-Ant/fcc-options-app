@@ -29,10 +29,6 @@ var CollapsibleBusBox = React.createClass({
 
     var activeClass = this.props.activeVehicleId === this.props.vehicleId
       ? ' box-primary box-solid' : ' box-default';
-    var collapseClass = this.props.activeVehicleId === this.props.vehicleId
-      ? 'panel-collapse collapse in' : 'panel-collapse collapse';
-    var ariaExpanded = this.props.activeVehicleId === this.props.vehicleId
-      ? 'true' : 'false';
     var availWheels = wheels < this.props.totalWheelchairs ?
       'avail-color' : 'unavail-color';
     var availSeats = seats < this.props.totalSeats ?

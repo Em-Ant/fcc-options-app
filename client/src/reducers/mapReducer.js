@@ -7,8 +7,10 @@ var vehicleBoxClick = function (state, v_id) {
   var activeVId = state.activeVehicleId;
   if ( activeVId === v_id) {
     // click on the active box : set none active
+
     return Object.assign({}, state, {activeVehicleId: undefined})
   } else {
+
     // click on a non-active box : activate it
     return Object.assign({}, state, {activeVehicleId: v_id})
   }
