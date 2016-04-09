@@ -9,7 +9,7 @@ var session = require('express-session');
 var expressValidator = require('express-validator');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
-var config = require('./app/config/config');
+
 
 var app = express();
 
@@ -29,6 +29,7 @@ if(process.env.SEED_DB && process.env.SEED_DB==="true") {
   require('./app/seed.js');
 }
 if(process.env.NODE_ENV == "development"){
+  var config = require('./app/config/config');
   config.setHotReloading(app);
 }
 
