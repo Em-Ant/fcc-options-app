@@ -23,14 +23,14 @@ var CollapsibleBusBox = React.createClass({
     var totalWheelchairs = vehicle.maxFixedWheelchairs;
     var totalSeats = vehicle.maxFixedSeats;
     var name = vehicle.name;
+    var needMed = false;
 
     var body = (onBoardIds.length > 0) ?
         onBoardIds.map(function(id, index) {
       var c = this.props.consumers[id];
-      if (c.hasWheelchair)
-        wheels++
-      else
-        seats++
+      c.hasWheelchair ? wheels++ : (c.needsTwoSeats ? seats += 2 : seats++ )
+      if (c.hasMedications ) needMed = true;
+
       return (
         <ConsumerInfoBox
           consumerId={id}
@@ -59,6 +59,7 @@ var CollapsibleBusBox = React.createClass({
             </a>
           </h4>
           <div className="pull-right">
+            {needMed ? <span className="cust-label med" title="Med Cert. staff needed"><i className="fa fa-medkit"></i></span> : null}
             <span className={'cust-label ' + availSeats}>
               <i className="fa fa-male"></i>&nbsp;
               {seats}/{totalSeats}
