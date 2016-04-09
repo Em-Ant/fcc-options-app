@@ -21,7 +21,7 @@
     "Webpack"
   ],
   "scripts": {
-    "start": "npm start",
+    "start": "node server.js",
     "postinstall": "webpack -p --config ./webpack.config.js",
     "test": "make test"
   },
