@@ -34,7 +34,6 @@ var Consumer = new Schema({
   hasMedications: Boolean
 });
 
-
 // Removing consumer from vehicles references
 // Back-end fix to #13
 
