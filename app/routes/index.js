@@ -28,10 +28,10 @@ module.exports = function(app, passport) {
       }
     });
 
-  app.route('/logout')
+  app.route('/api/logout')
     .get(function(req, res) {
       req.logout();
-      res.redirect('/login');
+      res.json({});
     });
 
   app.route('/api/signup')

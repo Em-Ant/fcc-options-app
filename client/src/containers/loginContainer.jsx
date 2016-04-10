@@ -1,12 +1,10 @@
 var connect = require('react-redux').connect;
 var Login = require('../components/auth/loginComponent.jsx');
-var actions = require('../actions/loginActions.js');
+var actions = require('../actions/authActions.js');
 
 
 var mapStateToProps = function(state){
-  return{
-    login: state.login
-  }
+  return state.auth;
 }
 var mapDispatchToProps = function(dispatch) {
   return {

@@ -3,7 +3,7 @@ var vehicles =require('./vehicleReducer');
 var vehiclesPage =require('./vehiclePageReducer');
 var consumersForm = require('./consumerFormReducer');
 var settingsForm = require('./settingsFormReducer');
-var login = require('./loginReducer');
+var auth = require('./authReducer');
 var routerReducer = require('react-router-redux').routerReducer;
 var mapPage = require('./mapReducer')
 
@@ -20,7 +20,7 @@ var rootReducer = combineReducers({
   routing: routerReducer,
   vehicleRoutes: vehicleRoutes,
   mapPage: mapPage,
-  login: login,
+  auth: auth,
 
   // data state
   settings:settings,

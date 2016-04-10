@@ -27,12 +27,12 @@ var Login = React.createClass({
         <div className="login-box-body">
           <p className="login-box-msg">Sign in to start your session</p>
           <p className="login-box-msg">admin@test.com / admin</p>
-          {this.props.login.message
+          {this.props.message
             ? <div className="alert alert-info">
                 <h4>
                   <i className="icon fa fa-info"></i>
                   Alert!</h4>
-                {this.props.login.message}
+                {this.props.message}
               </div>
             : null
 }

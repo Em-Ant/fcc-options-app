@@ -2,7 +2,7 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var actions = require('../../actions/loginActions.js');
+var actions = require('../../actions/authActions.js');
 
 var Logout = React.createClass({
   componentDidMount() {
@@ -10,14 +10,21 @@ var Logout = React.createClass({
   },
 
   render() {
-    return <p>You are now logged out</p>
+    return (
+      <div className="container text-center ">
+        <h1 className="text-yellow ">Logging you out...</h1>
+        <p className="text-center">
+          Please wait while we log you out of the system.
+        </p>
+      </div>
+    )
   }
 })
 
 var mapDispatchToProps = function(dispatch) {
   return {
     logout: function(formData) {
-      actions.logout();
+      dispatch(actions.logout());
     }
   }
 }

@@ -1,5 +1,5 @@
 var Ajax = require('../../js/ajax-functions.js');
-var actionTypes = require('../constants/actionTypes/login.js');
+var actionTypes = require('../constants/actionTypes/authActionTypes');
 var browserHistory = require("react-router").browserHistory;
 var auth = require("../auth/auth");
 
@@ -38,6 +38,23 @@ module.exports.login = function(formData) {
 }
 
 module.exports.logout = function() {
-  removeToken();
-  browserHistory.push('/');
+  return function(dispatch) {
+    dispatch({
+      type: actionTypes.LOGOUT_REQUEST,
+    });
+    Ajax.get('/api/logout', function(err, user) {
+      if (err) {
+        dispatch({
+          type: actionTypes.LOGOUT_FAILURE,
+          message: err.responseJSON.msg
+        });
+      } else {
+        dispatch({
+          type: actionTypes.LOGOUT_SUCCESS
+        });
+        removeToken();
+        browserHistory.push('/');
+      }
+    }.bind(this));
+  }
 }
