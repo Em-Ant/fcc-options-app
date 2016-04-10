@@ -20,7 +20,7 @@ function ConsumerHandler () {
   };
 
   this.index = function(req,res) {
-    Consumer.find(function (err, consumers) {
+    Consumer.find({}, null, {sort: 'createdAt'}, function (err, consumers) {
       if(err) { return handleError(res, err); }
       return res.status(200).json(consumers);
     });

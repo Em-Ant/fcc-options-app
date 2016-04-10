@@ -29,12 +29,13 @@ var ConsumerForm = React.createClass({
     if(props.defaults.hasMedications) $('#c_med').iCheck('check');
     if(props.defaults.needsWave) $('#c_wave').iCheck('check');
     if(props.defaults.needsTwoSeats) $('#c_twoseat').iCheck('check');
-    if(props.defaults.cannotSitNearOppositeSex) $('#c_behavior').iCheck('check');
+    if(props.defaults.behavioralIssues) $('#c_behavior').iCheck('check');
 
     // Handle inputs
     $('#c_name').val(props.defaults.name);
     $('#c_address').val(props.defaults.address);
     $('#c_phone').val(props.defaults.phone);
+    $('#c_notes').val(props.defaults.notes);
   },
   handleSubmit: function(e) {
 
@@ -47,13 +48,14 @@ var ConsumerForm = React.createClass({
     newConsumer.address = this.refs.address.value;
     newConsumer.phone = this.refs.phone.value;
     newConsumer.sex = this.refs.sex.value;
+    newConsumer.notes = this.refs.notes.value;
 
     newConsumer.needsWave = this.refs.wave.checked;
     newConsumer.hasSeizures = this.refs.seiz.checked;
     newConsumer.hasWheelchair = this.refs.wheel.checked;
     newConsumer.needsTwoSeats = this.refs.twoSeats.checked;
     newConsumer.hasMedications = this.refs.med.checked;
-    newConsumer.cannotSitNearOppositeSex = this.refs.behavior.checked;
+    newConsumer.behavioralIssues = this.refs.behavior.checked;
 
     this.props.buttonHandles(newConsumer)
   },
@@ -129,6 +131,13 @@ var ConsumerForm = React.createClass({
                       </div>
                     </div>
 
+                    <div className="form-group">
+                      <label htmlFor="c_notes" className="col-sm-2 control-label">Notes</label>
+                      <div className="col-sm-10">
+                        <textarea className="form-control" id="c_notes"
+                          placeholder="Notes" ref="notes"/>
+                      </div>
+                    </div>
 
                     <div className="form-group">
                       <label htmlFor="c_wheel" className="col-sm-2 control-label">

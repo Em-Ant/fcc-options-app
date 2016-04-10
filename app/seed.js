@@ -63,7 +63,7 @@ User.find({}).remove(function() {
 
     // Details flags
     needsWave: Boolean,
-    cannotSitNearOppositeSex: Boolean,
+    behavioralIssues: Boolean,
     needsTwoSeats: Boolean,
     hasSeizures: Boolean,
     hasWheelchair: Boolean,
@@ -78,6 +78,7 @@ var consumer1 = new Consumer({
   phone: '333-444555',
   // Details flags
   needsWave: true,
+  notes: "He is really a good guy !"
 });
 
 var consumer2 = new Consumer({
@@ -107,7 +108,7 @@ Consumer.find({}).remove(function() {
     position: {lat: 45.3418199, lng: -93.77724039999998},
     phone: '222-111989',
     needsTwoSeats: true,
-    cannotSitNearOppositeSex: true,
+    behavioralIssues: true,
     hasMedications: true,
   }, {
     name: "Edward S.",

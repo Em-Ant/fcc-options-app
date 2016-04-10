@@ -24,10 +24,16 @@ var Consumer = new Schema({
     lat: Number,
     lng: Number
   },
+  notes: String,
 
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  
   // Needs flags
   needsWave: Boolean,
-  cannotSitNearOppositeSex: Boolean,
+  behavioralIssues: Boolean,
   needsTwoSeats: Boolean,
   hasSeizures: Boolean,
   hasWheelchair: Boolean,

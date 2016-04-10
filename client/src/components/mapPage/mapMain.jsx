@@ -237,6 +237,7 @@ var ConsumerMap = React.createClass({
       // not in loading state
       if (this.consumersToVehiclesMap[c_id]) {
         // marked consumer is on a vehicle
+
         if (this.consumersToVehiclesMap[c_id] == this.props.activeVehicleId) {
          // marked consumer is on the active vehicle
 

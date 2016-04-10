@@ -49,6 +49,7 @@ var Consumers = React.createClass({
                         <th>Address</th>
                         <th>Phone</th>
                         <th>Needs</th>
+                        <th>Notes</th>
                         <th className="text-center">Actions</th>
                       </tr>
                     </thead>
@@ -67,8 +68,9 @@ var Consumers = React.createClass({
                               {consumer.hasMedications ? <span className="label label-warning">Medications</span> : null}
                               {consumer.needsTwoSeats ? <span className="label label-default">Two Seats</span> : null}
                               {consumer.needsWave ? <span className="label label-info">Needs Wave</span> : null}
-                              {consumer.cannotSitNearOppositeSex ? <span className="label label-success">Behavioral Issues</span> : null}
+                              {consumer.behavioralIssues ? <span className="label label-success">Behavioral Issues</span> : null}
                             </td>
+                            <td>{consumer.notes}</td>
                             <td className="text-center">
 
                                 <button className="btn btn-sm btn-default in-table"

@@ -21,7 +21,7 @@ module.exports = function(consumer, desc) {
     flags += '<span class="i-info" title="2 Seats">2S</span>';
     out = true;
   }
-  if (consumer.cannotSitNearOppositeSex) {
+  if (consumer.behavioralIssues) {
     flags += '<span class="i-info" title="Behavioral Issues">BI</span>';
     out = true;
   }
