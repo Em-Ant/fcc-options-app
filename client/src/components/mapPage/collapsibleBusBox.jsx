@@ -28,15 +28,17 @@ var CollapsibleBusBox = React.createClass({
     var body = (onBoardIds.length > 0) ?
         onBoardIds.map(function(id, index) {
       var c = this.props.consumers[id];
-      c.hasWheelchair ? wheels++ : (c.needsTwoSeats ? seats += 2 : seats++ )
-      if (c.hasMedications ) needMed = true;
+
+      if(c) {
+        c.hasWheelchair ? wheels++ : (c.needsTwoSeats ? seats += 2 : seats++ )
+        if (c.hasMedications ) needMed = true;
 
       return (
         <ConsumerInfoBox
           consumerId={id}
           key={'c_info_'+ index}
         />
-      )
+      )}
     }.bind(this)) : "Vehicle is empty";
 
     var activeClass = this.props.activeVehicleId === this.props.vehicleId

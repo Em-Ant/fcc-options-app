@@ -43,7 +43,8 @@ var initState = {};
 
 var checkActiveVehicleIdForDelete = function (state, id) {
   // checks if the active Vehicle has been deleted,
-  // if yes reset relative field - Fix for #14
+  // if yes reset the tracker - Fix for #14
+
   if (state.activeVehicleId === id) {
     return Object.assign({}, state, {activeVehicleId: undefined})
   }

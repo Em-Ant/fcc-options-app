@@ -56,6 +56,7 @@ var mapStateToProps = function(state){
 var mapDispatchToProps = function(dispatch) {
   return {
     nameHoverOn: function(c_id) {
+      console.log(c_id);
       dispatch(actions.highlightMarker(c_id))
     },
     nameHoverOff: function(c_id) {

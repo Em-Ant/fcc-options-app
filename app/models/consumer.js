@@ -1,5 +1,7 @@
 'use strict';
 
+var Vehicle = require('./vehicle');
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -20,6 +22,19 @@ var Consumer = new Schema({
   hasSeizures: Boolean,
   hasWheelchair: Boolean,
   hasMedications: Boolean
+});
+
+// Removing consumer from vehicles references
+// Back-end fix to #13
+
+Consumer.pre('remove', function(next){
+  Vehicle.update({},{$pull: {consumers: this._id}}, function(err, ok){
+    if (err) {
+      var err = new Error("Error removing consumer from vehicles");
+      next(err)
+    }
+    next();
+  })
 });
 
 module.exports = mongoose.model('Consumer', Consumer);
