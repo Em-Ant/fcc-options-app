@@ -5,6 +5,22 @@ var Link = require('react-router').Link
 
 var Header = React.createClass({
 
+  /**
+  * HACK to fix #7 'Control sidebar doesn't open after initial login'
+  * I used custom jquery to move the sidebar. There must be some
+  * initialization  problem, but i wasn't able to find it
+  */
+
+  toggleControlSidebar: function(e) {
+
+    e.preventDefault();
+    var r = $(".control-sidebar").css('right');
+    if(r !== "0px") {
+      $(".control-sidebar, .control-sidebar-bg").css('right', "0px")
+    } else {
+      $(".control-sidebar, .control-sidebar-bg").css('right', "-230px")
+    }
+  },
   render: function() {
     return (
       <header className="main-header">
@@ -45,9 +61,9 @@ var Header = React.createClass({
                     </div>
                   </li>
                 </ul>
-              </li>    
+              </li>
               <li>
-                <a href="#" data-toggle="control-sidebar">
+                <a href="#" data-toggle="control-sidebar" onClick={this.toggleControlSidebar}>
                   <i className="fa fa-gears"></i>
                 </a>
               </li>
