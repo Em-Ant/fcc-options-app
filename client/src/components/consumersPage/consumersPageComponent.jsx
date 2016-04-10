@@ -12,6 +12,9 @@ var Consumers = React.createClass({
     if(this.props.consumersNeedToBeFetched) {
       this.props.loadConsumers();
     }
+    if(this.props.vehiclesNeedToBeFetched) {
+      this.props.loadVehicles();
+    }
   },
   render: function() {
 

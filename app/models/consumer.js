@@ -4,9 +4,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Consumer = new Schema({
-	name: {type: String, required: true},
-  sex: {type: String, required: true, enum:['male', 'female']},
-  address: {type: String, required: true},
+  name: {
+    type: String,
+    required: true
+  },
+  sex: {
+    type: String,
+    required: true,
+    enum: ['male', 'female']
+  },
+  address: {
+    type: String,
+    required: true
+  },
   phone: String,
   position: {
     lat: Number,
@@ -21,5 +31,19 @@ var Consumer = new Schema({
   hasWheelchair: Boolean,
   hasMedications: Boolean
 });
+
+Consumer.pre('remove', function(next) {
+	removeConsumerFromVehicle(this._id,this.model("Vehicle"), next);
+});
+
+function removeConsumerFromVehicle(consumerId, vehicle ,next){
+	  vehicle.update({
+	    consumers: consumerId
+	  }, {
+	    $pull: {
+	      consumers: consumerId
+	    }
+	  },next);
+}
 
 module.exports = mongoose.model('Consumer', Consumer);
