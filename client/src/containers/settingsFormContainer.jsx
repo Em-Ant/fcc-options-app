@@ -14,6 +14,9 @@ var mapDispatchToProps = function(dispatch) {
   return {
     onSubmit:function(settings){
       dispatch(actions.update(settings));
+    },
+    loadSttings: function() {
+      dispatch(actions.load());
     }
   }
 }

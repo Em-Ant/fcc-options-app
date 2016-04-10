@@ -5,7 +5,11 @@ var Link = require('react-router').Link
 var Message = require('./message.jsx');
 
 var Settings = React.createClass({
-
+  componentDidMount: function() {
+    if(store.getState().settings.needToBeFetched) {
+      store.dispatch(settingsActions.load());
+    }
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     this.props.onSubmit(this.state.form);

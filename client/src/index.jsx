@@ -41,13 +41,7 @@ var history = syncHistoryWithStore(browserHistory, store)
 var requireAuth = require('./auth/auth').requireAuth;
 
 var App = React.createClass({
-  componentDidMount: function() {
-    if(store.getState().settings.needToBeFetched) {
-      store.dispatch(settingsActions.load());
-    }
-    //store.dispatch(vehicleActions.fetch());
-    //store.dispatch(actions.requestUser());
-  },
+
   render: function() {
     return (
       <div>
