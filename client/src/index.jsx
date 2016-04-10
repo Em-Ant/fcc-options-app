@@ -5,7 +5,8 @@ var css = require('../style/main.scss');
 var Main = require('./components/adminLTE/main.jsx');
 var NotFound = require('./components/notFound.jsx');
 var Login = require('./containers/loginContainer.jsx');
-var Signup = require('./components/signup.jsx').Signup;
+var Logout = require('./components/auth/logoutComponent.jsx');
+var Signup = require('./components/auth/signupComponent.jsx').Signup;
 var VehicleRoutes = require('./containers/vehicleRoutesContainer.jsx');
 var Vehicles = require('./containers/vehiclesContainer.jsx');
 
@@ -37,6 +38,8 @@ var store = createStore(reducer, applyMiddleware(thunk));
 // Creates an enhanced history that syncs navigation events with the store
 var history = syncHistoryWithStore(browserHistory, store)
 
+var requireAuth = require('./auth/auth').requireAuth;
+
 var App = React.createClass({
   componentDidMount: function() {
     if(store.getState().settings.needToBeFetched) {
@@ -54,21 +57,23 @@ var App = React.createClass({
   }
 });
 
+
 ReactDOM.render(
   <Provider store={store}>
   <Router history={history}>
     <Route path="/" component={App}>
-      <IndexRoute component={Login}/>
-      <Route component={Main}>
-        <Route path="/routes" component={VehicleRoutes}/>
-        <Route path="/consumers" component={Consumers}/>
-        <Route path="/vehicles" component={Vehicles}/>
+      <IndexRoute component={ConsumerRoute3}/>
+      <Route component={Main}  onEnter={requireAuth} >
+        <Route path="/routes" component={VehicleRoutes} onEnter={requireAuth} />
+        <Route path="/consumers" component={Consumers} onEnter={requireAuth} />
+        <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
         {/*<Route path="/consumer-map" component={ConsumerMap} />*/}
-        <Route path="/map-test" component={ConsumerRoute3} />
-        <Route path="/consumer-route" component={ConsumerRoute} />
-        <Route path="/consumer-route2" component={ConsumerRoute2} />
+        <Route path="/map-test" component={ConsumerRoute3} onEnter={requireAuth} />
+        <Route path="/consumer-route" component={ConsumerRoute} onEnter={requireAuth} />
+        <Route path="/consumer-route2" component={ConsumerRoute2} onEnter={requireAuth} />
       </Route>
       <Route path="/login" component={Login}/>
+      <Route path="/logout" component={Logout}/>
       <Route path="/signup" component={Signup}/>
    	  <Route path="*" component={NotFound}/>
     </Route>

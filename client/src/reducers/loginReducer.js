@@ -2,7 +2,7 @@ var actionTypes = require('../constants/actionTypes/login.js');
 
 var loginRequest = function(state){
   return Object.assign({}, state, {
-    isLoading:true
+    isLoading:true,
   })
 }
 
@@ -13,7 +13,7 @@ var loginFailure = function(state, message){
   })
 }
 
-var loginSuccess = function(state, message){
+var loginSuccess = function(state, user){
   return Object.assign({}, state, {
     isLoading:false
   })
@@ -30,7 +30,7 @@ var loginReducer = function(state, action) {
     case actionTypes.LOGIN_FAILURE:
       return loginFailure(state, action.message);
     case actionTypes.LOGIN_SUCCESS:
-      return loginSuccess(state);
+      return loginSuccess(state, action.user);
     default:
       return state;
   }

@@ -57,7 +57,7 @@ var Header = React.createClass({
                       <a href="#" className="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div className="pull-right">
-                      <a href="#" className="btn btn-default btn-flat">Sign out</a>
+                      <Link to="/logout" className="btn btn-default btn-flat">Sign out</Link>
                     </div>
                   </li>
                 </ul>

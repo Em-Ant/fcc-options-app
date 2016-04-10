@@ -2,7 +2,7 @@
 
 var React = require('react');
 var Link = require("react-router").Link;
-var Ajax = require('../../js/ajax-functions.js');
+var Ajax = require('../../../js/ajax-functions.js');
 var Signup = React.createClass({
   getInitialState: function() {
     return {displayName: '', email: '', password: '', confirmPassword: ''}
@@ -33,7 +33,7 @@ var Signup = React.createClass({
       <div className="register-box">
         <div className="register-logo">
           <a href="http://www.options-inc.org" target="_blank"><b>Options Inc.</b></a>
-        
+
         </div>
 
         <div className="register-box-body">
