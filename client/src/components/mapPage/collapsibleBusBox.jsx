@@ -20,8 +20,8 @@ var CollapsibleBusBox = React.createClass({
 
     var vehicle = this.props.vehicles[this.props.vehicleId];
     var onBoardIds = vehicle.consumers;
-    var totalWheelchairs = vehicle.maxFixedWheelchairs;
-    var totalSeats = vehicle.maxFixedSeats;
+    var totalWheelchairs = vehicle.wheelchairs;
+    var totalSeats = vehicle.seats;
     var name = vehicle.name;
     var needMed = false;
 

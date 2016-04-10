@@ -7,9 +7,9 @@ function VehicleHandler() {
   var validateVehicle = function(req){
     //Validate input
     req.assert('name', 'Name must not be empty').notEmpty();
-    req.assert('maxFixedSeats', 'Fixed seats must be a number').isInt();
-    req.assert('maxFoldableSeatsForWheelchairs', 'Foldable seats must be a number').isInt();
-    req.assert('maxFixedWheelchairs', 'Wheelchair capacity must be a number').isInt();
+    req.assert('seats', 'Fixed seats must be a number').isInt();
+    req.assert('flexSeats', 'Foldable seats must be a number').isInt();
+    req.assert('wheelchairs', 'Wheelchair capacity must be a number').isInt();
     return req.validationErrors();
   }
 

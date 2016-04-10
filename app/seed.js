@@ -163,26 +163,24 @@ Route.find({}).remove(function() {
 *
 * model:
   name: {type: String, required: true},
-  maxFixedSeats:{type:Number, required:true},
-  maxFoldableSeatsForWheelchairs:{type:Number, default:0},
-  maxFixedWheelchairs:{type:Number, default: 0},
+  seats: {type:Number, required:true},
+  flexSeats: {type:Number, default:0},
+  wheelchairs: {type:Number, default: 0},
   consumers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Consumer',
-  }],
+  }]
 */
 var vehicle1 = new Vehicle({
   name: 'Minivan 4',
-  maxFixedSeats: 7,
-  maxFoldableSeatsForWheelchairs: 0,
-  maxFixedWheelchairs: 0
+  seats: 7,
 });
 
 var vehicle2 = new Vehicle({
   name: 'Bus 1',
-  maxFixedSeats: 8,
-  maxFoldableSeatsForWheelchairs: 4,
-  maxFixedWheelchairs: 5
+  seats: 8,
+  flexSeats: 4,
+  wheelchairs: 3
 });
 
 vehicle1.consumers.push(consumer1);
@@ -192,14 +190,11 @@ Vehicle.find({}).remove(function() {
   vehicle2.save();
   Vehicle.create({
     name: 'Van 3',
-    maxFixedSeats: 12,
-    maxFoldableSeatsForWheelchairs: 0,
-    maxFixedWheelchairs: 0
+    seats: 12,
   }, {
     name: 'Bus 2',
-    maxFixedSeats: 8,
-    maxFoldableSeatsForWheelchairs: 0,
-    maxFixedWheelchairs: 4
+    seats: 8,
+    wheelchairs: 4
   }, function() {
     console.log('finished populating vehicles');
   });

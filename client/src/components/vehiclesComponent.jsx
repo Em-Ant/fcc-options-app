@@ -37,9 +37,9 @@ return (
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Fixed Seats</th>
-                    <th>Foldable Seats For Wheelchairs</th>
-                    <th>Fixed Wheelchairs</th>
+                    <th>Seats</th>
+                    <th>Wheelchairs</th>
+                    <th>Foldable Seats</th>
                     <th className="text-center">Actions </th>
                   </tr>
                 </thead>
@@ -49,9 +49,9 @@ return (
                     return (
                       <tr key={index}>
                         <td>{vehicle.name}</td>
-                        <td>{vehicle.maxFixedSeats}</td>
-                        <td>{vehicle.maxFoldableSeatsForWheelchairs}</td>
-                        <td>{vehicle.maxFixedWheelchairs}</td>
+                        <td>{vehicle.seats}</td>
+                        <td>{vehicle.wheelchairs}</td>
+                        <td>{vehicle.flexSeats}</td>
                         <td className="text-center">
                             <button className="btn btn-sm btn-default in-table"
                               title="Edit" type="button"

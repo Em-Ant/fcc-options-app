@@ -1,16 +1,12 @@
 var VehicleUtils = {
-  /**
-  Returns a vehicle with the following fields set
-  vehicle.occupiedSeats
-  vehicle.totalSeats
-  vehicle.occupiedWheelchairs
-  vehicle.totalWheelchairs
-  **/
-  setVehicleCapacity: function(vehicle, consumers=[]) {
 
-    var totalSeats = vehicle.maxFixedSeats + vehicle.maxFoldableSeatsForWheelchairs;
-    var totalWheelchairs = vehicle.maxFixedWheelchairs +
-      Math.floor((vehicle.maxFoldableSeatsForWheelchairs / 2));
+  /**
+  * Returns a NEW vehicle with the following additional fields set
+  * vehicle.occupiedSeats
+  * vehicle.occupiedWheelchairs
+  */
+
+  setVehicleCapacity: function(vehicle, consumers) {
 
     //calculation of these properties are dependent on the consumer properties
     var occupiedSeats = 0;
@@ -25,10 +21,9 @@ var VehicleUtils = {
         occupiedSeats++;
       }
     });
+
     //create new object with new properties
     var newVehicle = Object.assign({}, vehicle, {
-      totalSeats: totalSeats,
-      totalWheelchairs: totalWheelchairs,
       occupiedSeats: occupiedSeats,
       occupiedWheelchairs: occupiedWheelchairs
     })

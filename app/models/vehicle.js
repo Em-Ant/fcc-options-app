@@ -4,6 +4,31 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Vehicle = new Schema({
+
+  name: {
+    type: String,
+    required: true
+  },
+  seats: {
+    type: Number,
+    required: true
+  },
+  // 1 flexSeat = 1 non wheelchair  seat, or 2 flex seats = 1 wheelchair
+  flexSeats: {
+    type: Number,
+    default: 0
+  },
+  wheelchairs: {
+    type: Number,
+    default: 0
+  },
+  consumers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Consumer',
+  }] });
+
+/* OLD
+var Vehicle = new Schema({
   name: {
     type: String,
     required: true
@@ -30,6 +55,6 @@ var Vehicle = new Schema({
     ref: 'Consumer',
   }]
 });
-
+*/
 
 module.exports = mongoose.model('Vehicle', Vehicle);
