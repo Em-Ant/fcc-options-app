@@ -1,10 +1,12 @@
 var connect = require('react-redux').connect;
 var Consumers = require('../components/consumersPage/consumersPageComponent.jsx');
 var actions = require('../actions/consumerActions.js');
+var vehicleActions = require('../actions/vehicleActions.js');
 
 var mapStateToProps = function(state){
 
   return {
+    vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     consumersNeedToBeFetched: state.consumers.needToBeFetched,
     consumerIds: state.consumers.ids,
     consumers: state.consumers.data,
@@ -20,6 +22,9 @@ var mapDispatchToProps = function(dispatch){
   return {
     loadConsumers: function () {
       dispatch(actions.loadConsumers());
+    },
+    loadVehicles: function () {
+      dispatch(vehicleActions.fetch());
     },
     handleEditConsumer : function(updatedConsumer) {
       dispatch(actions.editConsumer(updatedConsumer))
