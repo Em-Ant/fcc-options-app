@@ -139,7 +139,8 @@ function VehicleHandler() {
 
   //delete a vehicle
   this.destroy = function(req, res) {
-    Vehicle.findById(req.params.id, function(err, vehicle) {
+    var v_id = req.params.id;
+    Vehicle.findById(v_id, function(err, vehicle) {
       if (err) {
         return res.status(400).json({
           msg: 'There was an error finding vehicle'
@@ -156,7 +157,7 @@ function VehicleHandler() {
             msg: 'There was an error deleting vehicle'
           });
         }
-        return res.status(200).json({});
+        return res.status(200).json(v_id);
       });
     });
   }

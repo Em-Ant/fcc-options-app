@@ -20,7 +20,7 @@ var reducer = require('./reducers/reducer.js');
 var Provider = require('react-redux').Provider;
 var createStore = require('redux').createStore;
 var applyMiddleware = require('redux').applyMiddleware;
-var appMiddleware = require('./middleware/appMiddleware.js');
+var apiMiddleware = require('./middleware/apiMiddleware.js');
 var combineReducers = require('redux').combineReducers;
 
 var Router = require('react-router').Router;
@@ -35,7 +35,7 @@ var settingsActions = require("./actions/settingsActions");
 var consumerActions = require("./actions/consumerActions");
 var vehicleActions = require("./actions/vehicleActions");
 
-var store = createStore(reducer, applyMiddleware(thunk, appMiddleware));
+var store = createStore(reducer, applyMiddleware(thunk, apiMiddleware));
 
 // Creates an enhanced history that syncs navigation events with the store
 var history = syncHistoryWithStore(browserHistory, store)

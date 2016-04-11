@@ -68,13 +68,13 @@ var vehiclesReducer = function(state, action) {
     case actionTypes.FETCH_VEHICLES_REQUEST:
       return commonCRUD.setRequested(state);
     case actionTypes.FETCH_VEHICLES_SUCCESS:
-      return commonCRUD.load(state, action.vehicles);
+      return commonCRUD.load(state, action.response);
     case actionTypes.ADD_VEHICLE_SUCCESS:
-      return commonCRUD.add(state, action.addedVehicle);
+      return commonCRUD.add(state, action.response);
     case actionTypes.UPDATE_VEHICLE_SUCCESS:
-      return commonCRUD.update(state, action.vehicle);
+      return commonCRUD.update(state, action.response);
     case actionTypes.DESTROY_VEHICLE_SUCCESS:
-      return commonCRUD.destroy(state, action.id);
+      return commonCRUD.destroy(state, action.response);
     case mapActions.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS:
       return removeFromActiveVehicle(state, action.v_id, action.c_id);
     case mapActions.MAP_ADD_TO_ACTIVE_BUS_SUCCESS:

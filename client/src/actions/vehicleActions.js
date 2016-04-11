@@ -1,108 +1,67 @@
 var Ajax = require('../../js/ajax-functions.js');
 var actionTypes = require('../constants/actionTypes/vehicleActionTypes');
 
-
-/*
-Retrieves the vehicles
-*/
 module.exports.fetch = function() {
 
-
-  // this will return a thunk
   return function(dispatch) {
     dispatch({
-      type: actionTypes.FETCH_VEHICLES_REQUEST,
-    });
-    // call the external api endpoint to retrieve routes
-    Ajax.get('/api/vehicle/', function(err, vehicles) {
-      if (err) {
-        dispatch({
-          type: actionTypes.FETCH_VEHICLES_FAILURE,
-          error:err
-        });
-      } else {
-
-        dispatch({
-          type: actionTypes.FETCH_VEHICLES_SUCCESS,
-          vehicles: vehicles
-        });
-      }
-
-    });
+      type:"CALL_API",
+      statusTypes:[
+        actionTypes.FETCH_VEHICLES_REQUEST,
+        actionTypes.FETCH_VEHICLES_FAILURE,
+        actionTypes.FETCH_VEHICLES_SUCCESS
+      ],
+      method:'get',
+      url:'/api/vehicle/'
+    })
   }
 }
 
-/*
-Adds the vehicle
-*/
 module.exports.create = function(vehicle) {
-  // this will return a thunk
   return function(dispatch) {
     dispatch({
-      type: actionTypes.ADD_VEHICLE_REQUEST,
-      vehicle:vehicle
-    });
-    Ajax.post('/api/vehicle/', vehicle, function(err, addedVehicle) {
-      if (err) {
-        dispatch({
-          type: actionTypes.ADD_VEHICLE_FAILURE,
-          error:err
-        });
-      } else {
-        dispatch({
-          type: actionTypes.ADD_VEHICLE_SUCCESS,
-          addedVehicle: addedVehicle
-        });
-      }
-    });
+      type:"CALL_API",
+      statusTypes:[
+        actionTypes.ADD_VEHICLE_REQUEST,
+        actionTypes.ADD_VEHICLE_FAILURE,
+        actionTypes.ADD_VEHICLE_SUCCESS
+      ],
+      data:vehicle,
+      method:'post',
+      url:'/api/vehicle/'
+    })
   }
 }
 
-
-/*
-Update the vehicle
-*/
 module.exports.update = function(vehicle) {
-  // this will return a thunk
   return function(dispatch) {
     dispatch({
-      type: actionTypes.UPDATE_VEHICLE_REQUEST,
-      vehicle:vehicle
-    });
-    Ajax.put('/api/vehicle/' + vehicle._id, vehicle, function(err, updatedVehicle) {
-      if (err) {
-        dispatch({
-          type: actionTypes.UPDATE_VEHICLE_FAILURE,
-          error:err
-        });
-      } else {
-        dispatch({
-          type: actionTypes.UPDATE_VEHICLE_SUCCESS,
-          vehicle: updatedVehicle
-        });
-      }
-    });
+      type:"CALL_API",
+      statusTypes:[
+        actionTypes.UPDATE_VEHICLE_REQUEST,
+        actionTypes.UPDATE_VEHICLE_FAILURE,
+        actionTypes.UPDATE_VEHICLE_SUCCESS
+      ],
+      data:vehicle,
+      method:'put',
+      url:'/api/vehicle/'+ vehicle._id
+    })
   }
 }
 
 module.exports.destroy = function(id) {
   return function(dispatch) {
     dispatch({
-      type: actionTypes.DESTROY_VEHICLE_REQUEST
-    });
-    Ajax.delete('/api/vehicle/'+id, {}, function(err) {
-      if (err) {
-        dispatch({
-          type: actionTypes.DESTROY_VEHICLE_FAILURE,
-          error:err
-        });
-      } else {
-        dispatch({
-          type: actionTypes.DESTROY_VEHICLE_SUCCESS,
-          id:id
-        });
-      }
-    });
+      type:"CALL_API",
+      statusTypes:[
+        actionTypes.DESTROY_VEHICLE_REQUEST,
+        actionTypes.DESTROY_VEHICLE_FAILURE,
+        actionTypes.DESTROY_VEHICLE_SUCCESS
+      ],
+      data:{},
+      method:'delete',
+      url:'/api/vehicle/'+ id
+    })
   }
 }
 
