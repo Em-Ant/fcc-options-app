@@ -20,8 +20,7 @@ module.exports.login = function(formData) {
       if (err) {
         dispatch({
           type: actionTypes.LOGIN_FAILURE,
-          error:err,
-          message: err.responseJSON.msg
+          error:err
         });
         removeToken();
       } else {
@@ -54,8 +53,7 @@ module.exports.logout = function() {
       if (err) {
         dispatch({
           type: actionTypes.LOGOUT_FAILURE,
-          error:err,
-          message: err.responseJSON.msg
+          error:err
         });
       } else {
         dispatch({

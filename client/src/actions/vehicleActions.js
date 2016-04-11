@@ -18,8 +18,7 @@ module.exports.fetch = function() {
       if (err) {
         dispatch({
           type: actionTypes.FETCH_VEHICLES_FAILURE,
-          error:err,
-          message: err.responseJSON.msg
+          error:err
         });
       } else {
 
@@ -47,8 +46,7 @@ module.exports.create = function(vehicle) {
       if (err) {
         dispatch({
           type: actionTypes.ADD_VEHICLE_FAILURE,
-          error:err,
-          message: err.responseJSON.msg
+          error:err
         });
       } else {
         dispatch({
@@ -75,8 +73,7 @@ module.exports.update = function(vehicle) {
       if (err) {
         dispatch({
           type: actionTypes.UPDATE_VEHICLE_FAILURE,
-          error:err,
-          message: err.responseJSON.msg
+          error:err
         });
       } else {
         dispatch({
@@ -97,8 +94,7 @@ module.exports.destroy = function(id) {
       if (err) {
         dispatch({
           type: actionTypes.DESTROY_VEHICLE_FAILURE,
-          error:err,
-          message: err.responseJSON.msg
+          error:err
         });
       } else {
         dispatch({

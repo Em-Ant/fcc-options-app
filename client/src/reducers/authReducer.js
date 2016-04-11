@@ -6,10 +6,10 @@ var loginRequest = function(state){
   })
 }
 
-var loginFailure = function(state, message){
+var loginFailure = function(state, error){
   return Object.assign({}, state, {
     isLoading:false,
-    message:message
+    message:error.responseJSON.msg
   })
 }
 
@@ -28,7 +28,7 @@ var loginReducer = function(state, action) {
     case actionTypes.LOGIN_REQUEST:
       return loginRequest(state);
     case actionTypes.LOGIN_FAILURE:
-      return loginFailure(state, action.message);
+      return loginFailure(state, action.error);
     case actionTypes.LOGIN_SUCCESS:
       return loginSuccess(state, action.user);
     default:

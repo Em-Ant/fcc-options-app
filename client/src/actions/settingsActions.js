@@ -8,14 +8,9 @@ module.exports.load = function(settings) {
     });
     Ajax.get('/api/settings', function(err, settings) {
       if (err) {
-        var message = "";
-        if(err.responseJSON){
-           message = err.responseJSON.msg;
-        }
         dispatch({
           type: actionTypes.SETTINGS_LOAD_FAILURE,
-          error:err,
-          message: message
+          error:err
         });
       } else {
         dispatch({

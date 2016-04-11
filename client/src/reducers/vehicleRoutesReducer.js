@@ -6,13 +6,10 @@ function fetchRequest(state) {
   });
 }
 
-function fetchFailure(state, message) {
+function fetchFailure(state, error) {
   return Object.assign({}, state, {
     isLoading:false,
-    message: {
-      type: "error",
-      msg: "There was an error retrieving vehicle routes"
-    }
+    msg: error.responseJSON.msg
   });
 }
 
@@ -33,12 +30,12 @@ function addRequest(state, addedVehicleRoute) {
     });
 }
 
-function addFailure(state, message) {
+function addFailure(state, error) {
   var newFormState = Object.assign({}, state.form, {
     isLoading:false,
     message: {
       type: "error",
-      msg: message
+      msg: error.responseJSON.msg
     }
   })
   return Object.assign({}, state, {
@@ -72,12 +69,12 @@ function updateRequest(state) {
   });
 }
 
-function updateFailure(state, message) {
+function updateFailure(state, error) {
   var newFormState = Object.assign({}, state.form, {
     isLoading:false,
     message: {
       type: "error",
-      msg: message
+      msg: error.responseJSON.msg
     }
   })
   return Object.assign({}, state, {
@@ -116,7 +113,7 @@ function destroyRequest(state) {
   });
 }
 
-function destroyFailure(state) {
+function destroyFailure(state, error) {
   return Object.assign({}, state, {
     isLoading:false,
     message: {
@@ -192,25 +189,25 @@ var vehicleRoutesReducer = function(state, action) {
     case actionTypes.FETCH_VEHICLE_ROUTES_REQUEST:
       return fetchRequest(state);
     case actionTypes.FETCH_VEHICLE_ROUTES_FAILURE:
-      return fetchFailure(state);
+      return fetchFailure(state, action.error);
     case actionTypes.FETCH_VEHICLE_ROUTES_SUCCESS:
       return fetchSuccess(state, action.vehicleRoutes);
     case actionTypes.ADD_VEHICLE_ROUTE_REQUEST:
       return addRequest(state);
     case actionTypes.ADD_VEHICLE_ROUTE_FAILURE:
-      return addFailure(state, action.message);
+      return addFailure(state, action.error);
     case actionTypes.ADD_VEHICLE_ROUTE_SUCCESS:
       return add(state, action.addedVehicleRoute);
     case actionTypes.UPDATE_VEHICLE_ROUTE_REQUEST:
       return updateRequest(state);
     case actionTypes.UPDATE_VEHICLE_ROUTE_FAILURE:
-      return updateFailure(state, action.message);
+      return updateFailure(state, action.error);
     case actionTypes.UPDATE_VEHICLE_ROUTE_SUCCESS:
       return update(state, action.vehicleRoute);
     case actionTypes.DESTROY_VEHICLE_ROUTE_REQUEST:
       return destroyRequest(state);
     case actionTypes.DESTROY_VEHICLE_ROUTE_FAILURE:
-      return destroyFailure(state);
+      return destroyFailure(state, action.error);
     case actionTypes.DESTROY_VEHICLE_ROUTE_SUCCESS:
       return destroy(state, action.id);
     case actionTypes.SET_VEHICLE_ROUTE_EDIT_MODE:

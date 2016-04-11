@@ -8,12 +8,12 @@ var updateRequest = function(state, settings) {
   },settings)
 }
 
-var updateFailure = function(state, message) {
+var updateFailure = function(state, error) {
   return Object.assign({}, state, {
     isLoading: false,
     message:{
       type:"error",
-      msg:message
+      msg:error.responseJSON.msg
     }
   })
 }
@@ -37,7 +37,7 @@ var settingsFormReducer = function(state, action) {
     case actionTypes.SETTINGS_FORM_UPDATE_REQUEST:
       return updateRequest(state, action.settings);
     case actionTypes.SETTINGS_FORM_UPDATE_FAILURE:
-      return updateFailure(state, action.message);
+      return updateFailure(state, action.error);
     case actionTypes.SETTINGS_FORM_UPDATE_SUCCESS:
       return updateSuccess(state);
     default:

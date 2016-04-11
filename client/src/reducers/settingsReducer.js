@@ -23,7 +23,7 @@ var settingsFormReducer = function(state, action) {
     case actionTypes.SETTINGS_LOAD_REQUEST:
       return loadRequest(state);
     case actionTypes.SETTINGS_LOAD_FAILURE:
-      return loadFailure(state);
+      return loadFailure(state, action.error);
     case actionTypes.SETTINGS_LOAD_SUCCESS:
       return loadSuccess(state, action.settings);
     case actionTypes.SETTINGS_UPDATE:

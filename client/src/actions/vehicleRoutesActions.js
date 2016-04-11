@@ -16,8 +16,7 @@ module.exports.fetch = function() {
       if (err) {
         dispatch({
           type: actionTypes.FETCH_VEHICLE_ROUTES_FAILURE,
-          error:err,
-          message: err.responseJSON.msg
+          error:err
         });
       } else {
         // request was successful
@@ -45,7 +44,7 @@ module.exports.create = function(vehicleRoute) {
       if (err) {
         dispatch({
           type: actionTypes.ADD_VEHICLE_ROUTE_FAILURE,
-          message: err.responseJSON.msg
+          error:err
         });
       } else {
         dispatch({
@@ -71,7 +70,7 @@ module.exports.update = function(vehicleRoute) {
       if (err) {
         dispatch({
           type: actionTypes.UPDATE_VEHICLE_ROUTE_FAILURE,
-          message: err.responseJSON.msg
+          error:err
         });
       } else {
         dispatch({
@@ -98,8 +97,7 @@ module.exports.destroy = function(id) {
         dispatch({
           type: actionTypes.DESTROY_VEHICLE_ROUTE_FAILURE,
           id:id,
-          error:err,
-          message: err.responseJSON.msg
+          error:err
         });
       } else {
         // request was successful

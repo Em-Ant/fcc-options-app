@@ -11,14 +11,9 @@ module.exports.update = function(settings) {
     });
     Ajax.post('/api/settings', settings, function(err, updatedSettings) {
       if (err) {
-        var message = "";
-        if(err.responseJSON){
-           message = err.responseJSON.msg;
-        }
         dispatch({
           type: formActionTypes.SETTINGS_FORM_UPDATE_FAILURE,
-          error:err,
-          message: message
+          error:err
         });
       } else {
         dispatch({
