@@ -61,3 +61,4 @@ module.exports.add = add;
 module.exports.destroy = destroy;
 module.exports.update = update;
 module.exports.setRequested = setRequested;
+module.exports.fetchError = fetchError;
