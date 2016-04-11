@@ -1,4 +1,3 @@
-var VehicleUtils = {
 
   /**
    * Returns a NEW vehicle with the following additional fields set
@@ -6,18 +5,16 @@ var VehicleUtils = {
    * occupiedFlexSeats
    * occupiedWheelchairs
    * needsMedications
+   * consumersFit  //false if too many consumers assigned to vehicle
    */
-  setVehicleCapacity: function(vehicle, consumers) {
+  var setVehicleCapacity=function(vehicle, consumers) {
     //calculation of these properties are dependent on the consumer properties
-    var occupiedSeats = 0;
-    var occupiedFlexSeats = 0;
-    var occupiedWheelchairs = 0;
-    var needsMedications = false;
     var vehicle = Object.assign({}, vehicle, {
-      occupiedSeats: occupiedSeats,
-      occupiedFlexSeats: occupiedFlexSeats,
-      occupiedWheelchairs: occupiedWheelchairs,
-      needsMedications: needsMedications
+      occupiedSeats: 0,
+      occupiedFlexSeats: 0,
+      occupiedWheelchairs: 0,
+      needsMedications: false,
+      consumersFit:true
     })
     vehicle.consumers.forEach(function(consumerId) {
       var consumer = consumers[consumerId];
@@ -30,7 +27,7 @@ var VehicleUtils = {
         } else if (vehicle.occupiedFlexSeats + 2 <= vehicle.flexSeats) {
           vehicle.occupiedFlexSeats += 2;
         }else{
-          console.log("Error: could not find spot for consumer on vehicle")
+          vehicle.consumersFit = false
         }
       } else if (consumer.needsTwoSeats) {
         if (vehicle.occupiedSeats + 2 <= vehicle.seats) {
@@ -38,7 +35,7 @@ var VehicleUtils = {
         } else if (vehicle.occupiedFlexSeats + 2 <= vehicle.flexSeats) {
           vehicle.occupiedFlexSeats += 2;
         } else{
-          console.log("Error: could not find spot for consumer on vehicle")
+          vehicle.consumersFit = false;
         }
       } else {
         if (vehicle.occupiedSeats + 1 <= vehicle.seats) {
@@ -46,12 +43,21 @@ var VehicleUtils = {
         } else if (vehicle.occupiedFlexSeats + 1 <= vehicle.flexSeats) {
           vehicle.occupiedFlexSeats++;
         } else{
-            console.log("Error: could not find spot for consumer on vehicle")
+          vehicle.consumersFit = false;
         }
       }
     });
     return vehicle;
   }
-};
+  var willConsumerFit=function(consumerId, vehicle, consumers){
+    var vehicle = Object.assign({}, vehicle, {
+      consumers:vehicle.consumers.slice()
+    })
+    vehicle.consumers.push(consumerId);
+    var vehicle =  setVehicleCapacity(vehicle, consumers);
+    return vehicle.consumersFit;
+  }
 
-module.exports = VehicleUtils;
+
+module.exports.setVehicleCapacity = setVehicleCapacity;
+module.exports.willConsumerFit = willConsumerFit;

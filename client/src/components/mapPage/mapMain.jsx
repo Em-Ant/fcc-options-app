@@ -6,6 +6,7 @@ var cActions = require('../../actions/consumerActions');
 var mActions = require('../../actions/mapActions');
 var VehiclePanel = require('./vehiclePanel.jsx')
 var _addFlags = require('../../utils/addConsumerFlags');
+var vehicleUtils = require('../../utils/vehicleUtils');
 
 // COLORS
 var RED = "FE7569";     //options inc address
@@ -125,6 +126,7 @@ var ConsumerMap = React.createClass({
         this.markers[this.props.markerLoading].setOpacity(1);
 
         // set consumer/marker in the consumer -> vehicle map to active vehicle
+
         this.consumersToVehiclesMap[this.props.markerLoading]
           = this.props.activeVehicleId;
       }
@@ -253,10 +255,10 @@ var ConsumerMap = React.createClass({
 
         if (this.props.activeVehicleId) {
           // A vehicle is active (A Collapsible Box is open)
-
-
-          // Add to active vehicle
-          this.props.addConsumerToActiveBus(c_id, this.props.activeVehicleId);
+          if(vehicleUtils.willConsumerFit(
+            c_id, this.props.vehicles[this.props.activeVehicleId], this.props.consumers)){
+              this.props.addConsumerToActiveBus(c_id, this.props.activeVehicleId);
+            }
         }
       }
     } else {
