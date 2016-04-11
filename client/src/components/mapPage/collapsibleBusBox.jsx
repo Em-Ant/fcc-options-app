@@ -10,38 +10,31 @@ var vehicleUtils = require('../../utils/vehicleUtils');
 *   parentId - DOM id of the parent element, needed by bootstrap
 */
 
-/**
-* TODO handle foldable seats.
-*/
 
 var CollapsibleBusBox = React.createClass({
   render: function() {
 
     var vehicle = this.props.vehicles[this.props.vehicleId];
     vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
-    var onBoardIds = vehicle.consumers;
-    var totalWheelchairs = vehicle.wheelchairs;
-    var totalSeats = vehicle.seats;
-    var name = vehicle.name;
-    var needMed = false;
 
-    
-    var body = (onBoardIds.length > 0) ?
-        onBoardIds.map(function(id, index) {
+    var body = (vehicle.consumers.length > 0) ?
+        vehicle.consumers.map(function(c_id, index) {
           return (
             <ConsumerInfoBox
-              consumerId={id}
+              consumerId={c_id}
               key={'c_info_'+ index}
             />
           )
-    
+
        }) : "Vehicle is empty";
 
     var activeClass = this.props.activeVehicleId === this.props.vehicleId
       ? ' box-primary box-solid' : ' box-default';
-    var availWheels = vehicle.occupiedWheelchairs < totalWheelchairs ?
+    var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs ?
       'avail-color' : 'unavail-color';
-    var availSeats = vehicle.occupiedSeats < totalSeats ?
+    var availSeats = vehicle.occupiedSeats < vehicle.seats ?
+      'avail-color' : 'unavail-color';
+    var availFlexSeats = vehicle.occupiedFlexSeats < vehicle.flexSeats ?
       'avail-color' : 'unavail-color';
 
     return (
@@ -53,19 +46,24 @@ var CollapsibleBusBox = React.createClass({
               href={'#vp-' + this.props.vehicleId}
               aria-expanded="false" aria-controls={'vp-'+this.props.vehicleId}
               onClick={this.props.toggleActive.bind(null,this.props.vehicleId)}>
-              {name}
+              {vehicle.name}
             </a>
           </h4>
           <div className="pull-right">
-            {needMed ? <span className="cust-label med" title="Med Cert. staff needed"><i className="fa fa-medkit"></i></span> : null}
+            {vehicle.needsMedications ? <span className="cust-label med" title="Med Cert. staff needed"><i className="fa fa-medkit"></i></span> : null}
             <span className={'cust-label ' + availSeats}>
               <i className="fa fa-male"></i>&nbsp;
-              {vehicle.occupiedSeats}/{totalSeats}
+              {vehicle.occupiedSeats}/{vehicle.seats}
             </span>
-            {totalWheelchairs
+            {vehicle.flexSeats
+              ? <span className={'cust-label ' + availFlexSeats}>
+                <i className="fa fa-exchange"></i>&nbsp;
+              {vehicle.occupiedFlexSeats}/{vehicle.flexSeats}
+            </span>: null}
+            {vehicle.wheelchairs
               ? <span className={'cust-label ' + availWheels}>
                 <i className="fa fa-wheelchair"></i>&nbsp;
-              {vehicle.occupiedWheelchairs}/{totalWheelchairs}
+              {vehicle.occupiedWheelchairs}/{vehicle.wheelchairs}
             </span>: null}
           </div>
         </div>
