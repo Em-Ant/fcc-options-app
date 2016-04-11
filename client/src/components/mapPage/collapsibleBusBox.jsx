@@ -50,18 +50,29 @@ var CollapsibleBusBox = React.createClass({
             </a>
           </h4>
           <div className="pull-right">
-            {vehicle.needsMedications ? <span className="cust-label med" title="Med Cert. staff needed"><i className="fa fa-medkit"></i></span> : null}
-            <span className={'cust-label ' + availSeats}>
+            {vehicle.needsMedications ?
+              <span
+                className="cust-label med"
+                title="Med Cert. staff needed">
+                <i className="fa fa-medkit"></i>
+              </span> : null}
+            <span
+              className={'cust-label ' + availSeats}
+              title="Seats">
               <i className="fa fa-male"></i>&nbsp;
               {vehicle.occupiedSeats}/{vehicle.seats}
             </span>
             {vehicle.flexSeats
-              ? <span className={'cust-label ' + availFlexSeats}>
+              ? <span
+                  className={'cust-label ' + availFlexSeats}
+                  title="Flex seats: 2 Seats / 1 Wheelchair">
                 <i className="fa fa-exchange"></i>&nbsp;
               {vehicle.occupiedFlexSeats}/{vehicle.flexSeats}
             </span>: null}
             {vehicle.wheelchairs
-              ? <span className={'cust-label ' + availWheels}>
+              ? <span
+                  className={'cust-label ' + availWheels}
+                  title="Wheelchairs">
                 <i className="fa fa-wheelchair"></i>&nbsp;
               {vehicle.occupiedWheelchairs}/{vehicle.wheelchairs}
             </span>: null}
