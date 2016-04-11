@@ -10,17 +10,6 @@ var Sidebar = React.createClass({
       <aside className="main-sidebar">
 
         <section className="sidebar">
-
-          <div className="user-panel">
-            <div className="pull-left image">
-              <img src="static/adminLTE/dist/img/default_avatar.jpg" className="img-circle" alt="User Image"/>
-            </div>
-            <div className="pull-left info">
-              <p>Authenticated User</p>
-
-            </div>
-          </div>
-
           <ul className="sidebar-menu">
             <li className="header">SERVICES</li>
 

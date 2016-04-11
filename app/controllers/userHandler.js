@@ -6,27 +6,48 @@ var mongoose = require('mongoose');
 require('../auth/passport')(passport);
 
 function UserHandler() {
-  // this.getUser = function(req, res) {
-  //     if (!req.params || !req.params.userId) {
-  //       return res.status(400).json({
-  //         error: "An error occurred"
-  //       });
-  //     }
-  //     var userId = req.params.userId;
-  //     User.findOne({
-  //         _id: userId
-  //       })
-  //       .exec(function(err, user) {
-  //         if (err) {
-  //           console.log("An error occurred", err);
-  //           return res.status(400).json({
-  //             error: "An error occurred"
-  //           });
-  //         }
-  //         return res.json(user);
-  //       });
-  //
-  //   },
+  this.getUser = function(req, res) {
+      if (!req.params || !req.params.userId) {
+        return res.status(400).json({
+          error: "An error occurred"
+        });
+      }
+      var userId = req.params.userId;
+      User.findOne({
+          _id: userId
+        })
+        .exec(function(err, user) {
+          if (err) {
+            console.log("An error occurred", err);
+            return res.status(400).json({
+              error: "An error occurred"
+            });
+          }
+          return res.json(user);
+        });
+
+    },
+    this.getLoggedInUser = function(req, res) {
+        if (!req.params || !req.params.userId) {
+          return res.status(400).json({
+            error: "An error occurred"
+          });
+        }
+        var userId = req.params.userId;
+        User.findOne({
+            _id: userId
+          })
+          .exec(function(err, user) {
+            if (err) {
+              console.log("An error occurred", err);
+              return res.status(400).json({
+                error: "An error occurred"
+              });
+            }
+            return res.json(user);
+          });
+
+      },
 
   /*
   Signs up a new user
@@ -147,8 +168,11 @@ function UserHandler() {
           console.error(err);
           return next(err);
         }
-        //output the email when login is successful
-        return res.json(user.email);
+        return res.json({
+          loggedIn: true,
+          user: user.email,
+          role: user.role
+        });
       });
     })(req, res, next);
   };

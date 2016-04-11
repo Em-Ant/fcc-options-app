@@ -30,7 +30,7 @@ module.exports.login = function(formData) {
         });
         localStorage.token = user;
         //the react router redux documentation says we can do this, however there is an alternative pure redux way to do this https://github.com/reactjs/react-router-redux
-        browserHistory.push('/routes');
+        browserHistory.push('/map-test');
       }
     }.bind(this));
   }
@@ -60,6 +60,29 @@ module.exports.logout = function() {
           type: actionTypes.LOGOUT_SUCCESS
         });
         clientLogout();
+      }
+    }.bind(this));
+  }
+}
+
+
+module.exports.fetchUser = function() {
+  return function(dispatch) {
+    dispatch({
+      type: actionTypes.FETCH_USER_REQUEST,
+    });
+    Ajax.get('/api/me', function(err, response) {
+      if (err) {
+        dispatch({
+          type: actionTypes.FETCH_USER_FAILURE,
+          error:err
+        });
+        clientLogout();
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_USER_SUCCESS,
+          response:response
+        });
       }
     }.bind(this));
   }

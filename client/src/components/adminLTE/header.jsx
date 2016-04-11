@@ -2,9 +2,13 @@
 
 var React = require('react');
 var Link = require('react-router').Link
+var connect = require('react-redux').connect;
+var actions = require('../../actions/authActions');
 
 var Header = React.createClass({
-
+  componentDidMount:function(){
+    this.props.fetchUser();
+  },
   /**
   * HACK to fix #7 'Control sidebar doesn't open after initial login'
   * I used custom jquery to move the sidebar. There must be some
@@ -42,14 +46,14 @@ var Header = React.createClass({
               <li className="dropdown user user-menu">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                   <img src="static/adminLTE/dist/img/default_avatar.jpg" className="user-image" alt="User Image"/>
-                  <span className="hidden-xs">Authenticated User</span>
+                  <span className="hidden-xs">{this.props.user}</span>
                 </a>
                 <ul className="dropdown-menu">
                   <li className="user-header">
                     <img src="static/adminLTE/dist/img/default_avatar.jpg" className="img-circle" alt="User Image"/>
 
                     <p>
-                      Authenticated User
+                      {this.props.user}
                     </p>
                   </li>
                   <li className="user-footer">
@@ -75,4 +79,17 @@ var Header = React.createClass({
     )
   }
 });
-module.exports = Header;
+
+
+var mapStateToProps = function(state){
+  return state.auth
+
+}
+var mapDispatchToProps = function(dispatch) {
+  return {
+    fetchUser: function(formData) {
+      dispatch(actions.fetchUser());
+    }
+  }
+}
+module.exports = connect(mapStateToProps,mapDispatchToProps)(Header);

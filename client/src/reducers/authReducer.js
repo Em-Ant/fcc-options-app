@@ -1,39 +1,27 @@
 var actionTypes = require('../constants/actionTypes/authActionTypes');
 
-var loginRequest = function(state){
-  return Object.assign({}, state, {
-    isLoading:true,
-  })
+
+var loadUser = function(state, user) {
+  return Object.assign({}, state, user)
 }
 
-var loginFailure = function(state, error){
-  return Object.assign({}, state, {
-    isLoading:false,
-    message:error.responseJSON.msg
-  })
+var logout = function(state) {
+  var newState = Object.assign({}, state);
+  delete newState['user'];
+  return newState;
 }
 
-var loginSuccess = function(state, user){
-  return Object.assign({}, state, {
-    isLoading:false
-  })
-}
-
-var initState = {
-  isLoading:false
-};
-var loginReducer = function(state, action) {
-  state = state || initState;
+var authReducer = function(state, action) {
+  state = state || {};
   switch (action.type) {
-    case actionTypes.LOGIN_REQUEST:
-      return loginRequest(state);
-    case actionTypes.LOGIN_FAILURE:
-      return loginFailure(state, action.error);
     case actionTypes.LOGIN_SUCCESS:
-      return loginSuccess(state, action.user);
+    case actionTypes.FETCH_USER_SUCCESS:
+      return loadUser(state, action.response);
+    case actionTypes.LOGOUT_SUCCESS:
+      return logout(state, action.user);
     default:
       return state;
   }
 };
 
-module.exports = loginReducer;
+module.exports = authReducer;
