@@ -10,7 +10,7 @@ function isLoggedIn(req, res, next) {
     return next();
   } else {
     res.status(401).json({
-      status: 'Unauthorized'
+      status: 'Unauthenticated'
     });
   }
 }
@@ -20,7 +20,7 @@ function hasRole(role) {
   if (req.isAuthenticated() && req.user.role === role) {
     return next();
   } else {
-    res.status(401).json({
+    res.status(403).json({
       status: 'Unauthorized'
     });
   }
