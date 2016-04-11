@@ -48,6 +48,10 @@ var load = function(state, objsArray) {
     loaded: true});
 }
 
+var fetchError = function (state) {
+  return Object.assign({}, state, {needToBeFetched: true, fetchError: true});
+}
+
 var setRequested = function(state) {
   return Object.assign({}, state, {needToBeFetched: undefined});
 }

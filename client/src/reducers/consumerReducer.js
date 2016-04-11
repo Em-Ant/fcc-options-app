@@ -11,6 +11,8 @@ var reducer = function(state, action) {
       return commons.setRequested(state);
     case actionTypes.CONSUMER_INDEX_SUCCESS:
       return commons.load(state, action.consumers);
+    case actionTypes.CONSUMER_INDEX_ERROR:
+      return commons.fetchError(state);
     case actionTypes.CONSUMER_UPDATE_SUCCESS:
       return commons.update(state, action.updatedConsumer);
     case actionTypes.CONSUMER_CREATE_SUCCESS:

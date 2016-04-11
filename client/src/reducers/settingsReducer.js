@@ -7,7 +7,9 @@ var loadRequest = function(state) {
   });
 }
 var loadFailure = function(state) {
-  // do nothing for now
+  return Object.assign({}, state, {
+    needToBeFetched: true,
+    fetchError: true});
   return state;
 }
 var loadSuccess = function(state, settings) {

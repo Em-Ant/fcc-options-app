@@ -69,6 +69,8 @@ var vehiclesReducer = function(state, action) {
       return commonCRUD.setRequested(state);
     case actionTypes.FETCH_VEHICLES_SUCCESS:
       return commonCRUD.load(state, action.response);
+    case actionTypes.FETCH_VEHICLES_FAILURE:
+      return commonCRUD.fetchError(state, action.response);
     case actionTypes.ADD_VEHICLE_SUCCESS:
       return commonCRUD.add(state, action.response);
     case actionTypes.UPDATE_VEHICLE_SUCCESS:
