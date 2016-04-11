@@ -6,9 +6,13 @@ var Message = require('./message.jsx');
 
 var Settings = React.createClass({
   componentDidMount: function() {
-    if(store.getState().settings.needToBeFetched) {
-      store.dispatch(settingsActions.load());
+    if(this.props.settings.needToBeFetched) {
+      this.props.loadSettings();
     }
+    this.setPropsToState(this.props);
+  },
+  componentWillReceiveProps: function(nextProps) {
+      this.setPropsToState(nextProps);
   },
   handleSubmit: function(e) {
     e.preventDefault();
@@ -29,18 +33,7 @@ var Settings = React.createClass({
   getInitialState: function() {
     return ({form: {}})
   },
-  componentDidMount: function() {
-      this.setPropsToState(this.props);
-  },
-  componentWillReceiveProps: function(nextProps) {
-      this.setPropsToState(nextProps);
-  },
   setPropsToState: function(props) {
-    // not really sure if this is correct
-    // we want to use prop.settings when the form is first loaded
-    // if an update request is made, we want to keep the form intact, while the
-    // form is processing. During this time, we do not want to overwrite
-    // with props.settings
     var form = Object.assign({}, props.settings, props.form);
     this.setState({form: form});
   },

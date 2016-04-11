@@ -1,6 +1,7 @@
 var connect = require('react-redux').connect;
 var SettingsFormComponent = require('../components/settingsFormComponent.jsx');
-var actions = require('../actions/settingsFormActions.js');
+var formActions = require('../actions/settingsFormActions.js');
+var settingsActions = require('../actions/settingsActions.js');
 /*
 Redux aware container that connects dispatch functions and app state to component properties
 */
@@ -13,10 +14,10 @@ var mapStateToProps = function(state) {
 var mapDispatchToProps = function(dispatch) {
   return {
     onSubmit:function(settings){
-      dispatch(actions.update(settings));
+      dispatch(formActions.update(settings));
     },
-    loadSttings: function() {
-      dispatch(actions.load());
+    loadSettings: function() {
+      dispatch(settingsActions.load());
     }
   }
 }
