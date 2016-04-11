@@ -17,6 +17,7 @@ module.exports.update = function(settings) {
         }
         dispatch({
           type: formActionTypes.SETTINGS_FORM_UPDATE_FAILURE,
+          error:err,
           message: message
         });
       } else {

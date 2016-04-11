@@ -14,6 +14,7 @@ module.exports.load = function(settings) {
         }
         dispatch({
           type: actionTypes.SETTINGS_LOAD_FAILURE,
+          error:err,
           message: message
         });
       } else {

@@ -20,6 +20,7 @@ module.exports.login = function(formData) {
       if (err) {
         dispatch({
           type: actionTypes.LOGIN_FAILURE,
+          error:err,
           message: err.responseJSON.msg
         });
         removeToken();
@@ -37,6 +38,13 @@ module.exports.login = function(formData) {
 
 }
 
+var clientLogout = function(){
+  removeToken();
+  browserHistory.push('/');
+}
+
+module.exports.clientLogout = clientLogout;
+
 module.exports.logout = function() {
   return function(dispatch) {
     dispatch({
@@ -46,14 +54,14 @@ module.exports.logout = function() {
       if (err) {
         dispatch({
           type: actionTypes.LOGOUT_FAILURE,
+          error:err,
           message: err.responseJSON.msg
         });
       } else {
         dispatch({
           type: actionTypes.LOGOUT_SUCCESS
         });
-        removeToken();
-        browserHistory.push('/');
+        clientLogout();
       }
     }.bind(this));
   }
