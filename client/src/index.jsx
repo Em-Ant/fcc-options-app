@@ -57,8 +57,8 @@ ReactDOM.render(
   <Provider store={store}>
   <Router history={history}>
     <Route path="/" component={App}>
-      <IndexRoute component={Login}/>
       <Route component={Main}  onEnter={requireAuth} >
+        <IndexRoute component={ConsumerRoute3}/>
         <Route path="/routes" component={VehicleRoutes} onEnter={requireAuth} />
         <Route path="/consumers" component={Consumers} onEnter={requireAuth} />
         <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
