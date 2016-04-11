@@ -2,6 +2,7 @@ var React = require('react');
 var ConsumerInfoBox = require('./consumerInfoBox.jsx');
 var actions = require('../../actions/mapActions')
 var connect = require('react-redux').connect;
+var vehicleUtils = require('../../utils/vehicleUtils');
 
 /**
 * Props that have to be passed from parent :
@@ -15,37 +16,32 @@ var connect = require('react-redux').connect;
 
 var CollapsibleBusBox = React.createClass({
   render: function() {
-    var seats = 0;
-    var wheels = 0;
 
     var vehicle = this.props.vehicles[this.props.vehicleId];
+    vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
     var onBoardIds = vehicle.consumers;
     var totalWheelchairs = vehicle.wheelchairs;
     var totalSeats = vehicle.seats;
     var name = vehicle.name;
     var needMed = false;
 
+    
     var body = (onBoardIds.length > 0) ?
         onBoardIds.map(function(id, index) {
-      var c = this.props.consumers[id];
-
-      if(c) {
-        c.hasWheelchair ? wheels++ : (c.needsTwoSeats ? seats += 2 : seats++ )
-        if (c.hasMedications ) needMed = true;
-
-      return (
-        <ConsumerInfoBox
-          consumerId={id}
-          key={'c_info_'+ index}
-        />
-      )}
-    }.bind(this)) : "Vehicle is empty";
+          return (
+            <ConsumerInfoBox
+              consumerId={id}
+              key={'c_info_'+ index}
+            />
+          )
+    
+       }) : "Vehicle is empty";
 
     var activeClass = this.props.activeVehicleId === this.props.vehicleId
       ? ' box-primary box-solid' : ' box-default';
-    var availWheels = wheels < totalWheelchairs ?
+    var availWheels = vehicle.occupiedWheelchairs < totalWheelchairs ?
       'avail-color' : 'unavail-color';
-    var availSeats = seats < totalSeats ?
+    var availSeats = vehicle.occupiedSeats < totalSeats ?
       'avail-color' : 'unavail-color';
 
     return (
@@ -64,12 +60,12 @@ var CollapsibleBusBox = React.createClass({
             {needMed ? <span className="cust-label med" title="Med Cert. staff needed"><i className="fa fa-medkit"></i></span> : null}
             <span className={'cust-label ' + availSeats}>
               <i className="fa fa-male"></i>&nbsp;
-              {seats}/{totalSeats}
+              {vehicle.occupiedSeats}/{totalSeats}
             </span>
             {totalWheelchairs
               ? <span className={'cust-label ' + availWheels}>
                 <i className="fa fa-wheelchair"></i>&nbsp;
-              {wheels}/{totalWheelchairs}
+              {vehicle.occupiedWheelchairs}/{totalWheelchairs}
             </span>: null}
           </div>
         </div>

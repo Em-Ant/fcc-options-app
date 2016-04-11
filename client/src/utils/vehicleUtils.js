@@ -29,6 +29,7 @@ var VehicleUtils = {
     })
     return newVehicle;
   }
+  
 };
 
 module.exports = VehicleUtils;

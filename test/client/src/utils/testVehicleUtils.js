@@ -61,8 +61,8 @@ describe('vehicleUtils', function() {
   })
 
   it('should add up wheelchairs and foldable seats as available wheelchairs', function() {
-    vehicle.maxFixedWheelchairs = 1;
-    vehicle.maxFoldableSeatsForWheelchairs = 2;
+    vehicle.wheelchairs = 1;
+    vehicle.flexSeats = 2;
     var expectedWheelchairs = 2;
 
     vehicle = VehicleUtils.setVehicleCapacity(vehicle);

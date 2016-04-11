@@ -254,6 +254,7 @@ var ConsumerMap = React.createClass({
         if (this.props.activeVehicleId) {
           // A vehicle is active (A Collapsible Box is open)
 
+
           // Add to active vehicle
           this.props.addConsumerToActiveBus(c_id, this.props.activeVehicleId);
         }
