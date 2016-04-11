@@ -52,9 +52,9 @@ var Header = React.createClass({
                   <li className="user-header">
                     <img src="static/adminLTE/dist/img/default_avatar.jpg" className="img-circle" alt="User Image"/>
 
-                    <p>
-                      {this.props.user}
-                    </p>
+                    <p>{this.props.user}</p>
+                    <p>{this.props.role}</p>
+
                   </li>
                   <li className="user-footer">
                     <div className="pull-left">
