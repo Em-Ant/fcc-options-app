@@ -36,10 +36,10 @@ var BusBody = React.createClass({
           }
         </tbody>
       </table>
-
-        <button className="btn btn-default">Optimize Route</button>
-        <button className="btn btn-default">Get Directions</button>
-
+        <div className="btn-group pull-right">
+          <button className="btn btn-default">Optimize Route</button>
+          <button className="btn btn-default">Get Directions</button>
+        </div>
       </div>
     )
   }

@@ -16,14 +16,6 @@ var VehiclePanel = React.createClass({
       <div className="box box-widget cust-height">
         <div className="box-header with-border">
           <h3 className="box-title">Vehicles</h3>
-          <div className="pull-right">
-              <button
-                className="btn btn-default disabled"
-                title='Get Optimal Route'
-              >
-                <i className="fa fa-location-arrow"></i>
-              </button>
-          </div>
         </div>
         <div className="box-body">
           <div className="box-group" id="vehicle-accrd" role="tablist" aria-multiselectable="true">
