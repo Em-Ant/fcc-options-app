@@ -39,7 +39,6 @@ var highlightMarker = function (state, id) {
 var highlightMarkerOff = function (state, id) {
   return Object.assign({}, state, {highlightedMarker: undefined})
 }
-var initState = {};
 
 var checkActiveVehicleIdForDelete = function (state, id) {
   // checks if the active Vehicle has been deleted,
@@ -51,6 +50,28 @@ var checkActiveVehicleIdForDelete = function (state, id) {
   return state;
 }
 
+var checkActiveVehicleIdForDelete = function (state, id) {
+  // checks if the active Vehicle has been deleted,
+  // if yes reset the tracker - Fix for #14
+
+  if (state.activeVehicleId === id) {
+    return Object.assign({}, state, {activeVehicleId: undefined})
+  }
+  return state;
+}
+
+var displayDirections = function (state, v_id) {
+    return Object.assign({}, state, {
+      directions: {
+        display:true,
+        v_id:v_id
+      }
+    })
+}
+var initState= {
+  directions:{
+  }
+}
 /**
 * TODO IMPORTANT handle errors
 */
@@ -74,6 +95,8 @@ var reducer = function(state, action) {
       return highlightMarkerOff(state, action.id);
     case (vActions.DESTROY_VEHICLE_SUCCESS) :
       return checkActiveVehicleIdForDelete(state, action.id)
+    case (actionTypes.DIRECTIONS_DISPLAY) :
+      return displayDirections(state, action.v_id)
     default:
       return state;
   }

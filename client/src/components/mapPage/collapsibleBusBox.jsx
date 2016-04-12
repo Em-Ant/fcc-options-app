@@ -3,47 +3,13 @@ var ConsumerInfoBox = require('./consumerInfoBox.jsx');
 var actions = require('../../actions/mapActions')
 var connect = require('react-redux').connect;
 var vehicleUtils = require('../../utils/vehicleUtils');
+var BusBoxBody = require('./busBoxBody.jsx');
 
 /**
 * Props that have to be passed from parent :
 *   vehicleId - id of the related vehicle
 *   parentId - DOM id of the parent element, needed by bootstrap
 */
-
-var BusBody = React.createClass({
-  render: function() {
-    return (
-      <div>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Needs</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            this.props.vehicle.consumers.map(function(c_id, index) {
-              return (
-                <ConsumerInfoBox
-                  consumerId={c_id}
-                  key={'c_info_'+ index}
-                  index={index}
-                />
-              )
-            })
-          }
-        </tbody>
-      </table>
-        <div className="btn-group pull-right">
-          <button className="btn btn-default">Optimize Route</button>
-          <button className="btn btn-default">Get Directions</button>
-        </div>
-      </div>
-    )
-  }
-})
 
 var CollapsibleBusBox = React.createClass({
   render: function() {
@@ -105,7 +71,7 @@ var CollapsibleBusBox = React.createClass({
           role="tabpanel" aria-labelledby={'head-'+this.props.vehicleId}>
           <div className="box-body">
             {vehicle.consumers.length > 0?
-            <BusBody vehicle = {vehicle}/>:
+            <BusBoxBody vehicle={vehicle}/>:
             "Vehicle is empty"
             }
           </div>

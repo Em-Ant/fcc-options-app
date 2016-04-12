@@ -160,7 +160,7 @@ var ConsumerMap = React.createClass({
       var vehicle = self.props.vehicles[v_id];
       vehicle.consumers.forEach(function(c_id){
         if(self.consumersToVehiclesMap[c_id]) {
-          console.err(`Consumer ${c_id} is assigned to 
+          console.err(`Consumer ${c_id} is assigned to
             ${self.consumersToVehiclesMap[c_id]} and ${v_id}`);
         } else {
           self.consumersToVehiclesMap[c_id] = v_id;
@@ -279,7 +279,11 @@ var ConsumerMap = React.createClass({
           <div className="box box-widget map-height">
           <div id="test-map" className="map-height"></div>
           </div>
-          <div id="directions-panel"></div>
+          <div id="directions-panel">
+            {this.props.directions.display?
+              "Show Directions Here for vehicle id " + this.props.directions.v_id:null
+            }
+          </div>
         </div>
       </div>
 
@@ -297,7 +301,8 @@ var mapStateToProps = function(state){
     consumers: state.consumers.data,
     activeVehicleId : state.mapPage.activeVehicleId,
     markerLoading: state.mapPage.markerLoading,
-    highlightedMarker: state.mapPage.highlightedMarker
+    highlightedMarker: state.mapPage.highlightedMarker,
+    directions: state.mapPage.directions
   }
 }
 var mapDispatchToProps = function(dispatch) {

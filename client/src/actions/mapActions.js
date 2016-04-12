@@ -74,3 +74,10 @@ module.exports.addToActiveBus = function (c_id, active_v_id) {
 
   }
 }
+
+module.exports.displayDirections = function(v_id) {
+  return {
+    type: actionTypes.DIRECTIONS_DISPLAY,
+    v_id: v_id
+  }
+};
