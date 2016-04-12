@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react');
+var connect = require('react-redux').connect;
 var Link = require('react-router').Link
 
 var Sidebar = React.createClass({
@@ -13,10 +14,10 @@ var Sidebar = React.createClass({
           <ul className="sidebar-menu">
             <li className="header">SERVICES</li>
 
-            <li className={this.props.activeLink=="/routes"?"active":null}>
-              <Link to={"/routes"}>
+            <li className={this.props.activeLink=="/"?"active":null}>>
+              <Link to={"/"}>
                 <i className="fa fa-link"></i>
-                <span>Routes</span>
+                <span>Map</span>
               </Link>
             </li>
             <li className={this.props.activeLink=="/consumers"?"active":null}>>
@@ -31,12 +32,6 @@ var Sidebar = React.createClass({
                 <span>Vehicles</span>
               </Link>
             </li>
-            <li className={this.props.activeLink=="/map-test"?"active":null}>>
-              <Link to={"/map-test"}>
-                <i className="fa fa-link"></i>
-                <span>Map test</span>
-              </Link>
-            </li>
           </ul>
 
         </section>
@@ -46,4 +41,10 @@ var Sidebar = React.createClass({
     )
   }
 });
-module.exports = Sidebar;
+
+var mapStateToProps = function(state, ownProps){
+  return{
+    activeLink: ownProps.router.location.pathname
+  }
+}
+module.exports= connect(mapStateToProps)(Sidebar);
