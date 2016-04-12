@@ -60,11 +60,11 @@ var checkActiveVehicleIdForDelete = function (state, id) {
   return state;
 }
 
-var displayDirections = function (state, v_id) {
+var displayDirections = function (state, directions) {
     return Object.assign({}, state, {
       directions: {
         display:true,
-        v_id:v_id
+        directions:directions
       }
     })
 }
@@ -96,7 +96,7 @@ var reducer = function(state, action) {
     case (vActions.DESTROY_VEHICLE_SUCCESS) :
       return checkActiveVehicleIdForDelete(state, action.id)
     case (actionTypes.DIRECTIONS_DISPLAY) :
-      return displayDirections(state, action.v_id)
+      return displayDirections(state, action.directions)
     default:
       return state;
   }

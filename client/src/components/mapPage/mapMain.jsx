@@ -156,8 +156,8 @@ var ConsumerMap = React.createClass({
   },
   componentDidUpdate:function(prevProps, prevState){
     if (this.props.directions.display &&
-      this.props.directions.v_id != prevProps.directions.v_id) {
-      this.displayDirections();
+      this.props.directions.directions !== prevProps.directions.directions) {
+      this.displayDirections(this.props.directions.directions);
     }
   },
   mapConsumersToVehicles: function() {
@@ -288,39 +288,24 @@ var ConsumerMap = React.createClass({
       });
     }
   },
-  displayDirections:function() {
+  displayDirections:function(directions) {
 
       this.clearDirections();
-      var self = this;
-      var v_id = self.props.directions.v_id;
-      var vehicle = self.props.vehicles[v_id];
 
-      directionsUtils.getDirections(
-        vehicle,
-        self.props.consumers,
-        self.props.settings.optionsIncAddress,
-        self.props.settings.optionsIncAddress,
-        function(err, directions){
-          if(err){
-            return console.log("There was an error getting directions");
-          }
-          self.tripPath = new google.maps.Polyline({
-             path: directions.routes[0].overview_path,
-             geodesic: false,
-             strokeColor: '#0088AA',
-             strokeOpacity: 0.5,
-             strokeWeight: 4
-           });
+      this.tripPath = new google.maps.Polyline({
+         path: directions.routes[0].overview_path,
+         geodesic: false,
+         strokeColor: '#0088AA',
+         strokeOpacity: 0.5,
+         strokeWeight: 4
+       });
 
-          self.tripPath.setMap(self.map);
+      this.tripPath.setMap(self.map);
 
-          var route = directions.routes[0];
-          self.setState({
-            route:route
-          });
-        }
-      )
-
+      var route = directions.routes[0];
+      this.setState({
+        route:route
+      });
 
   },
 

@@ -33,7 +33,8 @@ var BusBoxBodyComponent = React.createClass({
         <div className="btn-group pull-right">
           <button className="btn btn-default">Optimize Route</button>
           <button className="btn btn-default"
-            onClick={this.props.onDirectionsClick.bind(null,this.props.vehicle._id)}
+            onClick={this.props.onDirectionsClick.bind(
+              null,this.props.vehicle, this.props.consumers, this.props.settings )}
             >Get Directions</button>
         </div>
       </div>
@@ -41,12 +42,19 @@ var BusBoxBodyComponent = React.createClass({
   }
 })
 
-var mapDispatchToProps = function(dispatch) {
+var mapStateToProps = function(state){
   return {
-    onDirectionsClick: function(v_id) {
-      dispatch(actions.displayDirections(v_id))
+    consumers: state.consumers.data,
+    settings: state.settings
+  }
+}
+
+var mapDispatchToProps = function(dispatch, ownProps) {
+  return {
+    onDirectionsClick: function(vehicle, consumers, settings) {
+      dispatch(actions.displayDirections(vehicle,consumers, settings))
     }
   }
 }
 
-module.exports = connect(null, mapDispatchToProps)(BusBoxBodyComponent);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(BusBoxBodyComponent);
