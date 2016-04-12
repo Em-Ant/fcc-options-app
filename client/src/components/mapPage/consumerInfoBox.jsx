@@ -14,16 +14,28 @@ var ConsumerInfoBox = React.createClass({
     var consumer = this.props.consumers[this.props.consumerId];
     var flags = _addFlags(consumer);
     var createMarkup = function(s) {return {__html: s}}
-    var flagsSpan = flags.needs
+    var needFlags = flags.needs
       ? (
-        <span
-          className="pull-right"
+        <div
           dangerouslySetInnerHTML={createMarkup(flags.flagsString)}
         />
       ) : null;
     return (
-    <div>
-      <span>
+    <tr>
+      <td>
+        {this.props.index + 1}
+      </td>
+
+        <td
+          onMouseOver={this.props.nameHoverOn.bind(null,this.props.consumerId)}
+          onMouseOut={this.props.nameHoverOff.bind(null,this.props.consumerId)}
+        >
+          {consumer.name}
+      </td>
+      <td>
+        {needFlags}
+      </td>
+      <td>
         <i
           className="fa fa-times cust-btn"
           onClick={
@@ -34,16 +46,9 @@ var ConsumerInfoBox = React.createClass({
               this.props.activeVehicleId
             )}
         ></i>
-        &nbsp;
-        <span
-          onMouseOver={this.props.nameHoverOn.bind(null,this.props.consumerId)}
-          onMouseOut={this.props.nameHoverOff.bind(null,this.props.consumerId)}
-        >
-          {consumer.name}
-        </span>
-      </span>
-      {flagsSpan}
-    </div>
+
+      </td>
+    </tr>
   )}
 })
 

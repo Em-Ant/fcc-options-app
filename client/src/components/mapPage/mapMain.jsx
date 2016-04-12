@@ -270,11 +270,11 @@ var ConsumerMap = React.createClass({
     return (
 
       <div className="row">
-        <div className="col-md-3 col-sm-4 col-xs-5">
+        <div className="col-md-5 col-sm-5 col-xs-5">
 
         <VehiclePanel />
         </div>
-        <div className="col-md-9 col-sm-8 col-xs-6">
+        <div className="col-md-7 col-sm-7 col-xs-7">
           <div className="box box-widget map-height">
           <div id="test-map" className="map-height"></div>
           </div>

@@ -10,23 +10,46 @@ var vehicleUtils = require('../../utils/vehicleUtils');
 *   parentId - DOM id of the parent element, needed by bootstrap
 */
 
+var BusBody = React.createClass({
+  render: function() {
+    return (
+      <div>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Needs</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            this.props.vehicle.consumers.map(function(c_id, index) {
+              return (
+                <ConsumerInfoBox
+                  consumerId={c_id}
+                  key={'c_info_'+ index}
+                  index={index}
+                />
+              )
+            })
+          }
+        </tbody>
+      </table>
+
+        <button className="btn btn-default">Optimize Route</button>
+        <button className="btn btn-default">Get Directions</button>
+
+      </div>
+    )
+  }
+})
 
 var CollapsibleBusBox = React.createClass({
   render: function() {
 
     var vehicle = this.props.vehicles[this.props.vehicleId];
     vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
-
-    var body = (vehicle.consumers.length > 0) ?
-        vehicle.consumers.map(function(c_id, index) {
-          return (
-            <ConsumerInfoBox
-              consumerId={c_id}
-              key={'c_info_'+ index}
-            />
-          )
-
-       }) : "Vehicle is empty";
 
     var activeClass = this.props.activeVehicleId === this.props.vehicleId
       ? ' box-primary box-solid' : ' box-default';
@@ -81,7 +104,10 @@ var CollapsibleBusBox = React.createClass({
         <div id={'vp-'+this.props.vehicleId} className="panel-collapse collapse"
           role="tabpanel" aria-labelledby={'head-'+this.props.vehicleId}>
           <div className="box-body">
-          {body}
+            {vehicle.consumers.length > 0?
+            <BusBody vehicle = {vehicle}/>:
+            "Vehicle is empty"
+            }
           </div>
         </div>
       </div>
