@@ -10,6 +10,7 @@ var mapPage = require('./mapReducer')
 
 var settings = require('./settingsReducer');
 var consumers = require('./consumerReducer');
+var directions = require('./directionsReducer');
 
 var combineReducers = require('redux').combineReducers;
 
@@ -27,7 +28,8 @@ var rootReducer = combineReducers({
   auth:auth,
   settings:settings,
   consumers: consumers,
-  vehicles: vehicles
+  vehicles: vehicles,
+  directions:directions
 
 });
 module.exports = rootReducer;

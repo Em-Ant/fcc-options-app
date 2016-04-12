@@ -156,9 +156,12 @@ var ConsumerMap = React.createClass({
 
   },
   componentDidUpdate:function(prevProps, prevState){
-    if (this.props.directions.display &&
-      this.props.directions.directions !== prevProps.directions.directions) {
-      this.displayDirections(this.props.directions.directions);
+    if(this.props.displayDirections == prevProps.displayDirections)
+      return;
+    if(this.props.displayDirections){
+      this.displayDirections();
+    }else{
+      this.clearDirections();
     }
   },
   mapConsumersToVehicles: function() {
@@ -295,12 +298,10 @@ var ConsumerMap = React.createClass({
       });
     }
   },
-  displayDirections:function(directions) {
-
+  displayDirections:function() {
       this.clearDirections();
-
       this.tripPath = new google.maps.Polyline({
-         path: directions.routes[0].overview_path,
+         path: this.props.vehiclePath,
          geodesic: false,
          strokeColor: '#0088AA',
          strokeOpacity: 0.5,
@@ -308,12 +309,6 @@ var ConsumerMap = React.createClass({
        });
 
       this.tripPath.setMap(this.map);
-
-      var route = directions.routes[0];
-      this.setState({
-        route:route
-      });
-
   },
 
   getInitialState:function(){
@@ -335,8 +330,8 @@ var ConsumerMap = React.createClass({
           <div className="box box-widget map-height">
           <div id="test-map" className="map-height"></div>
           </div>
-          {this.props.directions.display?
-          <Directions route={this.state.route}/>:
+          {this.props.displayDirections?
+          <Directions/>:
           null}
         </div>
       </div>
@@ -356,7 +351,9 @@ var mapStateToProps = function(state){
     activeVehicleId : state.mapPage.activeVehicleId,
     markerLoading: state.mapPage.markerLoading,
     highlightedMarker: state.mapPage.highlightedMarker,
-    directions: state.mapPage.directions,
+    displayDirections: state.mapPage.displayDirections,
+    directionsLoading: state.mapPage.directionsLoading,
+    vehiclePath: state.directions.routes[0].overview_path,
     settings:state.settings
   }
 }

@@ -88,6 +88,9 @@ module.exports.addToActiveBus = function(c_id, active_v) {
 module.exports.displayDirections = function(vehicle, consumers, settings) {
     return function(dispatch) {
       var tripPath = null;
+      dispatch({
+        type: actionTypes.DIRECTIONS_LOAD_REQUEST
+      });
       directionsUtils.getDirections(
         vehicle,
         consumers,
@@ -95,11 +98,14 @@ module.exports.displayDirections = function(vehicle, consumers, settings) {
         settings.optionsIncAddress,
         function(err, directions) {
           if (err) {
-            return console.log("There was an error getting directions");
+            return dispatch({
+              type: actionTypes.DIRECTIONS_LOAD_FAILURE,
+              error:err
+            });
           }
           dispatch({
-            type: actionTypes.DIRECTIONS_DISPLAY,
-            directions: directions
+            type: actionTypes.DIRECTIONS_LOAD_SUCCESS,
+            response: directions
           });
         }
       )
