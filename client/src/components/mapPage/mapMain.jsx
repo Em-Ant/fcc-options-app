@@ -276,59 +276,73 @@ var ConsumerMap = React.createClass({
       console.log('WARN: markers frozen in loading state');
     }
   },
+  getWaypoints:function(vehicle, consumers){
+    var waypts = [];
+    vehicle.consumers.forEach(function(c_id) {
+      var consumer = consumers[c_id];
+      waypts.push({location: consumer.address, stopover: true});
+    });
+    return waypts;
+  },
+  getDirections:function(origin, destination, waypoints, done){
+    directionsService.route({
+      origin: origin,
+      destination: destination,
+      waypoints: waypoints,
+      optimizeWaypoints: false,
+      travelMode: google.maps.TravelMode.DRIVING
+    }, function(response, status) {
+        if (status !== google.maps.DirectionsStatus.OK) {
+          return done('Directions request failed due to ' + status);
+        }
+        done(null, response);
+      }
+    );
+  },
+  clearDirections:function(){
+    if(this.tripPath) {
+      this.tripPath.setMap(null);
+      this.tripPath = null;
+      this.setState({
+        route:{
+          legs:[]
+        }
+      });
+    }
+  },
   displayDirections:function() {
 
+      this.clearDirections();
       var self = this;
-      //clear out old directions
-      if(self.tripPath) {
-        self.tripPath.setMap(null);
-        self.tripPath = null;
-        var summaryPanel = document.getElementById('directions-panel');
-        self.setState({
-          route:{}
-        });
-      }
-      var waypts = [];
       var v_id = self.props.directions.v_id;
       var vehicle = self.props.vehicles[v_id];
       //calculate route for 1 vehicle
-      vehicle.consumers.forEach(function(c_id) {
-        var consumer = self.props.consumers[c_id];
-        waypts.push({location: consumer.address, stopover: true});
-      });
-      directionsService.route({
-        origin: self.props.settings.optionsIncAddress,
-        destination: self.props.settings.optionsIncAddress,
-        waypoints: waypts,
-        optimizeWaypoints: false,
-        travelMode: google.maps.TravelMode.DRIVING
-      }, function(response, status) {
-        if (status === google.maps.DirectionsStatus.OK) {
+      var waypoints = this.getWaypoints(vehicle,self.props.consumers);
 
+      this.getDirections(
+        self.props.settings.optionsIncAddress,
+        self.props.settings.optionsIncAddress,
+        waypoints,
+        function(err, directions){
+          if(err){
+            return console.log("There was an error getting directions");
+          }
           self.tripPath = new google.maps.Polyline({
-             path: response.routes[0].overview_path,
+             path: directions.routes[0].overview_path,
              geodesic: false,
              strokeColor: '#0088AA',
              strokeOpacity: 0.5,
              strokeWeight: 4
            });
 
-           self.tripPath.setMap(self.map);
+          self.tripPath.setMap(self.map);
 
-          var route = response.routes[0];
+          var route = directions.routes[0];
           self.setState({
             route:route
           });
-          var totalDuration = 0;
-          // For each route, display summary information.
-
-          var durationSpan = document.getElementById('duration');
-          durationSpan.innerHTML  = '' + Math.ceil(totalDuration / 60.0) + ' min';
-
-        } else {
-          window.alert('Directions request failed due to ' + status);
         }
-      });
+      )
 
 
   },

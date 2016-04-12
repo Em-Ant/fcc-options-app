@@ -36,10 +36,10 @@ var Directions = React.createClass({
           })
         }
         <div><b>Total Duration (w/out stops and traffic) </b></div>
-        <div>{Math.round(totalDuration/MINUTES_IN_HOUR)} minutes</div>
+        <div>{Math.ceil(totalDuration/MINUTES_IN_HOUR)} minutes</div>
 
         <div><b>Total Distance</b> </div>
-        <div>{Math.round(totalDistance*MILES_IN_METER)} miles</div>
+        <div>{Math.ceil(totalDistance*MILES_IN_METER)} miles</div>
       </div>
     )
   }
