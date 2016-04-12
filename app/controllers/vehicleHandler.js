@@ -162,10 +162,11 @@ function VehicleHandler() {
     });
   }
 
-  this.pullConsumer = function (req, res) {
+  var updateConsumers = function(vId, cArray, res) {
     Vehicle.update(
-      {_id: req.params.id},
-      {$pull:{consumers: req.params.c_id}},
+      // add new consumers array
+      {_id: vId},
+      {$set: {consumers: cArray}},
       function(err, status){
       if (err) {
         return res.status(400).json({
@@ -176,29 +177,28 @@ function VehicleHandler() {
     });
   }
 
-  this.pushConsumer = function (req, res) {
+  this.updateConsumersArray = function (req, res) {
     // remove from all other vehicles before assigning,
     // unfortunately this is not atomic ...
+    console.log(req.params.v_id, req.body);
+    var c_id = req.body.insert;
+    if(c_id) {
+      // insert
 
-    Vehicle.update({}, {$pull:{consumers: req.params.c_id}}, function(err){
-      if (err) {
-        return res.status(400).json({
-          msg: 'There was an error updating vehicle'
-        });
-      }
-      Vehicle.update(
-        {_id: req.params.id},
-        {$push:{consumers: req.params.c_id}},
-        function(err, status){
+      Vehicle.update({}, {$pull:{consumers: req.c_id}}, function(err){
+        // remove c_id from all other vehicles
+
         if (err) {
           return res.status(400).json({
             msg: 'There was an error updating vehicle'
           });
         }
-        return res.status(200).json(status);
-      });
-    })
-
+        updateConsumers(req.params.v_id, req.body.consumers, res);
+      })
+    } else {
+    // just remove
+      updateConsumers(req.params.v_id, req.body.consumers, res);
+    }
   }
 }
 

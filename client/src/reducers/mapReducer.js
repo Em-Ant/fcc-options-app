@@ -84,10 +84,12 @@ var reducer = function(state, action) {
     case (actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_REQUEST) :
       return request(state, action.id);
     case (actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS) :
+    case (actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_ERROR) :
       return success(state);
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_REQUEST) :
       return request(state, action.id);
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_SUCCESS) :
+    case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_ERROR) :
       return success(state);
     case (actionTypes.MAP_HIGHLIGHT_MARKER) :
       return highlightMarker(state, action.id);

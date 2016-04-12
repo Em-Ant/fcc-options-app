@@ -6,6 +6,11 @@ var AjaxFunctions = {
             dataType: 'json',
             type: 'POST',
             data: data,
+
+            // HACK to jquery to send stringified JSON,
+            // needed to tranfer an array in body.
+            contentType: 'application/json; charset=utf-8',
+
             success: function(data) {
                 done(null, data);
             },

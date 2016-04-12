@@ -4,28 +4,12 @@ var commonCRUD = require('../commons/commonReducerFunctions');
 var mapActions = require('../constants/actionTypes/mapActionTypes.js');
 var _ = require('lodash');
 
-function removeFromActiveVehicle(state, v_id, c_id) {
+function updateConsumersArray(state, v_id, cArray) {
   var data = Object.assign({}, state.data);
 
   var vehicle = Object.assign({}, state.data[v_id]);
   var consumers = vehicle.consumers.slice();
-  consumers.splice(consumers.indexOf(c_id), 1);
-  vehicle.consumers = consumers;
-  data[v_id] = vehicle;
-
-  return Object.assign({}, state, {
-    data: data,
-  });
-
-};
-
-function addToActiveVehicle(state, v_id, c_id) {
-  var data = Object.assign({}, state.data);
-
-  var vehicle = Object.assign({}, state.data[v_id]);
-  var consumers = vehicle.consumers.slice();
-  consumers.push(c_id);
-  vehicle.consumers = consumers;
+  vehicle.consumers = cArray.slice();
   data[v_id] = vehicle;
 
   return Object.assign({}, state, {
@@ -78,9 +62,8 @@ var vehiclesReducer = function(state, action) {
     case actionTypes.DESTROY_VEHICLE_SUCCESS:
       return commonCRUD.destroy(state, action.response);
     case mapActions.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS:
-      return removeFromActiveVehicle(state, action.v_id, action.c_id);
     case mapActions.MAP_ADD_TO_ACTIVE_BUS_SUCCESS:
-      return addToActiveVehicle(state, action.v_id, action.c_id);
+      return updateConsumersArray(state, action.v_id, action.consumersArray);
     case consumerActionTypes.CONSUMER_DELETE_SUCCESS:
       return removeConsumerFromVehicle(state, action.id);
     default:

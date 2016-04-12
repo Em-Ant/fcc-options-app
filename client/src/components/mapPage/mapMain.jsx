@@ -254,7 +254,10 @@ var ConsumerMap = React.createClass({
         if (this.consumersToVehiclesMap[c_id] == this.props.activeVehicleId) {
          // marked consumer is on the active vehicle
 
-         this.props.removeConsumerFromActiveBus(c_id, this.props.activeVehicleId);
+         this.props.removeConsumerFromActiveBus(
+           c_id,
+           this.props.vehicles[this.props.activeVehicleId]
+         );
        } else {
          // marked consumer is not on the active vehicle
 
@@ -268,7 +271,10 @@ var ConsumerMap = React.createClass({
           // A vehicle is active (A Collapsible Box is open)
           if(vehicleUtils.willConsumerFit(
             c_id, this.props.vehicles[this.props.activeVehicleId], this.props.consumers)){
-              this.props.addConsumerToActiveBus(c_id, this.props.activeVehicleId);
+              this.props.addConsumerToActiveBus(
+                c_id,
+                this.props.vehicles[this.props.activeVehicleId]
+              );
             }
         }
       }
@@ -364,8 +370,8 @@ var mapDispatchToProps = function(dispatch) {
     addConsumerToActiveBus: function(c_id, active_v_id) {
       dispatch(mActions.addToActiveBus(c_id, active_v_id))
     },
-    removeConsumerFromActiveBus: function(c_id, active_v_id) {
-      dispatch(mActions.removeFromActiveBus(c_id, active_v_id))
+    removeConsumerFromActiveBus: function(c_id, active_v) {
+      dispatch(mActions.removeFromActiveBus(c_id, active_v))
     }
   }
 }
