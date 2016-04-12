@@ -5,6 +5,7 @@ var connect = require('react-redux').connect;
 var cActions = require('../../actions/consumerActions');
 var mActions = require('../../actions/mapActions');
 var VehiclePanel = require('./vehiclePanel.jsx')
+var Directions = require('./directions.jsx')
 var _addFlags = require('../../utils/addConsumerFlags');
 var vehicleUtils = require('../../utils/vehicleUtils');
 var directionsService = new google.maps.DirectionsService;
@@ -283,7 +284,9 @@ var ConsumerMap = React.createClass({
         self.tripPath.setMap(null);
         self.tripPath = null;
         var summaryPanel = document.getElementById('directions-panel');
-        summaryPanel.innerHTML = '';
+        self.setState({
+          route:{}
+        });
       }
       var waypts = [];
       var v_id = self.props.directions.v_id;
@@ -313,33 +316,15 @@ var ConsumerMap = React.createClass({
            self.tripPath.setMap(self.map);
 
           var route = response.routes[0];
-          console.log(route);
-          var summaryPanel = document.getElementById('directions-panel');
-          summaryPanel.innerHTML = '';
+          self.setState({
+            route:route
+          });
           var totalDuration = 0;
           // For each route, display summary information.
-          summaryPanel.innerHTML +=
-            '<b>Estimated best route</b><br>Duration (w/out stops and traffic): <span id="duration"></span><br><br>';
-          for (var i = 0; i < route.legs.length; i++) {
-            var routeSegment = i + 1;
-            var leg = route.legs[i];
-            totalDuration += leg.duration.value;
 
-            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
-            summaryPanel.innerHTML += leg.start_address + ' to ';
-            summaryPanel.innerHTML += leg.end_address + '<br>';
-            console.log("leg", leg);
-            console.log("leg steps length", leg.steps.length);
-            for(var j =0; j < leg.steps.length; j++){
-              console.log("inside for loop");
-              var step = leg.steps[j];
-              summaryPanel.innerHTML += step.instructions + '<br>';
-            }
-            summaryPanel.innerHTML += leg.distance.text + ' ';
-            summaryPanel.innerHTML += leg.duration.text + '<br><br>';
-          }
           var durationSpan = document.getElementById('duration');
           durationSpan.innerHTML  = '' + Math.ceil(totalDuration / 60.0) + ' min';
+
         } else {
           window.alert('Directions request failed due to ' + status);
         }
@@ -348,7 +333,13 @@ var ConsumerMap = React.createClass({
 
   },
 
-
+  getInitialState:function(){
+    return {
+      route:{
+        legs:[]
+      }
+    }
+  },
   render: function() {
     return (
 
@@ -361,8 +352,9 @@ var ConsumerMap = React.createClass({
           <div className="box box-widget map-height">
           <div id="test-map" className="map-height"></div>
           </div>
-          <div id="directions-panel">
-          </div>
+          {this.props.directions.display?
+          <Directions route={this.state.route}/>:
+          null}
         </div>
       </div>
 
