@@ -93,9 +93,6 @@ var mapDispatchToProps = function(dispatch) {
     toggleActive: function(vehicleId) {
       dispatch(actions.vehicleBoxClick(vehicleId))
     },
-    removeConsumerFromActiveBus: function(c_id, active_v_id) {
-      dispatch(actions.removeFromActiveBus(c_id, active_v_id))
-    }
   }
 }
 

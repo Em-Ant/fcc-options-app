@@ -28,6 +28,7 @@ var ICON_URL =
 * 3. Handle errors with infoboxes
 * 4. If possible give a better structure to this huge file
 */
+var map;
 
 var ConsumerMap = React.createClass({
   map: null,
@@ -37,7 +38,7 @@ var ConsumerMap = React.createClass({
   tripPath: null,
   componentDidMount: function() {
     var positionHome = this.props.homePosition
-    var map = this.map = new google.maps.Map(document.getElementById('test-map'), {
+    var map = this.map = map = new google.maps.Map(document.getElementById('test-map'), {
       center: positionHome,
       zoom: 12
     });
@@ -306,7 +307,7 @@ var ConsumerMap = React.createClass({
          strokeWeight: 4
        });
 
-      this.tripPath.setMap(self.map);
+      this.tripPath.setMap(this.map);
 
       var route = directions.routes[0];
       this.setState({

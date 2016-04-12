@@ -43,7 +43,7 @@ var ConsumerInfoBox = React.createClass({
             .bind(
               null,
               this.props.consumerId,
-              this.props.activeVehicleId
+              this.props.vehicles[this.props.activeVehicleId]
             )}
         ></i>
 
@@ -55,7 +55,8 @@ var ConsumerInfoBox = React.createClass({
 var mapStateToProps = function(state){
   return {
     activeVehicleId : state.mapPage.activeVehicleId,
-    consumers: state.consumers.data
+    consumers: state.consumers.data,
+    vehicles: state.vehicles.data
   }
 }
 var mapDispatchToProps = function(dispatch) {
@@ -67,8 +68,8 @@ var mapDispatchToProps = function(dispatch) {
     nameHoverOff: function(c_id) {
       dispatch(actions.highlightMarkerOff(c_id))
     },
-    removeConsumerFromActiveBus: function(c_id, active_v_id) {
-      dispatch(actions.removeFromActiveBus(c_id, active_v_id))
+    removeConsumerFromActiveBus: function(c_id, active_v) {
+      dispatch(actions.removeFromActiveBus(c_id, active_v))
     }
   }
 }
