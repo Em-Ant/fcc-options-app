@@ -9,14 +9,20 @@ var vehicleBoxClick = function (state, v_id) {
 
     $('#vp-'+v_id).collapse('toggle');
 
-    return Object.assign({}, state, {activeVehicleId: undefined})
+    return Object.assign({}, state, {
+        activeVehicleId: undefined,
+        directionsLoading:false,
+        displayDirections:false})
   } else {
     // click on a non-active box : activate it
 
     $('#vp-'+v_id).collapse('toggle');
     $('#vp-'+activeVId).collapse('toggle');
 
-    return Object.assign({}, state, {activeVehicleId: v_id})
+    return Object.assign({}, state, {
+      activeVehicleId: v_id,
+      directionsLoading:false,
+      displayDirections:false})
   }
 }
 
@@ -59,25 +65,33 @@ var checkActiveVehicleIdForDelete = function (state, id) {
   }
   return state;
 }
-
-var displayDirections = function (state, directions) {
+var loadDirectionsRequest = function (state, directions) {
     return Object.assign({}, state, {
-      directions: {
-        display:true,
-        directions:directions
+        directionsLoading:true,
+        displayDirections:false
       }
-    })
+    )
 }
-var initState= {
-  directions:{
-  }
+var loadDirectionsFailure = function (state, error) {
+    return Object.assign({}, state, {
+        directionsLoading:false,
+        displayDirections:false
+      }
+    )
+}
+var loadDirectionsSuccess = function (state, directions) {
+    return Object.assign({}, state, {
+        directionsLoading:false,
+        displayDirections:true
+      }
+    )
 }
 /**
 * TODO IMPORTANT handle errors
 */
 
 var reducer = function(state, action) {
-  state = state || initState;
+  state = state || {};
   switch (action.type){
     case (actionTypes.MAP_VEHICLE_BOX_CLICK) :
       return vehicleBoxClick(state, action.id);
@@ -97,8 +111,12 @@ var reducer = function(state, action) {
       return highlightMarkerOff(state, action.id);
     case (vActions.DESTROY_VEHICLE_SUCCESS) :
       return checkActiveVehicleIdForDelete(state, action.id)
-    case (actionTypes.DIRECTIONS_DISPLAY) :
-      return displayDirections(state, action.directions)
+    case (actionTypes.DIRECTIONS_LOAD_REQUEST) :
+      return loadDirectionsRequest(state)
+    case (actionTypes.DIRECTIONS_LOAD_FAILURE) :
+      return loadDirectionsFailure(state, action.error)
+    case (actionTypes.DIRECTIONS_LOAD_SUCCESS) :
+      return loadDirectionsSuccess(state)
     default:
       return state;
   }

@@ -1,18 +1,19 @@
 'use strict'
 
 var React = require('react');
+var connect = require('react-redux').connect;
+
 const MINUTES_IN_HOUR = 60;
 const MILES_IN_METER = 0.00062137;
 
 var Directions = React.createClass({
   render: function() {
-    var route = this.props.route;
     var totalDuration = 0;
     var totalDistance = 0;
     return (
       <div>
         {
-          route.legs.map(function(leg, index){
+          this.props.legs.map(function(leg, index){
             var routeSegment = index + 1;
             totalDuration += leg.duration.value;
             totalDistance += leg.distance.value;
@@ -45,4 +46,11 @@ var Directions = React.createClass({
   }
 
 })
-module.exports = Directions;
+
+var mapStateToProps = function(state){
+  return {
+    legs : state.directions.routes[0].legs
+  }
+}
+
+module.exports = connect(mapStateToProps)(Directions);
