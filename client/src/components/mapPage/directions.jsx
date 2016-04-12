@@ -11,7 +11,19 @@ var Directions = React.createClass({
     var totalDuration = 0;
     var totalDistance = 0;
     return (
-      <div>
+        <div className="box box-default">
+            <div className="box-header with-border">
+              <h3 className="box-title">Directions</h3>
+              <div className="box-tools pull-right">
+                <button type="button" className="btn btn-box-tool">
+                  <i className="fa fa-print"></i>
+                </button>
+                <button type="button" className="btn btn-box-tool">
+                  <i className="fa fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <div className="box-body" style={{display: "block"}}>
         {
           this.props.legs.map(function(leg, index){
             var routeSegment = index + 1;
@@ -41,6 +53,7 @@ var Directions = React.createClass({
 
         <div><b>Total Distance</b> </div>
         <div>{Math.ceil(totalDistance*MILES_IN_METER)} miles</div>
+        </div>
       </div>
     )
   }
