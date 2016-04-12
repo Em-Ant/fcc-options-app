@@ -177,17 +177,28 @@ function VehicleHandler() {
   }
 
   this.pushConsumer = function (req, res) {
-    Vehicle.update(
-      {_id: req.params.id},
-      {$push:{consumers: req.params.c_id}},
-      function(err, status){
+    // remove from all other vehicles before assigning,
+    // unfortunately this is not atomic ...
+
+    Vehicle.update({}, {$pull:{consumers: req.params.c_id}}, function(err){
       if (err) {
         return res.status(400).json({
           msg: 'There was an error updating vehicle'
         });
       }
-      return res.status(200).json(status);
-    });
+      Vehicle.update(
+        {_id: req.params.id},
+        {$push:{consumers: req.params.c_id}},
+        function(err, status){
+        if (err) {
+          return res.status(400).json({
+            msg: 'There was an error updating vehicle'
+          });
+        }
+        return res.status(200).json(status);
+      });
+    })
+
   }
 }
 

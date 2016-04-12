@@ -160,7 +160,8 @@ var ConsumerMap = React.createClass({
       var vehicle = self.props.vehicles[v_id];
       vehicle.consumers.forEach(function(c_id){
         if(self.consumersToVehiclesMap[c_id]) {
-          throw new Error ("Consumer assigned to more than one vehicle");
+          console.err(`Consumer ${c_id} is assigned to 
+            ${self.consumersToVehiclesMap[c_id]} and ${v_id}`);
         } else {
           self.consumersToVehiclesMap[c_id] = v_id;
         }
