@@ -7,6 +7,7 @@ var mActions = require('../../actions/mapActions');
 var VehiclePanel = require('./vehiclePanel.jsx')
 var _addFlags = require('../../utils/addConsumerFlags');
 var vehicleUtils = require('../../utils/vehicleUtils');
+var directionsService = new google.maps.DirectionsService;
 
 // COLORS
 var RED = "FE7569";     //options inc address
@@ -32,6 +33,7 @@ var ConsumerMap = React.createClass({
   consumersToVehiclesMap: null,
   markers: null,
   infoBoxes: null,
+  tripPath: null,
   componentDidMount: function() {
     var positionHome = this.props.homePosition
     var map = this.map = new google.maps.Map(document.getElementById('test-map'), {
@@ -148,6 +150,13 @@ var ConsumerMap = React.createClass({
         this.markers[this.props.highlightedMarker].setIcon(ICON_URL + GREEN);
       }
 
+    }
+
+  },
+  componentDidUpdate:function(prevProps, prevState){
+    if (this.props.directions.display &&
+      this.props.directions.v_id != prevProps.directions.v_id) {
+      this.displayDirections();
     }
   },
   mapConsumersToVehicles: function() {
@@ -266,6 +275,79 @@ var ConsumerMap = React.createClass({
       console.log('WARN: markers frozen in loading state');
     }
   },
+  displayDirections:function() {
+
+      var self = this;
+      //clear out old directions
+      if(self.tripPath) {
+        self.tripPath.setMap(null);
+        self.tripPath = null;
+        var summaryPanel = document.getElementById('directions-panel');
+        summaryPanel.innerHTML = '';
+      }
+      var waypts = [];
+      var v_id = self.props.directions.v_id;
+      var vehicle = self.props.vehicles[v_id];
+      //calculate route for 1 vehicle
+      vehicle.consumers.forEach(function(c_id) {
+        var consumer = self.props.consumers[c_id];
+        waypts.push({location: consumer.address, stopover: true});
+      });
+      directionsService.route({
+        origin: self.props.settings.optionsIncAddress,
+        destination: self.props.settings.optionsIncAddress,
+        waypoints: waypts,
+        optimizeWaypoints: false,
+        travelMode: google.maps.TravelMode.DRIVING
+      }, function(response, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+
+          self.tripPath = new google.maps.Polyline({
+             path: response.routes[0].overview_path,
+             geodesic: false,
+             strokeColor: '#0088AA',
+             strokeOpacity: 0.5,
+             strokeWeight: 4
+           });
+
+           self.tripPath.setMap(self.map);
+
+          var route = response.routes[0];
+          console.log(route);
+          var summaryPanel = document.getElementById('directions-panel');
+          summaryPanel.innerHTML = '';
+          var totalDuration = 0;
+          // For each route, display summary information.
+          summaryPanel.innerHTML +=
+            '<b>Estimated best route</b><br>Duration (w/out stops and traffic): <span id="duration"></span><br><br>';
+          for (var i = 0; i < route.legs.length; i++) {
+            var routeSegment = i + 1;
+            var leg = route.legs[i];
+            totalDuration += leg.duration.value;
+
+            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+            summaryPanel.innerHTML += leg.start_address + ' to ';
+            summaryPanel.innerHTML += leg.end_address + '<br>';
+            console.log("leg", leg);
+            console.log("leg steps length", leg.steps.length);
+            for(var j =0; j < leg.steps.length; j++){
+              console.log("inside for loop");
+              var step = leg.steps[j];
+              summaryPanel.innerHTML += step.instructions + '<br>';
+            }
+            summaryPanel.innerHTML += leg.distance.text + ' ';
+            summaryPanel.innerHTML += leg.duration.text + '<br><br>';
+          }
+          var durationSpan = document.getElementById('duration');
+          durationSpan.innerHTML  = '' + Math.ceil(totalDuration / 60.0) + ' min';
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      });
+
+
+  },
+
 
   render: function() {
     return (
@@ -280,9 +362,6 @@ var ConsumerMap = React.createClass({
           <div id="test-map" className="map-height"></div>
           </div>
           <div id="directions-panel">
-            {this.props.directions.display?
-              "Show Directions Here for vehicle id " + this.props.directions.v_id:null
-            }
           </div>
         </div>
       </div>
@@ -302,7 +381,8 @@ var mapStateToProps = function(state){
     activeVehicleId : state.mapPage.activeVehicleId,
     markerLoading: state.mapPage.markerLoading,
     highlightedMarker: state.mapPage.highlightedMarker,
-    directions: state.mapPage.directions
+    directions: state.mapPage.directions,
+    settings:state.settings
   }
 }
 var mapDispatchToProps = function(dispatch) {
