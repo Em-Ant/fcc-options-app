@@ -8,7 +8,7 @@ var VehiclePanel = require('./vehiclePanel.jsx')
 var Directions = require('./directions.jsx')
 var _addFlags = require('../../utils/addConsumerFlags');
 var vehicleUtils = require('../../utils/vehicleUtils');
-var directionsService = new google.maps.DirectionsService;
+var directionsUtils = require('../../utils/directionsUtils');
 
 // COLORS
 var RED = "FE7569";     //options inc address
@@ -276,29 +276,7 @@ var ConsumerMap = React.createClass({
       console.log('WARN: markers frozen in loading state');
     }
   },
-  getWaypoints:function(vehicle, consumers){
-    var waypts = [];
-    vehicle.consumers.forEach(function(c_id) {
-      var consumer = consumers[c_id];
-      waypts.push({location: consumer.address, stopover: true});
-    });
-    return waypts;
-  },
-  getDirections:function(origin, destination, waypoints, done){
-    directionsService.route({
-      origin: origin,
-      destination: destination,
-      waypoints: waypoints,
-      optimizeWaypoints: false,
-      travelMode: google.maps.TravelMode.DRIVING
-    }, function(response, status) {
-        if (status !== google.maps.DirectionsStatus.OK) {
-          return done('Directions request failed due to ' + status);
-        }
-        done(null, response);
-      }
-    );
-  },
+
   clearDirections:function(){
     if(this.tripPath) {
       this.tripPath.setMap(null);
@@ -316,13 +294,12 @@ var ConsumerMap = React.createClass({
       var self = this;
       var v_id = self.props.directions.v_id;
       var vehicle = self.props.vehicles[v_id];
-      //calculate route for 1 vehicle
-      var waypoints = this.getWaypoints(vehicle,self.props.consumers);
 
-      this.getDirections(
+      directionsUtils.getDirections(
+        vehicle,
+        self.props.consumers,
         self.props.settings.optionsIncAddress,
         self.props.settings.optionsIncAddress,
-        waypoints,
         function(err, directions){
           if(err){
             return console.log("There was an error getting directions");
