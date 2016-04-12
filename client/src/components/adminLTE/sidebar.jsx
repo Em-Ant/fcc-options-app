@@ -16,19 +16,19 @@ var Sidebar = React.createClass({
 
             <li className={this.props.activeLink=="/"?"active":null}>>
               <Link to={"/"}>
-                <i className="fa fa-link"></i>
+                <i className="fa fa-map"></i>
                 <span>Map</span>
               </Link>
             </li>
             <li className={this.props.activeLink=="/consumers"?"active":null}>>
               <Link to={"/consumers"}>
-                <i className="fa fa-link"></i>
+                <i className="fa fa-users"></i>
                 <span>Consumers</span>
               </Link>
             </li>
             <li className={this.props.activeLink=="/vehicles"?"active":null}>>
               <Link to={"/vehicles"}>
-                <i className="fa fa-link"></i>
+                <i className="fa fa-bus"></i>
                 <span>Vehicles</span>
               </Link>
             </li>
