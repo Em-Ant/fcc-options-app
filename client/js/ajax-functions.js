@@ -6,6 +6,21 @@ var AjaxFunctions = {
             dataType: 'json',
             type: 'POST',
             data: data,
+            success: function(data) {
+                done(null, data);
+            },
+            error: function(err) {
+                done(err);
+            }
+        });
+    },
+
+    postWithArray: function(url, data, done) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'POST',
+            data: data,
 
             // HACK to jquery to send stringified JSON,
             // needed to tranfer an array in body.
