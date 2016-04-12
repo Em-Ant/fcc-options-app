@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react');
+var connect = require('react-redux').connect;
 var Link = require('react-router').Link
 
 var Sidebar = React.createClass({
@@ -13,28 +14,22 @@ var Sidebar = React.createClass({
           <ul className="sidebar-menu">
             <li className="header">SERVICES</li>
 
-            <li className={this.props.activeLink=="/routes"?"active":null}>
-              <Link to={"/routes"}>
-                <i className="fa fa-link"></i>
-                <span>Routes</span>
+            <li className={this.props.activeLink=="/"?"active":null}>>
+              <Link to={"/"}>
+                <i className="fa fa-map"></i>
+                <span>Map</span>
               </Link>
             </li>
             <li className={this.props.activeLink=="/consumers"?"active":null}>>
               <Link to={"/consumers"}>
-                <i className="fa fa-link"></i>
+                <i className="fa fa-users"></i>
                 <span>Consumers</span>
               </Link>
             </li>
             <li className={this.props.activeLink=="/vehicles"?"active":null}>>
               <Link to={"/vehicles"}>
-                <i className="fa fa-link"></i>
+                <i className="fa fa-bus"></i>
                 <span>Vehicles</span>
-              </Link>
-            </li>
-            <li className={this.props.activeLink=="/map-test"?"active":null}>>
-              <Link to={"/map-test"}>
-                <i className="fa fa-link"></i>
-                <span>Map test</span>
               </Link>
             </li>
           </ul>
@@ -46,4 +41,10 @@ var Sidebar = React.createClass({
     )
   }
 });
-module.exports = Sidebar;
+
+var mapStateToProps = function(state, ownProps){
+  return{
+    activeLink: ownProps.router.location.pathname
+  }
+}
+module.exports= connect(mapStateToProps)(Sidebar);

@@ -62,8 +62,6 @@ ReactDOM.render(
         <Route path="/routes" component={VehicleRoutes} onEnter={requireAuth} />
         <Route path="/consumers" component={Consumers} onEnter={requireAuth} />
         <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
-        {/*<Route path="/consumer-map" component={ConsumerMap} />*/}
-        <Route path="/map-test" component={ConsumerRoute3} onEnter={requireAuth} />
         <Route path="/consumer-route" component={ConsumerRoute} onEnter={requireAuth} />
         <Route path="/consumer-route2" component={ConsumerRoute2} onEnter={requireAuth} />
       </Route>
