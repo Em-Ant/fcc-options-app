@@ -4,7 +4,7 @@ var actions = require('../actions/authActions.js');
 
 
 var mapStateToProps = function(state){
-  return state.auth;
+  return Object.assign({}, state.auth, state.loginForm);
 }
 var mapDispatchToProps = function(dispatch) {
   return {

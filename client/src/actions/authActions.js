@@ -30,7 +30,7 @@ module.exports.login = function(formData) {
         });
         localStorage.token = user;
         //the react router redux documentation says we can do this, however there is an alternative pure redux way to do this https://github.com/reactjs/react-router-redux
-        browserHistory.push('/map-test');
+        browserHistory.push('/');
       }
     }.bind(this));
   }
@@ -39,7 +39,7 @@ module.exports.login = function(formData) {
 
 var clientLogout = function(){
   removeToken();
-  browserHistory.push('/');
+  browserHistory.push('/login');
 }
 
 module.exports.clientLogout = clientLogout;
