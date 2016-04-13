@@ -28,7 +28,9 @@ var vehicleBoxClick = function (state, v_id) {
 
 var request = function(state, c_id) {
   return Object.assign({}, state, {
-    markerLoading : c_id
+    markerLoading : c_id,
+    directionsLoading:false,
+    displayDirections:false
   });
 }
 
