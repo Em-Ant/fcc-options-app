@@ -5,7 +5,7 @@ var connect = require('react-redux').connect;
 var cActions = require('../../actions/consumerActions');
 var mActions = require('../../actions/mapActions');
 var VehiclePanel = require('./vehiclePanel.jsx')
-var Directions = require('./directions.jsx')
+var Directions = require('../directions/directions.jsx')
 var _addFlags = require('../../utils/addConsumerFlags');
 var vehicleUtils = require('../../utils/vehicleUtils');
 var directionsUtils = require('../../utils/directionsUtils');
@@ -324,15 +324,15 @@ var ConsumerMap = React.createClass({
       <div className="row">
         <div className="col-md-5 col-sm-5 col-xs-5">
 
-        <VehiclePanel />
+        {this.props.displayDirections?
+        <Directions/>:
+        <VehiclePanel />}
+
         </div>
         <div className="col-md-7 col-sm-7 col-xs-7">
           <div className="box box-widget map-height">
           <div id="test-map" className="map-height"></div>
           </div>
-          {this.props.displayDirections?
-          <Directions/>:
-          null}
         </div>
       </div>
 

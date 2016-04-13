@@ -111,3 +111,9 @@ module.exports.displayDirections = function(vehicle, consumers, settings) {
       )
     }
   };
+
+  module.exports.hideDirections = function(vehicle, consumers, settings) {
+    return {
+      type: actionTypes.DIRECTIONS_HIDE
+    }
+  };
