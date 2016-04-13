@@ -52,7 +52,6 @@ var Login = React.createClass({
               </div>
             </div>
           </form>
-          <Link to={"/signup"} className="text-center">Create a new account</Link>
         </div>
       </div>
     )
