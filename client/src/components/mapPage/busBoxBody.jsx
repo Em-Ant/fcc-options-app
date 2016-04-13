@@ -8,7 +8,7 @@ var BusBoxBodyComponent = React.createClass({
   render: function() {
     return (
       <div>
-      <table className="table table-striped">
+      <table className="table table-striped table-hover">
         <thead>
           <tr>
             <th></th>
