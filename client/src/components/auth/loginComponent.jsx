@@ -51,8 +51,9 @@ var Login = React.createClass({
                 <button type="submit" className="btn btn-primary btn-block btn-flat">Sign In</button>
               </div>
             </div>
-          </form>
-          <Link to={"/signup"} className="text-center">Create a new account</Link>
+          </form>{
+          // <Link to={"/signup"} className="text-center">Create a new account</Link>
+          }
         </div>
       </div>
     )

@@ -67,7 +67,9 @@ ReactDOM.render(
       </Route>
       <Route path="/login" component={Login}/>
       <Route path="/logout" component={Logout}/>
-      <Route path="/signup" component={Signup}/>
+      {
+        // <Route path="/signup" component={Signup}/>
+      }
    	  <Route path="*" component={NotFound}/>
     </Route>
   </Router>
