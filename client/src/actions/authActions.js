@@ -71,7 +71,7 @@ module.exports.fetchUser = function() {
     dispatch({
       type: actionTypes.FETCH_USER_REQUEST,
     });
-    Ajax.get('/api/me', function(err, response) {
+    Ajax.get('/api/user/me', function(err, response) {
       if (err) {
         dispatch({
           type: actionTypes.FETCH_USER_FAILURE,

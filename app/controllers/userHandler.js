@@ -50,14 +50,13 @@ function UserHandler() {
       },
 
   /*
-  Signs up a new user
+  Create a new User with default password (admin only)
   */
-  this.signup = function(req, res, next) {
+  this.create = function(req, res) {
     console.log(req.body);
     //Validate input
     req.assert('email', 'Email is not valid').isEmail();
-    req.assert('password', 'Password must be at least 4 characters long').len(4);
-    req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+
 
     //display validation errors and exit
     var errors = req.validationErrors();
@@ -65,8 +64,10 @@ function UserHandler() {
       return res.status(400).json(errors[0]);
     }
 
-    //create a new user from the request body
-    var user = new User(req.body);
+    console.log(req.body);
+    //create a new user from the request body, with default password
+    req.body.password = 'default'
+    var user = new User (req.body);
 
     //look in the database to see if a user already exists
     User.findOne({
@@ -87,13 +88,71 @@ function UserHandler() {
           });
         }
         //return email if no error
-        return res.json(user.email);
+        return res.json({email: user.email, role: user.role});
       });
     });
-
-
   }
 
+  // List all users (admin only)
+  this.index = function(req, res) {
+    User.find({},'-password', function(err, users){
+      if (err) {
+        return res.status(400).json({
+          msg: 'Error fetching users'
+        })
+      }
+      return res.status(200).json(users);
+    })
+  }
+
+  this.destroy = function(req, res) {
+    User.findById(req.params.id, function(err, route) {
+      if (err) {
+        return res.status(400).json({
+          msg: 'There was an error finding user'
+        });
+      }
+      if (!route) {
+        return res.status(400).json({
+          msg: 'Could not find user to delete'
+        });
+      }
+      route.remove(function(err) {
+        if (err) {
+          return res.status(400).json({
+            msg: 'There was an error deleting user'
+          });
+        }
+        return res.status(200).json({});
+      });
+    });
+  }
+
+  this.updateRole = function(req, res) {
+    User.find({_id: req.params.id}, function(err, user) {
+      if (err) {
+        return res.status(400).json({
+          msg: 'Error finding User to update'
+        });
+      }
+      var updated = Object.assign({}, user);
+      updated.role = req.body.role;
+      updated.save(function(err) {
+        if (err) {
+          return res.status(400).json({
+            msg: 'Error saving updated user'
+          });
+        }
+        delete updated.password;
+        console.log(updated)
+        return res.status(200).json(updated);
+      })
+    })
+  }
+
+  this.updatePassword = function(req, res) {
+    // TODO
+  }
   //
   //   this.updateUser = function(req, res, next) {
   //     console.log("updating user", req.body._id);

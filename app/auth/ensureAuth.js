@@ -5,7 +5,6 @@
 
 
 function isLoggedIn(req, res, next) {
-
   if (req.isAuthenticated()) {
     return next();
   } else {
@@ -16,13 +15,20 @@ function isLoggedIn(req, res, next) {
 }
 
 function hasRole(role) {
-
-  if (req.isAuthenticated() && req.user.role === role) {
-    return next();
-  } else {
-    res.status(403).json({
-      status: 'Unauthorized'
-    });
+  return function(req, res, next) {
+    if (req.isAuthenticated()) {
+      if(req.user.role === role) {
+        return next();
+      } else {
+        res.status(403).json({
+          status: 'Unauthorized'
+        });
+      }
+    } else {
+      res.status(401).json({
+        status: 'Unauthenticated'
+      });
+    }
   }
 }
 
