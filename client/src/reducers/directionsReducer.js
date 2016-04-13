@@ -7,7 +7,11 @@ var initState={
   routes:[{
       legs:[],
       overview_path:[]
-    }]
+    },{
+        legs:[],
+        overview_path:[]
+      },
+  ]
 }
 
 var reducer = function(state, action) {

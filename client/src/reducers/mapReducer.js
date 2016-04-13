@@ -88,6 +88,13 @@ var loadDirectionsSuccess = function (state, directions) {
       }
     )
 }
+var hideDirections = function (state) {
+    return Object.assign({}, state, {
+        directionsLoading:false,
+        displayDirections:false
+      }
+    )
+}
 /**
 * TODO IMPORTANT handle errors
 */
@@ -119,6 +126,8 @@ var reducer = function(state, action) {
       return loadDirectionsFailure(state, action.error)
     case (actionTypes.DIRECTIONS_LOAD_SUCCESS) :
       return loadDirectionsSuccess(state)
+    case (actionTypes.DIRECTIONS_HIDE) :
+      return hideDirections(state)
     default:
       return state;
   }
