@@ -354,7 +354,7 @@ var mapStateToProps = function(state){
     highlightedMarker: state.mapPage.highlightedMarker,
     displayDirections: state.mapPage.displayDirections,
     directionsLoading: state.mapPage.directionsLoading,
-    encodedVehiclePath: state.directions.routes[0].overview_polyline.points,
+    encodedVehiclePath: state.directions.morningRoute.overview_polyline.points,
     settings:state.settings
   }
 }

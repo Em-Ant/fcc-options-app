@@ -29,12 +29,14 @@ module.exports.getDirections= function(vehicle, origin, destination, done){
       if(err){
         return done(err);
       }
-      var directions = addAppDataToDirections(results[0], morningConsumers);
+      results[0] = addAppDataToDirections(results[0], morningConsumers);
       results[1] = addAppDataToDirections(results[1], eveningConsumers);
-      var eveningRoute = results[1].routes[0];
-      //  directions.routes[0] contains the morning route
-      directions.routes[1] = eveningRoute;
-      return done(null, results[0]);
+
+      var directions = {};
+      directions.morningRoute = results[0].routes[0];
+      directions.eveningRoute = results[1].routes[0];
+
+      return done(null, directions);
     });
 }
 

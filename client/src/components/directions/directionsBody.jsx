@@ -54,14 +54,14 @@ var DirectionsBody = React.createClass({
 })
 
 var mapStateToProps = function(state, ownProps){
-  var routeIndex=0;
+  var route;
   if(ownProps.routeType=="PM"){
-    routeIndex=1;
+    route = state.directions.eveningRoute;
   }else{
-    routeIndex=0;
+    route = state.directions.morningRoute;
   }
   return {
-    route : state.directions.routes[routeIndex]
+    route : route
   }
 }
 module.exports = connect(mapStateToProps)(DirectionsBody)

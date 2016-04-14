@@ -4,18 +4,18 @@ var loadDirections = function (state, directions) {
     return Object.assign({}, state, directions)
 }
 var initState={
-  routes:[{
-      legs:[],
-      overview_polyline:{
-        points:""
-      }
-    },{
-        legs:[],
-        overview_polyline:{
-          point:""
-        }
-      },
-  ]
+  morningRoute:{
+    legs:[],
+    overview_polyline:{
+      points:""
+    }
+  },
+  eveningRoute:{
+    legs:[],
+    overview_polyline:{
+      point:""
+    }
+  }
 }
 
 var reducer = function(state, action) {
