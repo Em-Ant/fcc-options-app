@@ -29,16 +29,20 @@ function DirectionsHandler() {
         if(!results.get_saved_directions){
           return callback(null, false);
         }
-        
+        var savedWaypoints = results.get_saved_directions.waypoints.slice().map(function(waypoint){
+          return{
+            name:waypoint.name,
+            address:waypoint.address
+          }
+        })
         var savedDirections =  Object.assign({}, {
           origin_address:results.get_saved_directions.origin_address,
           destination_address:results.get_saved_directions.destination_address,
-          waypoints:results.get_saved_directions.waypoints
+          waypoints:savedWaypoints
         });
-       
+
         var newWaypoints = results.get_vehicle.consumers.map(function(consumer){
           return{
-            _id:consumer._id,
             name:consumer.name,
             address:consumer.address
           }
@@ -48,18 +52,13 @@ function DirectionsHandler() {
           destination_address:results.get_options_inc_address,
           waypoints:newWaypoints
         }
-        console.log("savedDirections", savedDirections);
-        console.log("newDirections", newDirections);
         if( _.isEqual(savedDirections, newDirections)
         ){
-          console.log("Both directions are equal");
             return res.status(200).json(results.get_saved_directions);
         }
-        console.log("Both directions are not equal");
         callback(null, false);
       }],
       get_directions: ['get_options_inc_address', 'get_vehicle', 'check_modified', function(results, callback) {
-        console.log("get_directions called");
         var optionsIncAddress = results.get_options_inc_address;
         directionsUtils.getDirections(results.get_vehicle, optionsIncAddress, optionsIncAddress, function(err, response) {
           callback(err, response);

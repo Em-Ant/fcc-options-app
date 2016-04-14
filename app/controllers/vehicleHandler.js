@@ -163,10 +163,12 @@ function VehicleHandler() {
   }
 
   var updateConsumers = function(vId, cArray, res) {
+    console.log("updating consumers");
     Vehicle.update(
       // add new consumers array
       {_id: vId},
       {$set: {consumers: cArray}},
+      { runValidators: true },
       function(err, status){
       if (err) {
         return res.status(400).json({
