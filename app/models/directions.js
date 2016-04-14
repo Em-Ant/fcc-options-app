@@ -9,6 +9,12 @@ var Directions = new Schema({
     required: true,
     ref: 'Vehicle',
   },
+  origin_address:String,
+  destination_address:String,
+  waypoints:[{
+    name:String,
+    address:String
+  }],
   morningRoute: mongoose.Schema.Types.Mixed,
   eveningRoute: mongoose.Schema.Types.Mixed
 
