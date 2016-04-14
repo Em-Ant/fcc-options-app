@@ -28,7 +28,7 @@ mongoose.connect(process.env.MONGO_URI || process.env.MONGOLAB_URI, function(err
 if(process.env.SEED_DB && process.env.SEED_DB==="true") {
   require('./app/seed.js');
 }
-if(process.env.NODE_ENV == "development"){
+if(process.env.NODE_ENV == "development" && !process.env.DISABLE_WEBPACK){
   var config = require('./app/config/config');
   config.setHotReloading(app);
 }

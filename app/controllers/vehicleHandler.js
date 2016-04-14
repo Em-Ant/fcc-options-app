@@ -13,45 +13,25 @@ function VehicleHandler() {
     return req.validationErrors();
   }
 
+  var getErrorMessage = function(err){
+    //returns first error message
+    console.log(err);
+    var key = Object.keys(err.errors)[0];
+    return err.errors[key].message;
+  }
+
   this.create = function(req, res) {
-
-    //display validation errors and exit
-    var errors = validateVehicle(req);
-    if (errors) {
-      //just display the first validation error
-      return res.status(400).json(errors[0]);
-    }
-
-    //create a object from the request body
     var vehicle = new Vehicle(req.body);
 
-    //look in the database to see if object already exists
-    Vehicle.findOne({
-      name: vehicle.name
-    }, function(err, existingVehicle) {
-
+    vehicle.save(function(err) {
       if (err) {
         return res.status(400).json({
-          msg: 'There was an error finding vehicle'
+          msg: getErrorMessage(err)
         });
       }
-      //if object exists, then exit
-      if (existingVehicle) {
-        return res.status(400).json({
-          msg: 'A vehicle with that name already exists'
-        });
-      }
-      //object doesn't exist, so put a new object in the database
-      vehicle.save(function(err) {
-        if (err) {
-          return res.status(400).json({
-            msg: 'There was an error saving vehicle'
-          });
-        }
-        //return object if no error
-        return res.status(200).json(vehicle);
-      });
-    });
+      //return object if no error
+      return res.status(200).json(vehicle);
+     });
   }
 
   //return all vehicles
@@ -83,7 +63,6 @@ function VehicleHandler() {
     }
   }
 
-  // return a single vehicle
   this.show = function(req, res) {
     Vehicle.findById(req.params.id, function(err, vehicle) {
       if (err) {
@@ -100,20 +79,11 @@ function VehicleHandler() {
     });
   }
 
-  //update a vehicle
   this.update = function(req, res) {
+
     if (req.body._id) {
       delete req.body._id;
     }
-
-    //display validation errors and exit
-    var errors = validateVehicle(req);
-
-    if (errors) {
-      //just display the first validation error
-      return res.status(400).json(errors[0]);
-    }
-
     Vehicle.findById(req.params.id, function(err, vehicle) {
       if (err) {
         return res.status(400).json({
@@ -128,8 +98,9 @@ function VehicleHandler() {
       var updated = merge(vehicle, req.body);
       updated.save(function(err, savedVehicle) {
         if (err) {
+          console.log(err)
           return res.status(400).json({
-            msg: 'There was an error updating vehicle'
+            msg: getErrorMessage(err)
           });
         }
         return res.status(200).json(savedVehicle);
@@ -140,25 +111,14 @@ function VehicleHandler() {
   //delete a vehicle
   this.destroy = function(req, res) {
     var v_id = req.params.id;
-    Vehicle.findById(v_id, function(err, vehicle) {
+    Vehicle.findByIdAndRemove(v_id, function(err, vehicle) {
       if (err) {
+        console.log(err);
         return res.status(400).json({
-          msg: 'There was an error finding vehicle'
+          msg: 'There was an error deleting vehicle'
         });
       }
-      if (!vehicle) {
-        return res.status(400).json({
-          msg: 'Could not find vehicle to delete'
-        });
-      }
-      vehicle.remove(function(err) {
-        if (err) {
-          return res.status(400).json({
-            msg: 'There was an error deleting vehicle'
-          });
-        }
-        return res.status(200).json(v_id);
-      });
+      return res.status(200).json(v_id);
     });
   }
 

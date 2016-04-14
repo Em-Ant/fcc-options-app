@@ -1,26 +1,31 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 
 var Vehicle = new Schema({
 
   name: {
     type: String,
-    required: true
+    required:[true, 'Please enter a vehicle name'],
+    unique:true
   },
   seats: {
     type: Number,
-    required: true
+    required: [true, 'Please enter the number of seats'],
+    min: [0, 'The number of seats can\'t be negative']
   },
   // 1 flexSeat = 1 non wheelchair  seat, or 2 flex seats = 1 wheelchair
   flexSeats: {
     type: Number,
-    default: 0
+    default: 0,
+    min: [0, 'The number of foldable seats can\'t be negative']
   },
   wheelchairs: {
     type: Number,
-    default: 0
+    default: 0,
+    min: [0, 'The number of wheelchairs can\'t be negative']
   },
   consumers: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -56,5 +61,6 @@ var Vehicle = new Schema({
   }]
 });
 */
+Vehicle.plugin(uniqueValidator, { message: 'Another vehicle with that {PATH} already exists' });
 
 module.exports = mongoose.model('Vehicle', Vehicle);
