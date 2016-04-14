@@ -10,7 +10,7 @@ var Consumer = require('./models/consumer.js');
 var User = require('./models/users.js');
 var Route = require('./models/routes.js');
 var Vehicle = require('./models/vehicle.js');
-
+var Directions = require('./models/directions.js');
 
 /**
  * SETTINGS
@@ -199,4 +199,14 @@ Vehicle.find({}).remove(function() {
   }, function() {
     console.log('finished populating vehicles');
   });
+});
+
+
+
+/**
+* Directions
+*
+*/
+Directions.find({}).remove(function() {
+  console.log('finished populating vehicles');
 });

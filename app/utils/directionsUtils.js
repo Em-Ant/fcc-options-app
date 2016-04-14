@@ -35,11 +35,22 @@ module.exports.getDirections = function(vehicle, origin, destination, done) {
       }
       morningDirections = addAppDataToDirections(morningDirections, morningConsumers);
       eveningDirections = addAppDataToDirections(eveningDirections, eveningConsumers);
-
+      
+      var waypoints = morningConsumers.map(function(consumer){
+        return{
+          name:consumer.name,
+          address:consumer.address
+        }
+      });
+      
       directions = {
         v_id: vehicle._id,
         morningRoute: morningDirections.routes[0],
-        eveningRoute: eveningDirections.routes[0]
+        eveningRoute: eveningDirections.routes[0],
+        waypoints: waypoints,
+        origin_address: origin,
+        destination_address:destination
+        
       }
       return done(null, directions);
     });
