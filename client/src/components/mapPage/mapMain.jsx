@@ -8,7 +8,6 @@ var VehiclePanel = require('./vehiclePanel.jsx')
 var Directions = require('../directions/directions.jsx')
 var _addFlags = require('../../utils/addConsumerFlags');
 var vehicleUtils = require('../../utils/vehicleUtils');
-var directionsUtils = require('../../utils/directionsUtils');
 
 // COLORS
 var RED = "FE7569";     //options inc address
@@ -300,8 +299,9 @@ var ConsumerMap = React.createClass({
   },
   displayDirections:function() {
       this.clearDirections();
+      var vehiclePath = google.maps.geometry.encoding.decodePath(this.props.encodedVehiclePath) ;
       this.tripPath = new google.maps.Polyline({
-         path: this.props.vehiclePath,
+         path: vehiclePath,
          geodesic: false,
          strokeColor: '#0088AA',
          strokeOpacity: 0.5,
@@ -342,6 +342,7 @@ var ConsumerMap = React.createClass({
 });
 
 var mapStateToProps = function(state){
+
   return{
     homePosition: state.settings.optionsIncCoords,
     consumersIds: state.consumers.ids,
@@ -353,7 +354,7 @@ var mapStateToProps = function(state){
     highlightedMarker: state.mapPage.highlightedMarker,
     displayDirections: state.mapPage.displayDirections,
     directionsLoading: state.mapPage.directionsLoading,
-    vehiclePath: state.directions.routes[0].overview_path,
+    encodedVehiclePath: state.directions.routes[0].overview_polyline.points,
     settings:state.settings
   }
 }

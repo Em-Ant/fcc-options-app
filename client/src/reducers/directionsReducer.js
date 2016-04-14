@@ -6,10 +6,14 @@ var loadDirections = function (state, directions) {
 var initState={
   routes:[{
       legs:[],
-      overview_path:[]
+      overview_polyline:{
+        points:""
+      }
     },{
         legs:[],
-        overview_path:[]
+        overview_polyline:{
+          point:""
+        }
       },
   ]
 }

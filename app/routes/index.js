@@ -13,7 +13,7 @@ module.exports = function(app, passport) {
   app.use('/api/route', require('./route.js'));
   app.use('/api/vehicle', require('./vehicle.js'));
   app.use('/api/user', require('./user.js'));
-
+  app.use('/api/directions', require('./directions.js'));
 
   app.route('/api/logout')
     .get(function(req, res) {
@@ -21,7 +21,6 @@ module.exports = function(app, passport) {
       res.json({});
     });
 
-  
   app.route('/api/login')
     .post(userHandler.login);
 

@@ -23,7 +23,7 @@ var DirectionsBody = React.createClass({
               {
                 leg.steps.map(function(step,index){
                   return(
-                    <div key={index} dangerouslySetInnerHTML={{__html: step.instructions}}/>
+                    <div key={index} dangerouslySetInnerHTML={{__html: step.html_instructions}}/>
                   )
                 })
               }
