@@ -115,23 +115,39 @@ var ConsumerMap = React.createClass({
       if (this.consumersToVehiclesMap[this.props.markerLoading]) {
         // consumer is being removed from active bus
 
-        // reset icon to GRAY - unassigned
-        this.markers[this.props.markerLoading].setIcon(ICON_URL + GRAY);
-        this.markers[this.props.markerLoading].setOpacity(1);
+        if(nextProps.serverSuccess) {
+          // reset icon to GRAY - unassigned
 
-        // remove consumer/marker from the consumer -> vehicle map
-        this.consumersToVehiclesMap[this.props.markerLoading] = undefined;
+          this.markers[this.props.markerLoading].setIcon(ICON_URL + GRAY);
+          this.markers[this.props.markerLoading].setOpacity(1);
+
+          // remove consumer/marker from the consumer -> vehicle map
+          this.consumersToVehiclesMap[this.props.markerLoading] = undefined;
+
+        } else {
+          // update failed - reset to GREEN
+
+          this.markers[this.props.markerLoading].setIcon(ICON_URL + GREEN);
+          this.markers[this.props.markerLoading].setOpacity(1);
+        }
+
       } else {
         // consumer is being assigned to active bus
 
-        // reset icon to GREEN - on active bus
-        this.markers[this.props.markerLoading].setIcon(ICON_URL + GREEN);
-        this.markers[this.props.markerLoading].setOpacity(1);
+        if(nextProps.serverSuccess) {
+          // reset icon to GREEN - on active bus
+          this.markers[this.props.markerLoading].setIcon(ICON_URL + GREEN);
+          this.markers[this.props.markerLoading].setOpacity(1);
 
-        // set consumer/marker in the consumer -> vehicle map to active vehicle
+          // set consumer/marker in the consumer -> vehicle map to active vehicle
+          this.consumersToVehiclesMap[this.props.markerLoading]
+            = this.props.activeVehicleId;
 
-        this.consumersToVehiclesMap[this.props.markerLoading]
-          = this.props.activeVehicleId;
+        } else {
+          // update failed - reset to GRAY
+
+          this.markers[this.props.markerLoading].setIcon(ICON_URL + GRAY);
+          this.markers[this.props.markerLoading].setOpacity(1);        }
       }
 
       // update InfoBox, after updating consumer -> vehicles map
@@ -351,6 +367,7 @@ var mapStateToProps = function(state){
     consumers: state.consumers.data,
     activeVehicleId : state.mapPage.activeVehicleId,
     markerLoading: state.mapPage.markerLoading,
+    serverSuccess: state.mapPage.serverSuccess,
     highlightedMarker: state.mapPage.highlightedMarker,
     displayDirections: state.mapPage.displayDirections,
     directionsLoading: state.mapPage.directionsLoading,

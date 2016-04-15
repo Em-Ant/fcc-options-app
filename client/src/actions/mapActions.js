@@ -43,8 +43,7 @@ module.exports.removeFromActiveBus = function(c_id, active_v) {
         if (err) {
           return dispatch({
             type: actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_ERROR,
-            error: err,
-            msg: 'Error updating Vehicle'
+            error: err
           });
         }
 
@@ -76,8 +75,7 @@ module.exports.addToActiveBus = function(c_id, active_v) {
         if (err) {
           return dispatch({
             type: actionTypes.MAP_ADD_TO_ACTIVE_BUS_ERROR,
-            error: err,
-            msg: 'Error updating Vehicle'
+            error: err
           });
         }
 

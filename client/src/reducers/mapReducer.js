@@ -36,7 +36,16 @@ var request = function(state, c_id) {
 
 var success = function(state) {
   return Object.assign({}, state, {
-    markerLoading : undefined
+    markerLoading : undefined,
+    serverSuccess: true
+  });
+}
+
+var error = function(state, err) {
+  console.log(err.responseJSON.msg);
+  return Object.assign({}, state, {
+    markerLoading : undefined,
+    serverSuccess: false
   });
 }
 
@@ -112,8 +121,9 @@ var reducer = function(state, action) {
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_REQUEST) :
       return request(state, action.id);
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_SUCCESS) :
-    case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_ERROR) :
       return success(state);
+    case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_ERROR) :
+      return error(state, action.error);
     case (actionTypes.MAP_HIGHLIGHT_MARKER) :
       return highlightMarker(state, action.id);
     case (actionTypes.MAP_HIGHLIGHT_MARKER_OFF) :
