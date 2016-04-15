@@ -3,7 +3,9 @@
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var idvalidator = require('mongoose-id-validator');
+var vehicleUtils = require('../../client/src/utils/vehicleUtils');
 var Schema = mongoose.Schema;
+var Consumer = require('./consumer');
 
 var Vehicle = new Schema({
 
@@ -28,41 +30,29 @@ var Vehicle = new Schema({
     default: 0,
     min: [0, 'The number of wheelchairs can\'t be negative']
   },
+
   consumers: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Consumer',
+    ref: 'Consumer'
   }] });
 
-/* OLD
-var Vehicle = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  // non wheelchair consumer seats
-  maxFixedSeats: {
-    type: Number,
-    required: true
-  },
-  // 1 non wheelchair consumer seat, or 2 foldable seats can accomodate 1
-  // wheelchair consumer
-  maxFoldableSeatsForWheelchairs: {
-    type: Number,
-    default: 0
-  },
-  // maximum amount of fixed wheelchairs spots a vehicle can hold
-  maxFixedWheelchairs: {
-    type: Number,
-    default: 0
-  },
-  // consumers that are in the vehicle
-  consumers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Consumer',
-  }]
-});
-*/
 Vehicle.plugin(uniqueValidator, { message: 'Another vehicle with that {PATH} already exists' });
+
 Vehicle.plugin(idvalidator);
+
+Vehicle.pre('validate', validateConsumersCanFit)
+
+function validateConsumersCanFit(next){
+  var vehicleModel = mongoose.model("Vehicle");
+  var self = this;
+  var vehicleCopy = self.toObject();
+  vehicleModel.populate(vehicleCopy, {path:"consumers"}, function(err, vehicle){
+    var valid =  vehicleUtils.validate(vehicle);
+    if(!valid){
+      self.invalidate('consumers', 'Consumers cannot fit in vehicle anymore');
+    }
+    next();
+  });
+}
 
 module.exports = mongoose.model('Vehicle', Vehicle);

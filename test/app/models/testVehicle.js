@@ -93,7 +93,7 @@ describe('Vehicle: models', function() {
       var v = new Vehicle({
         name: 'name',
         seats: 1,
-        consumers:consumers
+        consumers: consumers
       });
       v.save(function(err, createdVehicle) {
         expect(err.errors.consumers.path).to.be.equal('consumers');
@@ -106,17 +106,17 @@ describe('Vehicle: models', function() {
 
     it('should have no errors when putting existing consumers', function(done) {
       var consumer = new Consumer({
-        name:'name',
-        sex:'male',
-        address:'12412421421'
+        name: 'name',
+        sex: 'male',
+        address: '12412421421'
       });
-      consumer.save(function(err, savedConsumer){
+      consumer.save(function(err, savedConsumer) {
         var consumers = [];
         consumers.push(consumer._id);
         var v = new Vehicle({
           name: 'name',
           seats: 1,
-          consumers:consumers
+          consumers: consumers
         });
         v.save(function(err, createdVehicle) {
           expect(err).to.be(null);
@@ -129,5 +129,35 @@ describe('Vehicle: models', function() {
 
   });
 
-
+  describe('validate', function() {
+    var consumer = new Consumer({
+      name: 'name',
+      sex: 'male',
+      address: '12412421421'
+    });
+    var v;
+    beforeEach(function(done) {
+      consumer.save(function(err, savedConsumer) {
+        var consumers = [];
+        consumers.push(consumer._id);
+        v = new Vehicle({
+          name: 'name',
+          seats: 1,
+          consumers: consumers
+        });
+        v.save(function(err, createdVehicle) {
+          done();
+        });
+      });
+    })
+    it('should have error if seats are changed and consumers no longer can fit', function(done) {
+      v.seats = 0;
+      v.save(function(err, createdVehicle) {
+        expect(err.errors.consumers.path).to.be.equal('consumers');
+        expect(err.errors.consumers.message).to.be.equal('Consumers cannot fit in vehicle anymore');
+        expect(err.errors.consumers.kind).to.be.equal('user defined');
+        done();
+      });
+    });
+  })
 });

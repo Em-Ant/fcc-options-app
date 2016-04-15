@@ -16,8 +16,12 @@
       needsMedications: false,
       consumersFit:true
     })
-    vehicle.consumers.forEach(function(consumerId) {
-      var consumer = consumers[consumerId];
+
+    vehicle.consumers.forEach(function(consumer) {
+      if(consumers){
+         //consumers not populated, so populate manually
+         consumer = consumers[consumer];
+      }
       if (consumer.hasMedications) {
         vehicle.needsMedications = true;
       }
@@ -57,7 +61,12 @@
     var vehicle =  setVehicleCapacity(vehicle, consumers);
     return vehicle.consumersFit;
   }
+  var validate=function(vehicle){
+    vehicle =  setVehicleCapacity(vehicle);
+    return vehicle.consumersFit;
+  }
 
 
 module.exports.setVehicleCapacity = setVehicleCapacity;
 module.exports.willConsumerFit = willConsumerFit;
+module.exports.validate = validate;
