@@ -157,6 +157,7 @@ function UserHandler() {
   this.updatePassword = function(req, res) {
 
     // validate password
+    req.assert('password', 'Password cannot be empty').notEmpty()
     req.assert('password', 'Passwords do not match')
       .equals(req.body.confirmPassword);
       //display validation errors and exit

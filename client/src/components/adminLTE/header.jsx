@@ -5,6 +5,7 @@ var Link = require('react-router').Link
 var connect = require('react-redux').connect;
 var actions = require('../../actions/authActions');
 
+
 var Header = React.createClass({
   componentDidMount:function(){
     this.props.fetchUser();
@@ -28,7 +29,6 @@ var Header = React.createClass({
   render: function() {
     return (
       <header className="main-header">
-
         <a href="/" className="logo">
           <span className="logo-mini">
             <img src="img/opt_logo_wht.png" height="30px"></img></span>
@@ -58,7 +58,12 @@ var Header = React.createClass({
                   </li>
                   <li className="user-footer">
                     <div className="pull-left">
-                      <a href="#" className="btn btn-default btn-flat">Profile</a>
+                      <a
+                        href="#"
+                        className="btn btn-default btn-flat"
+                        title="Change Password"
+                        data-toggle="modal"
+                        data-target="#pwd-change" type="button">Change Password</a>
                     </div>
                     <div className="pull-right">
                       <Link to="/logout" className="btn btn-default btn-flat">Sign out</Link>

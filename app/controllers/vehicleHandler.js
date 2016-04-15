@@ -146,12 +146,17 @@ function VehicleHandler() {
     if(c_id) {
       // insert
 
-      Vehicle.update({}, {$pull:{consumers: req.c_id}}, function(err){
+      Vehicle.findOne({$in: {consumers: c_id}}, function(err, vehicle){
         // remove c_id from all other vehicles
-
+        console.log('is in?', vehicle)
         if (err) {
           return res.status(400).json({
             msg: 'There was an error updating vehicle'
+          });
+        }
+        if(vehicle) {
+          return res.status(400).json({
+            msg: 'Consumer is already assigned to a vehicle '
           });
         }
         updateConsumers(req.params.v_id, req.body.consumers, res);
