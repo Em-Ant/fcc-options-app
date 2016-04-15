@@ -129,7 +129,7 @@ function UserHandler() {
   }
 
   this.updateRole = function(req, res) {
-    User.findOne({_id: req.params.id}, function(err, user) {
+    User.findById(req.params.id, function(err, user) {
       if (err) {
         return res.status(400).json({
           msg: 'Error finding User to update'

@@ -17,7 +17,7 @@ var NewUser= React.createClass({
   },
   submitCreate: function(e) {
     e.preventDefault();
-    var email = this.refs.email.value;
+    var email = this.refs.email.value.trim();
     console.log(email);
     Ajax.post('api/user/', {email: email}, function(err, data){
       if(err) return console.log('err', err.responseJSON.msg);
@@ -26,8 +26,8 @@ var NewUser= React.createClass({
   },
   submitChangePassword : function(e) {
     e.preventDefault();
-    var newPwd = this.refs.pwd.value;
-    var confirm = this.refs.confirm.value;
+    var newPwd = this.refs.pwd.value.trim();
+    var confirm = this.refs.confirm.value.trim();
     console.log(newPwd, confirm);
     Ajax.post('api/user/password',
      {password: newPwd, confirmPassword: confirm}, function(err, data){
@@ -37,7 +37,7 @@ var NewUser= React.createClass({
   },
   submitDelete: function (e) {
     e.preventDefault();
-    var id = this.refs.del_id.value;
+    var id = this.refs.del_id.value.trim();
     console.log(id);
     Ajax.delete('api/user/' + id,
      {}, function(err, data){
@@ -47,8 +47,8 @@ var NewUser= React.createClass({
   },
   submitRole: function (e) {
     e.preventDefault();
-    var id = this.refs.role_id.value;
-    var role = this.refs.role.value;
+    var id = this.refs.role_id.value.trim();
+    var role = this.refs.role.value.trim();
     console.log(id, role);
     Ajax.post('api/user/' + id,
      {role: role}, function(err, data){
@@ -60,7 +60,7 @@ var NewUser= React.createClass({
     console.log('render');
     return (
       <div>
-        <h3>Admin</h3>
+        <h4>Admin</h4>
         <table>
           <thead>
             <tr>
@@ -74,9 +74,9 @@ var NewUser= React.createClass({
               this.state.users.map(function(user, index) {
                 return (
                 <tr key={index}>
-                  <td>&nbsp;{user._id}&nbsp;</td>
-                  <td>&nbsp;{user.email}&nbsp;</td>
-                  <td>&nbsp;{user.role}&nbsp;</td>
+                  <td>{user._id}&nbsp;</td>
+                  <td>{user.email}&nbsp;</td>
+                  <td>{user.role}&nbsp;</td>
                 </tr>
                 )
               })
@@ -99,7 +99,7 @@ var NewUser= React.createClass({
           <input id="role" placeholder="role" ref='role'></input>
           <button type="submit">SUBMIT</button>
         </form>
-        <h3>Normal User</h3>
+        <h4>Normal User and Admin</h4>
         <form onSubmit={this.submitChangePassword}>
           <label htmlFor="password">Change Password</label>
           <input id="password" placeholder="new password" ref='pwd'></input>
