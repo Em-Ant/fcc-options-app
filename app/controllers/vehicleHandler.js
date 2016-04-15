@@ -15,7 +15,6 @@ function VehicleHandler() {
 
   var getErrorMessage = function(err){
     //returns first error message
-    console.log(err);
     var key = Object.keys(err.errors)[0];
     return err.errors[key].message;
   }

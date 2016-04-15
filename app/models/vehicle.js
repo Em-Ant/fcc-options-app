@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
+var idvalidator = require('mongoose-id-validator');
 var Schema = mongoose.Schema;
 
 var Vehicle = new Schema({
@@ -62,5 +63,6 @@ var Vehicle = new Schema({
 });
 */
 Vehicle.plugin(uniqueValidator, { message: 'Another vehicle with that {PATH} already exists' });
+Vehicle.plugin(idvalidator);
 
 module.exports = mongoose.model('Vehicle', Vehicle);
