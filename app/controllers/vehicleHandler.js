@@ -134,30 +134,36 @@ function VehicleHandler() {
           msg: 'There was an error updating vehicle'
         });
       }
+      if(status.nModified === 0) {
+         return res.status(400).json({
+          msg: 'Vehicle cannot be modified'
+        });       
+      }
       return res.status(200).json(status);
     });
   }
 
   this.updateConsumersArray = function (req, res) {
-    // remove from all other vehicles before assigning,
-    // unfortunately this is not atomic ...
-    console.log(req.params.v_id, req.body);
+    // check if the consumer is on another vehicle
+
     var c_id = req.body.insert;
     if(c_id) {
-      // insert
-
-      Vehicle.update({}, {$pull:{consumers: req.c_id}}, function(err){
-        // remove c_id from all other vehicles
+      
+      Vehicle.findOne({consumers: c_id}, function(err, vehicle){
+        if(vehicle) {
+          return res.status(400).json({
+            msg: 'Consumer is already on a vehicle'
+          });      
+        }
 
         if (err) {
           return res.status(400).json({
-            msg: 'There was an error updating vehicle'
+            msg: 'There was an error finding vehicles'
           });
         }
         updateConsumers(req.params.v_id, req.body.consumers, res);
       })
     } else {
-    // just remove
       updateConsumers(req.params.v_id, req.body.consumers, res);
     }
   }
