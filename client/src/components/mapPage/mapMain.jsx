@@ -136,6 +136,7 @@ var ConsumerMap = React.createClass({
 
         if(nextProps.serverSuccess) {
           // reset icon to GREEN - on active bus
+          
           this.markers[this.props.markerLoading].setIcon(ICON_URL + GREEN);
           this.markers[this.props.markerLoading].setOpacity(1);
 

@@ -5,14 +5,14 @@
 
 
 function isLoggedIn(req, res, next) {
-  if(process.env.NODE_ENV=="development"){
-      return next();  
+  if(process.env.DISABLE_AUTH==true){
+      return next();
   }
   if (req.isAuthenticated()) {
     return next();
   } else {
     res.status(401).json({
-      status: 'Unauthenticated'
+      msg: 'Unauthenticated'
     });
   }
 }
@@ -24,12 +24,12 @@ function hasRole(role) {
         return next();
       } else {
         res.status(403).json({
-          status: 'Unauthorized'
+          msg: 'Unauthorized'
         });
       }
     } else {
       res.status(401).json({
-        status: 'Unauthenticated'
+        msg: 'Unauthenticated'
       });
     }
   }

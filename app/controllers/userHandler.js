@@ -129,66 +129,65 @@ function UserHandler() {
   }
 
   this.updateRole = function(req, res) {
-    User.find({_id: req.params.id}, function(err, user) {
+    User.findOne({_id: req.params.id}, function(err, user) {
       if (err) {
         return res.status(400).json({
           msg: 'Error finding User to update'
         });
       }
-      var updated = Object.assign({}, user);
-      updated.role = req.body.role;
-      updated.save(function(err) {
+      if(!user) {
+        return res.status(400).json({
+          msg: 'User Invalid'
+        });
+      }
+      user.role = req.body.role;
+      user.save(function(err) {
         if (err) {
           return res.status(400).json({
             msg: 'Error saving updated user'
           });
         }
+        var updated = Object.assign({}, user)
         delete updated.password;
-        console.log(updated)
         return res.status(200).json(updated);
       })
     })
   }
 
   this.updatePassword = function(req, res) {
-    // TODO
+
+    // validate password
+    req.assert('password', 'Passwords do not match')
+      .equals(req.body.confirmPassword);
+      //display validation errors and exit
+      var errors = req.validationErrors();
+      if (errors) {
+        return res.status(400).json(errors[0]);
+      }
+
+    User.findOne({_id: req.user._id}, function(err, user) {
+      if (err) {
+        return res.status(400).json({
+          msg: 'Error getting user'
+        });
+      }
+      if(!user) {
+        return res.status(400).json({
+          msg: "User doesn't exist"
+        });
+      }
+      user.password = req.body.password;
+      user.save(function(err) {
+        if(err) {
+          return res.status(400).json({
+            msg: 'Error updating user'
+          });
+        }
+        return res.status(200).json({msg: 'Password Changed'});
+      })
+    })
   }
-  //
-  //   this.updateUser = function(req, res, next) {
-  //     console.log("updating user", req.body._id);
-  //
-  //     User.findOne({
-  //       _id: mongoose.Types.ObjectId(req.body._id)
-  //     }, function(err, existingUser) {
-  //       //check if user is in database
-  //       console.log("found user", existingUser);
-  //       if (existingUser) {
-  //         //merge changes into existing user
-  //
-  //         var updatedUser = assign(existingUser, req.body);
-  //         updatedUser.save(function(err) {
-  //           if (err) {
-  //             return res.status(400).json({
-  //               msg: 'There was an error saving user'
-  //             });
-  //           }
-  //           return res.json(updatedUser);
-  //         });
-  //       }
-  //       else {
-  //         //could not find user to update in db
-  //         return res.status(400).json({
-  //           msg: 'There was an error saving user'
-  //         });
-  //       }
-  //
-  //
-  //     });
-  //
-  //
-  //   }
-  //
-  //
+
   /**
    * POST /login
    * Sign in using email and password.
