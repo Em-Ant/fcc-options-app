@@ -156,9 +156,11 @@ function UserHandler() {
 
   this.updatePassword = function(req, res) {
 
-    // validate password
-    req.assert('password', 'Password cannot be empty').notEmpty()
-    req.assert('password', 'Passwords do not match')
+    // validate new password
+    req.assert('password', ' New Password cannot be empty').notEmpty();
+    req.assert('confirmPassword', ' Confirm Password cannot be empty').notEmpty();
+    req.assert('oldPassword', ' Old Password cannot be empty').notEmpty();
+    req.assert('password', 'New Passwords do not match')
       .equals(req.body.confirmPassword);
       //display validation errors and exit
       var errors = req.validationErrors();
@@ -177,14 +179,29 @@ function UserHandler() {
           msg: "User doesn't exist"
         });
       }
-      user.password = req.body.password;
-      user.save(function(err) {
+      user.comparePassword(req.body.oldPassword, function(err, isMatch) {
+        // compare old password with the hashed stored password
+
         if(err) {
           return res.status(400).json({
-            msg: 'Error updating user'
+            msg: "There was an error comparing passwords"
           });
         }
-        return res.status(200).json({msg: 'Password Changed'});
+        if (!isMatch) {
+          return res.status(400).json({
+            msg: "Incorrect Old Password"
+          });
+        }
+        // change password
+        user.password = req.body.password;
+        user.save(function(err) {
+          if(err) {
+            return res.status(400).json({
+              msg: 'Error updating user'
+            });
+          }
+          return res.status(200).json({msg: 'Password Changed'});
+        })
       })
     })
   }
