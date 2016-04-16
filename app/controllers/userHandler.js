@@ -53,7 +53,7 @@ function UserHandler() {
   Create a new User with default password (admin only)
   */
   this.create = function(req, res) {
-    console.log(req.body);
+
     //Validate input
     req.assert('email', 'Email is not valid').isEmail();
 
@@ -64,7 +64,6 @@ function UserHandler() {
       return res.status(400).json(errors[0]);
     }
 
-    console.log(req.body);
     //create a new user from the request body, with default password
     req.body.password = 'default'
     var user = new User (req.body);
@@ -132,12 +131,12 @@ function UserHandler() {
     User.findById(req.params.id, function(err, user) {
       if (err) {
         return res.status(400).json({
-          msg: 'Error finding User to update'
+          msg: 'Error finding User'
         });
       }
       if(!user) {
         return res.status(400).json({
-          msg: 'User Invalid'
+          msg: 'User cannot be found'
         });
       }
       user.role = req.body.role;
@@ -153,6 +152,30 @@ function UserHandler() {
       })
     })
   }
+
+  this.resetPassword = function (req, res) {
+    User.findById(req.params.id), function(err, user) {
+      if (err) {
+        return res.status(400).json({
+          msg: 'Error finding User'
+        });
+      }
+      if (!user) {
+        return res.status(400).json({
+          msg: 'User cannot be found'
+        });
+      }
+      user.password = 'default';
+      user.save(function(err) {
+        if (err) {
+          return res.status(400).json({
+            msg: 'Error saving User'
+          });
+        }
+        return res.status(200).json({msg: 'Password Reset'});
+      })
+    }
+  };
 
   this.updatePassword = function(req, res) {
 
