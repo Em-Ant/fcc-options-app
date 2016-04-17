@@ -1,6 +1,7 @@
 var vehicleRoutes =require('./vehicleRoutesReducer');
 var vehicles =require('./vehicleReducer');
 var vehiclesPage =require('./vehiclePageReducer');
+var staffPage =require('./staffPageReducer');
 var consumersForm = require('./consumerFormReducer');
 var settingsForm = require('./settingsFormReducer');
 var loginForm = require('./loginFormReducer');
@@ -11,6 +12,7 @@ var mapPage = require('./mapReducer')
 var settings = require('./settingsReducer');
 var consumers = require('./consumerReducer');
 var directions = require('./directionsReducer');
+var staff = require('./staffReducer');
 
 var combineReducers = require('redux').combineReducers;
 
@@ -21,6 +23,7 @@ var rootReducer = combineReducers({
   vehiclesPage: vehiclesPage,
   routing: routerReducer,
   vehicleRoutes: vehicleRoutes,
+  staffPage: staffPage,
   mapPage: mapPage,
   loginForm: loginForm,
 
@@ -29,6 +32,7 @@ var rootReducer = combineReducers({
   settings:settings,
   consumers: consumers,
   vehicles: vehicles,
+  staff:staff,
   directions:directions
 
 });
