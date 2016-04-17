@@ -60,7 +60,6 @@ function ModelActions(model) {
   }
 
   this.update = function(updatedObj) {
-    var endpoint = getEndpoint(model);
     return function(dispatch) {
       dispatch({
         type: model + "_" + UPDATE + "_" + LOADING
