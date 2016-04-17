@@ -1,38 +1,30 @@
 var Ajax = require('../../js/ajax-functions.js');
-const LOADING = "LOADING";
-const ERROR = "ERROR";
-const SUCCESS = "SUCCESS";
-const INDEX = "INDEX";
-const CREATE = "CREATE";
-const UPDATE = "UPDATE";
-const DELETE = "DELETE";
-const SET_EDIT_MODE = "SET_EDIT_MODE";
-const SET_ADD_MODE = "SET_ADD_MODE";
-const CLOSE_FORM = "CLOSE_FORM";
+var actionTypes = require('../constants/actionTypes/modelActionTypes');
+var endpoints = require('../constants/modelEndpoints');
 
 function ModelActions(model) {
-  var endpoint = getEndpoint(model);
+  var endpoint = endpoints[model];
 
-  function getEndpoint(model) {
-    switch (model) {
-      case "STAFF":
-       return '/api/staff/';
-    }
-  }
   this.fetch = function() {
     return function(dispatch) {
       dispatch({
-        type: model + "_" + INDEX + "_" + LOADING
+        type: actionTypes.INDEX,
+        status: actionTypes.LOADING,
+        model: model
       });
       Ajax.get(endpoint, function(err, response) {
         if (err) {
           return dispatch({
-            type: model + "_" + INDEX + "_" + ERROR,
+            type: actionTypes.INDEX,
+            status: actionTypes.ERROR,
+            model: model,
             error: err
           });
         }
         dispatch({
-          type: model + "_" + INDEX + "_" + SUCCESS,
+          type: actionTypes.INDEX,
+          status: actionTypes.SUCCESS,
+          model: model,
           response: response
         })
       })
@@ -42,17 +34,23 @@ function ModelActions(model) {
   this.create = function(newObj) {
     return function(dispatch) {
       dispatch({
-        type: model + "_" + CREATE + "_" + LOADING
+        type: actionTypes.CREATE,
+        status: actionTypes.LOADING,
+        model: model
       });
       Ajax.post(endpoint, newObj, function(err, response) {
         if (err) {
           return dispatch({
-            type: model + "_" + CREATE + "_" + ERROR,
+            type: actionTypes.CREATE,
+            status: actionTypes.ERROR,
+            model: model,
             error: err
           });
         }
         dispatch({
-          type: model + "_" + CREATE + "_" + SUCCESS,
+          type: actionTypes.CREATE,
+          status: actionTypes.SUCCESS,
+          model: model,
           response: response
         })
       })
@@ -62,17 +60,23 @@ function ModelActions(model) {
   this.update = function(updatedObj) {
     return function(dispatch) {
       dispatch({
-        type: model + "_" + UPDATE + "_" + LOADING
+        type: actionTypes.UPDATE,
+        status: actionTypes.LOADING,
+        model: model
       });
       Ajax.put(endpoint + updatedObj._id, updatedObj, function(err, response) {
         if (err) {
           return dispatch({
-            type: model + "_" + UPDATE + "_" + ERROR,
+            type: actionTypes.UPDATE,
+            status: actionTypes.ERROR,
+            model: model,
             error: err
           });
         }
         dispatch({
-          type: model + "_" + UPDATE + "_" + SUCCESS,
+          type: actionTypes.UPDATE,
+          status: actionTypes.SUCCESS,
+          model: model,
           response: response
         })
       })
@@ -82,17 +86,23 @@ function ModelActions(model) {
   this.delete = function(id) {
     return function(dispatch) {
       dispatch({
-        type: model + "_" + DELETE + "_" + LOADING
+        type: actionTypes.DELETE,
+        status: actionTypes.LOADING,
+        model: model
       });
       Ajax.delete(endpoint + id, {}, function(err, ok) {
         if (err) {
           return dispatch({
-            type: model + "_" + DELETE + "_" + ERROR,
+            type: actionTypes.DELETE,
+            status: actionTypes.ERROR,
+            model: model,
             error: err
           });
         }
         dispatch({
-          type: model + "_" + DELETE + "_" + SUCCESS,
+          type: actionTypes.DELETE,
+          status: actionTypes.SUCCESS,
+          model: model,
           id: id
         })
       })
@@ -102,19 +112,22 @@ function ModelActions(model) {
 
   this.setEditMode = function(id) {
     return{
-      type:model + "_" + SET_EDIT_MODE,
+      type: actionTypes.SET_EDIT_MODE,
+      model: model,
       id:id
     }
   }
 
   this.setAddMode = function() {
     return{
-      type:model + "_" + SET_ADD_MODE
+      type: actionTypes.SET_ADD_MODE,
+      model: model
     }
   }
   this.closeForm = function() {
     return{
-      type:model + "_" + CLOSE_FORM
+      type: actionTypes.CLOSE_FORM,
+      model: model
     }
   }
 

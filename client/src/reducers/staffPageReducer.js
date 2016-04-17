@@ -1,4 +1,5 @@
-var actionTypes = require('../constants/actionTypes/staffActionTypes');
+var actionTypes = require('../constants/actionTypes/modelActionTypes');
+const STAFF = require('../constants/models').STAFF;
 
 function fetchRequest(state) {
   return Object.assign({}, state, {
@@ -157,36 +158,43 @@ var initState = {
 };
 var staffPageReducer = function(state, action) {
   state = state || initState;
+  if (action.model != STAFF) {
+    return state
+  }
   switch (action.type) {
-    case actionTypes.STAFF_FETCH_REQUEST:
-      return fetchRequest(state);
-    case actionTypes.STAFF_FETCH_ERROR:
-      return fetchError(state, action.error);
-    case actionTypes.STAFF_FETCH_SUCCESS:
-      return fetchSuccess(state);
-    case actionTypes.STAFF_CREATE_REQUEST:
-      return addRequest(state);
-    case actionTypes.STAFF_CREATE_ERROR:
-      return addError(state, action.error);
-    case actionTypes.STAFF_CREATE_SUCCESS:
-      return add(state);
-    case actionTypes.STAFF_UPDATE_REQUEST:
-      return updateRequest(state);
-    case actionTypes.STAFF_UPDATE_ERROR:
-      return updateError(state, action.error);
-    case actionTypes.STAFF_UPDATE_SUCCESS:
-      return update(state);
-    case actionTypes.STAFF_DELETE_REQUEST:
-      return destroyRequest(state);
-    case actionTypes.STAFF_DELETE_ERROR:
-      return destroyError(state, action.error);
-    case actionTypes.STAFF_DELETE_SUCCESS:
-      return destroy(state);
-    case actionTypes.STAFF_SET_EDIT_MODE:
+    case actionTypes.INDEX:
+      if (action.status == actionTypes.LOADING)
+        return fetchRequest(state);
+      if (action.status == actionTypes.SUCCESS)
+        return fetchSuccess(state);
+      if (action.status == actionTypes.ERROR)
+        return fetchError(state, action.error);
+    case actionTypes.CREATE:
+      if (action.status == actionTypes.LOADING)
+        return addRequest(state);
+      if (action.status == actionTypes.SUCCESS)
+        return add(state);
+      if (action.status == actionTypes.ERROR)
+        return addError(state, action.error);
+    case actionTypes.UPDATE:
+      if (action.status == actionTypes.LOADING)
+        return updateRequest(state);
+      if (action.status == actionTypes.SUCCESS)
+        return update(state);
+      if (action.status == actionTypes.ERROR)
+        return updateError(state, action.error);
+    case actionTypes.DELETE:
+      if (action.status == actionTypes.LOADING)
+        return destroyRequest(state);
+      if (action.status == actionTypes.SUCCESS)
+        return destroy(state);
+      if (action.status == actionTypes.ERROR)
+        return destroyError(state, action.error);
+    case actionTypes.SET_EDIT_MODE:
       return setEditMode(state, action.id);
-    case actionTypes.STAFF_SET_ADD_MODE:
+    case actionTypes.SET_ADD_MODE:
       return setAddMode(state);
-    case actionTypes.STAFF_CLOSE_FORM:
+    case actionTypes.CLOSE_FORM:
       return closeForm(state);
     default:
       return state;
