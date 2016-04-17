@@ -6,7 +6,7 @@ function fetchRequest(state) {
   });
 }
 
-function fetchFailure(state, error) {
+function fetchError(state, error) {
   return Object.assign({}, state, {
     isLoading: false,
     message: {
@@ -32,7 +32,7 @@ function addRequest(state) {
   });
 }
 
-function addFailure(state, error) {
+function addError(state, error) {
   var newFormState = Object.assign({}, state.form, {
     isLoading: false,
     message: {
@@ -68,7 +68,7 @@ function updateRequest(state) {
   });
 }
 
-function updateFailure(state, error) {
+function updateError(state, error) {
   var newFormState = Object.assign({}, state.form, {
     isLoading: false,
     message: {
@@ -105,7 +105,7 @@ function destroyRequest(state) {
   });
 }
 
-function destroyFailure(state, error) {
+function destroyError(state, error) {
   return Object.assign({}, state, {
     isLoading: false,
     message: {
@@ -158,35 +158,35 @@ var initState = {
 var staffPageReducer = function(state, action) {
   state = state || initState;
   switch (action.type) {
-    case actionTypes.FETCH_STAFFS_REQUEST:
+    case actionTypes.STAFF_FETCH_REQUEST:
       return fetchRequest(state);
-    case actionTypes.FETCH_STAFFS_FAILURE:
-      return fetchFailure(state, action.error);
-    case actionTypes.FETCH_STAFFS_SUCCESS:
+    case actionTypes.STAFF_FETCH_ERROR:
+      return fetchError(state, action.error);
+    case actionTypes.STAFF_FETCH_SUCCESS:
       return fetchSuccess(state);
-    case actionTypes.ADD_STAFF_REQUEST:
+    case actionTypes.STAFF_CREATE_REQUEST:
       return addRequest(state);
-    case actionTypes.ADD_STAFF_FAILURE:
-      return addFailure(state, action.error);
-    case actionTypes.ADD_STAFF_SUCCESS:
+    case actionTypes.STAFF_CREATE_ERROR:
+      return addError(state, action.error);
+    case actionTypes.STAFF_CREATE_SUCCESS:
       return add(state);
-    case actionTypes.UPDATE_STAFF_REQUEST:
+    case actionTypes.STAFF_UPDATE_REQUEST:
       return updateRequest(state);
-    case actionTypes.UPDATE_STAFF_FAILURE:
-      return updateFailure(state, action.error);
-    case actionTypes.UPDATE_STAFF_SUCCESS:
+    case actionTypes.STAFF_UPDATE_ERROR:
+      return updateError(state, action.error);
+    case actionTypes.STAFF_UPDATE_SUCCESS:
       return update(state);
-    case actionTypes.DESTROY_STAFF_REQUEST:
+    case actionTypes.STAFF_DELETE_REQUEST:
       return destroyRequest(state);
-    case actionTypes.DESTROY_STAFF_FAILURE:
-      return destroyFailure(state, action.error);
-    case actionTypes.DESTROY_STAFF_SUCCESS:
+    case actionTypes.STAFF_DELETE_ERROR:
+      return destroyError(state, action.error);
+    case actionTypes.STAFF_DELETE_SUCCESS:
       return destroy(state);
-    case actionTypes.SET_STAFF_EDIT_MODE:
+    case actionTypes.STAFF_SET_EDIT_MODE:
       return setEditMode(state, action.id);
-    case actionTypes.SET_STAFF_ADD_MODE:
+    case actionTypes.STAFF_SET_ADD_MODE:
       return setAddMode(state);
-    case actionTypes.CLOSE_STAFF_FORM:
+    case actionTypes.STAFF_CLOSE_FORM:
       return closeForm(state);
     default:
       return state;

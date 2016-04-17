@@ -2,52 +2,66 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var actions = require('../actions/modelActions.js');
+var ModelActions = require('../../actions/modelActions');
+const STAFF = "STAFF";
+var actions = new ModelActions(STAFF);
 
-var Message = require('./message.jsx');
+var Message = require('../message.jsx');
 
-var VehicleForm = React.createClass({
-  setVehicleToEdit: function(vehicle) {
-    this.setState({vehicle: vehicle});
+var StaffForm = React.createClass({
+  setStaffToEdit: function(staff) {
+    this.setState({staff: staff});
   },
   handleSubmit: function(e) {
     e.preventDefault();
     if (this.props.verb == "Add") {
-      this.props.onAddVehicle(this.state.vehicle);
+      this.props.onAdd(this.state.staff);
     } else if (this.props.verb == "Edit") {
-      this.props.onEditVehicle(this.state.vehicle);
+      this.props.onEdit(this.state.staff);
     }
   },
   handleNameChange: function(e) {
-    var vehicleState = Object.assign({}, this.state.vehicle, {name: e.target.value})
-    this.setState({vehicle: vehicleState});
+    var staffState = Object.assign({}, this.state.staff, {name: e.target.value})
+    this.setState({staff: staffState});
   },
-  handleFixedSeatsChange: function(e) {
-    var vehicleState = Object.assign({}, this.state.vehicle, {seats: e.target.value})
-    this.setState({vehicle: vehicleState});
+  handleRoleClick: function(e) {
+    var role = e.target.value;
+    var roles = this.state.staff.roles.slice();
+    var index = roles.indexOf(role);
+    if( index !== -1){
+      roles.splice(index, 1);
+    }else {
+     roles.push(role);
+    }
+   var staffState = Object.assign({}, this.state.staff, {roles: roles})
+   this.setState({staff: staffState});
   },
-  handleFoldableSeatsChange: function(e) {
-    var vehicleState = Object.assign({}, this.state.vehicle, {flexSeats: e.target.value})
-    this.setState({vehicle: vehicleState});
+  handleNotesChange: function(e) {
+    var staffState = Object.assign({}, this.state.staff, {notes: e.target.value})
+    this.setState({staff: staffState});
+  },
+  handleMedCertifiedChange: function(e) {
+    var staffState = Object.assign({}, this.state.staff, {medCertified: e.target.value})
+    this.setState({staff: staffState});
   },
   handleWheelchairCapacityChange: function(e) {
-    var vehicleState = Object.assign({}, this.state.vehicle, {wheelchairs: e.target.value})
-    this.setState({vehicle: vehicleState});
+    var staffState = Object.assign({}, this.state.staff, {wheelchairs: e.target.value})
+    this.setState({staff: staffState});
   },
   getInitialState: function() {
-    return {vehicle: {}};
+    return {staff: {
+      roles:[],
+      medCertified:false
+    }};
   },
   componentDidMount: function() {
-    // set vehicle to edit only if there is no request pending
-    if (this.props.vehicle && !this.props.isLoading) {
-      this.setVehicleToEdit(this.props.vehicle);
+    if (this.props.staff && !this.props.isLoading) {
+      this.setVehicleToEdit(this.props.staff);
     }
   },
   componentWillReceiveProps: function(nextProps) {
-
-    // set vehicle to edit only if there is no request pending
-    if (nextProps.vehicle && !nextProps.isLoading) {
-      this.setVehicleToEdit(nextProps.vehicle);
+    if (nextProps.staff && !nextProps.isLoading) {
+      this.setVehicleToEdit(nextProps.staff);
     }
   },
   render: function() {
@@ -74,29 +88,37 @@ var VehicleForm = React.createClass({
                 <div className="form-group">
                   <label htmlFor="c_name" className="col-sm-2 control-label">Name</label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="c_name" placeholder="Name" value={this.state.vehicle.name} onChange={this.handleNameChange}/>
+                    <input type="text" className="form-control" id="c_name" placeholder="Name" value={this.state.staff.name} onChange={this.handleNameChange}/>
                   </div>
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="c_max_fixed_seats" className="col-sm-2 control-label">Seats</label>
-                  <div className="col-sm-10">
-                    <input type="number" className="form-control" id="c_max_fixed_seats" placeholder="Fixed Seats" value={this.state.vehicle.seats} onChange={this.handleFixedSeatsChange}/>
-                  </div>
+                  <label htmlFor="c_roles" className="col-sm-2 control-label">Roles</label>
+                    <div className="col-sm-10">
+                      <label className="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox1" value="driver" checked={this.state.staff.roles.indexOf("driver")!==-1} onClick={this.handleRoleClick}/> Driver
+                      </label>
+                      <label className="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox2" value="rider" checked={this.state.staff.roles.indexOf("rider")!==-1} onClick={this.handleRoleClick}/> Rider
+                      </label>
+                    </div>
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="c_max_foldable_seats" className="col-sm-2 control-label">Foldable Seats</label>
-                  <div className="col-sm-10">
-                    <input type="number" className="form-control" id="c_max_foldable_seats" placeholder="Foldable Seats" value={this.state.vehicle.flexSeats} onChange={this.handleFoldableSeatsChange}/>
-                  </div>
+                  <label htmlFor="c_med_certified" className="col-sm-2 control-label">Medication Certified?</label>
+                    <div className="col-sm-10">
+                      <select className="form-control" value={this.state.staff.medCertified} onChange={this.handleMedCertifiedChange}>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                      </select>
+                    </div>
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="c_max_wheelchairs" className="col-sm-2 control-label">Wheelchairs</label>
+                  <label htmlFor="c_notes" className="col-sm-2 control-label">Notes</label>
                   <div className="col-sm-10">
-                    <input type="number" className="form-control" id="c_max_wheelchairs" placeholder="Wheelchair Capacity" value={this.state.vehicle.wheelchairs} onChange={this.handleWheelchairCapacityChange}/>
-                  </div>
+                      <textarea className="form-control" id="c_notes"
+                        placeholder="Notes" value={this.state.staff.notes} onChange={this.handleNotesChange}/>  </div>
                 </div>
               </div>
               {this.props.isLoading

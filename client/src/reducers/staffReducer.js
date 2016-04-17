@@ -16,7 +16,7 @@ var staffReducer = function(state, action) {
       return commonCRUD.load(state, action.response);
     case actionTypes.STAFF_INDEX_FAILURE:
       return commonCRUD.fetchError(state, action.response);
-    case actionTypes.STAFF_ADD_SUCCESS:
+    case actionTypes.STAFF_CREATE_SUCCESS:
       return commonCRUD.add(state, action.response);
     case actionTypes.STAFF_UPDATE_SUCCESS:
       return commonCRUD.update(state, action.response);

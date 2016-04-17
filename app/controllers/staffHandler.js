@@ -16,6 +16,7 @@ function StaffHandler() {
 
     staffMember.save(function(err) {
       if (err) {
+        console.log(err);
         return res.status(400).json({
           msg: getErrorMessage(err)
         });

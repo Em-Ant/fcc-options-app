@@ -5,7 +5,7 @@ var connect = require('react-redux').connect;
 var ModelActions = require('../../actions/modelActions');
 const STAFF = "STAFF";
 var actions = new ModelActions(STAFF);
-//var StaffForm = require('./staffFormComponent.jsx');
+var StaffForm = require('./staffFormComponent.jsx');
 
 var Staff = React.createClass({
   componentDidMount: function() {
@@ -87,8 +87,8 @@ return (
         </div>
       </div>
         {
-        //  this.props.displayForm?
-          //<StaffForm/>:null
+         this.props.displayForm?
+          <StaffForm/>:null
         }
     </section> < /div>
 

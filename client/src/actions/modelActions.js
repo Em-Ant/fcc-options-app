@@ -6,6 +6,9 @@ const INDEX = "INDEX";
 const CREATE = "CREATE";
 const UPDATE = "UPDATE";
 const DELETE = "DELETE";
+const SET_EDIT_MODE = "SET_EDIT_MODE";
+const SET_ADD_MODE = "SET_ADD_MODE";
+const CLOSE_FORM = "CLOSE_FORM";
 
 function ModelActions(model) {
   var endpoint = getEndpoint(model);
@@ -36,7 +39,7 @@ function ModelActions(model) {
     }
   }
 
-  this.add = function(newObj) {
+  this.create = function(newObj) {
     return function(dispatch) {
       dispatch({
         type: model + "_" + CREATE + "_" + LOADING
@@ -96,6 +99,28 @@ function ModelActions(model) {
       })
     }
   }
+
+
+  this.setEditMode = function(id) {
+    return{
+      type:model + "_" + SET_EDIT_MODE,
+      id:id
+    }
+  }
+
+  this.setAddMode = function() {
+    return{
+      type:model + "_" + SET_ADD_MODE
+    }
+  }
+  this.closeForm = function() {
+    return{
+      type:model + "_" + CLOSE_FORM
+    }
+  }
+
+
+
 }
 
 module.exports = ModelActions;
