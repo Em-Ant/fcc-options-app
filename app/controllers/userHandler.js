@@ -5,6 +5,10 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 require('../auth/passport')(passport);
 
+if (process.env.NODE_ENV !== 'production') require('dotenv').load();
+
+var DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || 'default';
+
 function UserHandler() {
   this.getUser = function(req, res) {
       if (!req.params || !req.params.userId) {
@@ -65,7 +69,7 @@ function UserHandler() {
     }
 
     //create a new user from the request body, with default password
-    req.body.password = 'default'
+    req.body.password = DEFAULT_PASSWORD
     var user = new User (req.body);
 
     //look in the database to see if a user already exists
@@ -165,7 +169,7 @@ function UserHandler() {
           msg: 'User cannot be found'
         });
       }
-      user.password = 'default';
+      user.password = DEFAULT_PASSWORD;
       user.save(function(err) {
         if (err) {
           return res.status(400).json({
