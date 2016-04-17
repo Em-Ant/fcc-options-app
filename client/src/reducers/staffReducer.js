@@ -8,7 +8,6 @@ var staffReducer = function(state, action) {
     needToBeFetched: true
   };
 
-    console.log(action);
   switch (action.type) {
     case actionTypes.STAFF_INDEX_LOADING:
       return commonCRUD.setRequested(state);

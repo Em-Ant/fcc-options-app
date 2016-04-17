@@ -19,8 +19,9 @@ var AjaxFunctions = {
         $.ajax({
             url: url,
             dataType: 'json',
+            contentType: 'application/json',
             type: 'PUT',
-            data: data,
+            data: JSON.stringify(data),
             success: function(data) {
                 done(null, data);
             },

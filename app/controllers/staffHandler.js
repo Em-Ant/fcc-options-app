@@ -1,7 +1,7 @@
 'use strict';
 
 var Staff = require('../models/staff.js');
-var merge = require('lodash').merge;
+var _ = require('lodash');
 
 function StaffHandler() {
 
@@ -12,6 +12,7 @@ function StaffHandler() {
   }
 
   this.create = function(req, res) {
+
     var staffMember = new Staff(req.body);
 
     staffMember.save(function(err) {
@@ -68,7 +69,7 @@ function StaffHandler() {
           msg: 'Staff member not found'
         });
       }
-      var updated = merge(staffMember, req.body);
+      var updated = _.assign(staffMember, req.body);
       updated.save(function(err, savedStaffMember) {
         if (err) {
           console.log(err)
