@@ -4,28 +4,9 @@ var AjaxFunctions = {
         $.ajax({
             url: url,
             dataType: 'json',
+            contentType: 'application/json',
             type: 'POST',
-            data: data,
-            success: function(data) {
-                done(null, data);
-            },
-            error: function(err) {
-                done(err);
-            }
-        });
-    },
-
-    postWithArray: function(url, data, done) {
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            type: 'POST',
-            data: data,
-
-            // HACK to jquery to send stringified JSON,
-            // needed to tranfer an array in body.
-            contentType: 'application/json; charset=utf-8',
-
+            data: JSON.stringify(data),
             success: function(data) {
                 done(null, data);
             },
@@ -38,8 +19,9 @@ var AjaxFunctions = {
         $.ajax({
             url: url,
             dataType: 'json',
+            contentType: 'application/json',
             type: 'PUT',
-            data: data,
+            data: JSON.stringify(data),
             success: function(data) {
                 done(null, data);
             },
