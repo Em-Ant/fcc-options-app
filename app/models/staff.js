@@ -22,7 +22,10 @@ var Staff = new Schema({
     type: Boolean,
     default: false
   },
-  notes: String
+  notes: {
+    type: String,
+    default: ''
+  }
 });
 
 

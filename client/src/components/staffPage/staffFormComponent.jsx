@@ -56,12 +56,12 @@ var StaffForm = React.createClass({
   },
   componentDidMount: function() {
     if (this.props.staff && !this.props.isLoading) {
-      this.setVehicleToEdit(this.props.staff);
+      this.setStaffToEdit(this.props.staff);
     }
   },
   componentWillReceiveProps: function(nextProps) {
     if (nextProps.staff && !nextProps.isLoading) {
-      this.setVehicleToEdit(nextProps.staff);
+      this.setStaffToEdit(nextProps.staff);
     }
   },
   render: function() {

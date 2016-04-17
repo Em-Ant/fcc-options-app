@@ -59,7 +59,7 @@ function ModelActions(model) {
     }
   }
 
-  this.edit = function(updatedObj) {
+  this.update = function(updatedObj) {
     var endpoint = getEndpoint(model);
     return function(dispatch) {
       dispatch({
