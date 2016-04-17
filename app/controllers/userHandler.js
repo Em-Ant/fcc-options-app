@@ -80,14 +80,14 @@ function UserHandler() {
       //if user exists, then exit
       if (existingUser) {
         return res.status(400).json({
-          msg: 'Account with that email address already exists.'
+          msg: 'Account with that email address already exists.',
         });
       }
       //user doesn't exist, so put a new user in the database
       user.save(function(err) {
         if (err) {
           return res.status(400).json({
-            msg: 'There was an error saving user'
+            msg: 'There was an error saving user',
           });
         }
         //return email if no error
@@ -132,6 +132,11 @@ function UserHandler() {
   }
 
   this.updateRole = function(req, res) {
+    req.assert('role','Role cannot be empty').notEmpty();
+    var errors = req.validationErrors();
+    if (errors) {
+      return res.status(400).json(errors[0]);
+    }
     User.findById(req.params.id, function(err, user) {
       if (err) {
         return res.status(400).json({

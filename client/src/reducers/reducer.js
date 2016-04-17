@@ -8,11 +8,13 @@ var loginForm = require('./loginFormReducer');
 var auth = require('./authReducer');
 var routerReducer = require('react-router-redux').routerReducer;
 var mapPage = require('./mapReducer')
+var usersPage = require('./usersPageReducer');
 
 var settings = require('./settingsReducer');
 var consumers = require('./consumerReducer');
 var directions = require('./directionsReducer');
 var staff = require('./staffReducer');
+var users = require('./usersReducer');
 
 var combineReducers = require('redux').combineReducers;
 
@@ -26,6 +28,7 @@ var rootReducer = combineReducers({
   staffPage: staffPage,
   mapPage: mapPage,
   loginForm: loginForm,
+  usersPage: usersPage,
 
   // data state
   auth:auth,
@@ -33,7 +36,8 @@ var rootReducer = combineReducers({
   consumers: consumers,
   vehicles: vehicles,
   staff:staff,
-  directions:directions
+  directions:directions,
+  users: users
 
 });
 module.exports = rootReducer;

@@ -44,7 +44,7 @@ var history = syncHistoryWithStore(browserHistory, store)
 var requireAuth = require('./auth/auth').requireAuth;
 
 // test server code
-var UserTests = require('./components/userAdminTests.jsx');
+var UserTests = require('./components/usersComponent.jsx');
 
 var App = React.createClass({
 
@@ -68,7 +68,7 @@ ReactDOM.render(
         <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
         <Route path="/consumer-route" component={ConsumerRoute} onEnter={requireAuth} />
         <Route path="/consumer-route2" component={ConsumerRoute2} onEnter={requireAuth} />
-        <Route path="/user" component={UserTests}/>
+        <Route path="/users" component={UserTests}/>
         <Route path="/staff" component={Staff} onEnter={requireAuth} />
       </Route>
       <Route path="/login" component={Login}/>

@@ -7,6 +7,7 @@ const MAP_PAGE = "/";
 const CONSUMERS_PAGE = "/consumers";
 const VEHICLES_PAGE = "/vehicles";
 const STAFF_PAGE = "/staff";
+const USERS_PAGE = "/users";
 
 var Sidebar = React.createClass({
 
@@ -40,6 +41,16 @@ var Sidebar = React.createClass({
               <Link to={STAFF_PAGE}>
                 <i className="fa fa-user"></i>
                 <span>Staff</span>
+              </Link>
+            </li>
+
+            {
+              // TODO: this Route should be visible to admins only
+            }
+            <li className={this.props.activeLink==USERS_PAGE?"active":null}>>
+              <Link to={USERS_PAGE}>
+                <i className="fa fa-dashboard"></i>
+                <span>Users</span>
               </Link>
             </li>
           </ul>

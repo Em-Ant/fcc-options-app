@@ -3,25 +3,13 @@
 var React = require('react');
 var Alert = require('./alertModal.jsx');
 var UserForm = require('./userFormComponent.jsx');
+var connect = require('react-redux').connect;
+var actions = require('../actions/userActions');
 
 var Users = React.createClass({
-  /*
   componentDidMount: function () {
-    if(this.props.consumersNeedToBeFetched) {
-      this.props.loadConsumers();
-    }
-    if(this.props.vehiclesNeedToBeFetched) {
-      this.props.loadVehicles();
-    }
-  },*/
-  getDefaultProps: function() {
-    return {
-      displayForm: true,
-      userIds: [1,2],
-      users : {
-        '1': {email:'test@test.com', role: 'user'},
-        '2': {email: 'admin@test.com', role: 'admin'}
-      }
+    if(this.props.usersNeedToBeFetched) {
+      this.props.loadUsers();
     }
   },
   render: function() {
@@ -32,7 +20,7 @@ var Users = React.createClass({
       : "";*/
     return (
       <div className="content-wrapper">
-        <Alert modalId="consumer-delete-alert" modalTitle="Confirm Deletion..."
+        <Alert modalId="user-alert" modalTitle="Confirm Deletion..."
           modalBody={modalBody}
           handleConfirm={null}
         />
@@ -43,7 +31,10 @@ var Users = React.createClass({
                 <div className="box-header with-border">
                   <h3 className="box-title">Users</h3>
                   <span className="pull-right">
-                    <button className="btn btn-success" onClick={null}>
+                    <button
+                      className="btn btn-success"
+                      onClick={this.props.setAddMode}
+                    >
                       Add New User
                     </button>
                   </span>
@@ -58,7 +49,7 @@ var Users = React.createClass({
                       </tr>
                     </thead>
                     <tbody>
-                      {this.props.userIds.map(function(id, index) {
+                      {this.props.usersIds.map(function(id, index) {
                         var user = this.props.users[id];
                         return (
                           <tr key={index}>
@@ -67,7 +58,7 @@ var Users = React.createClass({
                             <td className="text-center">
                               <button className="btn btn-sm btn-default in-table"
                                 title="Edit Role" type="button"
-                                onClick={null}>
+                                onClick={this.props.setEditMode.bind(null, user._id)}>
                                 <i className="fa fa-wrench"></i>
                               </button>
                               <button className="btn btn-sm btn-default in-table"
@@ -90,7 +81,7 @@ var Users = React.createClass({
                     </tbody>
                   </table>
                 </div>
-                {this.props.loadingConsumers ?
+                {this.props.loadingUsers ?
                 <div className="overlay">
                   <i className="fa fa-refresh fa-spin"></i>
                 </div>
@@ -100,19 +91,6 @@ var Users = React.createClass({
           </div>
           {this.props.displayForm ?
             <UserForm
-              verb={this.props.editId !== undefined ? "Edit": "Add"}
-              buttonHandles={
-                this.props.editId !== undefined ?
-                this.props.handleEditConsumer :
-                this.props.handleAddConsumer}
-              defaults={
-                this.props.editId !== undefined ?
-                this.props.consumers[this.props.editId] :
-                {}}
-              user={{email: 'test@test.com', role: 'user'}}
-              editId={this.props.editId}
-              loading={this.props.formLoading}
-              onClose={this.props.resetEditMode}
             />
             : null
           }
@@ -124,4 +102,59 @@ var Users = React.createClass({
   }
 });
 
-module.exports = Users;
+var mapStateToProps = function(state){
+
+  return {
+    usersNeedToBeFetched: state.users.needToBeFetched,
+    usersIds: state.users.ids,
+    users: state.users.data,
+    loadingUsers: state.usersPage.loadingUsers,
+    displayForm: state.usersPage.displayForm
+    /*
+    loadingConsumers: state.consumersForm.loadingConsumers,
+    editId: state.consumersForm.editId,
+    formLoading : state.consumersForm.updatingConsumers,
+    deleteId: state.consumersForm.deleteId,
+    displayForm: state.consumersForm.displayForm*/
+  }
+}
+
+var mapDispatchToProps = function(dispatch){
+  return {
+    loadUsers: function () {
+      dispatch(actions.loadUsers());
+    },
+    setAddMode: function() {
+      dispatch(actions.setAddMode());
+    },
+    setEditMode: function(id) {
+      dispatch(actions.setEditMode(id));
+    } /*,
+    loadVehicles: function () {
+      dispatch(vehicleActions.fetch());
+    },
+    handleEditConsumer : function(updatedConsumer) {
+      dispatch(actions.editConsumer(updatedConsumer))
+    },
+    handleAddConsumer : function(newConsumer) {
+      dispatch(actions.addConsumer(newConsumer))
+    },
+    setEditMode: function (id) {
+      dispatch(actions.setEditMode(id))
+    },
+    resetEditMode: function () {
+      dispatch(actions.resetEditMode())
+    },
+    setDeleteIndex: function(id) {
+      dispatch(actions.setDeleteId(id))
+    },
+    deleteConsumer: function() {
+      dispatch(actions.deleteConsumer())
+    },
+    setAddMode: function() {
+      dispatch(actions.setAddMode())
+    }*/
+  };
+}
+
+module.exports = connect(mapStateToProps, mapDispatchToProps)(Users);
