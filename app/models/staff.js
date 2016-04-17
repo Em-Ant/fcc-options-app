@@ -10,16 +10,11 @@ var Staff = new Schema({
   },
   roles: [{
     type: String,
-    validate: {
-      validator: function(roles) {
-        return roles.length;
-      },
-      message: 'Please select a role'
-    },
     enum: ['driver', 'rider']
   }],
   medCertified: {
     type: Boolean,
+    required: [true, 'Please select medication certified'],
     default: false
   },
   notes: {
@@ -32,5 +27,14 @@ var Staff = new Schema({
 Staff.plugin(uniqueValidator, {
   message: 'Another staff member with that {PATH} already exists'
 });
+
+Staff.pre('validate', validateRoles)
+
+function validateRoles(next){
+  if(this.roles.length == 0){
+      this.invalidate('roles', 'Please choose a role');
+  }
+  next();
+}
 
 module.exports = mongoose.model('Staff', Staff);
