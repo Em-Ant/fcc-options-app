@@ -34,7 +34,32 @@ var Vehicle = new Schema({
   consumers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Consumer'
-  }] });
+  }],
+  
+  driver:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Staff',
+    validate: {
+      validator: function(staff) {
+        return staff.roles.indexOf("driver") !== -1;
+      },
+      message: 'Driver must be a staff member with a driver role'
+    }
+  },
+  
+  rider:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Staff',
+    validate: {
+      validator: function(staff) {
+        return staff.roles.indexOf("rider") !== -1;
+      },
+      message: 'Rider must be a staff member with a rider role'
+    }
+  }
+  
+  
+});
 
 Vehicle.plugin(uniqueValidator, { message: 'Another vehicle with that {PATH} already exists' });
 

@@ -4,15 +4,6 @@ var Vehicle = require('../models/vehicle.js');
 var merge = require('lodash').merge;
 
 function VehicleHandler() {
-  var validateVehicle = function(req){
-    //Validate input
-    req.assert('name', 'Name must not be empty').notEmpty();
-    req.assert('seats', 'Fixed seats must be a number').isInt();
-    req.assert('flexSeats', 'Foldable seats must be a number').isInt();
-    req.assert('wheelchairs', 'Wheelchair capacity must be a number').isInt();
-    return req.validationErrors();
-  }
-
   var getErrorMessage = function(err){
     //returns first error message
     var key = Object.keys(err.errors)[0];

@@ -4,6 +4,7 @@ var utils = require('../../utils');
 var expect = require('expect.js');
 var Vehicle = require('../../../app/models/vehicle');
 var Consumer = require('../../../app/models/consumer');
+var Staff = require('../../../app/models/staff');
 
 
 describe('Vehicle: models', function() {
@@ -158,6 +159,66 @@ describe('Vehicle: models', function() {
         expect(err.errors.consumers.kind).to.be.equal('user defined');
         done();
       });
+    });
+  })
+  
+  
+
+  describe('driver validation', function() {
+    var v;
+    beforeEach(function(done) {
+      v = new Vehicle({
+        name: 'name',
+        seats: 1
+      });
+      v.save(function(err, createdVehicle) {
+        done();
+      });
+    })
+    it('should have error rider is in driver seat', function(done) {
+      var rider = new Staff({
+        name:"name",
+        roles:["rider"]
+      })
+      rider.save(function(err){
+        v.driver = rider;
+        v.save(function(err, createdVehicle) {
+          expect(err.errors.driver.path).to.be.equal('driver');
+          expect(err.errors.driver.message).to.be.equal('Driver must be a staff member with a driver role');
+          expect(err.errors.driver.kind).to.be.equal('user defined');
+          done();
+        });
+        
+      })
+    });
+  })
+  
+  describe('rider validation', function() {
+    var v;
+    beforeEach(function(done) {
+      v = new Vehicle({
+        name: 'name',
+        seats: 1
+      });
+      v.save(function(err, createdVehicle) {
+        done();
+      });
+    })
+    it('should have error when driver is in rider seat', function(done) {
+      var driver = new Staff({
+        name:"name",
+        roles:["driver"]
+      })
+      driver.save(function(err){
+        v.rider = driver;
+        v.save(function(err, createdVehicle) {
+          expect(err.errors.rider.path).to.be.equal('rider');
+          expect(err.errors.rider.message).to.be.equal('Rider must be a staff member with a rider role');
+          expect(err.errors.rider.kind).to.be.equal('user defined');
+          done();
+        });
+        
+      })
     });
   })
 });
