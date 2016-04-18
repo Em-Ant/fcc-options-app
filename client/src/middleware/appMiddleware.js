@@ -9,9 +9,9 @@ function appMiddleware({
       authActions.clientLogout()
     }else if (isUnauthorized(action)) {
       authActions.unauthorize();
-    }else{
-      next(action)
     }
+    next(action)
+
   }
 }
 
