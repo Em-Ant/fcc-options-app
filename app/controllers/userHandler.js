@@ -84,14 +84,14 @@ function UserHandler() {
         });
       }
       //user doesn't exist, so put a new user in the database
-      user.save(function(err) {
+      user.save(function(err, usr) {
         if (err) {
           return res.status(400).json({
             msg: 'There was an error saving user',
           });
         }
         //return email if no error
-        return res.json({email: user.email, role: user.role});
+        return res.json({_id: usr._id, email: usr.email, role: usr.role});
       });
     });
   }

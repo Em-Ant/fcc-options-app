@@ -110,7 +110,6 @@ var initState = {};
 
 // TODO: HANDLE ERRORS
 var reducer = function(state, action) {
-  console.log(action.type)
   state = state || initState;
   switch (action.type){
     case actionTypes.USER_INDEX_LOADING:
