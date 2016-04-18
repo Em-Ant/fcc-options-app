@@ -1,7 +1,7 @@
 var Ajax = require('../../js/ajax-functions.js');
 var actionTypes = require('../constants/actionTypes/authActionTypes');
 var browserHistory = require("react-router").browserHistory;
-
+var ADMIN = require("../constants/userRoles").ADMIN;
 function removeUser() {
   if (localStorage.email) {
     delete localStorage.email;
@@ -97,11 +97,21 @@ module.exports.unauthorize = function() {
   };
 }
 
-module.exports.requireAuth=function(nextState, replace) {
+
+var requireAuth = module.exports.requireAuth=function(nextState, replace) {
   if (!localStorage.email && !localStorage.role) {
     replace({
       pathname: '/login',
       state: { nextPathname: nextState.location.pathname }
+    })
+  }
+}
+
+module.exports.requireRole=function(role, nextState, replace) {
+  requireAuth(nextState, replace);
+  if (localStorage.role != role) {
+    replace({
+      pathname: '/notPermitted'
     })
   }
 }

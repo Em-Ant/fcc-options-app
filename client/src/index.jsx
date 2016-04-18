@@ -3,7 +3,8 @@ var ReactDOM = require('react-dom');
 var css = require('../style/main.scss');
 
 var Main = require('./components/adminLTE/main.jsx');
-var NotFound = require('./components/notFound.jsx');
+var NotFound = require('./components/adminLTE/notFound.jsx');
+var NotPermitted = require('./components/adminLTE/notPermitted.jsx');
 var Login = require('./containers/loginContainer.jsx');
 var Logout = require('./components/auth/logoutComponent.jsx');
 var Signup = require('./components/auth/signupComponent.jsx').Signup;
@@ -38,6 +39,8 @@ var store = createStore(reducer, applyMiddleware(thunk, appMiddleware));
 var history = syncHistoryWithStore(browserHistory, store)
 
 var requireAuth = require('./actions/authActions').requireAuth;
+var requireRole = require('./actions/authActions').requireRole;
+const ADMIN = require('./constants/userRoles').ADMIN;
 
 // test server code
 var User = require('./components/usersPage/usersComponent.jsx');
@@ -64,8 +67,9 @@ ReactDOM.render(
         <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
         <Route path="/consumer-route" component={ConsumerRoute} onEnter={requireAuth} />
         <Route path="/consumer-route2" component={ConsumerRoute2} onEnter={requireAuth} />
-        <Route path="/users" component={User} onEnter={requireAuth} />
+        <Route path="/users" component={User} onEnter={requireRole.bind(null, ADMIN)} />
         <Route path="/staff" component={Staff} onEnter={requireAuth} />
+        <Route path="/notPermitted" component={NotPermitted} />
       </Route>
       <Route path="/login" component={Login}/>
       <Route path="/logout" component={Logout}/>
