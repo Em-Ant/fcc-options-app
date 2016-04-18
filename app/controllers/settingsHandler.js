@@ -5,15 +5,11 @@ var Settings = require('../models/settings.js');
 var _ = require('lodash');
 
 function SettingsHandler() {
-  var validate = function(req) {
-    //Validate input
-    req.assert('optionsIncAddress', 'Address must not be empty').notEmpty();
-    req.assert('maxPassengersPerVehicle', 'Max passengers seats must not be empty').notEmpty();
-    req.assert('maxConsumerRouteTime', 'Max route time must not be empty').notEmpty();
-    req.assert('maxPassengersPerVehicle', 'Max passengers seats must be a number').isInt();
-    req.assert('maxConsumerRouteTime', 'Max route time must be a number').isInt();
 
-    return req.validationErrors();
+  var getErrorMessage = function(err) {
+    //returns first error message
+    var key = Object.keys(err.errors)[0];
+    return err.errors[key].message;
   }
 
   this.index = function(req, res) {
@@ -31,33 +27,14 @@ function SettingsHandler() {
     settings.save(function(err, savedSettings) {
       if (err) {
         return res.status(400).json({
-          msg: 'There was an error updating settings'
+          msg: getErrorMessage(err)
         });
       }
       return res.status(200).json(savedSettings);
     });
   }
 
-
-  function updateSettings(settings, newSettings, res) {
-    var updated = _.assign(settings, newSettings);
-    updated.save(function(err, savedSettings) {
-      if (err) {
-        return res.status(400).json({
-          msg: 'There was an error updating settings'
-        });
-      }
-      return res.status(200).json(savedSettings);
-    })
-  }
-
-
   this.update = function(req, res) {
-    var errors = validate(req);
-    if (errors) {
-      return res.status(400).json(errors[0]);
-    }
-
     var newSettings = req.body;
     //update fails if id is left on
     if (newSettings._id) {
@@ -84,7 +61,9 @@ function SettingsHandler() {
 
       if (settings.optionsIncAddress == newSettings.optionsIncAddress) {
         //don't geocode address
-        return updateSettings(settings, newSettings, res);
+
+        var updated = _.assign(settings, newSettings);
+        return saveSettings(updated, res);
       }
       //geocode address, then save
       geocoder.getCoords(newSettings.optionsIncAddress, function(err, coords) {
@@ -94,7 +73,8 @@ function SettingsHandler() {
           });
         }
         newSettings.optionsIncCoords = coords;
-        return updateSettings(settings, newSettings, res);
+        var updated = _.assign(settings, newSettings);
+        return saveSettings(updated, res);
       });
 
     })
