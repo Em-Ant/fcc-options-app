@@ -2,7 +2,7 @@
 
 var geocoder = require('../utils/geocoder.js');
 var Settings = require('../models/settings.js');
-var merge = require('lodash').merge;
+var _ = require('lodash');
 
 function SettingsHandler() {
   var validate = function(req) {
@@ -40,7 +40,8 @@ function SettingsHandler() {
 
 
   function updateSettings(settings, newSettings, res) {
-    settings.update(newSettings, function(err, savedSettings) {
+    var updated = _.assign(settings, newSettings);
+    updated.save(function(err, savedSettings) {
       if (err) {
         return res.status(400).json({
           msg: 'There was an error updating settings'

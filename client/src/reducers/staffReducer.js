@@ -14,7 +14,7 @@ var staffReducer = function(state, action) {
   }
 
   switch (action.type) {
-    case actionTypes.INDEX:
+    case actionTypes.FETCH:
       if (action.status == actionTypes.LOADING)
         return commonCRUD.setRequested(state);
       if (action.status == actionTypes.SUCCESS)

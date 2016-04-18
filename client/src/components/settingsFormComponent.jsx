@@ -2,7 +2,11 @@
 
 var React = require('react');
 var Link = require('react-router').Link
+var connect = require('react-redux').connect;
 var Message = require('./message.jsx');
+var ModelActions = require('../actions/modelActions.js');
+var models = require('../constants/models.js');
+var actions = new ModelActions(models.SETTINGS);
 
 var Settings = React.createClass({
   componentDidMount: function() {
@@ -11,8 +15,10 @@ var Settings = React.createClass({
     }
     this.setPropsToState(this.props);
   },
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps: function(nextProps){
+    if (nextProps.settings && !nextProps.form.isLoading) {
       this.setPropsToState(nextProps);
+    }
   },
   handleSubmit: function(e) {
     e.preventDefault();
@@ -77,4 +83,25 @@ var Settings = React.createClass({
     )
   }
 });
-module.exports = Settings;
+
+/*
+Redux aware container that connects dispatch functions and app state to component properties
+*/
+var mapStateToProps = function(state) {
+  return {
+    form:state.settingsForm,
+    settings:state.settings
+  }
+}
+var mapDispatchToProps = function(dispatch) {
+  return {
+    onSubmit:function(settings){
+      dispatch(actions.update(settings));
+    },
+    loadSettings: function() {
+      dispatch(actions.fetch());
+    }
+  }
+}
+
+module.exports = connect(mapStateToProps, mapDispatchToProps)(Settings);

@@ -1,7 +1,7 @@
 exports.LOADING = "LOADING";
 exports.ERROR = "ERROR";
 exports.SUCCESS = "SUCCESS";
-exports.INDEX = "INDEX";
+exports.FETCH = "FETCH";
 exports.CREATE = "CREATE";
 exports.UPDATE = "UPDATE";
 exports.DELETE = "DELETE";

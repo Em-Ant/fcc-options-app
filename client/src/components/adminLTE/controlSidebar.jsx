@@ -2,7 +2,7 @@
 
 var React = require('react');
 var Link = require('react-router').Link
-var SettingsForm = require("../../containers/settingsFormContainer.jsx");
+var SettingsForm = require("../settingsFormComponent.jsx");
 
 var ControlSidebar = React.createClass({
   render: function() {

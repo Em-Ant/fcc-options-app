@@ -1,7 +1,7 @@
-var actionTypes = require('../constants/actionTypes/settingsActionTypes.js');
+var actionTypes = require('../constants/actionTypes/modelActionTypes');
+const SETTINGS = require('../constants/models').SETTINGS;
 
 var loadRequest = function(state) {
-  // do no
   return Object.assign({}, state, {
     needToBeFetched: undefined
   });
@@ -21,15 +21,20 @@ var update = function(state, settings) {
 
 var settingsFormReducer = function(state, action) {
   state = state || {needToBeFetched:true};
+  if (action.model != SETTINGS) {
+    return state
+  }
   switch (action.type) {
-    case actionTypes.SETTINGS_LOAD_REQUEST:
-      return loadRequest(state);
-    case actionTypes.SETTINGS_LOAD_FAILURE:
-      return loadFailure(state, action.error);
-    case actionTypes.SETTINGS_LOAD_SUCCESS:
-      return loadSuccess(state, action.settings);
-    case actionTypes.SETTINGS_UPDATE:
-      return update(state, action.settings);
+    case actionTypes.FETCH:
+      if (action.status == actionTypes.LOADING)
+        return loadRequest(state);
+      if (action.status == actionTypes.SUCCESS)
+        return loadSuccess(state, action.response);
+      if (action.status == actionTypes.ERROR)
+        return loadFailure(state, action.error);
+    case actionTypes.UPDATE:
+      if (action.status == actionTypes.SUCCESS)
+        return update(state, action.response);
     default:
       return state;
   }

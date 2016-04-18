@@ -1,14 +1,15 @@
-var actionTypes = require('../constants/actionTypes/settingsFormActionTypes.js');
+var actionTypes = require('../constants/actionTypes/modelActionTypes');
+const SETTINGS = require('../constants/models').SETTINGS;
 
-var updateRequest = function(state, settings) {
+var updateRequest = function(state) {
 
   return Object.assign({}, state, {
     isLoading: true,
     message:null
-  },settings)
+  })
 }
 
-var updateFailure = function(state, error) {
+var updateError = function(state, error) {
   return Object.assign({}, state, {
     isLoading: false,
     message:{
@@ -18,14 +19,14 @@ var updateFailure = function(state, error) {
   })
 }
 
-var updateSuccess = function(state, settings) {
+var update = function(state, settings) {
   return Object.assign({}, state, {
     isLoading: false,
     message:{
       type:"success",
       msg:"Settings Updated!"
-    }
-  })
+    },
+  }, settings)
 }
 
 var initState = {
@@ -33,13 +34,17 @@ var initState = {
 };
 var settingsFormReducer = function(state, action) {
   state = state || initState;
+  if (action.model != SETTINGS) {
+    return state
+  }
   switch (action.type) {
-    case actionTypes.SETTINGS_FORM_UPDATE_REQUEST:
-      return updateRequest(state, action.settings);
-    case actionTypes.SETTINGS_FORM_UPDATE_FAILURE:
-      return updateFailure(state, action.error);
-    case actionTypes.SETTINGS_FORM_UPDATE_SUCCESS:
-      return updateSuccess(state);
+    case actionTypes.UPDATE:
+      if (action.status == actionTypes.LOADING)
+        return updateRequest(state);
+      if (action.status == actionTypes.SUCCESS)
+        return update(state, action.response);
+      if (action.status == actionTypes.ERROR)
+        return updateError(state, action.error);
     default:
       return state;
   }

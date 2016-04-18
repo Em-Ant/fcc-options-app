@@ -5,8 +5,10 @@ var MapPage = require('./mapMain.jsx')
 var connect = require('react-redux').connect;
 var c_actions = require('../../actions/consumerActions');
 var v_actions = require('../../actions/vehicleActions');
-var s_actions = require('../../actions/settingsActions');
 
+var ModelActions = require('../../actions/modelActions.js');
+var models = require('../../constants/models.js');
+var s_actions = new ModelActions(models.SETTINGS);
 
 // When the map is rendered, we are sure that all needed data
 // are properly loaded so we can handle them in 'componentDidMount'
@@ -55,7 +57,7 @@ var mapDispatchToProps = function(dispatch) {
       dispatch(v_actions.fetch());
     },
     loadSettings: function() {
-      dispatch(s_actions.load())
+      dispatch(s_actions.fetch())
     }
   }
 }

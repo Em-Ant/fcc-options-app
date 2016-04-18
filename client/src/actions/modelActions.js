@@ -8,21 +8,21 @@ function ModelActions(model) {
   this.fetch = function() {
     return function(dispatch) {
       dispatch({
-        type: actionTypes.INDEX,
+        type: actionTypes.FETCH,
         status: actionTypes.LOADING,
         model: model
       });
       Ajax.get(endpoint, function(err, response) {
         if (err) {
           return dispatch({
-            type: actionTypes.INDEX,
+            type: actionTypes.FETCH,
             status: actionTypes.ERROR,
             model: model,
             error: err
           });
         }
         dispatch({
-          type: actionTypes.INDEX,
+          type: actionTypes.FETCH,
           status: actionTypes.SUCCESS,
           model: model,
           response: response

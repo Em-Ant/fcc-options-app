@@ -32,10 +32,6 @@ var browserHistory = require('react-router').browserHistory;
 var thunk = require('redux-thunk');
 var syncHistoryWithStore = require('react-router-redux').syncHistoryWithStore;
 
-var settingsActions = require("./actions/settingsActions");
-var consumerActions = require("./actions/consumerActions");
-var vehicleActions = require("./actions/vehicleActions");
-
 var store = createStore(reducer, applyMiddleware(thunk, apiMiddleware));
 
 // Creates an enhanced history that syncs navigation events with the store
