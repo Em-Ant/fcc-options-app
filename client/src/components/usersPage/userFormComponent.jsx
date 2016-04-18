@@ -5,10 +5,9 @@ var Message = require('../message.jsx');
 var connect = require('react-redux').connect;
 var actions = require('../../actions/userActions');
 
-if ((process.env.NODE_ENV !== 'production')) {
-  require('dotenv').load();
-}
-var DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || 'default';
+var DEFAULT_PASSWORD =  'default';
+
+console.log(process.env.DEFAULT_PASSWORD);
 
 var UserForm = React.createClass({
   handleSubmit: function(e) {

@@ -133,6 +133,8 @@ var reducer = function(state, action) {
     case actionTypes.USER_RESET_PWD_SUCCESS:
       return addUser(state);
     case actionTypes.USER_CREATE_ERROR:
+    case actionTypes.USER_DELETE_ERROR:
+    case actionTypes.USER_RESET_PWD_ERROR:
       return setError(state, action.error);
     case actionTypes.USER_SET_EDIT_MODE:
       return setEditMode(state, action.id);
