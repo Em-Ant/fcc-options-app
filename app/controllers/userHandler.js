@@ -163,7 +163,8 @@ function UserHandler() {
   }
 
   this.resetPassword = function (req, res) {
-    User.findById(req.params.id), function(err, user) {
+
+    User.findById(req.params.id, function(err, user) {
       if (err) {
         return res.status(400).json({
           msg: 'Error finding User'
@@ -174,7 +175,9 @@ function UserHandler() {
           msg: 'User cannot be found'
         });
       }
+
       user.password = DEFAULT_PASSWORD;
+
       user.save(function(err) {
         if (err) {
           return res.status(400).json({
@@ -183,7 +186,7 @@ function UserHandler() {
         }
         return res.status(200).json({msg: 'Password Reset'});
       })
-    }
+    });
   };
 
   this.updatePassword = function(req, res) {

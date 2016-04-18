@@ -1,9 +1,12 @@
 'use strict'
 
 var React = require('react');
-var Message = require('./message.jsx');
+var Message = require('../message.jsx');
 var connect = require('react-redux').connect;
-var actions = require('../actions/userActions');
+var actions = require('../../actions/userActions');
+
+if (process.env.NODE_ENV !== 'production') require('dotenv').load();
+var DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || 'default';
 
 var UserForm = React.createClass({
   handleSubmit: function(e) {
@@ -108,7 +111,7 @@ var UserForm = React.createClass({
                 {!this.props.editId ?
                   <div className="form-group">
                     <div className="col-sm-10 col-sm-offset-2">
-                      <p>Default Password : 'default'</p>
+                      <p>{`Default Password : '${DEFAULT_PASSWORD}'`}</p>
                     </div>
                   </div> : null}
               <div className="box-footer">

@@ -1,16 +1,36 @@
 'use strict'
 
 var React = require('react');
-var Alert = require('./alertModal.jsx');
+var Alert = require('../alertModal.jsx');
 var UserForm = require('./userFormComponent.jsx');
 var connect = require('react-redux').connect;
-var actions = require('../actions/userActions');
+var actions = require('../../actions/userActions');
 
 var Users = React.createClass({
   componentDidMount: function () {
     if(this.props.usersNeedToBeFetched) {
       this.props.loadUsers();
     }
+  },
+  getInitialState: function() {
+    return {confirm: function(){}}
+  },
+  handleDelete: function(id) {
+
+    this.setState({
+      uid: id,
+      modalBody : `Are you sure you want to Delete user "${this.props.users[id].email}" ?`,
+      confirm: this.props.onDelete
+    })
+  },
+
+  handleReset: function (id) {
+    this.setState({
+      uid: id,
+      modalBody : `Are you sure you want to Reset Password
+        for user "${this.props.users[id].email}" ?`,
+      confirm: this.props.onReset
+    })
   },
   render: function() {
 
@@ -20,9 +40,9 @@ var Users = React.createClass({
       : "";*/
     return (
       <div className="content-wrapper">
-        <Alert modalId="user-alert" modalTitle="Confirm Deletion..."
-          modalBody={modalBody}
-          handleConfirm={null}
+        <Alert modalId="user-alert" modalTitle="Confirm..."
+          modalBody={this.state.modalBody}
+          handleConfirm={this.state.confirm.bind(null, this.state.uid)}
         />
         <section className="content">
           <div className="row">
@@ -62,15 +82,16 @@ var Users = React.createClass({
                                 <i className="fa fa-wrench"></i>
                               </button>
                               <button className="btn btn-sm btn-default in-table"
-                                title="Reset Password" type="button"
-                                onClick={null}>
+                                title="Reset Password" type="button" data-toggle="modal"
+                                data-target="#user-alert"
+                                onClick={this.handleReset.bind(null, user._id)}>
                                 <i className="fa fa-key"></i>
                               </button>
                               <button
                                 className="btn btn-sm btn-default in-table"
                                 title="Delete"  data-toggle="modal"
-                                data-target="#consumer-delete-alert" type="button"
-                                onClick={null}>
+                                data-target="#user-alert" type="button"
+                                onClick={this.handleDelete.bind(null, user._id)}>
                                 <i className="fa fa-trash-o"></i>
                               </button>
                             </td>
@@ -110,12 +131,6 @@ var mapStateToProps = function(state){
     users: state.users.data,
     loadingUsers: state.usersPage.loadingUsers,
     displayForm: state.usersPage.displayForm
-    /*
-    loadingConsumers: state.consumersForm.loadingConsumers,
-    editId: state.consumersForm.editId,
-    formLoading : state.consumersForm.updatingConsumers,
-    deleteId: state.consumersForm.deleteId,
-    displayForm: state.consumersForm.displayForm*/
   }
 }
 
@@ -129,31 +144,13 @@ var mapDispatchToProps = function(dispatch){
     },
     setEditMode: function(id) {
       dispatch(actions.setEditMode(id));
-    } /*,
-    loadVehicles: function () {
-      dispatch(vehicleActions.fetch());
     },
-    handleEditConsumer : function(updatedConsumer) {
-      dispatch(actions.editConsumer(updatedConsumer))
+    onDelete: function (id) {
+      dispatch(actions.deleteUser(id));
     },
-    handleAddConsumer : function(newConsumer) {
-      dispatch(actions.addConsumer(newConsumer))
-    },
-    setEditMode: function (id) {
-      dispatch(actions.setEditMode(id))
-    },
-    resetEditMode: function () {
-      dispatch(actions.resetEditMode())
-    },
-    setDeleteIndex: function(id) {
-      dispatch(actions.setDeleteId(id))
-    },
-    deleteConsumer: function() {
-      dispatch(actions.deleteConsumer())
-    },
-    setAddMode: function() {
-      dispatch(actions.setAddMode())
-    }*/
+    onReset: function (id) {
+      dispatch(actions.resetPassword(id));
+    }
   };
 }
 

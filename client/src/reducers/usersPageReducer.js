@@ -110,6 +110,7 @@ var initState = {};
 
 // TODO: HANDLE ERRORS
 var reducer = function(state, action) {
+  console.log(action.type)
   state = state || initState;
   switch (action.type){
     case actionTypes.USER_INDEX_LOADING:
@@ -125,8 +126,12 @@ var reducer = function(state, action) {
     case actionTypes.USER_UPDATE_ROLE_ERROR:
       return setError(state, action.error);
     case actionTypes.USER_CREATE_LOADING:
+    case actionTypes.USER_DELETE_LOADING:
+    case actionTypes.USER_RESET_PWD_LOADING:
       return updatingUsers(state);
     case actionTypes.USER_CREATE_SUCCESS:
+    case actionTypes.USER_DELETE_SUCCESS:
+    case actionTypes.USER_RESET_PWD_SUCCESS:
       return addUser(state);
     case actionTypes.USER_CREATE_ERROR:
       return setError(state, action.error);
@@ -134,12 +139,6 @@ var reducer = function(state, action) {
       return setEditMode(state, action.id);
     case actionTypes.USER_RESET_EDIT_MODE:
       return resetEditMode(state);
-    case actionTypes.CONSUMER_SET_ITEM_TO_DELETE:
-      return setItemToDelete(state, action.id);
-    case actionTypes.CONSUMER_DELETE_LOADING:
-      return updatingConsumers(state);
-    case actionTypes.CONSUMER_DELETE_SUCCESS:
-      return deleteConsumer(state);
     case actionTypes.USER_SET_ADD_MODE:
       return setEditMode(state, undefined);
     default:

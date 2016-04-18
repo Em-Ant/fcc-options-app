@@ -82,42 +82,42 @@ module.exports.resetEditMode = function () {
   };
 }
 
-/*
-
-
-
-
-module.exports.deleteConsumer = function() {
-  return function (dispatch, getState) {
-    var id = getState().consumersForm.deleteId;
+module.exports.deleteUser = function(id) {
+  return function (dispatch) {
     dispatch({
-      type: actionTypes.CONSUMER_DELETE_LOADING
+      type: actionTypes.USER_DELETE_LOADING
     });
-    Ajax.delete('/api/consumer/' + id, {}, function(err, ok) {
+    Ajax.delete('/api/user/' + id, {}, function(err, ok) {
       if (err) {
         return dispatch({
-          type: actionTypes.CONSUMER_DELETE_ERROR,
+          type: actionTypes.USER_DELETE_ERROR,
           error: err
         });
       }
       dispatch({
-        type: actionTypes.CONSUMER_DELETE_SUCCESS,
+        type: actionTypes.USER_DELETE_SUCCESS,
         id: id
       })
     })
   }
 }
 
-
-
-
-
-
-
-module.exports.setDeleteId = function (id) {
-  return {
-    type: actionTypes.CONSUMER_SET_ITEM_TO_DELETE,
-    id: id
-  };
+module.exports.resetPassword = function(id) {
+  return function (dispatch) {
+    dispatch({
+      type: actionTypes.USER_RESET_PWD_LOADING
+    });
+    Ajax.post('/api/user/' + id +'/reset-pwd', {}, function(err, ok) {
+      if (err) {
+        return dispatch({
+          type: actionTypes.USER_RESET_PWD_ERROR,
+          error: err
+        });
+      }
+      dispatch({
+        type: actionTypes.USER_RESET_PWD_SUCCESS,
+        id: id
+      })
+    })
+  }
 }
-*/
