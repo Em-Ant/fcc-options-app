@@ -1,5 +1,6 @@
 var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
-var vActions = require('../constants/actionTypes/vehicleActionTypes.js');
+const VEHICLES=  require('../constants/models').VEHICLES;
+var modelActionTypes=  require('../constants/actionTypes/modelActionTypes');
 
 var vehicleBoxClick = function (state, v_id) {
 
@@ -128,8 +129,9 @@ var reducer = function(state, action) {
       return highlightMarker(state, action.id);
     case (actionTypes.MAP_HIGHLIGHT_MARKER_OFF) :
       return highlightMarkerOff(state, action.id);
-    case (vActions.DESTROY_VEHICLE_SUCCESS) :
-      return checkActiveVehicleIdForDelete(state, action.id)
+    case (modelActionTypes.DELETE) :
+      if(action.model==VEHICLES && action.status == modelActionTypes.SUCCESS)
+        return checkActiveVehicleIdForDelete(state, action.id)
     case (actionTypes.DIRECTIONS_LOAD_REQUEST) :
       return loadDirectionsRequest(state)
     case (actionTypes.DIRECTIONS_LOAD_FAILURE) :

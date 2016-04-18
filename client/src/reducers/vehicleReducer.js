@@ -1,4 +1,5 @@
-var actionTypes = require('../constants/actionTypes/vehicleActionTypes');
+var actionTypes = require('../constants/actionTypes/modelActionTypes');
+const VEHICLES = require('../constants/models').VEHICLES;
 var consumerActionTypes = require('../constants/actionTypes/consumerActionTypes');
 var commonCRUD = require('../commons/commonReducerFunctions');
 var mapActions = require('../constants/actionTypes/mapActionTypes.js');
@@ -49,23 +50,34 @@ var vehiclesReducer = function(state, action) {
     needToBeFetched: true
   };
   switch (action.type) {
-    case actionTypes.FETCH_VEHICLES_REQUEST:
-      return commonCRUD.setRequested(state);
-    case actionTypes.FETCH_VEHICLES_SUCCESS:
-      return commonCRUD.load(state, action.response);
-    case actionTypes.FETCH_VEHICLES_FAILURE:
-      return commonCRUD.fetchError(state, action.response);
-    case actionTypes.ADD_VEHICLE_SUCCESS:
-      return commonCRUD.add(state, action.response);
-    case actionTypes.UPDATE_VEHICLE_SUCCESS:
-      return commonCRUD.update(state, action.response);
-    case actionTypes.DESTROY_VEHICLE_SUCCESS:
-      return commonCRUD.destroy(state, action.response);
     case mapActions.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS:
     case mapActions.MAP_ADD_TO_ACTIVE_BUS_SUCCESS:
       return updateConsumersArray(state, action.v_id, action.consumersArray);
     case consumerActionTypes.CONSUMER_DELETE_SUCCESS:
       return removeConsumerFromVehicle(state, action.id);
+  }
+
+  if (action.model != VEHICLES) {
+    return state
+  }
+
+  switch (action.type) {
+    case actionTypes.FETCH:
+      if (action.status == actionTypes.LOADING)
+        return commonCRUD.setRequested(state);
+      if (action.status == actionTypes.SUCCESS)
+        return commonCRUD.load(state, action.response);
+      if (action.status == actionTypes.ERROR)
+        return commonCRUD.fetchError(state, action.error);
+    case actionTypes.CREATE:
+      if (action.status == actionTypes.SUCCESS)
+        return commonCRUD.add(state, action.response);
+    case actionTypes.UPDATE:
+      if (action.status == actionTypes.SUCCESS)
+        return commonCRUD.update(state, action.response);
+    case actionTypes.DELETE:
+      if (action.status == actionTypes.SUCCESS)
+        return commonCRUD.destroy(state, action.response);
     default:
       return state;
   }

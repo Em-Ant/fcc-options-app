@@ -1,7 +1,12 @@
 'use strict'
 
 var React = require('react');
-var Message = require('./message.jsx');
+var connect = require('react-redux').connect;
+var Message = require('../message.jsx');
+
+var ModelActions = require('../../actions/modelActions.js');
+var models = require('../../constants/models.js');
+var actions = new ModelActions(models.VEHICLES);
 
 var VehicleForm = React.createClass({
   setVehicleToEdit: function(vehicle) {
@@ -56,7 +61,7 @@ var VehicleForm = React.createClass({
         <div className="col-lg-6">
           <div className={boxClass}>
             <div className="box-header with-border">
-              <h3 className="box-title">{this.props.verb + " a Route"}</h3>
+              <h3 className="box-title">{this.props.verb + " a Vehicle"}</h3>
               <div className="box-tools pull-right">
                 <button type="button" className="btn btn-box-tool" onClick={this.props.onCloseForm} data-widget="remove">
                   <i className="fa fa-times"></i>
@@ -114,4 +119,32 @@ var VehicleForm = React.createClass({
     )
   }
 });
-module.exports = VehicleForm;
+
+
+var mapStateToProps = function(state) {
+  //if editing, get vehicle to edit
+  var vehicle;
+  var editId = state.vehiclesPage.form.editId;
+  if (editId) {
+    vehicle = state.vehicles.data[editId];
+  }
+  //Not sure if it's smart to use Object.assign here.  I don't want to map
+  //every property in form individually
+  return Object.assign({}, state.vehiclesPage.form, {vehicle: vehicle});
+}
+var mapDispatchToProps = function(dispatch) {
+  return {
+    onAddVehicle: function(vehicle) {
+      dispatch(actions.create(vehicle));
+    },
+    onEditVehicle: function(vehicle) {
+      dispatch(actions.update(vehicle));
+    },
+    onCloseForm: function() {
+      dispatch(actions.closeForm());
+    }
+
+  }
+}
+
+module.exports = connect(mapStateToProps, mapDispatchToProps)(VehicleForm);

@@ -1,7 +1,10 @@
 var connect = require('react-redux').connect;
 var Consumers = require('../components/consumersPage/consumersPageComponent.jsx');
 var actions = require('../actions/consumerActions.js');
-var vehicleActions = require('../actions/vehicleActions.js');
+
+var ModelActions = require('../actions/modelActions.js');
+var models = require('../constants/models.js');
+var vehicleActions = new ModelActions(models.VEHICLES);
 
 var mapStateToProps = function(state){
 

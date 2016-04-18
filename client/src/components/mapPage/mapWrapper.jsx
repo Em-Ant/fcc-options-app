@@ -4,10 +4,11 @@ var React = require('react');
 var MapPage = require('./mapMain.jsx')
 var connect = require('react-redux').connect;
 var c_actions = require('../../actions/consumerActions');
-var v_actions = require('../../actions/vehicleActions');
 
 var ModelActions = require('../../actions/modelActions.js');
 var models = require('../../constants/models.js');
+
+var v_actions = new ModelActions(models.VEHICLES);
 var s_actions = new ModelActions(models.SETTINGS);
 
 // When the map is rendered, we are sure that all needed data

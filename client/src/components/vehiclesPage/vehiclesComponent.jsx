@@ -1,7 +1,12 @@
 'use strict'
 
 var React = require('react');
-var VehicleFormContainer = require('../containers/vehicleFormContainer.jsx');
+var connect = require('react-redux').connect;
+var VehicleForm= require('./vehicleFormComponent.jsx');
+
+var ModelActions = require('../../actions/modelActions.js');
+var models = require('../../constants/models.js');
+var actions = new ModelActions(models.VEHICLES);
 
 var Vehicles = React.createClass({
   componentDidMount: function() {
@@ -83,9 +88,8 @@ return (
         </div>
       </div>
         {
-          // Form to add, edit, and delete a Vehicle Route
           this.props.displayForm?
-          <VehicleFormContainer/>:null
+          <VehicleForm/>:null
 
         }
     </section> < /div>
@@ -93,4 +97,33 @@ return (
     )
   }
 });
-module.exports = Vehicles;
+
+var mapStateToProps = function(state){
+return{
+    needToBeFetched: state.vehicles.needToBeFetched,
+    vehicles:state.vehicles.data,
+    vehiclesIds:state.vehicles.ids,
+    isLoading:state.vehiclesPage.isLoading,
+    displayForm:state.vehiclesPage.form.display
+  }
+}
+
+var mapDispatchToProps = function(dispatch){
+  return{
+    fetchVehicles: function () {
+      dispatch(actions.fetch());
+    },
+    onDeleteButtonClick:function(id){
+      dispatch(actions.delete(id));
+    },
+    onEditButtonClick:function(id){
+      dispatch(actions.setEditMode(id));
+    },
+    onAddButtonClick:function(id){
+      dispatch(actions.setAddMode());
+    }
+
+  }
+}
+
+module.exports = connect(mapStateToProps,mapDispatchToProps)(Vehicles);

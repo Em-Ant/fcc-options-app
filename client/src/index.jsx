@@ -8,7 +8,7 @@ var Login = require('./containers/loginContainer.jsx');
 var Logout = require('./components/auth/logoutComponent.jsx');
 var Signup = require('./components/auth/signupComponent.jsx').Signup;
 var VehicleRoutes = require('./containers/vehicleRoutesContainer.jsx');
-var Vehicles = require('./containers/vehiclesContainer.jsx');
+var Vehicles = require('./components/vehiclesPage/vehiclesComponent.jsx');
 var Staff = require('./components/staffPage/staffComponent.jsx');
 
 var Consumers = require('./containers/consumersPageContainer.jsx');
