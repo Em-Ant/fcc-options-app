@@ -8,6 +8,7 @@ const CONSUMERS_PAGE = "/consumers";
 const VEHICLES_PAGE = "/vehicles";
 const STAFF_PAGE = "/staff";
 const USERS_PAGE = "/users";
+const ADMIN = "admin";
 
 var Sidebar = React.createClass({
 
@@ -44,15 +45,14 @@ var Sidebar = React.createClass({
               </Link>
             </li>
 
-            {
-              // TODO: this Route should be visible to admins only
-            }
+            {this.props.userRole==ADMIN?
             <li className={this.props.activeLink==USERS_PAGE?"active":null}>>
               <Link to={USERS_PAGE}>
                 <i className="fa fa-dashboard"></i>
                 <span>Users</span>
               </Link>
             </li>
+            :null}
           </ul>
 
         </section>
@@ -65,7 +65,8 @@ var Sidebar = React.createClass({
 
 var mapStateToProps = function(state, ownProps){
   return{
-    activeLink: ownProps.router.location.pathname
+    activeLink: ownProps.router.location.pathname,
+    userRole: localStorage.role
   }
 }
 module.exports= connect(mapStateToProps)(Sidebar);

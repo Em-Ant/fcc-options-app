@@ -37,7 +37,7 @@ var store = createStore(reducer, applyMiddleware(thunk, appMiddleware));
 // Creates an enhanced history that syncs navigation events with the store
 var history = syncHistoryWithStore(browserHistory, store)
 
-var requireAuth = require('./auth/auth').requireAuth;
+var requireAuth = require('./actions/authActions').requireAuth;
 
 // test server code
 var UserTests = require('./components/usersComponent.jsx');
@@ -64,7 +64,7 @@ ReactDOM.render(
         <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
         <Route path="/consumer-route" component={ConsumerRoute} onEnter={requireAuth} />
         <Route path="/consumer-route2" component={ConsumerRoute2} onEnter={requireAuth} />
-        <Route path="/users" component={UserTests}/>
+        <Route path="/users" component={UserTests} onEnter={requireAuth} />
         <Route path="/staff" component={Staff} onEnter={requireAuth} />
       </Route>
       <Route path="/login" component={Login}/>

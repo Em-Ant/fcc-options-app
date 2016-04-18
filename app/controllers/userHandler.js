@@ -277,8 +277,7 @@ function UserHandler() {
           return next(err);
         }
         return res.json({
-          loggedIn: true,
-          user: user.email,
+          email: user.email,
           role: user.role
         });
       });

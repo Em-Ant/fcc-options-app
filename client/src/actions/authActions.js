@@ -1,11 +1,13 @@
 var Ajax = require('../../js/ajax-functions.js');
 var actionTypes = require('../constants/actionTypes/authActionTypes');
 var browserHistory = require("react-router").browserHistory;
-var auth = require("../auth/auth");
 
-function removeToken() {
-  if (localStorage.token) {
-    delete localStorage.token;
+function removeUser() {
+  if (localStorage.email) {
+    delete localStorage.email;
+  }
+  if (localStorage.role) {
+    delete localStorage.role;
   }
 }
 
@@ -15,20 +17,21 @@ module.exports.login = function(formData) {
     dispatch({
       type: actionTypes.LOGIN_REQUEST,
     });
-    removeToken();
+    removeUser();
     Ajax.post('/api/login', formData, function(err, user) {
       if (err) {
         dispatch({
           type: actionTypes.LOGIN_FAILURE,
           error:err
         });
-        removeToken();
+        removeUser();
       } else {
         dispatch({
           type: actionTypes.LOGIN_SUCCESS,
           user: user
         });
-        localStorage.token = user;
+        localStorage.email = user.email;
+        localStorage.role = user.role;
         //the react router redux documentation says we can do this, however there is an alternative pure redux way to do this https://github.com/reactjs/react-router-redux
         browserHistory.push('/');
       }
@@ -38,7 +41,7 @@ module.exports.login = function(formData) {
 }
 
 var clientLogout = function(){
-  removeToken();
+  removeUser();
   browserHistory.push('/login');
 }
 
@@ -92,4 +95,13 @@ module.exports.unauthorize = function() {
   return{
     type: actionTypes.UNAUTHORIZE,
   };
+}
+
+module.exports.requireAuth=function(nextState, replace) {
+  if (!localStorage.email && !localStorage.role) {
+    replace({
+      pathname: '/login',
+      state: { nextPathname: nextState.location.pathname }
+    })
+  }
 }
