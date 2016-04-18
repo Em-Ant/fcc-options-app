@@ -87,3 +87,9 @@ module.exports.fetchUser = function() {
     }.bind(this));
   }
 }
+
+module.exports.unauthorize = function() {
+  dispatch({
+    type: actionTypes.UNAUTHORIZE,
+  });
+}

@@ -1,5 +1,10 @@
 var actionTypes = require('../constants/actionTypes/authActionTypes');
 
+var unauthorize = function(state) {
+
+  //TODO not really sure what to return here
+  return Object.assign({}, state, {unauthorized:true})
+}
 
 var loadUser = function(state, user) {
   return Object.assign({}, state, user)
@@ -19,6 +24,8 @@ var authReducer = function(state, action) {
       return loadUser(state, action.response);
     case actionTypes.LOGOUT_SUCCESS:
       return logout(state, action.user);
+    case actionTypes.UNAUTHORIZE:
+      return unauthorize(state);
     default:
       return state;
   }
