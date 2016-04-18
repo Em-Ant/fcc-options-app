@@ -92,9 +92,7 @@ module.exports.fetchUser = function() {
 }
 
 module.exports.unauthorize = function() {
-  return{
-    type: actionTypes.UNAUTHORIZE,
-  };
+  browserHistory.push('/notPermitted');
 }
 
 
