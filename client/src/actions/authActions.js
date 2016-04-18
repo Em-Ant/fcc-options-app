@@ -89,7 +89,7 @@ module.exports.fetchUser = function() {
 }
 
 module.exports.unauthorize = function() {
-  dispatch({
+  return{
     type: actionTypes.UNAUTHORIZE,
-  });
+  };
 }
