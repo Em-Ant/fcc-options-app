@@ -34,10 +34,7 @@ var Users = React.createClass({
   },
   render: function() {
 
-    var modalBody = 'test';/*this.props.deleteId !== undefined ?
-    "Are You sure You want to delete Consumer '"
-      + this.props.consumers[this.props.deleteId].name + "' ?"
-      : "";*/
+
     return (
       <div className="content-wrapper">
         <Alert modalId="user-alert" modalTitle="Confirm..."
@@ -125,9 +122,15 @@ var Users = React.createClass({
 
 var mapStateToProps = function(state){
 
+  // remove current logged in user
+  var userIds = state.users.ids.slice();
+  var index = userIds.indexOf(state.auth._id);
+  if(index !== -1){
+    userIds.splice(index,1);
+  }
   return {
     usersNeedToBeFetched: state.users.needToBeFetched,
-    usersIds: state.users.ids,
+    usersIds: userIds,
     users: state.users.data,
     loadingUsers: state.usersPage.loadingUsers,
     displayForm: state.usersPage.displayForm

@@ -16,6 +16,7 @@ router.get('/me', function(req, res) {
   if (req.isAuthenticated()) {
     res.json({
       loggedIn: true,
+      _id: req.user._id,
       user: req.user.email,
       role: req.user.role
     });

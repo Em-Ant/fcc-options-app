@@ -10,49 +10,6 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').load();
 var DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || 'default';
 
 function UserHandler() {
-  this.getUser = function(req, res) {
-      if (!req.params || !req.params.userId) {
-        return res.status(400).json({
-          error: "An error occurred"
-        });
-      }
-      var userId = req.params.userId;
-      User.findOne({
-          _id: userId
-        })
-        .exec(function(err, user) {
-          if (err) {
-            console.log("An error occurred", err);
-            return res.status(400).json({
-              error: "An error occurred"
-            });
-          }
-          return res.json(user);
-        });
-
-    },
-    this.getLoggedInUser = function(req, res) {
-        if (!req.params || !req.params.userId) {
-          return res.status(400).json({
-            error: "An error occurred"
-          });
-        }
-        var userId = req.params.userId;
-        User.findOne({
-            _id: userId
-          })
-          .exec(function(err, user) {
-            if (err) {
-              console.log("An error occurred", err);
-              return res.status(400).json({
-                error: "An error occurred"
-              });
-            }
-            return res.json(user);
-          });
-
-      },
-
   /*
   Create a new User with default password (admin only)
   */
