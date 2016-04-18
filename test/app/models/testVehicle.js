@@ -175,7 +175,21 @@ describe('Vehicle: models', function() {
         done();
       });
     })
-    it('should have error rider is in driver seat', function(done) {
+    it('should have no errors if driver is in driver seat', function(done) {
+      var staff = new Staff({
+        name:"name",
+        roles:["driver"]
+      })
+      staff.save(function(err){
+        v.driver = staff
+        v.save(function(err, createdVehicle) {
+          expect(v.driver.name).to.be.equal(createdVehicle.driver.name);
+          done();
+        });
+        
+      })
+    });
+    it('should have error if rider is in driver seat', function(done) {
       var rider = new Staff({
         name:"name",
         roles:["rider"]
@@ -204,6 +218,21 @@ describe('Vehicle: models', function() {
         done();
       });
     })
+    
+    it('should have no errors when rider is in rider seat', function(done) {
+      var rider = new Staff({
+        name:"name",
+        roles:["rider"]
+      })
+      rider.save(function(err){
+        v.rider = rider;
+        v.save(function(err, createdVehicle) {
+          expect(v.rider.name).to.be.equal(createdVehicle.rider.name);
+          done();
+        });
+      })
+    });
+    
     it('should have error when driver is in rider seat', function(done) {
       var driver = new Staff({
         name:"name",
