@@ -111,6 +111,24 @@ function seedConsumers(done){
       position: {lat:45.33412389999999, lng: -93.67073979999998},
       sex: "female",
       hasWheelchair: true
+    },{
+      name: "Emily J.",
+      address: "15818 201st Ave NW,Big Lake, MN 55330, USA",
+      position: {lat:45.33412389999999, lng: -93.67073979999998},
+      sex: "female",
+      needsTwoSeats: true
+    },{
+      name: "Clarabel J.",
+      address: "15818 201st Ave NW,Big Lake, MN 55330, USA",
+      position: {lat:45.33412389999999, lng: -93.67073979999998},
+      sex: "female",
+      needsTwoSeats: true
+    },{
+      name: "Annie J.",
+      address: "15818 201st Ave NW,Big Lake, MN 55330, USA",
+      position: {lat:45.33412389999999, lng: -93.67073979999998},
+      sex: "female",
+      needsTwoSeats: true
     }, function() {
       done()
       console.log('finished populating consumers');

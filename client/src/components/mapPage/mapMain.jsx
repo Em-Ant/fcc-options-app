@@ -136,7 +136,7 @@ var ConsumerMap = React.createClass({
 
         if(nextProps.serverSuccess) {
           // reset icon to GREEN - on active bus
-          
+
           this.markers[this.props.markerLoading].setIcon(ICON_URL + GREEN);
           this.markers[this.props.markerLoading].setOpacity(1);
 
@@ -227,10 +227,18 @@ var ConsumerMap = React.createClass({
     this.markers = {};
     this.infoBoxes = {};
     var markers = this.markers;
+    var mapMarkers = [];
 
     ids.forEach(function(c_id, index) {
       var consumer = consumers[c_id];
       var position = consumer.position;
+      // stagger markers in case there are consumers with the same address
+      var min = .999999;
+      var max = 1.000001;
+      position.lat = position.lat * (Math.random() * (max - min) + min);
+      position.lng = position.lng * (Math.random() * (max - min) + min);
+
+
       var icon = ICON_URL + GRAY;
 
       var content = self.generateInfoBoxContent(c_id);
@@ -262,8 +270,12 @@ var ConsumerMap = React.createClass({
       marker.addListener('click', self.markerLeftClick.bind(null, c_id));
 
       markers[c_id] = marker;
+
       self.infoBoxes[c_id] = infowindow;
+      mapMarkers.push(marker);
     })
+
+    var markerCluster = new MarkerClusterer(self.map, markers);
   },
   markerLeftClick: function (c_id) {
     if(!this.props.markerLoading) {

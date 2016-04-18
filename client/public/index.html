@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,6 +50,15 @@
 <script src="static/adminLTE/dist/js/app.min.js"></script>
 <!-- Google maps-->
 <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+
+<script type="text/javascript">
+  var script = '<script type="text/javascript" src="static/js/markerclusterer';
+  if (document.location.search.indexOf('compiled') !== -1) {
+    script += '_packed';
+  }
+  script += '.js"><' + '/script>';
+  document.write(script);
+</script>
 
 <script type="text/javascript" src="static/vendors.js"></script>
 <script type="text/javascript" src="static/bundle.js"></script>
