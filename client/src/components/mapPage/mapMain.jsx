@@ -8,6 +8,7 @@ var VehiclePanel = require('./vehiclePanel.jsx')
 var Directions = require('../directions/directions.jsx')
 var _addFlags = require('../../utils/addConsumerFlags');
 var vehicleUtils = require('../../utils/vehicleUtils');
+var PrintDiv = require('./printReport.jsx')
 
 // COLORS
 var RED = "FE7569";     //options inc address
@@ -398,66 +399,7 @@ var ConsumerMap = React.createClass({
           <div id="test-map" className="map-height"></div>
           </div>
         </div>
-        <div id="print">
-          <table className="table">
-            <thead>
-              <tr>
-                <th colSpan="4">
-                  Bus 1
-                </th>
-              </tr>
-              <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Needs</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Jane Doe</td>
-                <td>Narrow Road, 124, NYC</td>
-                <td>444-5556669</td>
-                <td>None</td>
-              </tr>
-              <tr>
-                <td>John Doe</td>
-                <td>Long street, 124, NYC</td>
-                <td>444-5556669</td>
-                <td>Wheelchair, Medications</td>
-              </tr>
-            </tbody>
-          </table>
-          <table className="table">
-            <thead>
-              <tr>
-                <th colSpan="4">
-                  Bus 2
-                </th>
-              </tr>
-              <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Needs</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Jane Doe</td>
-                <td>Narrow Road, 124, NYC</td>
-                <td>444-5556669</td>
-                <td>None</td>
-              </tr>
-              <tr>
-                <td>John Doe</td>
-                <td>Long street, 124, NYC</td>
-                <td>444-5556669</td>
-                <td>Wheelchair, Medications</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <PrintDiv/>
       </div>
 
     );

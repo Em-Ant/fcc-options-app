@@ -1,7 +1,7 @@
 var React = require('react');
 var connect = require('react-redux').connect;
 var CollapsibleBusBox = require('./collapsibleBusBox.jsx');
-
+var printStyle = require('raw!./printStyle.txt')
 
 var VehiclePanel = React.createClass({
   componentDidMount: function () {
@@ -11,11 +11,30 @@ var VehiclePanel = React.createClass({
       $('#vp-'+this.props.activeVehicleId).collapse('show');
     }
   },
+  print: function() {
+    console.log('print', printStyle)
+    var w=window.open();
+    w.document.write('<!DOCTYPE html><html><head>');
+    //w.document.write('<link rel="stylesheet" href="static/adminLTE/bootstrap/css/bootstrap.min.css" media="print"/>');
+    w.document.write('<style type="text/css">');
+    w.document.write(printStyle);
+    w.document.write('</style></head><body>');
+    w.document.write(document.getElementById('print-report').innerHTML);
+    w.document.write('</body></html>')
+    w.print();
+    //w.close();
+
+  },
   render : function() {
     return (
       <div className="box box-widget cust-height">
         <div className="box-header with-border">
           <h3 className="box-title">Vehicles</h3>
+          <div className="pull-right">
+            <a href="#" onClick={this.print}>
+              <i className="fa fa-print cust-btn"></i>
+            </a>    
+          </div>
         </div>
         <div className="box-body">
           <div className="box-group" id="vehicle-accrd" role="tablist" aria-multiselectable="true">

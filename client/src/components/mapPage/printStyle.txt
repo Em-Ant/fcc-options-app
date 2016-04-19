@@ -1,0 +1,56 @@
+body {
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+th {
+  height: 20px;
+}
+
+th, td {
+  padding: 1px 3px;
+  vertical-align: middle;
+}
+
+table, td, th {
+  border: solid 1px black;
+
+}
+
+.bus-name {
+  background-color: #ddd;
+}
+
+.name-col {
+  width: 20%;
+}
+
+.addr-col {
+  width: 35%;
+}
+
+.phone-col {
+  width: 15%;
+}
+
+.needs-col {
+  width: 20%;
+}
+
+@media screen {
+  body{
+    padding: 30px 20px;
+  }
+}
+
+@media print {
+  body {
+    padding: 0
+  }
+}
