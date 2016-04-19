@@ -8,7 +8,10 @@ var _addFlags = require('../../utils/addConsumerFlags');
 var vehicleUtils = require('../../utils/vehicleUtils');
 var GoogleMapLoader = require('react-google-maps').GoogleMapLoader;
 var GoogleMap = require('react-google-maps').GoogleMap;
+var InfoWindow = require('react-google-maps').InfoWindow;
 var Marker = require('react-google-maps').Marker;
+var triggerEvent = require("react-google-maps/lib/utils").triggerEvent;
+var MarkerInfoWindow = require('./MarkerInfoWindow.jsx');
 
 // COLORS
 var RED = "FE7569";     //options inc address
@@ -30,32 +33,17 @@ var map;
 
 var ConsumerMap = React.createClass({
   map: null,
+  _googleMapComponent:null,
   markers: null,
   infoBoxes: null,
   tripPath: null,
+  handleWindowResize:function(){
+    //center map on options inc marker
+    this._googleMapComponent.panTo(this.props.optionsIncMarker.position);
+
+  },
   componentDidMount: function() {
-    console.log("component did mount",this.map);
-  //   var positionHome = this.props.homePosition
-  //   var map = this.map = map = new google.maps.Map(document.getElementById('test-map'), {
-  //     center: positionHome,
-  //     zoom: 12
-  //   });
-  //   var iconHome = ICON_URL + RED;
-  //   var markerHome = new google.maps.Marker(
-  //     {
-  //       position: positionHome,
-  //       map: map,
-  //       title: "Options, Inc.",
-  //       icon: iconHome
-  //     });
-  //   var center;
-   //
-  //   // centering map on window resize
-  //   google.maps.event.addDomListener(window, 'resize', function(){
-  //     map.setCenter(positionHome);
-  //   });
-   //
-  //  this.mapConsumersToVehicles();
+    window.addEventListener('resize', this.handleWindowResize);
   //  this.showConsumersMarker();
   },
 
@@ -401,6 +389,35 @@ var ConsumerMap = React.createClass({
       console.log('WARN: markers frozen in loading state');
     }
   },
+  handleMarkerMouseover:function(marker){
+
+    //TODO dispatch action to redux to do this
+    marker.showInfo = true;
+    this.setState(this.state);
+  },
+  handleMarkerMouseout:function(marker){
+
+    //TODO dispatch action to redux to do this
+    marker.showInfo = false;
+    this.setState(this.state);
+  },
+  renderInfoWindow(ref, marker) {
+    //TODO redux should generate this stuff
+    var consumer = this.props.consumers[marker.consumerId];
+    var assignedVehicleId = this.props.consumersToVehiclesMap[marker.consumerId];
+    var assignedVehicle = this.props.vehicles[assignedVehicleId];
+    var flags = _addFlags(consumer);
+    return (
+      //You can nest components inside of InfoWindow!
+      <InfoWindow
+        key={ ref + '_info_window'} >
+        <MarkerInfoWindow consumer = {consumer} assignedVehicle = {assignedVehicle} flags = {flags}/>
+      </InfoWindow>
+
+    );
+
+  },
+
   render: function() {
     var self = this;
     return (
@@ -416,15 +433,32 @@ var ConsumerMap = React.createClass({
         googleMapElement={
           <GoogleMap
             ref={function(map){
-              self.map = map;
+              self._googleMapComponent = map;
             }}
             defaultZoom={12}
-            defaultCenter={this.props.homePosition}
-            onClick={this.handleMapClick}>
-            <Marker position={self.props.homePosition}  title="Options, Inc." icon={ICON_URL + RED}/>
+            defaultCenter={self.props.optionsIncMarker.position}
+            onClick={self.handleMapClick}
+            onResize={self.handleMapResize}
+            onMouseover={self.handleMapMouseover}
+            >
+            <Marker
+              position={self.props.optionsIncMarker.position}
+              title={self.props.optionsIncMarker.title}
+              icon={self.props.optionsIncMarker.icon}/>
             {self.props.consumerMarkers.map(function(marker, index){
+              const markerRef = 'marker_' + index;
               return(
-                <Marker key={index} position={marker.position} title = {marker.name} icon={marker.icon} onClick={self.handleMarkerClick.bind(null,marker.consumerId)}/>
+                <Marker
+                  key={index}
+                  ref= {markerRef}
+                  position={marker.position}
+                  title = {marker.name}
+                  icon={marker.icon}
+                  onClick={self.handleMarkerClick.bind(null,marker.consumerId)}
+                  onMouseover={self.handleMarkerMouseover.bind(null, marker)}
+                  onMouseout={self.handleMarkerMouseout.bind(null, marker)}>
+                  {marker.showInfo ? self.renderInfoWindow(markerRef, marker) : null}
+                </Marker>
               )
             })}
           </GoogleMap>
@@ -453,17 +487,21 @@ var mapConsumersToVehicles = function(vehiclesIds, vehicles) {
   })
   return consumersToVehiclesMap
 }
-var createConsumerMarkers = function(consumerIds, consumers, vehicleIds, vehicles, activeVehicleId) {
+var createConsumerMarkers = function(consumerIds, consumers, vehicleIds, vehicles, activeVehicleId, highlightedConsumerId) {
   var consumersToVehiclesMap = mapConsumersToVehicles(vehicleIds, vehicles);
   var consumerMarkers = consumerIds.map(function(c_id){
     var consumer = consumers[c_id];
     var icon = ICON_URL + GRAY;
-    if (consumersToVehiclesMap[c_id]) {
+    if(highlightedConsumerId == c_id ){
+      icon = ICON_URL + GREEN_H;
+    }
+    else if (consumersToVehiclesMap[c_id]) {
       // consumer is on board
-      icon = activeVehicleId
-        !== consumersToVehiclesMap[c_id]
-        ? (ICON_URL + YELLOW)   // not on the active bus
-        : (ICON_URL + GREEN);   // on the active bus
+      if(activeVehicleId !== consumersToVehiclesMap[c_id]){
+        icon = ICON_URL + YELLOW;// not on the active bus
+      }else{
+        icon = ICON_URL + GREEN;// on the active bus
+      }
     }
     var marker = {
       position:consumer.position,
@@ -472,23 +510,22 @@ var createConsumerMarkers = function(consumerIds, consumers, vehicleIds, vehicle
       consumerId:c_id
     }
 
-    // stagger markers in case there are consumers with the same address
-    var min = .999999;
-    var max = 1.000001;
-    marker.position.lat = marker.position.lat * (Math.random() * (max - min) + min);
-    marker.position.lng = marker.position.lng * (Math.random() * (max - min) + min);
-
-
-
     return marker;
   });
   return consumerMarkers;
 }
+var createOptionsIncMarker = function(position){
+  return {
+    position:position,
+    title:"Options, Inc.",
+    icon:ICON_URL + RED
+  }
+}
 var mapStateToProps = function(state){
   return{
-    consumerMarkers: createConsumerMarkers(state.consumers.ids, state.consumers.data,state.vehicles.ids, state.vehicles.data,state.mapPage.activeVehicleId),
+    consumerMarkers: createConsumerMarkers(state.consumers.ids, state.consumers.data,state.vehicles.ids, state.vehicles.data,state.mapPage.activeVehicleId, state.mapPage.highlightedMarker),
+    optionsIncMarker: createOptionsIncMarker(state.settings.optionsIncCoords),
     consumersToVehiclesMap:mapConsumersToVehicles(state.vehicles.ids, state.vehicles.data),
-    homePosition: state.settings.optionsIncCoords,
     consumersIds: state.consumers.ids,
     vehiclesIds: state.vehicles.ids,
     vehicles : state.vehicles.data,
