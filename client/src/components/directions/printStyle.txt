@@ -1,0 +1,18 @@
+body {
+  font-family: sans-serif;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th {
+  height: 20px;
+}
+
+table, td, th {
+  border: solid 1px black;
+
+}
