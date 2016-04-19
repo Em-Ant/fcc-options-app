@@ -22,8 +22,6 @@ var ICON_URL =
 
 /**
 * THINGS TODO:
-* 1. Handle driving directions
-* 2. Include bus with foldable seats
 * 3. Handle errors with infoboxes
 * 4. If possible give a better structure to this huge file
 */
@@ -272,10 +270,29 @@ var ConsumerMap = React.createClass({
       markers[c_id] = marker;
 
       self.infoBoxes[c_id] = infowindow;
+      marker.c_id=c_id;
       mapMarkers.push(marker);
     })
 
-    var markerCluster = new MarkerClusterer(self.map, markers);
+    var markerClusters = new MarkerClusterer(self.map, markers,{
+      gridSize: 10
+    });
+
+    self.addInfoWindowToCluster(markerClusters, consumers, self.map);
+
+  },
+  addInfoWindowToCluster(clusters, consumers, map){
+    var self = this;
+    var infoWindow = new google.maps.InfoWindow();
+    google.maps.event.addListener(clusters, "mouseover", function (cluster) {
+      var content = '';
+      cluster.markers_.forEach(function(marker){
+        content+=self.generateInfoBoxContent(marker.c_id);
+      })
+      infoWindow.setContent(content);
+      infoWindow.setPosition(cluster.getCenter());
+      infoWindow.open(map);
+    });
   },
   markerLeftClick: function (c_id) {
     if(!this.props.markerLoading) {
@@ -339,6 +356,7 @@ var ConsumerMap = React.createClass({
 
       this.tripPath.setMap(this.map);
   },
+
 
   getInitialState:function(){
     return {
