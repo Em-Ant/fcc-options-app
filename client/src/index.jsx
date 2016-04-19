@@ -15,6 +15,7 @@ var Staff = require('./components/staffPage/staffComponent.jsx');
 var Consumers = require('./containers/consumersPageContainer.jsx');
 
 var ConsumerRoute3 = require('./components/mapPage/mapWrapper.jsx');
+var MapPageTest = require('./components/mapPageTest/mapWrapper.jsx');
 var ConsumerRoute2 = require('./components/consumerRouteMapTest_AA.jsx');
 var ConsumerRoute = require('./components/consumerRouteMapTest_EA.jsx');
 
@@ -65,8 +66,7 @@ ReactDOM.render(
         <Route path="/routes" component={VehicleRoutes} onEnter={requireAuth} />
         <Route path="/consumers" component={Consumers} onEnter={requireAuth} />
         <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
-        <Route path="/consumer-route" component={ConsumerRoute} onEnter={requireAuth} />
-        <Route path="/consumer-route2" component={ConsumerRoute2} onEnter={requireAuth} />
+        <Route path="/map-test" component={MapPageTest} onEnter={requireAuth} />
         <Route path="/users" component={User} onEnter={requireRole.bind(null, ADMIN)} />
         <Route path="/staff" component={Staff} onEnter={requireAuth} />
         <Route path="/notPermitted" component={NotPermitted} />
