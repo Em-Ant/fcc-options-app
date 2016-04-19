@@ -11,7 +11,9 @@ var GoogleMap = require('react-google-maps').GoogleMap;
 var InfoWindow = require('react-google-maps').InfoWindow;
 var Marker = require('react-google-maps').Marker;
 var triggerEvent = require("react-google-maps/lib/utils").triggerEvent;
-var MarkerInfoWindow = require('./MarkerInfoWindow.jsx');
+var ConsumerMarkerInfo = require('./consumerMarkerInfo.jsx');
+var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
+
 
 // COLORS
 var RED = "FE7569";     //options inc address
@@ -411,7 +413,7 @@ var ConsumerMap = React.createClass({
       //You can nest components inside of InfoWindow!
       <InfoWindow
         key={ ref + '_info_window'} >
-        <MarkerInfoWindow consumer = {consumer} assignedVehicle = {assignedVehicle} flags = {flags}/>
+        <ConsumerMarkerInfo consumer = {consumer} assignedVehicle = {assignedVehicle} flags = {flags}/>
       </InfoWindow>
 
     );
@@ -445,6 +447,11 @@ var ConsumerMap = React.createClass({
               position={self.props.optionsIncMarker.position}
               title={self.props.optionsIncMarker.title}
               icon={self.props.optionsIncMarker.icon}/>
+            <MarkerClusterer
+              averageCenter
+              enableRetinaIcons
+              gridSize={ 1 }
+            >
             {self.props.consumerMarkers.map(function(marker, index){
               const markerRef = 'marker_' + index;
               return(
@@ -461,6 +468,7 @@ var ConsumerMap = React.createClass({
                 </Marker>
               )
             })}
+            </MarkerClusterer>
           </GoogleMap>
         }
       />

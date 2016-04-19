@@ -1,8 +1,9 @@
 'use strict'
 
 var React = require('react');
-//TODO get props from redux
-var MarkerInfoWindow = React.createClass({
+var connect = require('react-redux').connect;
+var ConsumerMarkerInfo = React.createClass({
+
   render: function() {
     return (
       <div>
@@ -20,4 +21,14 @@ var MarkerInfoWindow = React.createClass({
     )
   }
 });
-module.exports = MarkerInfoWindow;
+
+// var mapStateToProps = function(state, ownProps){
+//   // TODO get everything from redux state
+//   return {
+//     consumer: ownProps.consumer,
+//     flags: ownProps.flags,
+//     assignedVehicle: ownProps.assignedVehicle
+//   }
+// }
+// module.exports = connect(mapStateToProps)(ConsumerMarkerInfo);
+module.exports = ConsumerMarkerInfo;
