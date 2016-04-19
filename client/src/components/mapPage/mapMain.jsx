@@ -272,9 +272,8 @@ var ConsumerMap = React.createClass({
       marker.c_id=c_id;
       mapMarkers.push(marker);
     })
-
     var markerClusters = new MarkerClusterer(self.map, markers,{
-      gridSize: 10
+      gridSize: 1
     });
 
     self.addInfoWindowToCluster(markerClusters, consumers, self.map);
