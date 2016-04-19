@@ -254,7 +254,6 @@ var ConsumerMap = React.createClass({
         {position: position, map: self.map, title: consumer.name, icon: icon});
 
 
-
       var infowindow = new google.maps.InfoWindow({content: content});
 
       marker.addListener('mouseover', function() {
@@ -284,6 +283,8 @@ var ConsumerMap = React.createClass({
   addInfoWindowToCluster(clusters, consumers, map){
     var self = this;
     var infoWindow = new google.maps.InfoWindow();
+    var infoWindow = new google.maps.InfoWindow();
+
     google.maps.event.addListener(clusters, "mouseover", function (cluster) {
       var content =
       '<div>' +
@@ -307,6 +308,9 @@ var ConsumerMap = React.createClass({
       infoWindow.setContent(content);
       infoWindow.setPosition(cluster.getCenter());
       infoWindow.open(map);
+    });
+    this.map.addListener('zoom_changed', function() {
+      infoWindow.close();
     });
   },
   markerLeftClick: function (c_id) {
