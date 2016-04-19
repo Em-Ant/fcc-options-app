@@ -16,6 +16,7 @@ var VehiclePanel = React.createClass({
     var w=window.open();
     w.document.write('<!DOCTYPE html><html><head>');
     //w.document.write('<link rel="stylesheet" href="static/adminLTE/bootstrap/css/bootstrap.min.css" media="print"/>');
+    w.document.write('<title>Options, Inc. | Vehicles Report</title>');
     w.document.write('<style type="text/css">');
     w.document.write(printStyle);
     w.document.write('</style></head><body>');
@@ -33,7 +34,7 @@ var VehiclePanel = React.createClass({
           <div className="pull-right">
             <a href="#" onClick={this.print}>
               <i className="fa fa-print cust-btn"></i>
-            </a>    
+            </a>
           </div>
         </div>
         <div className="box-body">
