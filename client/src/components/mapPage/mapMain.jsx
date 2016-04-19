@@ -282,7 +282,6 @@ var ConsumerMap = React.createClass({
   addInfoWindowToCluster(clusters, consumers, map){
     var self = this;
     var infoWindow = new google.maps.InfoWindow();
-    var infoWindow = new google.maps.InfoWindow();
 
     google.maps.event.addListener(clusters, "mouseover", function (cluster) {
       var content =
@@ -293,7 +292,7 @@ var ConsumerMap = React.createClass({
         content +=
         '<li class="item">' +
           '<div class="cluster-infowindow-marker">' +
-            '<img src="'+ICON_URL + GRAY+'">'+
+            '<img src="'+marker.getIcon()+'">'+
          '</div>'+
           '<div class="product-info">'+
            self.generateInfoBoxContent(marker.c_id)
