@@ -285,10 +285,25 @@ var ConsumerMap = React.createClass({
     var self = this;
     var infoWindow = new google.maps.InfoWindow();
     google.maps.event.addListener(clusters, "mouseover", function (cluster) {
-      var content = '';
+      var content =
+      '<div>' +
+        '<div class="box-body">' +
+          '<ul class="products-list product-list-in-box">';
       cluster.markers_.forEach(function(marker){
-        content+=self.generateInfoBoxContent(marker.c_id);
+        content +=
+        '<li class="item">' +
+          '<div class="cluster-infowindow-marker">' +
+            '<img src="'+ICON_URL + GRAY+'">'+
+         '</div>'+
+          '<div class="product-info">'+
+           self.generateInfoBoxContent(marker.c_id)
+          '</div>'+
+        '</li>';
       })
+      content +=
+          '</ul>' +
+        '</div>' +
+      '</div>';
       infoWindow.setContent(content);
       infoWindow.setPosition(cluster.getCenter());
       infoWindow.open(map);
