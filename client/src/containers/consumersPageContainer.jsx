@@ -17,7 +17,8 @@ var mapStateToProps = function(state){
     editId: state.consumersForm.editId,
     formLoading : state.consumersForm.updatingConsumers,
     deleteId: state.consumersForm.deleteId,
-    displayForm: state.consumersForm.displayForm
+    displayForm: state.consumersForm.displayForm,
+    errorMsg: state.consumersForm.errorMsg
   }
 }
 

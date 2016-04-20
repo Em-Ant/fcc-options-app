@@ -15,13 +15,15 @@ var geocoder = require('../utils/geocoder.js');
 
 function ConsumerHandler () {
 
-  function handleError(res, err) {
-    return res.status(500).send(err);
-  };
+  var getErrorMessage = function(err) {
+    //returns first error message
+    var key = Object.keys(err.errors)[0];
+    return err.errors[key].message;
+  }
 
   this.index = function(req,res) {
     Consumer.find({}, null, {sort: 'createdAt'}, function (err, consumers) {
-      if(err) { return handleError(res, err); }
+      if(err) { return res.status(400).json({msg: 'Error retrieving consumers'}); }
       return res.status(200).json(consumers);
     });
   }
@@ -29,18 +31,34 @@ function ConsumerHandler () {
   this.show = function(req,res) {
     Consumer.findById(req.params.id, function (err, consumer) {
       if(err) { return handleError(res, err); }
-      if(!consumer) { return res.status(404).send('Not Found'); }
+      if(!consumer) { return res.status(404).json({msg: 'Consumer Not Found'});}
       return res.json(consumer);
     });
   }
 
   function createConsumer(consumer, res){
     Consumer.create(consumer, function(err, addedConsumer) {
-        if(err) { return handleError(res, err); }
+        if(err) {
+          console.log(err);
+          return res.status(400).json({
+            msg: getErrorMessage(err)
+          });
+        }
         return res.status(201).json(addedConsumer);
     });
   }
   this.create = function(req,res) {
+    //Validate input
+    req.assert('name', 'Name must not be empty').notEmpty();
+    req.assert('sex', 'Sex must not be empty').notEmpty();
+
+    //display validation errors and exit
+    var errors = req.validationErrors();
+    if (errors) {
+      //just display the first validation error
+      return res.status(400).json(errors[0]);
+    }
+
     var consumer = req.body;
     //get coordinates for the address
 
@@ -48,7 +66,7 @@ function ConsumerHandler () {
       if(err) { return handleError(res, err); }
       //geocoder could not get coords for address
       if(!coords){
-        return res.status(404).send('Invalid Address');
+        return res.status(404).json({msg: 'Invalid Address'});
       }
       //set the coords to the consumer
       consumer.position = coords;
@@ -61,8 +79,8 @@ function ConsumerHandler () {
   this.update = function(req,res) {
     if(req.body._id) { delete req.body._id; }
     Consumer.findById(req.params.id, function (err, consumer) {
-      if (err) { return handleError(res, err); }
-      if(!consumer) { return res.status(404).send('Not Found'); }
+      if (err) { return res.status(400).json({msg: 'Error retrieving consumer'});}
+      if(!consumer) { return res.status(404).json({msg: 'Consumer cannot be found'});}
       if (consumer.address !== req.body.address) {
         // address has been modified: new geo-location is needed
         var updated = merge(consumer, req.body);
@@ -70,12 +88,16 @@ function ConsumerHandler () {
           if(err) { return handleError(res, err); }
           // geocoder could not get coords for address
           if(!coords){
-            return res.status(404).send('Invalid Address');
+            return res.status(404).json({msg: 'Invalid Address'});
           }
           // set the coords to the consumer
           updated.position = coords;
           updated.save(function (err) {
-            if (err) { return handleError(res, err); }
+            if (err) {
+              return res.status(400).json({
+                msg: getErrorMessage(err)
+              });
+            }
             return res.status(200).json(updated);
           });
         });
@@ -83,7 +105,11 @@ function ConsumerHandler () {
         // normally update the consumer
         var updated = merge(consumer, req.body);
         updated.save(function (err) {
-          if (err) { return handleError(res, err); }
+          if (err) {
+            return res.status(400).json({
+              msg: getErrorMessage(err)
+            });
+          }
           return res.status(200).json(updated);
         });
       }
@@ -93,10 +119,10 @@ function ConsumerHandler () {
 
   this.destroy = function(req,res) {
     Consumer.findById(req.params.id, function (err, consumer) {
-      if(err) { return handleError(res, err); }
-      if(!consumer) { return res.status(404).send('Not Found'); }
+      if(err) { return res.status(400).json({msg: 'Error retrieving consumer'});}
+      if(!consumer) { return res.status(404).json({msg: 'Consumer cannot be found'});}
       consumer.remove(function(err) {
-        if(err) { return handleError(res, err); }
+        if(err) { return res.status(400).json({msg: 'Error deleting consumer'}) }
         return res.status(200).json({status: 'delete ok'});
       });
     });

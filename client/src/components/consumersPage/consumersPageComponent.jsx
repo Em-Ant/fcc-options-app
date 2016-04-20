@@ -16,6 +16,9 @@ var Consumers = React.createClass({
       this.props.loadVehicles();
     }
   },
+  componentWillReceiveProps: function(nextProps) {
+    console.log('errMsg', nextProps.errorMsg);
+  },
   render: function() {
 
     var modalBody = this.props.deleteId !== undefined ?
@@ -116,6 +119,7 @@ var Consumers = React.createClass({
               editId={this.props.editId}
               loading={this.props.formLoading}
               onClose={this.props.resetEditMode}
+              msg={this.props.errorMsg}
             />
             : null
         }

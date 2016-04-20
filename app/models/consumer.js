@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 var Consumer = new Schema({
   name: {
     type: String,
-    required: true
+    required: [true, 'Name is required'],
   },
   sex: {
     type: String,
@@ -17,7 +17,7 @@ var Consumer = new Schema({
   },
   address: {
     type: String,
-    required: true
+    required: [true, 'Address is required'],
   },
   phone: String,
   position: {
@@ -30,7 +30,7 @@ var Consumer = new Schema({
     type: Date,
     default: Date.now
   },
-  
+
   // Needs flags
   needsWave: Boolean,
   behavioralIssues: Boolean,

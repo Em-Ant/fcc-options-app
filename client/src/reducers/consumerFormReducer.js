@@ -27,6 +27,7 @@ function setErrorOnPageLoading(state, error) {
 function setError(state, error) {
   return Object.assign({}, state, {
 
+    errorMsg: error.responseJSON.msg,
     // Reset Spinners
     updatingConsumers: undefined,
     loadingConsumers: undefined
@@ -42,6 +43,7 @@ function setEditMode (state, id) {
 
 function resetEditMode (state) {
   return Object.assign({}, state, {
+    errorMsg: undefined,
     editId: undefined,
     displayForm: undefined
   })
@@ -49,6 +51,7 @@ function resetEditMode (state) {
 
 function updateConsumer (state) {
     return Object.assign({}, state, {
+      errorMsg: undefined,
       updatingConsumers: undefined,
       loadingConsumers: undefined,
       editId: undefined,
@@ -58,6 +61,7 @@ function updateConsumer (state) {
 
 function deleteConsumer (state) {
     return Object.assign({}, state, {
+      errorMsg: undefined,
       updatingConsumers: undefined,
       loadingConsumers: undefined,
       deleteId: undefined,
@@ -70,6 +74,7 @@ function deleteConsumer (state) {
 function addConsumer (state) {
 
     return Object.assign({}, state, {
+      errorMsg: undefined,
       updatingConsumers: undefined,
       loadingConsumers: undefined,
       displayForm: undefined
@@ -93,6 +98,7 @@ var initState = {};
 // TODO: HANDLE ERRORS
 var reducer = function(state, action) {
   state = state || initState;
+  console.log(action.type, action.error ? action.error.responseJSON : 'no err');
   switch (action.type){
     case actionTypes.CONSUMER_INDEX_LOADING:
       return loadingConsumers(state);
@@ -104,13 +110,13 @@ var reducer = function(state, action) {
       return updatingConsumers(state);
     case actionTypes.CONSUMER_UPDATE_SUCCESS:
       return updateConsumer(state);
-    case actionTypes.CONSUMER_UPDATE_ERROR:
-      return setError(state, action.error);
     case actionTypes.CONSUMER_CREATE_LOADING:
       return updatingConsumers(state);
     case actionTypes.CONSUMER_CREATE_SUCCESS:
       return addConsumer(state);
+    case actionTypes.CONSUMER_DELETE_ERROR:
     case actionTypes.CONSUMER_CREATE_ERROR:
+    case actionTypes.CONSUMER_UPDATE_ERROR:
       return setError(state, action.error);
     case actionTypes.CONSUMER_SET_EDIT_MODE:
       return setEditMode(state, action.id);
@@ -122,6 +128,7 @@ var reducer = function(state, action) {
       return updatingConsumers(state);
     case actionTypes.CONSUMER_DELETE_SUCCESS:
       return deleteConsumer(state);
+
     case actionTypes.CONSUMER_SET_ADD_MODE:
       return setEditMode(state, undefined);
     default:

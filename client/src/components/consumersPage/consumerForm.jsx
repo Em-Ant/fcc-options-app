@@ -1,6 +1,7 @@
 'use strict'
 
 var React = require('react');
+var Message = require('../message.jsx');
 
 /**
 * Form to handle Consumer Create/Update
@@ -44,10 +45,10 @@ var ConsumerForm = React.createClass({
     var newConsumer = {};
     newConsumer._id = this.props.defaults._id;
 
-    newConsumer.name = this.refs.name.value;
+    newConsumer.name = this.refs.name.value || '';
     newConsumer.address = this.refs.address.value;
     newConsumer.phone = this.refs.phone.value;
-    newConsumer.sex = this.refs.sex.value;
+    newConsumer.sex = this.refs.sex.value || '';
     newConsumer.notes = this.refs.notes.value;
 
     newConsumer.needsWave = this.refs.wave.checked;
@@ -78,6 +79,7 @@ var ConsumerForm = React.createClass({
     if(!nextProps.loading){
       this.setDefaults(nextProps);
     }
+    console.log('msg', nextProps.msg);
   },
   render: function() {
     var boxClass = this.props.verb === "Edit" ? "box box-warning" : "box box-info";
@@ -93,7 +95,9 @@ var ConsumerForm = React.createClass({
                     </button>
                   </div>
                 </div>
-
+                {this.props.msg
+                  ? <Message message={{msg: this.props.msg, type: 'error'}}/>
+                  : null}
                 <form className="form-horizontal" onSubmit={this.handleSubmit}>
                   <div className="box-body">
                     <div className="form-group">
