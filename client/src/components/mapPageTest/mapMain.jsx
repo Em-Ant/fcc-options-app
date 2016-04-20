@@ -419,7 +419,16 @@ var ConsumerMap = React.createClass({
     );
 
   },
-
+  handleClusterMouseover:function(cluster){
+    cluster.markers_.forEach(function(marker){
+      //TODO markers inside the cluster are missing information!
+      //I don't know how to associate these markers to consumers
+      //I need to get the consumer id associate to this marker to continue
+      console.log(marker);
+      console.log(marker.getIcon());
+      console.log(marker.consumerId);
+    })
+  },
   render: function() {
     var self = this;
     return (
@@ -448,9 +457,11 @@ var ConsumerMap = React.createClass({
               title={self.props.optionsIncMarker.title}
               icon={self.props.optionsIncMarker.icon}/>
             <MarkerClusterer
+              ref="markerClusterer"
               averageCenter
               enableRetinaIcons
               gridSize={ 1 }
+              onMouseover={this.handleClusterMouseover}
             >
             {self.props.consumerMarkers.map(function(marker, index){
               const markerRef = 'marker_' + index;
@@ -461,6 +472,7 @@ var ConsumerMap = React.createClass({
                   position={marker.position}
                   title = {marker.name}
                   icon={marker.icon}
+                  consumerId={marker.consumerId}
                   onClick={self.handleMarkerClick.bind(null,marker.consumerId)}
                   onMouseover={self.handleMarkerMouseover.bind(null, marker)}
                   onMouseout={self.handleMarkerMouseout.bind(null, marker)}>
