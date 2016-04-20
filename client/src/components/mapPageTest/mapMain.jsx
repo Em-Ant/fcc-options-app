@@ -403,7 +403,7 @@ var ConsumerMap = React.createClass({
     marker.showInfo = false;
     this.setState(this.state);
   },
-  renderInfoWindow(ref, marker) {
+  renderInfoWindow(marker) {
     //TODO redux should generate this stuff
     var consumer = this.props.consumers[marker.consumerId];
     var assignedVehicleId = this.props.consumersToVehiclesMap[marker.consumerId];
@@ -412,7 +412,7 @@ var ConsumerMap = React.createClass({
     return (
       //You can nest components inside of InfoWindow!
       <InfoWindow
-        key={ ref + '_info_window'} >
+        key={ 'info_window'} >
         <ConsumerMarkerInfo consumer = {consumer} assignedVehicle = {assignedVehicle} flags = {flags}/>
       </InfoWindow>
 
@@ -424,9 +424,9 @@ var ConsumerMap = React.createClass({
       //TODO markers inside the cluster are missing information!
       //I don't know how to associate these markers to consumers
       //I need to get the consumer id associate to this marker to continue
-      console.log(marker);
-      console.log(marker.getIcon());
-      console.log(marker.consumerId);
+       console.log(marker);
+       console.log(marker.getIcon());
+       console.log(marker.consumerId);
     })
   },
   render: function() {
@@ -468,15 +468,20 @@ var ConsumerMap = React.createClass({
               return(
                 <Marker
                   key={index}
-                  ref= {markerRef}
+                  ref= {function(refMarker){
+                    //HACK:  don't know any other way for the cluster to see
+                    //the consumer id
+                    if(refMarker){
+                      refMarker.state.marker.consumerId=marker.consumerId;
+                    }
+                  }}
                   position={marker.position}
                   title = {marker.name}
                   icon={marker.icon}
-                  consumerId={marker.consumerId}
                   onClick={self.handleMarkerClick.bind(null,marker.consumerId)}
                   onMouseover={self.handleMarkerMouseover.bind(null, marker)}
                   onMouseout={self.handleMarkerMouseout.bind(null, marker)}>
-                  {marker.showInfo ? self.renderInfoWindow(markerRef, marker) : null}
+                  {marker.showInfo ? self.renderInfoWindow(marker) : null}
                 </Marker>
               )
             })}
@@ -529,6 +534,11 @@ var createConsumerMarkers = function(consumerIds, consumers, vehicleIds, vehicle
       icon: icon,
       consumerId:c_id
     }
+    var min = .999999;
+    var max = 1.000001;
+    marker.position.lat = marker.position.lat * (Math.random() * (max - min) + min);
+    marker.position.lng = marker.position.lng * (Math.random() * (max - min) + min);
+
 
     return marker;
   });
