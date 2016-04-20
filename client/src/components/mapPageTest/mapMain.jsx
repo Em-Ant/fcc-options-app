@@ -4,7 +4,6 @@ var React = require('react');
 var connect = require('react-redux').connect;
 var cActions = require('../../actions/consumerActions');
 var mActions = require('../../actions/mapActions');
-var _addFlags = require('../../utils/addConsumerFlags');
 var vehicleUtils = require('../../utils/vehicleUtils');
 var GoogleMapLoader = require('react-google-maps').GoogleMapLoader;
 var GoogleMap = require('react-google-maps').GoogleMap;
@@ -12,6 +11,7 @@ var InfoWindow = require('react-google-maps').InfoWindow;
 var Marker = require('react-google-maps').Marker;
 var triggerEvent = require("react-google-maps/lib/utils").triggerEvent;
 var ConsumerMarkerInfo = require('./consumerMarkerInfo.jsx');
+var ClusterInfo = require('./clusterInfo.jsx');
 var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
 
 
@@ -48,7 +48,6 @@ var ConsumerMap = React.createClass({
     window.addEventListener('resize', this.handleWindowResize);
   //  this.showConsumersMarker();
   },
-
   setMarkersColorOnActiveBusChange: function (
     nextActiveVehicleId, currActiveVehicleId) {
 
@@ -401,10 +400,9 @@ var ConsumerMap = React.createClass({
     var consumer = this.props.consumers[marker.consumerId];
     var assignedVehicleId = this.props.consumersToVehiclesMap[marker.consumerId];
     var assignedVehicle = this.props.vehicles[assignedVehicleId];
-    var flags = _addFlags(consumer);
     return (
       <InfoWindow>
-        <ConsumerMarkerInfo consumer = {consumer} assignedVehicle = {assignedVehicle} flags = {flags}/>
+        <ConsumerMarkerInfo consumer = {consumer} assignedVehicle = {assignedVehicle}/>
       </InfoWindow>
     );
 
@@ -412,36 +410,30 @@ var ConsumerMap = React.createClass({
   renderClusterInfoWindow(cluster) {
     //TODO redux should generate this stuff
     var self = this;
-    console.log("cluster when rendering info window", cluster);
     return (
-      <InfoWindow defaultPosition={cluster.getCenter()} onCloseclick={self.handleClusterInfoClose.bind(null)}>
-        {cluster.markers_.map(function(marker){
-          var c_id = marker.consumerId;
-          var consumer = self.props.consumers[c_id];
-          var assignedVehicleId = self.props.consumersToVehiclesMap[c_id];
-          var assignedVehicle = self.props.vehicles[assignedVehicleId];
-          var flags = _addFlags(consumer);
-          return(
-            <ConsumerMarkerInfo consumer = {consumer} assignedVehicle = {assignedVehicle} flags = {flags}/>
-          )    
-        })}
+      <InfoWindow defaultPosition={cluster.center} onCloseclick={self.handleClusterInfoClose}>
+        <ClusterInfo cluster = {cluster} consumers={self.props.consumers} vehicles={self.props.vehicles} consumersToVehiclesMap={self.props.consumersToVehiclesMap}></ClusterInfo>
       </InfoWindow>
     );
   },
-  handleClusterMouseover:function(cluster){
-    
-    console.log("cluster on mouseover", cluster);
+  handleMapZoomChanged:function(){
+    //close all cluster info windows
+    this.handleClusterInfoClose();
+  },
+  handleClusterMouseover:function(cluster_){
+    var cluster = {
+      markers:cluster_.markers_.slice(),
+      center:cluster_.getCenter()
+    }
     var state = Object.assign({}, this.state, {
       cluster:cluster
     })
-    state.cluster.showInfo= true;
     this.setState(state);
   },
   handleClusterInfoClose:function(cluster){
     var state = Object.assign({}, this.state, {
-      cluster:cluster
+      cluster:null
     })
-    state.cluster.showInfo= false;
     this.setState(state);
   },
   render: function() {
@@ -466,6 +458,7 @@ var ConsumerMap = React.createClass({
             onClick={self.handleMapClick}
             onResize={self.handleMapResize}
             onMouseover={self.handleMapMouseover}
+            onZoomChanged={self.handleMapZoomChanged}
             >
             <Marker
               position={self.props.optionsIncMarker.position}
@@ -479,10 +472,10 @@ var ConsumerMap = React.createClass({
               onMouseover={this.handleClusterMouseover}
             >
             {
-            //this.state.cluster && this.state.cluster.showInfo?
-        //    self.renderClusterInfoWindow(this.state.cluster) : null
+            this.state.cluster?
+            self.renderClusterInfoWindow(this.state.cluster) : null
             }
-            
+
             {self.props.consumerMarkers.map(function(marker, index){
               const markerRef = 'marker_' + index;
               return(

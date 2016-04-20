@@ -2,15 +2,17 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
+var addFlags = require('../../utils/addConsumerFlags');
 var ConsumerMarkerInfo = React.createClass({
 
   render: function() {
+    var flags = addFlags(this.props.consumer);
     return (
       <div>
       <div>{this.props.consumer.name}</div>
       <div>{this.props.consumer.address}</div>
-      {this.props.flags.needs?
-        <div>Needs :<span dangerouslySetInnerHTML={{__html:this.props.flags.flagsString}}></span></div>
+      {flags.needs?
+        <div>Needs :<span dangerouslySetInnerHTML={{__html:flags.flagsString}}></span></div>
         :null
       }
       {this.props.assignedVehicle?
