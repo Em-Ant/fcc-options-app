@@ -196,13 +196,6 @@ var ConsumerMap = React.createClass({
     ids.forEach(function(c_id, index) {
       var consumer = consumers[c_id];
       var position = consumer.position;
-      // stagger markers in case there are consumers with the same address
-      var min = .999999;
-      var max = 1.000001;
-      position.lat = position.lat * (Math.random() * (max - min) + min);
-      position.lng = position.lng * (Math.random() * (max - min) + min);
-
-
       var icon = ICON_URL + GRAY;
 
       var content = self.generateInfoBoxContent(c_id);
@@ -410,24 +403,46 @@ var ConsumerMap = React.createClass({
     var assignedVehicle = this.props.vehicles[assignedVehicleId];
     var flags = _addFlags(consumer);
     return (
-      //You can nest components inside of InfoWindow!
-      <InfoWindow
-        key={ 'info_window'} >
+      <InfoWindow>
         <ConsumerMarkerInfo consumer = {consumer} assignedVehicle = {assignedVehicle} flags = {flags}/>
       </InfoWindow>
-
     );
 
   },
+  renderClusterInfoWindow(cluster) {
+    //TODO redux should generate this stuff
+    var self = this;
+    console.log("cluster when rendering info window", cluster);
+    return (
+      <InfoWindow defaultPosition={cluster.getCenter()} onCloseclick={self.handleClusterInfoClose.bind(null)}>
+        {cluster.markers_.map(function(marker){
+          var c_id = marker.consumerId;
+          var consumer = self.props.consumers[c_id];
+          var assignedVehicleId = self.props.consumersToVehiclesMap[c_id];
+          var assignedVehicle = self.props.vehicles[assignedVehicleId];
+          var flags = _addFlags(consumer);
+          return(
+            <ConsumerMarkerInfo consumer = {consumer} assignedVehicle = {assignedVehicle} flags = {flags}/>
+          )    
+        })}
+      </InfoWindow>
+    );
+  },
   handleClusterMouseover:function(cluster){
-    cluster.markers_.forEach(function(marker){
-      //TODO markers inside the cluster are missing information!
-      //I don't know how to associate these markers to consumers
-      //I need to get the consumer id associate to this marker to continue
-       console.log(marker);
-       console.log(marker.getIcon());
-       console.log(marker.consumerId);
+    
+    console.log("cluster on mouseover", cluster);
+    var state = Object.assign({}, this.state, {
+      cluster:cluster
     })
+    state.cluster.showInfo= true;
+    this.setState(state);
+  },
+  handleClusterInfoClose:function(cluster){
+    var state = Object.assign({}, this.state, {
+      cluster:cluster
+    })
+    state.cluster.showInfo= false;
+    this.setState(state);
   },
   render: function() {
     var self = this;
@@ -463,6 +478,11 @@ var ConsumerMap = React.createClass({
               gridSize={ 1 }
               onMouseover={this.handleClusterMouseover}
             >
+            {
+            //this.state.cluster && this.state.cluster.showInfo?
+        //    self.renderClusterInfoWindow(this.state.cluster) : null
+            }
+            
             {self.props.consumerMarkers.map(function(marker, index){
               const markerRef = 'marker_' + index;
               return(
@@ -534,10 +554,6 @@ var createConsumerMarkers = function(consumerIds, consumers, vehicleIds, vehicle
       icon: icon,
       consumerId:c_id
     }
-    var min = .999999;
-    var max = 1.000001;
-    marker.position.lat = marker.position.lat * (Math.random() * (max - min) + min);
-    marker.position.lng = marker.position.lng * (Math.random() * (max - min) + min);
 
 
     return marker;
