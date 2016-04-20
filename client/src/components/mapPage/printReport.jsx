@@ -3,20 +3,12 @@ var connect = require('react-redux').connect;
 
 var TableElem = React.createClass({
   render: function () {
-    var needs = "";
-    if (this.props.consumer.hasWheelchair) needs += 'wheelchair, ';
-    if (this.props.consumer.hasMedications) needs += 'medications, ';
-    if (this.props.consumer.hasSeizures) needs += 'seizures, ';
-    if (this.props.consumer.needsTwoSeats) needs += '2 seats, ';
-    if (this.props.consumer.needsWave) needs += 'wave, ';
-    if (this.props.consumer.behavioralIssues) needs += 'behavioral issues, ';
-    needs = needs.replace(/,\s$/g,'');
+    var name = this.props.consumer.name;
+    if (this.props.consumer.hasWheelchair) name += ' [WC]';
     return (
       <tr>
-        <td>{this.props.consumer.name}</td>
-        <td>{this.props.consumer.address}</td>
-        <td>{this.props.consumer.phone}</td>
-        <td>{needs}</td>
+        <td>{this.props.index}</td>
+        <td>{name}</td>
       </tr>
     )
   }
@@ -30,7 +22,7 @@ var TableBody = React.createClass({
           this.props.consumersIds.map(function(id, index){
             var consumer = this.props.consumers[id];
             return (
-              <TableElem consumer={consumer} key={"tr-"+index}/>
+              <TableElem index={index+1} consumer={consumer} key={"tr-"+index}/>
             )
           }.bind(this))
         }
@@ -39,27 +31,34 @@ var TableBody = React.createClass({
   }
 })
 
+
 var PrintReport = React.createClass({
 
   render: function () {
-    var tables = [];
+    var tables=[];
+    var vehiclesCount = 0;
     this.props.vehiclesIds.forEach(function(id, index) {
       var vehicle = this.props.vehicles[id];
+      var tableClass="table";
       if(vehicle.consumers.length) {
-        console.log(vehicle.consumers.length)
+        if(vehiclesCount > 0 && vehiclesCount % 4 === 0) {
+          tableClass += " clear";
+        }
+        vehiclesCount++;
+        var vDesc = vehicle.name + ' - ' + vehicle.seats +'S';
+        if(vehicle.flexSeats) {vDesc += ('|' + vehicle.flexSeats + 'F')}
+        if(vehicle.wheelchairs) {vDesc += ('|' + vehicle.wheelchairs+ 'W')}
         var t = (
-          <table className="table" key={"report-"+index}>
+          <table className={tableClass} key={"report-"+index}>
             <thead>
               <tr>
-                <th colSpan="4" className="bus-name">
-                  {vehicle.name}
+                <th colSpan="2" className="bus-name">
+                  {vDesc}
                 </th>
               </tr>
               <tr>
-                <th className="name-col">Name</th>
-                <th className="addr-col">Address</th>
-                <th className="phone-col">Phone</th>
-                <th className="needs-col">Needs</th>
+                <th className="ind-col">#</th>
+                <th>Name</th>
               </tr>
             </thead>
             <TableBody
@@ -73,13 +72,12 @@ var PrintReport = React.createClass({
     }.bind(this));
     return (
       <div id="print-report">
+        <h3>Options, Inc. - Vehicles Report | { (new Date()).toDateString()}</h3>
         {
-          tables.map(function(table) {
-          return (
-            table
-          )
-        }.bind(this))
-      }
+          tables.map(function(t, index) {
+            return t
+          })
+        }
       </div>
     )
   }

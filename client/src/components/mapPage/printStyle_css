@@ -4,17 +4,21 @@ body {
 }
 
 table {
-  width: 100%;
+  width: 23%;
+  float: left;
   border-collapse: collapse;
-  margin-bottom: 30px;
+  margin: 20px 1%;
 }
 
+.clear {
+  clear: both;
+}
 th {
   height: 20px;
 }
 
 th, td {
-  padding: 1px 3px;
+  padding: 1px 5px;
   vertical-align: middle;
 }
 
@@ -27,21 +31,11 @@ table, td, th {
   background-color: #ddd;
 }
 
-.name-col {
-  width: 15%;
+.ind-col {
+  width: 10%;
+  text-align: center;
 }
 
-.addr-col {
-  width: 45%;
-}
-
-.phone-col {
-  width: 15%;
-}
-
-.needs-col {
-  width: 25%;
-}
 
 @media screen {
   body{

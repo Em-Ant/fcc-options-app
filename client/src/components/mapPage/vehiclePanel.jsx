@@ -12,10 +12,8 @@ var VehiclePanel = React.createClass({
     }
   },
   print: function() {
-    console.log('print', printStyle)
     var w=window.open();
     w.document.write('<!DOCTYPE html><html><head>');
-    //w.document.write('<link rel="stylesheet" href="static/adminLTE/bootstrap/css/bootstrap.min.css" media="print"/>');
     w.document.write('<title>Options, Inc. | Vehicles Report</title>');
     w.document.write('<style type="text/css">');
     w.document.write(printStyle);
