@@ -1,7 +1,7 @@
 var React = require('react');
 var connect = require('react-redux').connect;
 var CollapsibleBusBox = require('./collapsibleBusBox.jsx');
-var printStyle = require('raw!./printStyle.txt')
+var printStyle = require('raw!./printStyle_css')
 
 var VehiclePanel = React.createClass({
   componentDidMount: function () {
