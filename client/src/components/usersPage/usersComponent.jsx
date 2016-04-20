@@ -6,6 +6,8 @@ var UserForm = require('./userFormComponent.jsx');
 var connect = require('react-redux').connect;
 var actions = require('../../actions/userActions');
 
+var DEFAULT_PASSWORD =  require('../../constants/defaultPassword').DEFAULT_PASSWORD;
+
 var Users = React.createClass({
   componentDidMount: function () {
     if(this.props.usersNeedToBeFetched) {
@@ -28,7 +30,7 @@ var Users = React.createClass({
     this.setState({
       uid: id,
       modalBody : `Are you sure you want to Reset Password
-        for user "${this.props.users[id].email}" ?`,
+        for user "${this.props.users[id].email}" to "${DEFAULT_PASSWORD}" ?`,
       confirm: this.props.onReset
     })
   },

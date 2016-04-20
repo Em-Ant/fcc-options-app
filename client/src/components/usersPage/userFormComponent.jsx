@@ -5,9 +5,7 @@ var Message = require('../message.jsx');
 var connect = require('react-redux').connect;
 var actions = require('../../actions/userActions');
 
-var DEFAULT_PASSWORD =  'default';
-
-console.log(process.env.DEFAULT_PASSWORD);
+var DEFAULT_PASSWORD =  require('../../constants/defaultPassword').DEFAULT_PASSWORD;
 
 var UserForm = React.createClass({
   handleSubmit: function(e) {

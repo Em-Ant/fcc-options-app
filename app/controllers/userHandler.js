@@ -5,9 +5,8 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 require('../auth/passport')(passport);
 
-if (process.env.NODE_ENV !== 'production') require('dotenv').load();
-
-var DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || 'default';
+var DEFAULT_PASSWORD =
+  require('../../client/src/constants/defaultPassword').DEFAULT_PASSWORD;
 
 function UserHandler() {
   /*
