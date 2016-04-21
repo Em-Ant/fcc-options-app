@@ -224,61 +224,31 @@ var ConsumerMap = React.createClass({
   }
 
 });
-var mapConsumersToVehicles = function(vehiclesIds, vehicles) {
-  // TODO:  slowly moving to reducer,
-  // Now this function is called on every rendering
 
-  var consumersToVehiclesMap = {};
-  vehiclesIds.forEach(function(v_id) {
-    var vehicle = vehicles[v_id];
-    vehicle.consumers.forEach(function(c_id){
-      if(consumersToVehiclesMap[c_id]) {
-        console.err(`Consumer ${c_id} is assigned to
-          ${consumersToVehiclesMap[c_id]} and ${v_id}`);
-      } else {
-        consumersToVehiclesMap[c_id] = v_id;
-      }
-    })
-  })
-  return consumersToVehiclesMap
-}
-var createConsumerMarkers = function(consumerIds, consumers, vehicleIds, vehicles, activeVehicleId, highlightedConsumerId) {
-  var consumersToVehiclesMap = mapConsumersToVehicles(vehicleIds, vehicles);
-  var consumerMarkers = consumerIds.map(function(c_id){
-    var consumer = consumers[c_id];
-    var icon = ICON_URL + GRAY;
-    if(highlightedConsumerId == c_id ){
-      icon = ICON_URL + GREEN_H;
-    }
-    else if (consumersToVehiclesMap[c_id]) {
+/*
+TODO:  I think this should be in a reducer.  
+*/
+var calculateAssignedVehicle = function(consumerMarkers, consumersToVehiclesMap, activeVehicleId) {
+  return consumerMarkers.map(function(marker){
+    var c_id = marker.consumerId;
+    if (consumersToVehiclesMap[c_id]) {
       // consumer is on board
+      var icon;
       if(activeVehicleId !== consumersToVehiclesMap[c_id]){
         icon = ICON_URL + YELLOW;// not on the active bus
       }else{
         icon = ICON_URL + GREEN;// on the active bus
       }
-    }
-    var marker = {
-      position:consumer.position,
-      title:consumer.name,
-      icon: icon,
-      consumerId:c_id
+      return  Object.assign({}, marker, {
+        icon:icon
+      })
     }
     return marker;
   });
-  return consumerMarkers;
-}
-var createOptionsIncMarker = function(position){
-  return {
-    position:position,
-    title:"Options, Inc.",
-    icon:ICON_URL + RED
-  }
 }
 var mapStateToProps = function(state){
   return{
-    consumerMarkers: createConsumerMarkers(state.consumers.ids, state.consumers.data,state.vehicles.ids, state.vehicles.data,state.mapPage.activeVehicleId, state.mapPage.highlightedMarker),
-//    optionsIncMarker: createOptionsIncMarker(state.settings.optionsIncCoords),
+    consumerMarkers: calculateAssignedVehicle(state.mapPage.consumerMarkers, state.vehicles.consumersToVehiclesMap,state.mapPage.activeVehicleId),
     optionsIncMarker: state.mapPage.optionsIncMarker,
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
     vehicles : state.vehicles.data,
