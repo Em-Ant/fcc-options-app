@@ -18,7 +18,10 @@ var ClusterInfo = React.createClass({
         return(
           <li key={c_id} className="item">
             <div className="cluster-infowindow-marker">
-              <img src={marker.getIcon()}/>
+              <img
+                src={marker.getIcon()}
+                onClick={self.props.markerClick.bind(null, marker.consumerId )}
+                className="clickable"/>
            </div>
             <div className="product-info">
             <ConsumerMarkerInfo  consumer = {consumer} assignedVehicle = {assignedVehicle}/>

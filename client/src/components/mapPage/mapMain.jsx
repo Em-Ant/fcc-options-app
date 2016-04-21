@@ -113,7 +113,14 @@ var ConsumerMap = React.createClass({
     var self = this;
     return (
       <InfoWindow defaultPosition={cluster.center} onCloseclick={self.handleClusterInfoClose}>
-        <ClusterInfo cluster = {cluster} consumers={self.props.consumers} vehicles={self.props.vehicles} consumersToVehiclesMap={self.props.consumersToVehiclesMap}></ClusterInfo>
+        <ClusterInfo
+          cluster = {cluster}
+          consumers={self.props.consumers}
+          vehicles={self.props.vehicles}
+          consumersToVehiclesMap={self.props.consumersToVehiclesMap}
+          markerClick={self.handleMarkerClick}
+        >
+        </ClusterInfo>
       </InfoWindow>
     );
   },
