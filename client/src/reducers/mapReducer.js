@@ -32,6 +32,7 @@ var vehicleBoxClick = function(state, v_id) {
 }
 
 var request = function(state, c_id) {
+  console.log("request", c_id)
   return Object.assign({}, state, {
     markerLoading: c_id,
     directionsLoading: false,
@@ -132,16 +133,6 @@ var setConsumerMarkers = function(state, consumers) {
       if (highlightedConsumerId == consumer._id) {
         icon = mapConst.HIGHLIGHTED_CONSUMER_ICON;
       }
-      //TODO not sure how to figure out which vehicle the consumer is assigned to
-      //right now this this is calculated in the map component
-      //  else if (consumersToVehiclesMap[c_id]) {
-      //    // consumer is on board
-      //    if(activeVehicleId !== consumersToVehiclesMap[c_id]){
-      //      icon = mapConst.ASSIGNED_CONSUMER_ICON;// not on the active bus
-      //    }else{
-      //      icon = mapConst.SELECTED_ASSIGNED_CONSUMER_ICON;// on the active bus
-      //    }
-      //  }
       var marker = {
         position: consumer.position,
         title: consumer.name,

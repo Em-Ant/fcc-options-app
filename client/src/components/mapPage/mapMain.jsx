@@ -14,17 +14,7 @@ var ConsumerMarkerInfo = require('./consumerMarkerInfo.jsx');
 var ClusterInfo = require('./clusterInfo.jsx');
 var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
 
-
-// COLORS
-var RED = "FE7569";     //options inc address
-var YELLOW = "FFD42A";  //assigned to a vehicle
-var GREEN = "5AA02C";   //assigned to current selected vehicle
-var GREEN_H = "78EA2F";
-var GRAY = "A6A6A6";    //unassigned user
-var WHITE = "FFFFFF"    // loading state
-
-var ICON_URL =
-  "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|";
+const mapConst = require('../../constants/map');
 
 /**
 * THINGS TODO:
@@ -226,29 +216,32 @@ var ConsumerMap = React.createClass({
 });
 
 /*
-TODO:  I think this should be in a reducer.  
+TODO:  I think this should be in a reducer.
 */
-var calculateAssignedVehicle = function(consumerMarkers, consumersToVehiclesMap, activeVehicleId) {
+var colorMarkers = function(consumerMarkers, consumersToVehiclesMap, activeVehicleId, highlightedConsumerId, markerLoading) {
   return consumerMarkers.map(function(marker){
     var c_id = marker.consumerId;
-    if (consumersToVehiclesMap[c_id]) {
+    var icon = marker.icon;
+    if(markerLoading == c_id){
+      icon = mapConst.LOADING_CONSUMER_ICON;
+    } else if (consumersToVehiclesMap[c_id]) {
       // consumer is on board
-      var icon;
-      if(activeVehicleId !== consumersToVehiclesMap[c_id]){
-        icon = ICON_URL + YELLOW;// not on the active bus
+      if (highlightedConsumerId == c_id) {
+        icon = mapConst.HIGHLIGHTED_CONSUMER_ICON;
+      }else if(activeVehicleId !== consumersToVehiclesMap[c_id]){
+        icon = mapConst.ASSIGNED_CONSUMER_ICON;// not on the active bus
       }else{
-        icon = ICON_URL + GREEN;// on the active bus
+        icon = mapConst.SELECTED_ASSIGNED_CONSUMER_ICON;// on the active bus
       }
-      return  Object.assign({}, marker, {
-        icon:icon
-      })
     }
-    return marker;
+    return  Object.assign({}, marker, {
+      icon:icon
+    })
   });
 }
 var mapStateToProps = function(state){
   return{
-    consumerMarkers: calculateAssignedVehicle(state.mapPage.consumerMarkers, state.vehicles.consumersToVehiclesMap,state.mapPage.activeVehicleId),
+    consumerMarkers: colorMarkers(state.mapPage.consumerMarkers, state.vehicles.consumersToVehiclesMap,state.mapPage.activeVehicleId, state.mapPage.highlightedMarker, state.mapPage.markerLoading),
     optionsIncMarker: state.mapPage.optionsIncMarker,
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
     vehicles : state.vehicles.data,
