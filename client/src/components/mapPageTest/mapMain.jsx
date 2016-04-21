@@ -9,6 +9,7 @@ var GoogleMapLoader = require('react-google-maps').GoogleMapLoader;
 var GoogleMap = require('react-google-maps').GoogleMap;
 var InfoWindow = require('react-google-maps').InfoWindow;
 var Marker = require('react-google-maps').Marker;
+var Polyline = require('react-google-maps').Polyline;
 var triggerEvent = require("react-google-maps/lib/utils").triggerEvent;
 var ConsumerMarkerInfo = require('./consumerMarkerInfo.jsx');
 var ClusterInfo = require('./clusterInfo.jsx');
@@ -496,6 +497,18 @@ var ConsumerMap = React.createClass({
               )
             })}
             </MarkerClusterer>
+            {self.props.displayDirections?
+            <Polyline
+              path={self.props.vehiclePath}
+              options={{
+                geodesic: false,
+                strokeColor: '#0088AA',
+                strokeOpacity: 0.5,
+                strokeWeight: 4
+              }}
+              ></Polyline>
+              :null
+            }
           </GoogleMap>
         }
       />
@@ -572,7 +585,7 @@ var mapStateToProps = function(state){
     highlightedMarker: state.mapPage.highlightedMarker,
     displayDirections: state.mapPage.displayDirections,
     directionsLoading: state.mapPage.directionsLoading,
-    encodedVehiclePath: state.directions.morningRoute.overview_polyline.points,
+    vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points),
     settings:state.settings
   }
 }
