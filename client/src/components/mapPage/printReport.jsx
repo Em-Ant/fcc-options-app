@@ -4,7 +4,8 @@ var connect = require('react-redux').connect;
 var TableElem = React.createClass({
   render: function () {
     var name = this.props.consumer.name;
-    if (this.props.consumer.hasWheelchair) name += ' [WC]';
+    if (this.props.consumer.hasWheelchair) name += ' [W]';
+    if (this.props.consumer.hasMedications) name += ' [M]';
     return (
       <tr>
         <td>{this.props.index}</td>
@@ -73,6 +74,7 @@ var PrintReport = React.createClass({
     return (
       <div id="print-report">
         <h3>Options, Inc. - Vehicles Report | { (new Date()).toDateString()}</h3>
+        <p><strong>Legend - </strong> Bus Header: S - Seats, F - Flex Seats, W - Wheelchairs | Consumer: [W] - Wheelchair, [M] - Medications </p>
         {
           tables.map(function(t, index) {
             return t
