@@ -14,10 +14,7 @@ var Staff = require('./components/staffPage/staffComponent.jsx');
 
 var Consumers = require('./containers/consumersPageContainer.jsx');
 
-var ConsumerRoute3 = require('./components/mapPage/mapWrapper.jsx');
-var MapPageTest = require('./components/mapPageTest/mapWrapper.jsx');
-var ConsumerRoute2 = require('./components/consumerRouteMapTest_AA.jsx');
-var ConsumerRoute = require('./components/consumerRouteMapTest_EA.jsx');
+var MapPage = require('./components/mapPage/mapWrapper.jsx');
 
 var reducer = require('./reducers/reducer.js');
 var Provider = require('react-redux').Provider;
@@ -62,11 +59,10 @@ ReactDOM.render(
   <Router history={history}>
     <Route path="/" component={App}>
       <Route component={Main}  onEnter={requireAuth} >
-        <IndexRoute component={ConsumerRoute3}/>
+        <IndexRoute component={MapPage}/>
         <Route path="/routes" component={VehicleRoutes} onEnter={requireAuth} />
         <Route path="/consumers" component={Consumers} onEnter={requireAuth} />
         <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
-        <Route path="/map-test" component={MapPageTest} onEnter={requireAuth} />
         <Route path="/users" component={User} onEnter={requireRole.bind(null, ADMIN)} />
         <Route path="/staff" component={Staff} onEnter={requireAuth} />
         <Route path="/notPermitted" component={NotPermitted} />

@@ -1,10 +1,12 @@
 'use strict'
 
 var React = require('react');
-var MapPage = require('./mapMain.jsx')
 var connect = require('react-redux').connect;
 var c_actions = require('../../actions/consumerActions');
 
+var VehiclePanel = require('./vehiclePanel.jsx')
+var Directions = require('../directions/directions.jsx')
+var MapPage = require('./mapMain.jsx')
 var ModelActions = require('../../actions/modelActions.js');
 var models = require('../../constants/models.js');
 
@@ -24,16 +26,29 @@ var MapWrapper = React.createClass({
       this.props.loadSettings();
   },
     render: function() {
-      var body = this.props.dataLoaded
-        ? <MapPage/>
-      : (<div id="map-loader">
-          <i className="fa fa-refresh fa-spin"></i> Loading data...
-        </div> )
 
     return (
+      !this.props.dataLoaded?
+        <div id="map-loader">
+          <i className="fa fa-refresh fa-spin"></i> Loading data...
+        </div>
+      :
       <div className="content-wrapper">
         <section className="content">
-          {body}
+          <div className="row">
+            <div className="col-md-5 col-sm-5 col-xs-5">
+
+            {this.props.displayDirections?
+            <Directions/>:
+            <VehiclePanel />}
+
+            </div>
+            <div className="col-md-7 col-sm-7 col-xs-7">
+              <div className="box box-widget map-height">
+              <MapPage></MapPage>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
       )
@@ -46,7 +61,8 @@ var mapStateToProps = function(state){
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     settingsNeedToBeFetched: state.settings.needToBeFetched,
     dataLoaded : ((state.consumers.loaded
-      && state.vehicles.loaded) && state.settings.optionsIncAddress)
+      && state.vehicles.loaded) && state.settings.optionsIncAddress),
+    displayDirections: state.mapPage.displayDirections
   }
 }
 var mapDispatchToProps = function(dispatch) {
