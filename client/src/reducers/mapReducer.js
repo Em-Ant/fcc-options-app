@@ -1,5 +1,8 @@
 var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
 const VEHICLES=  require('../constants/models').VEHICLES;
+const SETTINGS = require('../constants/models').SETTINGS;
+const OPTIONS_INC_MARKER_ICON = require('../constants/map').OPTIONS_INC_MARKER_ICON;
+const OPTIONS_INC_NAME = require('../constants/map').OPTIONS_INC_NAME;
 var modelActionTypes=  require('../constants/actionTypes/modelActionTypes');
 
 var vehicleBoxClick = function (state, v_id) {
@@ -105,6 +108,16 @@ var hideDirections = function (state) {
       }
     )
 }
+var setOptionsIncMarker = function(state, settings){
+  var optionsIncMarker = {
+    position:settings.optionsIncCoords,
+    title:OPTIONS_INC_NAME,
+    icon:OPTIONS_INC_MARKER_ICON
+  }
+  return Object.assign({}, state, {
+    optionsIncMarker: optionsIncMarker
+  });
+}
 /**
 * TODO IMPORTANT handle errors
 */
@@ -140,6 +153,10 @@ var reducer = function(state, action) {
       return loadDirectionsSuccess(state)
     case (actionTypes.DIRECTIONS_HIDE) :
       return hideDirections(state)
+    case (modelActionTypes.FETCH) :
+    case (modelActionTypes.UPDATE) :
+      if(action.model==SETTINGS && action.status == modelActionTypes.SUCCESS)
+        return setOptionsIncMarker(state, action.response)
     default:
       return state;
   }

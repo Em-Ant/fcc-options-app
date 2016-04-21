@@ -278,7 +278,8 @@ var createOptionsIncMarker = function(position){
 var mapStateToProps = function(state){
   return{
     consumerMarkers: createConsumerMarkers(state.consumers.ids, state.consumers.data,state.vehicles.ids, state.vehicles.data,state.mapPage.activeVehicleId, state.mapPage.highlightedMarker),
-    optionsIncMarker: createOptionsIncMarker(state.settings.optionsIncCoords),
+//    optionsIncMarker: createOptionsIncMarker(state.settings.optionsIncCoords),
+    optionsIncMarker: state.mapPage.optionsIncMarker,
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
     vehicles : state.vehicles.data,
     consumers: state.consumers.data,
