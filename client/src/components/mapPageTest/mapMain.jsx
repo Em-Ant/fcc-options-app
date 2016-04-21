@@ -455,9 +455,6 @@ var ConsumerMap = React.createClass({
             }}
             defaultZoom={12}
             defaultCenter={self.props.optionsIncMarker.position}
-            onClick={self.handleMapClick}
-            onResize={self.handleMapResize}
-            onMouseover={self.handleMapMouseover}
             onZoomChanged={self.handleMapZoomChanged}
             >
             <Marker
