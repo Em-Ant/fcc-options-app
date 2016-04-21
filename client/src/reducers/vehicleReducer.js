@@ -9,7 +9,6 @@ function updateConsumersArray(state, v_id, cArray) {
   var data = Object.assign({}, state.data);
 
   var vehicle = Object.assign({}, state.data[v_id]);
-  var consumers = vehicle.consumers.slice();
   vehicle.consumers = cArray.slice();
   data[v_id] = vehicle;
 
@@ -20,7 +19,7 @@ function updateConsumersArray(state, v_id, cArray) {
 };
 
 function removeConsumerFromVehicle(state, consumerId) {
-  var vehicleId = getConsumerVehicleId(state.ids, state.data, consumerId)
+  var vehicleId = state.consumersToVehiclesMap[consumerId];
   if (!vehicleId) {
     return state;
   }
@@ -31,30 +30,39 @@ function removeConsumerFromVehicle(state, consumerId) {
   return newState;
 }
 
-// TODO:  replace with consumerVehiclesMap or add vehicle id to consumer
-function getConsumerVehicleId(vehicleIds, vehicles, consumerIdToFind) {
-  for (var i = 0; i < vehicleIds.length; i++) {
-    var vehicle = vehicles[vehicleIds[i]];
-    var index = vehicle.consumers.indexOf(consumerIdToFind);
-    if (index !== -1) {
-      return vehicleIds[i];
-    }
-  }
-  return null;
+var mapConsumersToVehicles = function(state) {
+  var consumersToVehiclesMap = {};
+  state.ids.forEach(function(v_id) {
+    var vehicle = state.data[v_id];
+    vehicle.consumers.forEach(function(c_id){
+      if(consumersToVehiclesMap[c_id]) {
+        console.err(`Consumer ${c_id} is assigned to
+          ${consumersToVehiclesMap[c_id]} and ${v_id}`);
+      } else {
+        consumersToVehiclesMap[c_id] = v_id;
+      }
+    })
+  })
+  return Object.assign({}, state, {
+    consumersToVehiclesMap: consumersToVehiclesMap
+  })
 }
 
 var vehiclesReducer = function(state, action) {
   state = state || {
     ids: [],
     data: {},
+    consumersToVehiclesMap: {},
     needToBeFetched: true
   };
   switch (action.type) {
     case mapActions.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS:
     case mapActions.MAP_ADD_TO_ACTIVE_BUS_SUCCESS:
-      return updateConsumersArray(state, action.v_id, action.consumersArray);
+      var newState =  updateConsumersArray(state, action.v_id, action.consumersArray);
+      return mapConsumersToVehicles(newState);
     case consumerActionTypes.CONSUMER_DELETE_SUCCESS:
-      return removeConsumerFromVehicle(state, action.id);
+      var newState = removeConsumerFromVehicle(state, action.id);
+      return mapConsumersToVehicles(newState);
   }
 
   if (action.model != VEHICLES) {
@@ -65,8 +73,10 @@ var vehiclesReducer = function(state, action) {
     case actionTypes.FETCH:
       if (action.status == actionTypes.LOADING)
         return commonCRUD.setRequested(state);
-      if (action.status == actionTypes.SUCCESS)
-        return commonCRUD.load(state, action.response);
+      if (action.status == actionTypes.SUCCESS){
+        var newState = commonCRUD.load(state, action.response);
+        return mapConsumersToVehicles(newState);
+      }
       if (action.status == actionTypes.ERROR)
         return commonCRUD.fetchError(state, action.error);
     case actionTypes.CREATE:
@@ -76,8 +86,10 @@ var vehiclesReducer = function(state, action) {
       if (action.status == actionTypes.SUCCESS)
         return commonCRUD.update(state, action.response);
     case actionTypes.DELETE:
-      if (action.status == actionTypes.SUCCESS)
-        return commonCRUD.destroy(state, action.response);
+      if (action.status == actionTypes.SUCCESS){
+        var newState = commonCRUD.destroy(state, action.response);
+        return mapConsumersToVehicles(newState);
+      }
     default:
       return state;
   }

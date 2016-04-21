@@ -47,7 +47,7 @@ var ConsumerMap = React.createClass({
 
     }
   },
-  handleMarkerClick(c_id){
+  handleMarkerClick: function(c_id){
     if(!this.props.markerLoading) {
       // not in loading state
       if (this.props.consumersToVehiclesMap[c_id]) {
@@ -279,7 +279,7 @@ var mapStateToProps = function(state){
   return{
     consumerMarkers: createConsumerMarkers(state.consumers.ids, state.consumers.data,state.vehicles.ids, state.vehicles.data,state.mapPage.activeVehicleId, state.mapPage.highlightedMarker),
     optionsIncMarker: createOptionsIncMarker(state.settings.optionsIncCoords),
-    consumersToVehiclesMap:mapConsumersToVehicles(state.vehicles.ids, state.vehicles.data),
+    consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
     vehicles : state.vehicles.data,
     consumers: state.consumers.data,
     activeVehicleId : state.mapPage.activeVehicleId,
