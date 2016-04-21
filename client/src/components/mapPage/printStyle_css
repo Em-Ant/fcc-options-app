@@ -1,0 +1,50 @@
+body {
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+table {
+  width: 23%;
+  float: left;
+  border-collapse: collapse;
+  margin: 20px 1%;
+}
+
+.clear {
+  clear: both;
+}
+th {
+  height: 20px;
+}
+
+th, td {
+  padding: 1px 5px;
+  vertical-align: middle;
+}
+
+table, td, th {
+  border: solid 1px black;
+
+}
+
+.bus-name {
+  background-color: #ddd;
+}
+
+.ind-col {
+  width: 10%;
+  text-align: center;
+}
+
+
+@media screen {
+  body{
+    padding: 30px 20px;
+  }
+}
+
+@media print {
+  body {
+    padding: 0
+  }
+}

@@ -9,6 +9,7 @@ var Directions = require('../directions/directions.jsx')
 var MapPage = require('./mapMain.jsx')
 var ModelActions = require('../../actions/modelActions.js');
 var models = require('../../constants/models.js');
+var PrintDiv = require('./printReport.jsx')
 
 var v_actions = new ModelActions(models.VEHICLES);
 var s_actions = new ModelActions(models.SETTINGS);
@@ -46,6 +47,7 @@ var MapWrapper = React.createClass({
             <div className="col-md-7 col-sm-7 col-xs-7">
               <div className="box box-widget map-height">
               <MapPage></MapPage>
+              <PrintDiv/>
               </div>
             </div>
           </div>
