@@ -35,7 +35,7 @@ var Vehicle = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Consumer'
   }],
-  
+
   driver:{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Staff',
@@ -46,7 +46,7 @@ var Vehicle = new Schema({
       message: 'Driver must be a staff member with a driver role'
     }
   },
-  
+
   rider:{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Staff',
@@ -57,8 +57,8 @@ var Vehicle = new Schema({
       message: 'Rider must be a staff member with a rider role'
     }
   }
-  
-  
+
+
 });
 
 Vehicle.plugin(uniqueValidator, { message: 'Another vehicle with that {PATH} already exists' });
@@ -67,7 +67,9 @@ Vehicle.plugin(idvalidator);
 
 Vehicle.pre('validate', validateConsumersCanFit)
 
-function validateConsumersCanFit(next){
+Vehicle.pre('validate', validateMaxConsumersCount)
+
+function validateConsumersCanFit(next) {
   var vehicleModel = mongoose.model("Vehicle");
   var self = this;
   var vehicleCopy = self.toObject();
@@ -80,4 +82,22 @@ function validateConsumersCanFit(next){
   });
 }
 
+function validateMaxConsumersCount(next) {
+  var settingsModel = mongoose.model("Settings");
+  var self = this;
+  var settings = settingsModel.findOne(function(err, settings) {
+    if (err) {
+      self.invalidate('consumers', 'Settings cannot be accessed')
+    }
+    var driverSeatCount = 1;
+    if (
+      self.consumers.length >
+        (settings.maxPassengersPerVehicle - driverSeatCount)
+      ) {
+      self.invalidate('consumers', 'Consumers exceed max allowed passengers')
+    }
+    next();
+  })
+
+}
 module.exports = mongoose.model('Vehicle', Vehicle);
