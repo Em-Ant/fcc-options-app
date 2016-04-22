@@ -24,13 +24,12 @@ var ConsumerMarkerInfo = React.createClass({
   }
 });
 
-// var mapStateToProps = function(state, ownProps){
-//   // TODO get everything from redux state
-//   return {
-//     consumer: ownProps.consumer,
-//     flags: ownProps.flags,
-//     assignedVehicle: ownProps.assignedVehicle
-//   }
-// }
-// module.exports = connect(mapStateToProps)(ConsumerMarkerInfo);
-module.exports = ConsumerMarkerInfo;
+var mapStateToProps = function(state, ownProps){
+  var assignedVehicleId = state.vehicles.consumersToVehiclesMap[ownProps.consumerId];
+  return {
+    consumer: state.consumers.data[ownProps.consumerId],
+    flags:addFlags(state.consumers.data[ownProps.consumerId]),
+    assignedVehicle: state.vehicles.data[assignedVehicleId]
+  }
+}
+module.exports = connect(mapStateToProps)(ConsumerMarkerInfo);

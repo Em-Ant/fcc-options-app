@@ -22,7 +22,7 @@ const mapConst = require('../../constants/map');
 */
 var map;
 
-var ConsumerMap = React.createClass({
+var MapMain = React.createClass({
   _googleMapComponent:null,
   handleWindowResize:function(){
     //center map on options inc marker
@@ -75,40 +75,45 @@ var ConsumerMap = React.createClass({
     }
   },
   handleMarkerMouseover:function(marker){
-
-    //TODO dispatch action to redux to do this
     marker.showInfo = true;
     this.setState(this.state);
   },
   handleMarkerMouseout:function(marker){
-
-    //TODO dispatch action to redux to do this
     marker.showInfo = false;
     this.setState(this.state);
   },
   renderInfoWindow(marker) {
-    //TODO redux should generate this stuff
     var consumer = this.props.consumers[marker.consumerId];
     var assignedVehicleId = this.props.consumersToVehiclesMap[marker.consumerId];
     var assignedVehicle = this.props.vehicles[assignedVehicleId];
     return (
       <InfoWindow>
-        <ConsumerMarkerInfo consumer = {consumer} assignedVehicle = {assignedVehicle}/>
+        {
+        // HACK:  Have to manually pass store down to component.  For some reason
+        // when using google-maps-react, store stops getting passed down to
+        // children
+       }
+        <ConsumerMarkerInfo consumerId={marker.consumerId} store={this.context.store}/>
       </InfoWindow>
     );
 
   },
   renderClusterInfoWindow(cluster) {
-    //TODO redux should generate this stuff
     var self = this;
     return (
       <InfoWindow defaultPosition={cluster.center} onCloseclick={self.handleClusterInfoClose}>
+        {
+          // HACK:  Have to manually pass store down to component.  For some reason
+          // when using google-maps-react, store stops getting passed down to
+          // children
+        }
         <ClusterInfo
           cluster = {cluster}
           consumers={self.props.consumers}
           vehicles={self.props.vehicles}
           consumersToVehiclesMap={self.props.consumersToVehiclesMap}
           markerClick={self.handleMarkerClick}
+          store={self.context.store}
         >
         </ClusterInfo>
       </InfoWindow>
@@ -216,7 +221,8 @@ var ConsumerMap = React.createClass({
 });
 
 /*
-TODO:  I think this should be in a reducer.
+TODO:  I think this should be in a reducer. I tried adding this to the consumer
+reducer, but I couldn't find a way to access
 */
 var colorMarkers = function(consumerMarkers, consumersToVehiclesMap, activeVehicleId, highlightedConsumerId, markerLoading) {
   return consumerMarkers.map(function(marker){
@@ -239,6 +245,10 @@ var colorMarkers = function(consumerMarkers, consumersToVehiclesMap, activeVehic
     })
   });
 }
+
+MapMain.contextTypes = {
+  store: React.PropTypes.object.isRequired
+};
 var mapStateToProps = function(state){
   return{
     consumerMarkers: colorMarkers(state.mapPage.consumerMarkers, state.vehicles.consumersToVehiclesMap,state.mapPage.activeVehicleId, state.mapPage.highlightedMarker, state.mapPage.markerLoading),
@@ -269,5 +279,4 @@ var mapDispatchToProps = function(dispatch) {
   }
 }
 
-var ConsumerMapContainer = connect(mapStateToProps, mapDispatchToProps)(ConsumerMap);
-module.exports = ConsumerMapContainer;
+module.exports = connect(mapStateToProps, mapDispatchToProps)(MapMain);

@@ -32,7 +32,6 @@ var vehicleBoxClick = function(state, v_id) {
 }
 
 var request = function(state, c_id) {
-  console.log("request", c_id)
   return Object.assign({}, state, {
     markerLoading: c_id,
     directionsLoading: false,
@@ -153,7 +152,6 @@ var initState= {
   consumerMarkers:[]
 }
 var reducer = function(state, action) {
-  console.log(action);
   state = state || initState;
   switch (action.type) {
     case (actionTypes.MAP_VEHICLE_BOX_CLICK):
