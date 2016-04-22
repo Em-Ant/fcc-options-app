@@ -2,9 +2,7 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var cActions = require('../../actions/consumerActions');
 var mActions = require('../../actions/mapActions');
-var vehicleUtils = require('../../utils/vehicleUtils');
 var GoogleMapLoader = require('react-google-maps').GoogleMapLoader;
 var GoogleMap = require('react-google-maps').GoogleMap;
 var InfoWindow = require('react-google-maps').InfoWindow;
@@ -38,41 +36,9 @@ var MapMain = React.createClass({
     }
   },
   handleMarkerClick: function(c_id){
-    if(!this.props.markerLoading) {
-      // not in loading state
-      if (this.props.consumersToVehiclesMap[c_id]) {
-        // marked consumer is on a vehicle
-
-        if (this.props.consumersToVehiclesMap[c_id] == this.props.activeVehicleId) {
-         // marked consumer is on the active vehicle
-
-         this.props.removeConsumerFromActiveBus(
-           c_id,
-           this.props.vehicles[this.props.activeVehicleId]
-         );
-       } else {
-         // marked consumer is not on the active vehicle
-
-         // activate the vehicle which the consumers is on
-         this.props.activateVehicleByConsumer(this.props.consumersToVehiclesMap[c_id]);
-       }
-      } else {
-        // marked consumer is not on a vehicle
-
-        if (this.props.activeVehicleId) {
-          // A vehicle is active (A Collapsible Box is open)
-          if(vehicleUtils.willConsumerFit(
-            c_id, this.props.vehicles[this.props.activeVehicleId], this.props.consumers)){
-              this.props.addConsumerToActiveBus(
-                c_id,
-                this.props.vehicles[this.props.activeVehicleId]
-              );
-            }
-        }
-      }
-    } else {
-      console.log('WARN: markers frozen in loading state');
-    }
+    this.props.markerClick(c_id, this.props.markerLoading,
+      this.props.consumersToVehiclesMap, this.props.activeVehicleId,
+      this.props.vehicles, this.props.consumers);
   },
   handleMarkerMouseover:function(marker){
     marker.showInfo = true;
@@ -264,17 +230,8 @@ var mapStateToProps = function(state){
 }
 var mapDispatchToProps = function(dispatch) {
   return {
-    loadConsumers: function() {
-      dispatch(cActions.loadConsumers());
-    },
-    activateVehicleByConsumer: function(vehicleId) {
-      dispatch(mActions.vehicleBoxClick(vehicleId))
-    },
-    addConsumerToActiveBus: function(c_id, active_v_id) {
-      dispatch(mActions.addToActiveBus(c_id, active_v_id))
-    },
-    removeConsumerFromActiveBus: function(c_id, active_v) {
-      dispatch(mActions.removeFromActiveBus(c_id, active_v))
+    markerClick:function(c_id, markerLoading, consumersToVehiclesMap, activeVehicleId, vehicles, consumers){
+      dispatch(mActions.markerClick(c_id, markerLoading, consumersToVehiclesMap, activeVehicleId, vehicles, consumers))
     }
   }
 }

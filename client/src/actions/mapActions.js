@@ -1,8 +1,8 @@
 var Ajax = require('../../js/ajax-functions.js');
 var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
-//var directionsUtils = require('../utils/directionsUtils');
+var vehicleUtils = require('../utils/vehicleUtils');
 
-module.exports.vehicleBoxClick = function(v_id) {
+var vehicleBoxClick = module.exports.vehicleBoxClick= function(v_id) {
   return {
     type: actionTypes.MAP_VEHICLE_BOX_CLICK,
     id: v_id
@@ -23,7 +23,7 @@ module.exports.highlightMarkerOff = function(c_id) {
   }
 };
 
-module.exports.removeFromActiveBus = function(c_id, active_v) {
+var removeFromActiveBus  = module.exports.removeFromActiveBus= function(c_id, active_v) {
   return function(dispatch) {
     dispatch({
       type: actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_REQUEST,
@@ -57,7 +57,7 @@ module.exports.removeFromActiveBus = function(c_id, active_v) {
   }
 }
 
-module.exports.addToActiveBus = function(c_id, active_v) {
+var addToActiveBus = module.exports.addToActiveBus = function(c_id, active_v) {
   return function(dispatch) {
     dispatch({
       type: actionTypes.MAP_ADD_TO_ACTIVE_BUS_REQUEST,
@@ -114,3 +114,42 @@ module.exports.hideDirections = function(vehicle, consumers, settings) {
     type: actionTypes.DIRECTIONS_HIDE
   }
 };
+
+module.exports.markerClick = function(c_id, markerLoading, consumersToVehiclesMap, activeVehicleId, vehicles, consumers){
+  if(!markerLoading) {
+    // not in loading state
+    if (consumersToVehiclesMap[c_id]) {
+      // marked consumer is on a vehicle
+
+      if (consumersToVehiclesMap[c_id] == activeVehicleId) {
+       // marked consumer is on the active vehicle
+       return removeFromActiveBus(
+         c_id,
+         vehicles[activeVehicleId]
+       );
+     } else {
+       // marked consumer is not on the active vehicle
+       // activate the vehicle which the consumers is on
+       return vehicleBoxClick(consumersToVehiclesMap[c_id]);
+     }
+    } else {
+      // marked consumer is not on a vehicle
+      if (activeVehicleId) {
+        // A vehicle is active (A Collapsible Box is open)
+        if(vehicleUtils.willConsumerFit(
+          c_id, vehicles[activeVehicleId], consumers)){
+            return addToActiveBus(
+              c_id,
+              vehicles[activeVehicleId]
+            );
+          }
+      }
+    }
+  }
+  return {
+      type: actionTypes.MARKER_CLICK_ERROR,
+      error: {
+        msg: "markers frozen in loading state"
+      }
+  }
+}

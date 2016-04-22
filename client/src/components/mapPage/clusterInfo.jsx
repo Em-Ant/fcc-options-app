@@ -5,7 +5,6 @@ var connect = require('react-redux').connect;
 var ConsumerMarkerInfo = require('./consumerMarkerInfo.jsx');
 var ClusterInfo = React.createClass({
   render: function() {
-    console.log("render cluster");
     var self = this;
     return (
         <div>
