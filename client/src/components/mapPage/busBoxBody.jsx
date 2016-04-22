@@ -5,6 +5,20 @@ var connect = require('react-redux').connect;
 var vehicleUtils = require('../../utils/vehicleUtils');
 
 var BusBoxBodyComponent = React.createClass({
+  componentDidMount:function(){
+    var self = this;
+    var startSortPosition;
+    $( "#sortable-" + this.props.vehicle._id ).sortable({
+      stop: function( event, ui ) {
+        var endSortPosition = ui.item.index();
+        self.props.onConsumerReorder(startSortPosition, endSortPosition);
+      },
+      start: function(event, ui) {
+        startSortPosition = ui.item.index();
+      }
+    });
+    $( "#sortable-" + this.props.vehicle._id ).disableSelection();
+  },
   render: function() {
     return (
       <div>
@@ -16,7 +30,7 @@ var BusBoxBodyComponent = React.createClass({
             <th>Needs</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id={"sortable-" + this.props.vehicle._id} ref={"tbody"}>
           {
             this.props.vehicle.consumers.map(function(c_id, index) {
               return (
@@ -46,6 +60,9 @@ var mapDispatchToProps = function(dispatch, ownProps) {
   return {
     onDirectionsClick: function(v_id) {
       dispatch(actions.displayDirections(v_id))
+    },
+    onConsumerReorder: function(startConsumerPosition, endConsumerPosition) {
+      dispatch(actions.reorderConsumer(ownProps.vehicle, startConsumerPosition, endConsumerPosition))
     }
   }
 }

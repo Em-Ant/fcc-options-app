@@ -153,3 +153,8 @@ module.exports.markerClick = function(c_id, markerLoading, consumersToVehiclesMa
       }
   }
 }
+
+module.exports.reorderConsumer = function(vehicle, startConsumerPosition, endConsumerPosition){
+
+
+}
