@@ -38,12 +38,6 @@ var Sidebar = React.createClass({
                 <span>Vehicles</span>
               </Link>
             </li>
-            <li className={this.props.activeLink==STAFF_PAGE?"active":null}>>
-              <Link to={STAFF_PAGE}>
-                <i className="fa fa-user"></i>
-                <span>Staff</span>
-              </Link>
-            </li>
 
             {this.props.userRole==ADMIN?
             <li className={this.props.activeLink==USERS_PAGE?"active":null}>>
