@@ -7,10 +7,11 @@ var controller = new Controller();
 
 var isLoggedIn = require('../auth/ensureAuth.js').isLoggedIn;
 
-router.post('/consumers/:v_id', isLoggedIn, controller.updateConsumersArray);
+//router.post('/consumers/:v_id', isLoggedIn, controller.updateConsumersArray);
 router.get('/', isLoggedIn, controller.index);
 router.get('/:id', isLoggedIn, controller.show);
 router.post('/', isLoggedIn, controller.create);
+router.post('/:id', isLoggedIn, controller.update);
 router.patch('/:id',  isLoggedIn, controller.update);
 router.put('/:id',  isLoggedIn, controller.update);
 router.delete('/:id', isLoggedIn, controller.destroy);

@@ -1,25 +1,14 @@
 'use strict';
 
 var Vehicle = require('../models/vehicle.js');
-var merge = require('lodash').merge;
 var _ = require('lodash');
+
 
 function VehicleHandler() {
   var getErrorMessage = function(err){
     //returns first error message
     var key = Object.keys(err.errors)[0];
     return err.errors[key].message;
-  }
-  var isEqual = function(arr1, arr2){
-    //Had to create this because _.isEquals didn't work well
-    if(arr1.length != arr2.length){
-      return false;
-    }
-    for(var i = 0; i < arr1.length; i++){
-      if(arr1[i] != arr2[i])
-        return false;
-    }
-    return true;
   }
 
   this.create = function(req, res) {
@@ -54,7 +43,7 @@ function VehicleHandler() {
       });
     } else {
       // send consumers objectId
-      Vehicle.find(function(err, vehicles) {
+      Vehicle.find({}, '-__v', function(err, vehicles) {
         if (err) {
           return res.status(400).json({
             msg: 'There was an error retrieving vehicles'
@@ -81,11 +70,7 @@ function VehicleHandler() {
     });
   }
 
-  this.update = function(req, res) {
-
-    if (req.body._id) {
-      delete req.body._id;
-    }
+  function updateVehicle(req, res) {
     Vehicle.findById(req.params.id, function(err, vehicle) {
       if (err) {
         return res.status(400).json({
@@ -97,14 +82,17 @@ function VehicleHandler() {
           msg: 'Vehicle not found'
         });
       }
-      var consumersModified = !isEqual(vehicle.consumers, req.body.consumers);
-      var updated = merge(vehicle, req.body);
-      if(consumersModified){
+
+      // merge isn't appropriate when removing a consumers
+      // beacuse the output of merging would be the old array
+      var updated = _.merge(vehicle, req.body);
+      if(req.body.consumers){
+        // if body has a consumers field, always save that field
         updated.markModified('consumers');
+        updated.consumers = req.body.consumers;
       }
       updated.save(function(err, savedVehicle) {
         if (err) {
-          console.log(err)
           return res.status(400).json({
             msg: getErrorMessage(err)
           });
@@ -112,6 +100,39 @@ function VehicleHandler() {
         return res.status(200).json(savedVehicle);
       });
     });
+  };
+
+  this.update = function(req, res) {
+
+    if (req.body._id) { delete req.body._id;}
+
+    // there are version conflicts because we update the vehicle on every assignment
+    // I have to remove __v from body, but we should avoid passing it around.
+    delete req.body.__v;
+
+    if (req.body.insert) {
+      // if inserting a consumer, validate that is not already assigned
+      var c_id = req.body.insert;
+      delete req.body.insert;
+      Vehicle.findOne({consumers: c_id}, function(err, vehicle){
+        if(vehicle) {
+          return res.status(400).json({
+            msg: 'Consumer is already on a vehicle'
+          });
+        }
+
+        if (err) {
+          return res.status(400).json({
+            msg: 'There was an error finding vehicles'
+          });
+        }
+        // consumer is valid -> update vehicle
+        updateVehicle(req, res);
+      });
+    } else {
+      // not inserting a consumer -> update vehicle
+      updateVehicle(req, res);
+    }
   }
 
   //delete a vehicle
@@ -126,58 +147,6 @@ function VehicleHandler() {
       }
       return res.status(200).json(v_id);
     });
-  }
-
-  var updateConsumers = function(vId, cArray, res) {
-    console.log("updating consumers");
-    Vehicle.update(
-      // add new consumers array
-      {_id: vId},
-      {$set: {consumers: cArray}},
-      { runValidators: true },
-      function(err, status){
-      if (err) {
-        return res.status(400).json({
-          msg: 'There was an error updating vehicle'
-        });
-      }
-      if(status.nModified === 0) {
-         return res.status(400).json({
-          msg: 'Vehicle cannot be modified'
-        });
-      }
-      return res.status(200).json(status);
-    });
-  }
-
-  this.updateConsumersArray = function (req, res) {
-    // check if the consumer is on another vehicle
-
-    var c_id = req.body.insert;
-    if(c_id) {
-
-      Vehicle.findOne({consumers: c_id}, function(err, vehicle){
-        if(vehicle) {
-          return res.status(400).json({
-            msg: 'Consumer is already on a vehicle'
-          });
-        }
-
-        if (err) {
-          return res.status(400).json({
-            msg: 'There was an error finding vehicles'
-          });
-        }
-        if(vehicle) {
-          return res.status(400).json({
-            msg: 'Consumer is already assigned to a vehicle '
-          });
-        }
-        updateConsumers(req.params.v_id, req.body.consumers, res);
-      })
-    } else {
-      updateConsumers(req.params.v_id, req.body.consumers, res);
-    }
   }
 }
 

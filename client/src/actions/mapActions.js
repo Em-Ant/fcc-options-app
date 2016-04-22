@@ -37,7 +37,7 @@ var removeFromActiveBus  = module.exports.removeFromActiveBus= function(c_id, ac
     var ind = consumersOnActive.indexOf(c_id);
     consumersOnActive.splice(ind, 1);
 
-    Ajax.post('/api/vehicle/consumers/' + active_v._id,
+    Ajax.post('/api/vehicle/' + active_v._id,
       {
         consumers: consumersOnActive,
         insert: false
@@ -69,7 +69,7 @@ var addToActiveBus = module.exports.addToActiveBus = function(c_id, active_v) {
     var consumersOnActive = active_v.consumers.slice();
     consumersOnActive.push(c_id);
 
-    Ajax.post('/api/vehicle/consumers/' + active_v._id,
+    Ajax.post('/api/vehicle/' + active_v._id,
       {
         consumers: consumersOnActive,
         insert: c_id
