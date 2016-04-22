@@ -98,7 +98,6 @@ var initState = {};
 // TODO: HANDLE ERRORS
 var reducer = function(state, action) {
   state = state || initState;
-  console.log(action.type, action.error ? action.error.responseJSON : 'no err');
   switch (action.type){
     case actionTypes.CONSUMER_INDEX_LOADING:
       return loadingConsumers(state);

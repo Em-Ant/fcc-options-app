@@ -1,7 +1,10 @@
 var Ajax = require('../../js/ajax-functions.js');
 var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
 var vehicleUtils = require('../utils/vehicleUtils');
-
+var ModelActions = require('./modelActions');
+var models = require('../constants/models.js');
+var modelActionTypes = require('../constants/actionTypes/modelActionTypes.js');
+var vehicleActions = new ModelActions(models.VEHICLES);
 var vehicleBoxClick = module.exports.vehicleBoxClick= function(v_id) {
   return {
     type: actionTypes.MAP_VEHICLE_BOX_CLICK,
@@ -131,7 +134,7 @@ module.exports.markerClick = function(c_id, markerLoading, consumersToVehiclesMa
        // marked consumer is not on the active vehicle
        // activate the vehicle which the consumers is on
        return vehicleBoxClick(consumersToVehiclesMap[c_id]);
-     }
+     };
     } else {
       // marked consumer is not on a vehicle
       if (activeVehicleId) {
@@ -155,6 +158,14 @@ module.exports.markerClick = function(c_id, markerLoading, consumersToVehiclesMa
 }
 
 module.exports.reorderConsumer = function(vehicle, startConsumerPosition, endConsumerPosition){
+    var consumers = vehicle.consumers.slice();
 
-
+    console.log("before",vehicle)
+    var removedConsumers = consumers.splice(startConsumerPosition, 1);
+    consumers.splice(endConsumerPosition, 0, removedConsumers[0] );
+    var updatedVehicle = Object.assign({}, vehicle, {
+      consumers:consumers
+    })
+    console.log("after",updatedVehicle)
+    return vehicleActions.update(updatedVehicle);
 }

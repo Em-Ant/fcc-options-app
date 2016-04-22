@@ -2,12 +2,24 @@
 
 var Vehicle = require('../models/vehicle.js');
 var merge = require('lodash').merge;
+var _ = require('lodash');
 
 function VehicleHandler() {
   var getErrorMessage = function(err){
     //returns first error message
     var key = Object.keys(err.errors)[0];
     return err.errors[key].message;
+  }
+  var isEqual = function(arr1, arr2){
+    //Had to create this because _.isEquals didn't work well
+    if(arr1.length != arr2.length){
+      return false;
+    }
+    for(var i = 0; i < arr1.length; i++){
+      if(arr1[i] != arr2[i])
+        return false;
+    }
+    return true;
   }
 
   this.create = function(req, res) {
@@ -85,7 +97,11 @@ function VehicleHandler() {
           msg: 'Vehicle not found'
         });
       }
+      var consumersModified = !isEqual(vehicle.consumers, req.body.consumers);
       var updated = merge(vehicle, req.body);
+      if(consumersModified){
+        updated.markModified('consumers');
+      }
       updated.save(function(err, savedVehicle) {
         if (err) {
           console.log(err)

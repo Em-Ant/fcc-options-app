@@ -33,10 +33,11 @@ var BusBoxBodyComponent = React.createClass({
         <tbody id={"sortable-" + this.props.vehicle._id} ref={"tbody"}>
           {
             this.props.vehicle.consumers.map(function(c_id, index) {
+              console.log(c_id);
               return (
                 <ConsumerInfoBox
                   consumerId={c_id}
-                  key={'c_info_'+ index}
+                  key={c_id + index}
                   index={index}
                 />
               )
