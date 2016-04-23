@@ -1,6 +1,5 @@
 var Ajax = require('../../js/ajax-functions.js');
 var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
-var vehicleUtils = require('../utils/vehicleUtils');
 var ModelActions = require('./modelActions');
 var models = require('../constants/models.js');
 var vehicleActions = new ModelActions(models.VEHICLES);
@@ -138,13 +137,11 @@ module.exports.markerClick = function(c_id, markerLoading, consumersToVehiclesMa
       // marked consumer is not on a vehicle
       if (activeVehicleId) {
         // A vehicle is active (A Collapsible Box is open)
-        if(vehicleUtils.willConsumerFit(
-          c_id, vehicles[activeVehicleId], consumers)){
-            return addToActiveBus(
-              c_id,
-              vehicles[activeVehicleId]
-            );
-          }
+        return addToActiveBus(
+          c_id,
+          vehicles[activeVehicleId]
+        );
+
       }
     }
   }

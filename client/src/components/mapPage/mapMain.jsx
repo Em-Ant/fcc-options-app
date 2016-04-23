@@ -11,16 +11,11 @@ var Polyline = require('react-google-maps').Polyline;
 var ConsumerMarkerInfo = require('./consumerMarkerInfo.jsx');
 var ClusterInfo = require('./clusterInfo.jsx');
 var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
-
 const mapConst = require('../../constants/map');
-
-/**
-* THINGS TODO:
-* 1. Handle errors with infoboxes
-*/
 
 var MapMain = React.createClass({
   _googleMapComponent:null,
+  alertDiv:null,
   handleWindowResize:function(){
     //center map on options inc marker
     if( this._googleMapComponent) {
@@ -30,9 +25,30 @@ var MapMain = React.createClass({
   componentDidMount: function() {
     window.addEventListener('resize', this.handleWindowResize);
   },
+  makeErrorControl(controlDiv, error) {
+    //clear div
+    while (controlDiv.firstChild) controlDiv.removeChild(controlDiv.firstChild);
+
+    if(error != null){
+      var alertDiv = document.createElement('div');
+      alertDiv.className="alert alert-danger alert-dismissible map-alert";
+      alertDiv.innerHTML = error;
+      controlDiv.appendChild(alertDiv);
+    }
+  },
+  showError:function(error){
+    // google-maps-react doesn't support custom controls, so this has to be
+    // set up manually
+    if(!this.alertDiv){
+      var map = this._googleMapComponent.props.map;
+      this.alertDiv = document.createElement('div');
+      map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.alertDiv);
+    }
+    this.makeErrorControl(this.alertDiv, error);
+
+  },
   getInitialState:function(){
     return {
-
     }
   },
   handleMarkerClick: function(c_id){
@@ -118,11 +134,15 @@ var MapMain = React.createClass({
         googleMapElement={
           <GoogleMap
             ref={function(map){
-              self._googleMapComponent = map;
+              if(map){
+                self._googleMapComponent = map;
+                self.showError(self.props.error);
+              }
             }}
             defaultZoom={12}
             defaultCenter={self.props.optionsIncMarker.position}
             onZoomChanged={self.handleMapZoomChanged}
+            controls={self.errorMessage}
             >
             <Marker
               position={self.props.optionsIncMarker.position}
@@ -222,7 +242,8 @@ var mapStateToProps = function(state){
     activeVehicleId : state.mapPage.activeVehicleId,
     markerLoading: state.mapPage.markerLoading,
     displayDirections: state.mapPage.displayDirections,
-    vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points)
+    vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points),
+    error:state.mapPage.error
   }
 }
 var mapDispatchToProps = function(dispatch) {

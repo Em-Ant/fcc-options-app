@@ -12,6 +12,7 @@ var vehicleBoxClick = function(state, v_id) {
     $('#vp-' + v_id).collapse('toggle');
 
     return Object.assign({}, state, {
+      error:null,
       activeVehicleId: undefined,
       directionsLoading: false,
       displayDirections: false
@@ -23,6 +24,7 @@ var vehicleBoxClick = function(state, v_id) {
     $('#vp-' + activeVId).collapse('toggle');
 
     return Object.assign({}, state, {
+      error:null,
       activeVehicleId: v_id,
       directionsLoading: false,
       displayDirections: false
@@ -32,6 +34,7 @@ var vehicleBoxClick = function(state, v_id) {
 
 var request = function(state, c_id) {
   return Object.assign({}, state, {
+    error:null,
     markerLoading: c_id,
     vehicleLoading:true,
     directionsLoading: false,
@@ -49,8 +52,8 @@ var success = function(state) {
 }
 
 var error = function(state, err) {
-  console.log(err.responseJSON.msg);
   return Object.assign({}, state, {
+    error:err.responseJSON.msg,
     markerLoading: undefined,
     vehicleLoading:false,
     serverSuccess: false
@@ -59,12 +62,14 @@ var error = function(state, err) {
 
 var highlightMarker = function(state, id) {
   return Object.assign({}, state, {
+    error:null,
     highlightedMarker: id
   })
 }
 
 var highlightMarkerOff = function(state, id) {
   return Object.assign({}, state, {
+    error:null,
     highlightedMarker: undefined
   })
 }
