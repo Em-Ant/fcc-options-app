@@ -2,6 +2,7 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
+var Message = require('../message.jsx');
 
 const MINUTES_IN_HOUR = 60;
 const MILES_IN_METER = 0.00062137;
@@ -10,6 +11,7 @@ var DirectionsBody = React.createClass({
 
   render:function(){
     var route = this.props.route;
+    var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/MINUTES_IN_HOUR);
     return(
       <div>
       {
@@ -43,8 +45,11 @@ var DirectionsBody = React.createClass({
       <div>{Math.ceil(route.totalDuration/MINUTES_IN_HOUR)} minutes</div>
 
       <div><b>Max Passenger Duration (w/out stops and traffic) </b></div>
-      <div>{Math.ceil(route.maxPassengerDuration/MINUTES_IN_HOUR)} minutes</div>
-
+      <div>{maxPassengerDuration} minutes</div>
+      {maxPassengerDuration > this.props.maxConsumerRouteTime?
+        <Message message={{type:"info", msg:"The max passenger duration is greater than the maximum route time setting"}}/>
+        :null
+      }
       <div><b>Total Distance</b> </div>
       <div>{Math.ceil(route.totalDistance*MILES_IN_METER)} miles</div>
       </div>
@@ -60,7 +65,8 @@ var mapStateToProps = function(state, ownProps){
     route = state.directions.morningRoute;
   }
   return {
-    route : route
+    route : route,
+    maxConsumerRouteTime: state.settings.maxConsumerRouteTime
   }
 }
 module.exports = connect(mapStateToProps)(DirectionsBody)
