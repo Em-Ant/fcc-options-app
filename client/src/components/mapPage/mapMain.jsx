@@ -24,8 +24,9 @@ var MapMain = React.createClass({
   _googleMapComponent:null,
   handleWindowResize:function(){
     //center map on options inc marker
-    this._googleMapComponent.panTo(this.props.optionsIncMarker.position);
-
+    if( this._googleMapComponent) {
+      this._googleMapComponent.panTo(this.props.optionsIncMarker.position);
+    }
   },
   componentDidMount: function() {
     window.addEventListener('resize', this.handleWindowResize);
@@ -191,6 +192,7 @@ TODO:  I think this should be in a reducer. I tried adding this to the consumer
 reducer, but I couldn't find a way to access
 */
 var colorMarkers = function(consumerMarkers, consumersToVehiclesMap, activeVehicleId, highlightedConsumerId, markerLoading) {
+  console.log(consumerMarkers, consumersToVehiclesMap, activeVehicleId, highlightedConsumerId, markerLoading )
   return consumerMarkers.map(function(marker){
     var c_id = marker.consumerId;
     var icon = marker.icon;

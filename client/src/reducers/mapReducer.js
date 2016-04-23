@@ -180,9 +180,10 @@ var reducer = function(state, action) {
     case (actionTypes.DIRECTIONS_HIDE):
       return hideDirections(state)
 
-    case (cActionTypes.CONSUMER_INDEX_SUCCESS):
-      return setConsumerMarkers(state, action.consumers)
+
     case (modelActionTypes.FETCH):
+      if(action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
+        return setConsumerMarkers(state, action.response)
     case (modelActionTypes.UPDATE):
       if (action.model == modelConst.SETTINGS && action.status == modelActionTypes.SUCCESS)
         return setOptionsIncMarker(state, action.response)

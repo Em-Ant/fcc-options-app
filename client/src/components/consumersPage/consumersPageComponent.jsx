@@ -19,17 +19,27 @@ var Consumers = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     console.log('errMsg', nextProps.errorMsg);
   },
+  getInitialState: function() {
+    return {};
+  },
+  setDeleteIndex: function(id) {
+    this.setState({deleteId: id});
+  },
+  deleteConsumer: function() {
+    this.props.deleteConsumer(this.state.deleteId);
+    this.setState({deleteId: undefined});
+  },
   render: function() {
 
-    var modalBody = this.props.deleteId !== undefined ?
+    var modalBody = this.state.deleteId !== undefined ?
     "Are You sure You want to delete Consumer '"
-      + this.props.consumers[this.props.deleteId].name + "' ?"
+      + this.props.consumers[this.state.deleteId].name + "' ?"
       : "";
     return (
       <div className="content-wrapper">
         <Alert modalId="consumer-delete-alert" modalTitle="Confirm Deletion..."
           modalBody={modalBody}
-          handleConfirm={this.props.deleteConsumer}
+          handleConfirm={this.deleteConsumer}
         />
         <section className="content">
           <div className="row">
@@ -85,7 +95,7 @@ var Consumers = React.createClass({
                                   className="btn btn-sm btn-default in-table"
                                   title="Delete"  data-toggle="modal"
                                   data-target="#consumer-delete-alert" type="button"
-                                  onClick={this.props.setDeleteIndex.bind(null, consumer._id)}>
+                                  onClick={this.setDeleteIndex.bind(null, consumer._id)}>
                                   <i className="fa fa-trash-o"></i>
                                 </button>
 

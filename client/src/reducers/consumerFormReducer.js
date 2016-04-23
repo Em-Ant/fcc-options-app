@@ -1,5 +1,6 @@
 
-var actionTypes = require('../constants/actionTypes/consumerActionTypes.js');
+var actionTypes = require('../constants/actionTypes/modelActionTypes');
+const CONSUMERS = require('../constants/models').CONSUMERS;
 
 function loadingConsumers(state) {
   return Object.assign({}, state, {
@@ -98,38 +99,71 @@ var initState = {};
 // TODO: HANDLE ERRORS
 var reducer = function(state, action) {
   state = state || initState;
-  switch (action.type){
-    case actionTypes.CONSUMER_INDEX_LOADING:
-      return loadingConsumers(state);
-    case actionTypes.CONSUMER_INDEX_SUCCESS:
-      return setConsumers(state);
-    case actionTypes.CONSUMER_INDEX_ERROR:
-      return setErrorOnPageLoading(state, action.error);
-    case actionTypes.CONSUMER_UPDATE_LOADING:
-      return updatingConsumers(state);
-    case actionTypes.CONSUMER_UPDATE_SUCCESS:
-      return updateConsumer(state);
-    case actionTypes.CONSUMER_CREATE_LOADING:
-      return updatingConsumers(state);
-    case actionTypes.CONSUMER_CREATE_SUCCESS:
-      return addConsumer(state);
-    case actionTypes.CONSUMER_DELETE_ERROR:
-    case actionTypes.CONSUMER_CREATE_ERROR:
-    case actionTypes.CONSUMER_UPDATE_ERROR:
-      return setError(state, action.error);
-    case actionTypes.CONSUMER_SET_EDIT_MODE:
-      return setEditMode(state, action.id);
-    case actionTypes.CONSUMER_RESET_EDIT_MODE:
-      return resetEditMode(state);
-    case actionTypes.CONSUMER_SET_ITEM_TO_DELETE:
-      return setItemToDelete(state, action.id);
-    case actionTypes.CONSUMER_DELETE_LOADING:
-      return updatingConsumers(state);
-    case actionTypes.CONSUMER_DELETE_SUCCESS:
-      return deleteConsumer(state);
 
-    case actionTypes.CONSUMER_SET_ADD_MODE:
+  if (action.model !== CONSUMERS) {
+    return state;
+  }
+
+  if (action.type === actionTypes.FETCH) {
+    switch (action.status) {
+      case actionTypes.LOADING:
+        return loadingConsumers(state);
+      case actionTypes.ERROR:
+        return setErrorOnPageLoading(state, action.error);
+      case actionTypes.SUCCESS:
+        return setConsumers(state);
+      default:
+        return state;
+    }
+  }
+
+  if (action.type === actionTypes.CREATE) {
+    switch (action.status) {
+      case actionTypes.LOADING:
+        return updatingConsumers(state);
+      case actionTypes.ERROR:
+        return setError(state, action.error);
+      case actionTypes.SUCCESS:
+        return addConsumer(state);
+      default:
+        return state;
+    }
+  }
+
+  if (action.type === actionTypes.UPDATE) {
+    switch (action.status) {
+      case actionTypes.LOADING:
+        return updatingConsumers(state);
+      case actionTypes.ERROR:
+        return setError(state, action.error);
+      case actionTypes.SUCCESS:
+        return updateConsumer(state);
+      default:
+        return state;
+    }
+  }
+
+  if (action.type === actionTypes.DELETE) {
+    switch (action.status) {
+      case actionTypes.LOADING:
+        return updatingConsumers(state);
+      case actionTypes.ERROR:
+        return setError(state, action.error);
+      case actionTypes.SUCCESS:
+        return deleteConsumer(state);
+      default:
+        return state;
+    }
+  }
+
+  switch (action.type){
+
+    case actionTypes.SET_EDIT_MODE:
+      return setEditMode(state, action.id);
+    case actionTypes.SET_ADD_MODE:
       return setEditMode(state, undefined);
+    case actionTypes.CLOSE_FORM:
+      return resetEditMode(state);
     default:
       return state;
   }

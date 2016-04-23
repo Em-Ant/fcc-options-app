@@ -2,7 +2,7 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var c_actions = require('../../actions/consumerActions');
+
 
 var VehiclePanel = require('./vehiclePanel.jsx')
 var Directions = require('../directions/directions.jsx')
@@ -13,6 +13,7 @@ var PrintDiv = require('./printReport.jsx')
 
 var v_actions = new ModelActions(models.VEHICLES);
 var s_actions = new ModelActions(models.SETTINGS);
+var c_actions = new ModelActions(models.CONSUMERS);
 
 // When the map is rendered, we are sure that all needed data
 // are properly loaded so we can handle them in 'componentDidMount'
@@ -70,7 +71,7 @@ var mapStateToProps = function(state){
 var mapDispatchToProps = function(dispatch) {
   return {
     loadConsumers: function() {
-      dispatch(c_actions.loadConsumers());
+      dispatch(c_actions.fetch());
     },
     loadVehicles : function() {
       dispatch(v_actions.fetch());

@@ -1,6 +1,6 @@
 var actionTypes = require('../constants/actionTypes/modelActionTypes');
 const VEHICLES = require('../constants/models').VEHICLES;
-var consumerActionTypes = require('../constants/actionTypes/consumerActionTypes');
+const CONSUMERS = require('../constants/models').CONSUMERS;
 var commonCRUD = require('../commons/commonReducerFunctions');
 var mapActions = require('../constants/actionTypes/mapActionTypes.js');
 var _ = require('lodash');
@@ -31,6 +31,7 @@ function removeConsumerFromVehicle(state, consumerId) {
 }
 
 var mapConsumersToVehicles = function(state) {
+  console.log('mapC_to_V')
   var consumersToVehiclesMap = {};
   state.ids.forEach(function(v_id) {
     var vehicle = state.data[v_id];
@@ -60,9 +61,12 @@ var vehiclesReducer = function(state, action) {
     case mapActions.MAP_ADD_TO_ACTIVE_BUS_SUCCESS:
       var newState =  updateConsumersArray(state, action.v_id, action.consumersArray);
       return mapConsumersToVehicles(newState);
-    case consumerActionTypes.CONSUMER_DELETE_SUCCESS:
+    case actionTypes.DELETE:
+      if(action.model === CONSUMERS
+        && action.status === actionTypes.SUCCESS) {
       var newState = removeConsumerFromVehicle(state, action.id);
       return mapConsumersToVehicles(newState);
+    }
   }
 
   if (action.model != VEHICLES) {

@@ -4,6 +4,7 @@ var actions = require('../actions/consumerActions.js');
 
 var ModelActions = require('../actions/modelActions.js');
 var models = require('../constants/models.js');
+var actions = new ModelActions(models.CONSUMERS);
 var vehicleActions = new ModelActions(models.VEHICLES);
 
 var mapStateToProps = function(state){
@@ -25,28 +26,25 @@ var mapStateToProps = function(state){
 var mapDispatchToProps = function(dispatch){
   return {
     loadConsumers: function () {
-      dispatch(actions.loadConsumers());
+      dispatch(actions.fetch());
     },
     loadVehicles: function () {
       dispatch(vehicleActions.fetch());
     },
     handleEditConsumer : function(updatedConsumer) {
-      dispatch(actions.editConsumer(updatedConsumer))
+      dispatch(actions.update(updatedConsumer))
     },
     handleAddConsumer : function(newConsumer) {
-      dispatch(actions.addConsumer(newConsumer))
+      dispatch(actions.create(newConsumer))
     },
     setEditMode: function (id) {
       dispatch(actions.setEditMode(id))
     },
     resetEditMode: function () {
-      dispatch(actions.resetEditMode())
+      dispatch(actions.closeForm())
     },
-    setDeleteIndex: function(id) {
-      dispatch(actions.setDeleteId(id))
-    },
-    deleteConsumer: function() {
-      dispatch(actions.deleteConsumer())
+    deleteConsumer: function(id) {
+      dispatch(actions.delete(id))
     },
     setAddMode: function() {
       dispatch(actions.setAddMode())
