@@ -82,14 +82,9 @@ function VehicleHandler() {
           msg: 'Vehicle not found'
         });
       }
-
-      // merge isn't appropriate when removing a consumers
-      // beacuse the output of merging would be the old array
-      var updated = _.merge(vehicle, req.body);
-      if(req.body.consumers){
-        // if body has a consumers field, always save that field
+      var updated = Object.assign(vehicle, req.body);
+      if(req.body.consumers){      
         updated.markModified('consumers');
-        updated.consumers = req.body.consumers;
       }
       updated.save(function(err, savedVehicle) {
         if (err) {
