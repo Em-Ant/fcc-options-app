@@ -87,7 +87,8 @@ function validateMaxConsumersCount(next) {
   var self = this;
   var settings = settingsModel.findOne(function(err, settings) {
     if (err) {
-      self.invalidate('consumers', 'Settings cannot be accessed')
+      self.invalidate('consumers', 'Settings cannot be accessed');
+      return next();
     }
     var driverSeatCount = 1;
     if (
