@@ -9,9 +9,13 @@ var BusBoxBodyComponent = React.createClass({
     var self = this;
     var startSortPosition;
     $( "#sortable-" + this.props.vehicle._id ).sortable({
+      axis: "y",
+      cursor: "move",
       stop: function( event, ui ) {
         var endSortPosition = ui.item.index();
-        self.props.onConsumerReorder(startSortPosition, endSortPosition);
+        if(startSortPosition != endSortPosition){
+          self.props.onConsumerReorder(startSortPosition, endSortPosition);
+        }
       },
       start: function(event, ui) {
         startSortPosition = ui.item.index();
@@ -33,7 +37,6 @@ var BusBoxBodyComponent = React.createClass({
         <tbody id={"sortable-" + this.props.vehicle._id} ref={"tbody"}>
           {
             this.props.vehicle.consumers.map(function(c_id, index) {
-              console.log(c_id);
               return (
                 <ConsumerInfoBox
                   consumerId={c_id}

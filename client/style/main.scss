@@ -75,6 +75,10 @@
   cursor: pointer;
 }
 
+.draggable {
+  cursor: move;
+}
+
 #map-loader {
   height: 600px;
 }

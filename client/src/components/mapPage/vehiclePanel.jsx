@@ -65,7 +65,7 @@ var mapStateToProps = function(state){
     vehiclesIds: state.vehicles.ids,
     vehicles: state.vehicles.data,
     consumers: state.consumers.data,
-    loading: state.mapPage.markerLoading,
+    loading: state.mapPage.vehicleLoading,
     activeVehicleId: state.mapPage.activeVehicleId
   }
 }
