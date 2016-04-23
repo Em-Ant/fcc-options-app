@@ -47,8 +47,8 @@ var PrintReport = React.createClass({
         }
         vehiclesCount++;
         var vDesc = vehicle.name + ' - ' + vehicle.seats +'S';
-        if(vehicle.flexSeats) {vDesc += ('|' + vehicle.flexSeats + 'F')}
-        if(vehicle.wheelchairs) {vDesc += ('|' + vehicle.wheelchairs+ 'W')}
+        if(vehicle.flexSeats) {vDesc += (' ' + vehicle.flexSeats + 'F')}
+        if(vehicle.wheelchairs) {vDesc += (' ' + vehicle.wheelchairs+ 'W')}
         var t = (
           <table className={tableClass} key={"report-"+index}>
             <thead>
@@ -74,7 +74,9 @@ var PrintReport = React.createClass({
     return (
       <div id="print-report">
         <h3>Options, Inc. - Vehicles Report | { (new Date()).toDateString()}</h3>
-        <p><strong>Legend - </strong> Bus Header: S - Seats, F - Flex Seats, W - Wheelchairs | Consumer: [W] - Wheelchair, [M] - Medications </p>
+        <div><strong>Legend</strong></div>
+        <div>Vehicle Header: S - Seats, F - Flex Seats, W - Wheelchairs</div>
+        <div>Consumer: [W] - Wheelchair, [M] - Medications </div>
         {
           tables.map(function(t, index) {
             return t
