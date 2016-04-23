@@ -1,5 +1,6 @@
 
-var actionTypes = require('../constants/actionTypes/userActionTypes.js');
+var actionTypes = require('../constants/actionTypes/modelActionTypes');
+const USERS = require('../constants/models').USERS;
 
 function loadingUsers(state) {
   return Object.assign({}, state, {
@@ -111,37 +112,71 @@ var initState = {};
 // TODO: HANDLE ERRORS
 var reducer = function(state, action) {
   state = state || initState;
+
+  console.log(action.type, action.status, action.model, action.error);
+
+  if (action.model !== USERS) {
+    return state;
+  }
   switch (action.type){
-    case actionTypes.USER_INDEX_LOADING:
-      return loadingUsers(state);
-    case actionTypes.USER_INDEX_SUCCESS:
-      return setUsers(state);
-    case actionTypes.USER_INDEX_ERROR:
-      return setErrorOnPageLoading(state, action.error);
-    case actionTypes.USER_UPDATE_ROLE_LOADING:
-      return updatingUsers(state);
-    case actionTypes.USER_UPDATE_ROLE_SUCCESS:
-      return updateUser(state);
-    case actionTypes.USER_UPDATE_ROLE_ERROR:
-      return setError(state, action.error);
-    case actionTypes.USER_CREATE_LOADING:
-    case actionTypes.USER_DELETE_LOADING:
+    case actionTypes.FETCH:
+      if (action.status === actionTypes.LOADING) {
+        return loadingUsers(state);
+      }
+      if (action.status === actionTypes.SUCCESS) {
+        return setUsers(state);
+      }
+      if (action.status === actionTypes.ERROR) {
+        return setErrorOnPageLoading(state, action.error);
+      }
+    case actionTypes.CREATE:
+      if (action.status === actionTypes.LOADING) {
+        return updatingUsers(state);
+      }
+      if (action.status === actionTypes.SUCCESS) {
+        return addUser(state);
+      }
+      if (action.status === actionTypes.ERROR) {
+        return setError(state, action.error);
+      }
+    case actionTypes.UPDATE:
+      if (action.status === actionTypes.LOADING) {
+        return updatingUsers(state);
+      }
+      if (action.status === actionTypes.SUCCESS) {
+        return updateUser(state);
+      }
+      if (action.status === actionTypes.ERROR) {
+        return setError(state, action.error);
+      }
+    case actionTypes.DELETE:
+      if (action.status === actionTypes.LOADING) {
+        return updatingUsers(state);
+      }
+      if (action.status === actionTypes.SUCCESS) {
+        return addUser(state);
+      }
+      if (action.status === actionTypes.ERROR) {
+        return setError(state, action.error);
+      }
+
+    case actionTypes.SET_EDIT_MODE:
+      return setEditMode(state, action.id);
+    case actionTypes.SET_ADD_MODE:
+      return setEditMode(state, undefined);
+    case actionTypes.CLOSE_FORM:
+      return resetEditMode(state);
+
+
     case actionTypes.USER_RESET_PWD_LOADING:
       return updatingUsers(state);
-    case actionTypes.USER_CREATE_SUCCESS:
-    case actionTypes.USER_DELETE_SUCCESS:
     case actionTypes.USER_RESET_PWD_SUCCESS:
       return addUser(state);
-    case actionTypes.USER_CREATE_ERROR:
-    case actionTypes.USER_DELETE_ERROR:
     case actionTypes.USER_RESET_PWD_ERROR:
       return setError(state, action.error);
-    case actionTypes.USER_SET_EDIT_MODE:
-      return setEditMode(state, action.id);
-    case actionTypes.USER_RESET_EDIT_MODE:
-      return resetEditMode(state);
-    case actionTypes.USER_SET_ADD_MODE:
-      return setEditMode(state, undefined);
+
+
+
     default:
       return state;
   }

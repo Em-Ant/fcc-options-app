@@ -111,7 +111,7 @@ function UserHandler() {
             msg: 'Error saving updated user'
           });
         }
-        var updated = Object.assign({}, user)
+        var updated = user.toObject();
         delete updated.password;
         return res.status(200).json(updated);
       })

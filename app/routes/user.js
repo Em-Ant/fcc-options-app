@@ -39,7 +39,7 @@ router.post('/:id/reset-pwd', hasRole('admin'), controller.resetPassword);
 router.post('/password', isLoggedIn, controller.updatePassword);
 
 //update an individual user
-router.post('/:id', hasRole('admin'), controller.updateRole);
+router.put('/:id', hasRole('admin'), controller.updateRole);
 router.patch('/:id',  hasRole('admin'), controller.updateRole);
 
 

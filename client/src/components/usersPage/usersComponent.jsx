@@ -4,7 +4,12 @@ var React = require('react');
 var Alert = require('../alertModal.jsx');
 var UserForm = require('./userFormComponent.jsx');
 var connect = require('react-redux').connect;
-var actions = require('../../actions/userActions');
+var modelActions = require('../../actions/modelActions');
+
+const USERS = require('../../constants/models').USERS;
+var actions = new modelActions(USERS);
+
+var uActions = require('../../actions/userActions');
 
 var DEFAULT_PASSWORD =  require('../../constants/defaultPassword').DEFAULT_PASSWORD;
 
@@ -75,12 +80,14 @@ var Users = React.createClass({
                             <td>{user.email}</td>
                             <td>{user.role}</td>
                             <td className="text-center">
-                              <button className="btn btn-sm btn-default in-table"
+                              <button
+                                className="btn btn-sm btn-default in-table"
                                 title="Edit Role" type="button"
                                 onClick={this.props.setEditMode.bind(null, user._id)}>
                                 <i className="fa fa-wrench"></i>
                               </button>
-                              <button className="btn btn-sm btn-default in-table"
+                              <button
+                                className="btn btn-sm btn-default in-table"
                                 title="Reset Password" type="button" data-toggle="modal"
                                 data-target="#user-alert"
                                 onClick={this.handleReset.bind(null, user._id)}>
@@ -142,7 +149,7 @@ var mapStateToProps = function(state){
 var mapDispatchToProps = function(dispatch){
   return {
     loadUsers: function () {
-      dispatch(actions.loadUsers());
+      dispatch(actions.fetch());
     },
     setAddMode: function() {
       dispatch(actions.setAddMode());
@@ -151,10 +158,10 @@ var mapDispatchToProps = function(dispatch){
       dispatch(actions.setEditMode(id));
     },
     onDelete: function (id) {
-      dispatch(actions.deleteUser(id));
+      dispatch(actions.delete(id));
     },
     onReset: function (id) {
-      dispatch(actions.resetPassword(id));
+      dispatch(uActions.resetPassword(id));
     }
   };
 }

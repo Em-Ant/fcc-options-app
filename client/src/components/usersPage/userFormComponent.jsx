@@ -3,7 +3,10 @@
 var React = require('react');
 var Message = require('../message.jsx');
 var connect = require('react-redux').connect;
-var actions = require('../../actions/userActions');
+var modelActions = require('../../actions/modelActions');
+
+const USERS = require('../../constants/models').USERS;
+var actions = new modelActions(USERS);
 
 var DEFAULT_PASSWORD =  require('../../constants/defaultPassword').DEFAULT_PASSWORD;
 
@@ -138,56 +141,23 @@ var mapStateToProps = function(state){
       : {role: 'user'},
     isLoading: state.usersPage.updatingUsers,
     message: state.usersPage.message
-    /*
-    loadingConsumers: state.consumersForm.loadingConsumers,
-    editId: state.consumersForm.editId,
-    formLoading : state.consumersForm.updatingConsumers,
-    deleteId: state.consumersForm.deleteId,
-    displayForm: state.consumersForm.displayForm*/
   }
 }
 
 var mapDispatchToProps = function(dispatch){
   return {
-    loadUsers: function () {
-      dispatch(actions.loadUsers());
-    },
     setAddMode: function() {
       dispatch(actions.setAddMode());
     },
     onEditUserRole: function(user) {
-      dispatch(actions.editUserRole(user));
+      dispatch(actions.update(user));
     },
     onAddUser : function(user) {
-      dispatch(actions.addUser(user));
+      dispatch(actions.create(user));
     },
     onCloseForm: function() {
-      dispatch(actions.resetEditMode())
-    } /*,
-    loadVehicles: function () {
-      dispatch(vehicleActions.fetch());
-    },
-    handleEditConsumer : function(updatedConsumer) {
-      dispatch(actions.editConsumer(updatedConsumer))
-    },
-    handleAddConsumer : function(newConsumer) {
-      dispatch(actions.addConsumer(newConsumer))
-    },
-    setEditMode: function (id) {
-      dispatch(actions.setEditMode(id))
-    },
-    resetEditMode: function () {
-      dispatch(actions.resetEditMode())
-    },
-    setDeleteIndex: function(id) {
-      dispatch(actions.setDeleteId(id))
-    },
-    deleteConsumer: function() {
-      dispatch(actions.deleteConsumer())
-    },
-    setAddMode: function() {
-      dispatch(actions.setAddMode())
-    }*/
+      dispatch(actions.closeForm())
+    }
   };
 }
 

@@ -1,24 +1,41 @@
 
-var actionTypes = require('../constants/actionTypes/userActionTypes.js');
-var commons = require('../commons/commonReducerFunctions');
 
+var commons = require('../commons/commonReducerFunctions');
+var actionTypes = require('../constants/actionTypes/modelActionTypes');
+const USERS = require('../constants/models').USERS;
 
 // TODO: HANDLE ERRORS
 var reducer = function(state, action) {
   state = state || {ids:[], data:{}, needToBeFetched: true};
+
+  if (action.model !== USERS) {
+    return state;
+  }
+
   switch (action.type){
-    case actionTypes.USER_INDEX_LOADING:
-      return commons.setRequested(state);
-    case actionTypes.USER_INDEX_SUCCESS:
-      return commons.load(state, action.users);
-    case actionTypes.USER_INDEX_ERROR:
-      return commons.fetchError(state);
-    case actionTypes.USER_UPDATE_ROLE_SUCCESS:
-      return commons.update(state, action.updatedUser);
-    case actionTypes.USER_CREATE_SUCCESS:
-      return commons.add(state, action.newUser);
-    case actionTypes.USER_DELETE_SUCCESS:
-      return commons.destroy(state, action.id);
+    case actionTypes.FETCH:
+      if (action.status === actionTypes.LOADING) {
+        return commons.setRequested(state);
+      }
+      if (action.status === actionTypes.ERROR) {
+        return commons.fetchError(state);
+      }
+      if (action.status === actionTypes.SUCCESS) {
+        return commons.load(state, action.response);
+      }
+    case actionTypes.UPDATE:
+      if (action.status === actionTypes.SUCCESS) {
+        console.log('update role',action.response)
+        return commons.update(state, action.response);
+      }
+    case actionTypes.CREATE:
+      if (action.status === actionTypes.SUCCESS) {
+        return commons.add(state, action.response);
+      }
+    case actionTypes.DELETE:
+      if (action.status === actionTypes.SUCCESS) {
+        return commons.destroy(state, action.id);
+      }
     default:
       return state;
   }
