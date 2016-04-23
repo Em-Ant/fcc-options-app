@@ -2,7 +2,6 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var actions = require('../../actions/consumerActions');
 
 var ConsumerForm = require('./consumerForm.jsx');
 var Alert = require('../alertModal.jsx');
@@ -15,9 +14,6 @@ var Consumers = React.createClass({
     if(this.props.vehiclesNeedToBeFetched) {
       this.props.loadVehicles();
     }
-  },
-  componentWillReceiveProps: function(nextProps) {
-    console.log('errMsg', nextProps.errorMsg);
   },
   getInitialState: function() {
     return {};
