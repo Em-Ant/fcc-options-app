@@ -34,14 +34,17 @@ var vehicleBoxClick = function(state, v_id) {
 var request = function(state, c_id) {
   return Object.assign({}, state, {
     markerLoading: c_id,
+    vehicleLoading:true,
     directionsLoading: false,
-    displayDirections: false
+    displayDirections: false,
+    highlightedMarker: undefined
   });
 }
 
 var success = function(state) {
   return Object.assign({}, state, {
     markerLoading: undefined,
+    vehicleLoading:false,
     serverSuccess: true
   });
 }
@@ -50,6 +53,7 @@ var error = function(state, err) {
   console.log(err.responseJSON.msg);
   return Object.assign({}, state, {
     markerLoading: undefined,
+    vehicleLoading:false,
     serverSuccess: false
   });
 }
@@ -187,6 +191,12 @@ var reducer = function(state, action) {
     case (modelActionTypes.UPDATE):
       if (action.model == modelConst.SETTINGS && action.status == modelActionTypes.SUCCESS)
         return setOptionsIncMarker(state, action.response)
+      if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.LOADING)
+        return request(state)
+      if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.ERROR)
+        return error(state, action.error)
+      if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.SUCCESS)
+        return success(state)
     case (modelActionTypes.DELETE):
       if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.SUCCESS)
         return checkActiveVehicleIdForDelete(state, action.id)

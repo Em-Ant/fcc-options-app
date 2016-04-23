@@ -159,13 +159,10 @@ module.exports.markerClick = function(c_id, markerLoading, consumersToVehiclesMa
 
 module.exports.reorderConsumer = function(vehicle, startConsumerPosition, endConsumerPosition){
     var consumers = vehicle.consumers.slice();
-
-    console.log("before",vehicle)
     var removedConsumers = consumers.splice(startConsumerPosition, 1);
     consumers.splice(endConsumerPosition, 0, removedConsumers[0] );
     var updatedVehicle = Object.assign({}, vehicle, {
       consumers:consumers
     })
-    console.log("after",updatedVehicle)
     return vehicleActions.update(updatedVehicle);
 }
