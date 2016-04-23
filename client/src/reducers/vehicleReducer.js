@@ -31,7 +31,6 @@ function removeConsumerFromVehicle(state, consumerId) {
 }
 
 var mapConsumersToVehicles = function(state) {
-  console.log('mapC_to_V')
   var consumersToVehiclesMap = {};
   state.ids.forEach(function(v_id) {
     var vehicle = state.data[v_id];

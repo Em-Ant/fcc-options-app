@@ -16,9 +16,8 @@ const mapConst = require('../../constants/map');
 
 /**
 * THINGS TODO:
-* 3. Handle errors with infoboxes
+* 1. Handle errors with infoboxes
 */
-var map;
 
 var MapMain = React.createClass({
   _googleMapComponent:null,
@@ -50,9 +49,7 @@ var MapMain = React.createClass({
     this.setState(this.state);
   },
   renderInfoWindow(marker) {
-    var consumer = this.props.consumers[marker.consumerId];
     var assignedVehicleId = this.props.consumersToVehiclesMap[marker.consumerId];
-    var assignedVehicle = this.props.vehicles[assignedVehicleId];
     return (
       <InfoWindow>
         {
@@ -144,7 +141,6 @@ var MapMain = React.createClass({
             }
 
             {self.props.consumerMarkers.map(function(marker, index){
-              const markerRef = 'marker_' + index;
               return(
                 <Marker
                   key={index}
@@ -192,8 +188,7 @@ TODO:  I think this should be in a reducer. I tried adding this to the consumer
 reducer, but I couldn't find a way to access
 */
 var colorMarkers = function(consumerMarkers, consumersToVehiclesMap, activeVehicleId, highlightedConsumerId, markerLoading) {
-  console.log(consumerMarkers, consumersToVehiclesMap, activeVehicleId, highlightedConsumerId, markerLoading )
-  return consumerMarkers.map(function(marker){
+return consumerMarkers.map(function(marker){
     var c_id = marker.consumerId;
     var icon = marker.icon;
     if(markerLoading == c_id){

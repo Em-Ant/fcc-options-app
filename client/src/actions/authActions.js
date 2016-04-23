@@ -1,7 +1,6 @@
 var Ajax = require('../../js/ajax-functions.js');
 var actionTypes = require('../constants/actionTypes/authActionTypes');
 var browserHistory = require("react-router").browserHistory;
-var ADMIN = require("../constants/userRoles").ADMIN;
 function removeUser() {
   if (localStorage.email) {
     delete localStorage.email;

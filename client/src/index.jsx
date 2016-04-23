@@ -1,13 +1,12 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var css = require('../style/main.scss');
+require('../style/main.scss');
 
 var Main = require('./components/adminLTE/main.jsx');
 var NotFound = require('./components/adminLTE/notFound.jsx');
 var NotPermitted = require('./components/adminLTE/notPermitted.jsx');
 var Login = require('./containers/loginContainer.jsx');
 var Logout = require('./components/auth/logoutComponent.jsx');
-var Signup = require('./components/auth/signupComponent.jsx').Signup;
 var VehicleRoutes = require('./containers/vehicleRoutesContainer.jsx');
 var Vehicles = require('./components/vehiclesPage/vehiclesComponent.jsx');
 var Staff = require('./components/staffPage/staffComponent.jsx');
@@ -21,12 +20,10 @@ var Provider = require('react-redux').Provider;
 var createStore = require('redux').createStore;
 var applyMiddleware = require('redux').applyMiddleware;
 var appMiddleware = require('./middleware/appMiddleware.js');
-var combineReducers = require('redux').combineReducers;
 
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var IndexRoute = require('react-router').IndexRoute;
-var NotFoundRoute = require('react-router').NotFoundRoute;
 var browserHistory = require('react-router').browserHistory;
 var thunk = require('redux-thunk');
 var syncHistoryWithStore = require('react-router-redux').syncHistoryWithStore;

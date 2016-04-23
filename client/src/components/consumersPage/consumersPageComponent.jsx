@@ -1,7 +1,6 @@
 'use strict'
 
 var React = require('react');
-var connect = require('react-redux').connect;
 
 var ConsumerForm = require('./consumerForm.jsx');
 var Alert = require('../alertModal.jsx');

@@ -1,7 +1,6 @@
 var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
 const modelConst = require('../constants/models');
 const mapConst = require('../constants/map');
-var cActionTypes = require('../constants/actionTypes/consumerActionTypes');
 var modelActionTypes = require('../constants/actionTypes/modelActionTypes');
 
 var vehicleBoxClick = function(state, v_id) {

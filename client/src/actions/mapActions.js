@@ -3,7 +3,6 @@ var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
 var vehicleUtils = require('../utils/vehicleUtils');
 var ModelActions = require('./modelActions');
 var models = require('../constants/models.js');
-var modelActionTypes = require('../constants/actionTypes/modelActionTypes.js');
 var vehicleActions = new ModelActions(models.VEHICLES);
 var vehicleBoxClick = module.exports.vehicleBoxClick= function(v_id) {
   return {

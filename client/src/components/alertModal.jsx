@@ -1,11 +1,7 @@
 'use strict'
 
 var React = require('react');
-var Ajax = require('../../js/ajax-functions.js');
 
-/*
-
-*/
 var AlertModal = React.createClass({
 
   render: function () {

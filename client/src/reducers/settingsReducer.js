@@ -10,7 +10,6 @@ var loadFailure = function(state) {
   return Object.assign({}, state, {
     needToBeFetched: true,
     fetchError: true});
-  return state;
 }
 var loadSuccess = function(state, settings) {
   return Object.assign({}, state, settings);

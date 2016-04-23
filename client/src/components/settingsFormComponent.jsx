@@ -1,7 +1,6 @@
 'use strict'
 
 var React = require('react');
-var Link = require('react-router').Link
 var connect = require('react-redux').connect;
 var Message = require('./message.jsx');
 var ModelActions = require('../actions/modelActions.js');

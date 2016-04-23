@@ -14,7 +14,6 @@ var DirectionsBody = React.createClass({
       <div>
       {
         route.legs.map(function(leg, index){
-          var routeSegment = index + 1;
           return(
             <div key={index}>
               <div> <b>{leg.start_location_name}</b></div>

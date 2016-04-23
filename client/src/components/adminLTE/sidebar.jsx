@@ -6,7 +6,6 @@ var Link = require('react-router').Link
 const MAP_PAGE = "/";
 const CONSUMERS_PAGE = "/consumers";
 const VEHICLES_PAGE = "/vehicles";
-const STAFF_PAGE = "/staff";
 const USERS_PAGE = "/users";
 const ADMIN = "admin";
 

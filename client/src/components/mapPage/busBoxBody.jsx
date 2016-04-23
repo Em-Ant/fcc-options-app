@@ -2,7 +2,6 @@ var React = require('react');
 var ConsumerInfoBox = require('./consumerInfoBox.jsx');
 var actions = require('../../actions/mapActions')
 var connect = require('react-redux').connect;
-var vehicleUtils = require('../../utils/vehicleUtils');
 
 var BusBoxBodyComponent = React.createClass({
   componentDidMount:function(){

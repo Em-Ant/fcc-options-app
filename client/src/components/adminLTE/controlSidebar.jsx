@@ -1,7 +1,6 @@
 'use strict'
 
 var React = require('react');
-var Link = require('react-router').Link
 var SettingsForm = require("../settingsFormComponent.jsx");
 
 var ControlSidebar = React.createClass({

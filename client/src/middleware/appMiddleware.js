@@ -1,8 +1,6 @@
 import authActions from "../actions/authActions"
 
-function appMiddleware({
-  getState
-}) {
+function appMiddleware() {
   return (next) => (action) => {
 
     if (isUnauthenticated(action)) {

@@ -1,6 +1,5 @@
 'use strict'
 
-var Link = require('react-router').Link
 var React = require('react');
 var Header = require('./header.jsx');
 var Sidebar = require('./sidebar.jsx');
