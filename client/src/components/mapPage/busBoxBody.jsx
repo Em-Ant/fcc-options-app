@@ -29,6 +29,7 @@ var BusBoxBodyComponent = React.createClass({
         <thead>
           <tr>
             <th></th>
+            <th>Stop</th>
             <th>Name</th>
             <th>Needs</th>
           </tr>
