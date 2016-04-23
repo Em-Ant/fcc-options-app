@@ -63,7 +63,7 @@ function validateConsumersCanFit(next) {
   vehicleModel.populate(vehicleCopy, {path:"consumers"}, function(err, vehicle){
     var valid =  vehicleUtils.validate(vehicle);
     if(!valid){
-      self.invalidate('consumers', 'Consumers cannot fit in vehicle anymore');
+      self.invalidate('consumers', 'Consumers cannot fit in vehicle');
     }
     next();
   });
