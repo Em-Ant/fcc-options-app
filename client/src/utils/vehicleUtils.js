@@ -17,6 +17,9 @@
       consumersFit:true
     })
 
+    // rider occupies a Seat
+    if (vehicle.rider) {vehicle.occupiedSeats++; }
+
     vehicle.consumers.forEach(function(consumer) {
       if(consumers){
          //consumers not populated, so populate manually
@@ -58,10 +61,10 @@
       consumers:vehicle.consumers.slice()
     })
     vehicle.consumers.push(consumerId);
-    var vehicle =  setVehicleCapacity(vehicle, consumers);
+    var vehicle = setVehicleCapacity(vehicle, consumers);
     return vehicle.consumersFit;
   }
-  var validate=function(vehicle){
+  var validate = function(vehicle){
     vehicle =  setVehicleCapacity(vehicle);
     return vehicle.consumersFit;
   }

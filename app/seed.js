@@ -11,7 +11,6 @@ var User = require('./models/users.js');
 var Route = require('./models/routes.js');
 var Vehicle = require('./models/vehicle.js');
 var Directions = require('./models/directions.js');
-var Staff = require('./models/staff.js');
 var async = require('async');
 
 
@@ -244,28 +243,4 @@ Route.find({}).remove(function() {
 */
 Directions.find({}).remove(function() {
   console.log('finished populating directions');
-});
-
-
-/**
-* Staff
-*
-*/
-Staff.find({}).remove(function() {
-  Staff.create({
-    name: 'Default Driver',
-    roles:['driver'],
-    medCertified: false,
-    notes: 'Licensed to drive buses'
-  }, {
-    name: 'Default rider',
-    roles:['rider'],
-    medCertified: true
-  }, {
-    name: 'Default driver/rider',
-    roles:['driver', 'rider'],
-    medCertified: true
-  }, function() {
-    console.log('finished populating staff');
-  });
 });

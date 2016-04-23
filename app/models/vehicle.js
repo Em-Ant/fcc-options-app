@@ -36,28 +36,15 @@ var Vehicle = new Schema({
     ref: 'Consumer'
   }],
 
-  driver:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Staff',
-    validate: {
-      validator: function(staff) {
-        return staff.roles.indexOf("driver") !== -1;
-      },
-      message: 'Driver must be a staff member with a driver role'
-    }
+  driver: {
+    type: Boolean,
+    default: false
   },
 
-  rider:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Staff',
-    validate: {
-      validator: function(staff) {
-        return staff.roles.indexOf("rider") !== -1;
-      },
-      message: 'Rider must be a staff member with a rider role'
-    }
+  rider: {
+    type: Boolean,
+    default: false
   }
-
 
 });
 
@@ -67,7 +54,7 @@ Vehicle.plugin(idvalidator);
 
 Vehicle.pre('validate', validateConsumersCanFit)
 
-Vehicle.pre('validate', validateMaxConsumersCount)
+Vehicle.pre('validate', validateMaxPassengersCount)
 
 function validateConsumersCanFit(next) {
   var vehicleModel = mongoose.model("Vehicle");
@@ -82,7 +69,7 @@ function validateConsumersCanFit(next) {
   });
 }
 
-function validateMaxConsumersCount(next) {
+function validateMaxPassengersCount(next) {
   var settingsModel = mongoose.model("Settings");
   var self = this;
   var settings = settingsModel.findOne(function(err, settings) {
@@ -90,12 +77,14 @@ function validateMaxConsumersCount(next) {
       self.invalidate('consumers', 'Settings cannot be accessed');
       return next();
     }
+    // Always counting driver, because his/her presence is mandatory
     var driverSeatCount = 1;
+    var riderSeatCount = self.rider ? 1 : 0;
     if (
       self.consumers.length >
-        (settings.maxPassengersPerVehicle - driverSeatCount)
+        (settings.maxPassengersPerVehicle - driverSeatCount - riderSeatCount)
       ) {
-      self.invalidate('consumers', 'Consumers exceed max allowed passengers')
+      self.invalidate('consumers', 'Passengers exceed max allowed')
     }
     next();
   })

@@ -14,7 +14,6 @@ module.exports = function(app, passport) {
   app.use('/api/vehicle', require('./vehicle.js'));
   app.use('/api/user', require('./user.js'));
   app.use('/api/directions', require('./directions.js'));
-  app.use('/api/staff', require('./staffRoute.js'));
 
 
   app.route('/api/logout')

@@ -41,14 +41,20 @@ function validateVehiclesPassengers(next) {
       return next();
     }
     var invalid = false;
+    var riderSeatCount;
+    // Always counting driver, because his/her presence is mandatory
+    var driverSeatCount = 1;
     for (var i = 0; i < vehicles.length; i++) {
-      if (vehicles[i].consumers.length >= self.maxPassengersPerVehicle ) {
+      riderSeatCount = vehicles[i].rider ? 1 : 0;
+      if (vehicles[i].consumers.length + riderSeatCount >
+          self.maxPassengersPerVehicle - driverSeatCount ) {
         invalid = true;
         break;
       }
     }
     if (invalid) {
-      self.invalidate('settings', 'Some vehicles exceed maxPassengersPerVehicle, remove consumers first');
+      self.invalidate('settings',
+      'Some vehicles exceed max allowed passengers');
     }
     next();
   })
