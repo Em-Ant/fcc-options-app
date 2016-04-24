@@ -162,3 +162,22 @@ module.exports.reorderConsumer = function(vehicle, startConsumerPosition, endCon
     })
     return vehicleActions.update(updatedVehicle);
 }
+
+module.exports.clusterMouseover = function(cluster_){
+  return {
+      type: actionTypes.MAP_CLUSTER_MOUSEOVER,
+      cluster_: cluster_
+  }
+}
+
+module.exports.clusterInfoClose = function(cluster){
+  return {
+      type: actionTypes.MAP_CLUSTER_INFO_CLOSE,
+      cluster: cluster
+  }
+}
+module.exports.mapZoomChanged = function(){
+  return {
+      type: actionTypes.MAP_ZOOM_CHANGED
+  }
+}

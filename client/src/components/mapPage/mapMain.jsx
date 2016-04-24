@@ -50,7 +50,6 @@ var MapMain = React.createClass({
   },
   getInitialState:function(){
     return {
-      clusters:[]
     }
   },
   handleMarkerClick: function(c_id){
@@ -84,7 +83,7 @@ var MapMain = React.createClass({
     var self = this;
     return clusters.map(function(cluster, index){
       return (
-        <InfoWindow key={index} defaultPosition={cluster.center} onCloseclick={self.handleClusterInfoClose.bind(null, cluster)}>
+        <InfoWindow key={cluster.center.lat() + cluster.center.lng()} defaultPosition={cluster.center} onCloseclick={self.props.clusterInfoClose.bind(null, cluster)}>
           {
             // HACK:  Have to manually pass store down to component.  For some reason
             // when using google-maps-react, store stops getting passed down to
@@ -103,49 +102,6 @@ var MapMain = React.createClass({
       );
     })
 
-  },
-  handleMapZoomChanged:function(){
-    //close all cluster info windows
-    var self = this;
-    this.state.clusters.forEach(function(cluster){
-        self.handleClusterInfoClose(cluster);
-    })
-  },
-  findClusterIndex: function(clusters, cluster){
-    for(var i = 0; i < clusters.length; i ++){
-      var c = clusters[i];
-      if(c.center.lat()== cluster.center.lat() &&
-         c.center.lng()== cluster.center.lng()){
-        return i;
-      }
-    }
-    return -1;
-  },
-  handleClusterMouseover:function(cluster_){
-    var cluster = {
-      markers:cluster_.markers_.slice(),
-      center:cluster_.getCenter()
-    }
-    var clusters = this.state.clusters.slice();
-    var index = this.findClusterIndex(clusters, cluster);
-    if(index !== -1){
-      return;
-    }
-    clusters.push(cluster);
-    var state = Object.assign({}, this.state, {
-      clusters:clusters
-    })
-    this.setState(state);
-  },
-  handleClusterInfoClose:function(cluster){
-    var clusters = this.state.clusters.slice();
-    var clusterIndex = this.findClusterIndex(clusters, cluster);
-
-    clusters.splice(clusterIndex,  1);
-    var state = Object.assign({}, this.state, {
-      clusters:clusters
-    })
-    this.setState(state);
   },
   render: function() {
     var self = this;
@@ -169,7 +125,7 @@ var MapMain = React.createClass({
             }}
             defaultZoom={12}
             defaultCenter={self.props.optionsIncMarker.position}
-            onZoomChanged={self.handleMapZoomChanged}
+            onZoomChanged={self.props.mapZoomChanged}
             controls={self.errorMessage}
             >
             <Marker
@@ -181,11 +137,11 @@ var MapMain = React.createClass({
               averageCenter
               enableRetinaIcons
               gridSize={ 1 }
-              onMouseover={this.handleClusterMouseover}
+              onMouseover={this.props.clusterMouseover}
             >
             {
-            this.state.clusters.length > 0?
-            self.renderClusterInfoWindows(this.state.clusters) : null
+            this.props.clusters.length > 0?
+            self.renderClusterInfoWindows(this.props.clusters) : null
             }
 
             {self.props.consumerMarkers.map(function(marker, index){
@@ -271,14 +227,25 @@ var mapStateToProps = function(state){
     markerLoading: state.mapPage.markerLoading,
     displayDirections: state.mapPage.displayDirections,
     vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points),
-    error:state.mapPage.error
+    error:state.mapPage.error,
+    clusters: state.mapPage.clusters
   }
 }
 var mapDispatchToProps = function(dispatch) {
   return {
     markerClick:function(c_id, markerLoading, consumersToVehiclesMap, activeVehicleId, vehicles, consumers){
       dispatch(mActions.markerClick(c_id, markerLoading, consumersToVehiclesMap, activeVehicleId, vehicles, consumers))
-    }
+    },
+    clusterMouseover:function(cluster_){
+      dispatch(mActions.clusterMouseover(cluster_))
+    },
+    clusterInfoClose:function(cluster){
+      dispatch(mActions.clusterInfoClose(cluster))
+    },
+    mapZoomChanged:function(){
+      dispatch(mActions.mapZoomChanged())
+    },
+
   }
 }
 

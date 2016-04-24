@@ -133,31 +133,74 @@ var setOptionsIncMarker = function(state, settings) {
 }
 
 var setConsumerMarkers = function(state, consumers) {
-    var highlightedConsumerId = state.highlightedMarker;
-    var consumerMarkers = consumers.map(function(consumer) {
+  var highlightedConsumerId = state.highlightedMarker;
+  var consumerMarkers = consumers.map(function(consumer) {
 
-      var icon = mapConst.UNASSIGNED_CONSUMER_ICON;
-      if (highlightedConsumerId == consumer._id) {
-        icon = mapConst.HIGHLIGHTED_CONSUMER_ICON;
-      }
-      var marker = {
-        position: consumer.position,
-        title: consumer.name,
-        icon: icon,
-        consumerId: consumer._id
-      }
-      return marker;
-    });
+    var icon = mapConst.UNASSIGNED_CONSUMER_ICON;
+    if (highlightedConsumerId == consumer._id) {
+      icon = mapConst.HIGHLIGHTED_CONSUMER_ICON;
+    }
+    var marker = {
+      position: consumer.position,
+      title: consumer.name,
+      icon: icon,
+      consumerId: consumer._id
+    }
+    return marker;
+  });
 
-    return Object.assign({}, state, {
-      consumerMarkers: consumerMarkers
-    });
+  return Object.assign({}, state, {
+    consumerMarkers: consumerMarkers
+  });
+}
+var findClusterIndex = function(clusters, cluster){
+  for(var i = 0; i < clusters.length; i ++){
+    var c = clusters[i];
+    if(c.center.lat()== cluster.center.lat() &&
+       c.center.lng()== cluster.center.lng()){
+      return i;
+    }
   }
+  return -1;
+}
+var clusterMouseover = function (state, cluster_){
+  var cluster = {
+    markers:cluster_.markers_.slice(),
+    center:cluster_.getCenter()
+  }
+  var clusters = state.clusters.slice();
+  var index = findClusterIndex(clusters, cluster);
+  if(index !== -1){
+    return state;
+  }
+  clusters.push(cluster);
+  return Object.assign({}, state, {
+    clusters:clusters
+  })
+}
+var clusterInfoClose = function (state, cluster){
+  var clusters = state.clusters.slice();
+  console.log("before", clusters);
+  var clusterIndex = findClusterIndex(clusters, cluster);
+  clusters.splice(clusterIndex,  1);
+  console.log("after",clusters);
+  return Object.assign({}, state, {
+    clusters:clusters
+  })
+}
+var mapZoomChanged = function (state, cluster){
+  return Object.assign({}, state, {
+    clusters:[]
+  })
+}
+
+
   /**
    * TODO IMPORTANT handle errors
    */
 var initState= {
-  consumerMarkers:[]
+  consumerMarkers:[],
+  clusters:[]
 }
 var reducer = function(state, action) {
   state = state || initState;
@@ -187,6 +230,12 @@ var reducer = function(state, action) {
       return loadDirectionsSuccess(state)
     case (actionTypes.DIRECTIONS_HIDE):
       return hideDirections(state)
+    case (actionTypes.MAP_CLUSTER_MOUSEOVER):
+      return clusterMouseover(state, action.cluster_)
+    case (actionTypes.MAP_CLUSTER_INFO_CLOSE):
+      return clusterInfoClose(state, action.cluster)
+    case (actionTypes.MAP_ZOOM_CHANGED):
+      return mapZoomChanged(state)
 
 
     case (modelActionTypes.FETCH):
