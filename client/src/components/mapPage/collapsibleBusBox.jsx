@@ -69,10 +69,7 @@ var CollapsibleBusBox = React.createClass({
         <div id={'vp-'+this.props.vehicleId} className="panel-collapse collapse"
           role="tabpanel" aria-labelledby={'head-'+this.props.vehicleId}>
           <div className="box-body">
-            {vehicle.consumers.length > 0?
-            <BusBoxBody vehicle={vehicle}/>:
-            "Vehicle is empty"
-            }
+            <BusBoxBody vehicle={vehicle}/>
           </div>
         </div>
       </div>
