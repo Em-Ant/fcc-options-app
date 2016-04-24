@@ -12,6 +12,7 @@ var ConsumerMarkerInfo = require('./consumerMarkerInfo.jsx');
 var ClusterInfo = require('./clusterInfo.jsx');
 var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
 const mapConst = require('../../constants/map');
+var _ = require('lodash');
 
 var MapMain = React.createClass({
   _googleMapComponent:null,
@@ -49,6 +50,7 @@ var MapMain = React.createClass({
   },
   getInitialState:function(){
     return {
+      clusters:[]
     }
   },
   handleMarkerClick: function(c_id){
@@ -78,44 +80,70 @@ var MapMain = React.createClass({
     );
 
   },
-  renderClusterInfoWindow(cluster) {
+  renderClusterInfoWindows(clusters) {
     var self = this;
-    return (
-      <InfoWindow defaultPosition={cluster.center} onCloseclick={self.handleClusterInfoClose}>
-        {
-          // HACK:  Have to manually pass store down to component.  For some reason
-          // when using google-maps-react, store stops getting passed down to
-          // children
-        }
-        <ClusterInfo
-          cluster = {cluster}
-          consumers={self.props.consumers}
-          vehicles={self.props.vehicles}
-          consumersToVehiclesMap={self.props.consumersToVehiclesMap}
-          markerClick={self.handleMarkerClick}
-          store={self.context.store}
-        >
-        </ClusterInfo>
-      </InfoWindow>
-    );
+    return clusters.map(function(cluster, index){
+      return (
+        <InfoWindow key={index} defaultPosition={cluster.center} onCloseclick={self.handleClusterInfoClose.bind(null, cluster)}>
+          {
+            // HACK:  Have to manually pass store down to component.  For some reason
+            // when using google-maps-react, store stops getting passed down to
+            // children
+          }
+          <ClusterInfo
+            cluster = {cluster}
+            consumers={self.props.consumers}
+            vehicles={self.props.vehicles}
+            consumersToVehiclesMap={self.props.consumersToVehiclesMap}
+            markerClick={self.handleMarkerClick}
+            store={self.context.store}
+          >
+          </ClusterInfo>
+        </InfoWindow>
+      );
+    })
+
   },
   handleMapZoomChanged:function(){
     //close all cluster info windows
-    this.handleClusterInfoClose();
+    var self = this;
+    this.state.clusters.forEach(function(cluster){
+        self.handleClusterInfoClose(cluster);
+    })
+  },
+  findClusterIndex: function(clusters, cluster){
+    for(var i = 0; i < clusters.length; i ++){
+      var c = clusters[i];
+      if(c.center.lat()== cluster.center.lat() &&
+         c.center.lng()== cluster.center.lng()){
+        return i;
+      }
+    }
+    return -1;
   },
   handleClusterMouseover:function(cluster_){
     var cluster = {
       markers:cluster_.markers_.slice(),
       center:cluster_.getCenter()
     }
+    var clusters = this.state.clusters.slice();
+    var index = this.findClusterIndex(clusters, cluster);
+    if(index !== -1){
+      return;
+    }
+    clusters.push(cluster);
     var state = Object.assign({}, this.state, {
-      cluster:cluster
+      clusters:clusters
     })
     this.setState(state);
   },
   handleClusterInfoClose:function(cluster){
+    var clusters = this.state.clusters.slice();
+    var clusterIndex = this.findClusterIndex(clusters, cluster);
+
+    clusters.splice(clusterIndex,  1);
     var state = Object.assign({}, this.state, {
-      cluster:null
+      clusters:clusters
     })
     this.setState(state);
   },
@@ -156,8 +184,8 @@ var MapMain = React.createClass({
               onMouseover={this.handleClusterMouseover}
             >
             {
-            this.state.cluster?
-            self.renderClusterInfoWindow(this.state.cluster) : null
+            this.state.clusters.length > 0?
+            self.renderClusterInfoWindows(this.state.clusters) : null
             }
 
             {self.props.consumerMarkers.map(function(marker, index){

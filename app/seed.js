@@ -128,6 +128,29 @@ function seedConsumers(done){
       position: {lat:45.33412389999999, lng: -93.67073979999998},
       sex: "female",
       needsTwoSeats: true
+  },{
+      name: "Harold H.",
+      address: "328 27th Ave N, St. Cloud, MN 56303, USA",
+      position: {lat:45.559487, lng: -94.190274},
+      sex: "male",
+      hasWheelchair: true
+    },{
+      name: "Rosie H.",
+      address: "328 27th Ave N, St. Cloud, MN 56303, USA",
+      position: {lat:45.559487, lng: -94.190274},
+      sex: "female"
+    },{
+      name: "Toby H.",
+      address: "328 27th Ave N, St. Cloud, MN 56303, USA",
+      position: {lat:45.559487, lng: -94.190274},
+      sex: "male",
+      hasWheelchair: true
+    },{
+      name: "Percy H.",
+      address: "328 27th Ave N, St. Cloud, MN 56303, USA",
+      position: {lat:45.559487, lng: -94.190274},
+      sex: "male",
+      behavioralIssues: true
     }, function() {
       done()
       console.log('finished populating consumers');
