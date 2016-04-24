@@ -166,17 +166,6 @@ var reducer = function(state, action) {
       return setEditMode(state, undefined);
     case actionTypes.CLOSE_FORM:
       return resetEditMode(state);
-
-
-    case actionTypes.USER_RESET_PWD_LOADING:
-      return updatingUsers(state);
-    case actionTypes.USER_RESET_PWD_SUCCESS:
-      return addUser(state);
-    case actionTypes.USER_RESET_PWD_ERROR:
-      return setError(state, action.error);
-
-
-
     default:
       return state;
   }

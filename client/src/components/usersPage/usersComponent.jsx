@@ -9,8 +9,6 @@ var modelActions = require('../../actions/modelActions');
 const USERS = require('../../constants/models').USERS;
 var actions = new modelActions(USERS);
 
-var uActions = require('../../actions/userActions');
-
 var DEFAULT_PASSWORD =  require('../../constants/defaultPassword').DEFAULT_PASSWORD;
 
 var Users = React.createClass({
@@ -22,20 +20,20 @@ var Users = React.createClass({
   getInitialState: function() {
     return {confirm: function(){}}
   },
-  handleDelete: function(id) {
+  handleDelete: function(user) {
 
     this.setState({
-      uid: id,
-      modalBody : `Are you sure you want to Delete user "${this.props.users[id].email}" ?`,
+      user: user,
+      modalBody : `Are you sure you want to Delete user "${this.props.users[user._id].email}" ?`,
       confirm: this.props.onDelete
     })
   },
 
-  handleReset: function (id) {
+  handleReset: function (user) {
     this.setState({
-      uid: id,
+      user: user,
       modalBody : `Are you sure you want to Reset Password
-        for user "${this.props.users[id].email}" to "${DEFAULT_PASSWORD}" ?`,
+        for user "${this.props.users[user._id].email}" to "${DEFAULT_PASSWORD}" ?`,
       confirm: this.props.onReset
     })
   },
@@ -46,7 +44,7 @@ var Users = React.createClass({
       <div className="content-wrapper">
         <Alert modalId="user-alert" modalTitle="Confirm..."
           modalBody={this.state.modalBody}
-          handleConfirm={this.state.confirm.bind(null, this.state.uid)}
+          handleConfirm={this.state.confirm.bind(null, this.state.user)}
         />
         <section className="content">
           <div className="row">
@@ -90,14 +88,14 @@ var Users = React.createClass({
                                 className="btn btn-sm btn-default in-table"
                                 title="Reset Password" type="button" data-toggle="modal"
                                 data-target="#user-alert"
-                                onClick={this.handleReset.bind(null, user._id)}>
+                                onClick={this.handleReset.bind(null, user)}>
                                 <i className="fa fa-key"></i>
                               </button>
                               <button
                                 className="btn btn-sm btn-default in-table"
                                 title="Delete"  data-toggle="modal"
                                 data-target="#user-alert" type="button"
-                                onClick={this.handleDelete.bind(null, user._id)}>
+                                onClick={this.handleDelete.bind(null, user)}>
                                 <i className="fa fa-trash-o"></i>
                               </button>
                             </td>
@@ -157,11 +155,12 @@ var mapDispatchToProps = function(dispatch){
     setEditMode: function(id) {
       dispatch(actions.setEditMode(id));
     },
-    onDelete: function (id) {
-      dispatch(actions.delete(id));
+    onDelete: function (user) {
+      dispatch(actions.delete(user._id));
     },
-    onReset: function (id) {
-      dispatch(uActions.resetPassword(id));
+    onReset: function (user) {
+      var resetUser = {_id: user._id, password: 'reset'};
+      dispatch(actions.update(resetUser));
     }
   };
 }

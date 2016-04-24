@@ -87,11 +87,14 @@ function UserHandler() {
     });
   }
 
-  this.updateRole = function(req, res) {
-    req.assert('role','Role cannot be empty').notEmpty();
-    var errors = req.validationErrors();
-    if (errors) {
-      return res.status(400).json(errors[0]);
+  this.update = function(req, res) {
+    if(req.body.password !== 'reset') {
+      // validate role, if it's not a password reset
+      req.assert('role','Role cannot be empty').notEmpty();
+      var errors = req.validationErrors();
+      if (errors) {
+        return res.status(400).json(errors[0]);
+      }
     }
     User.findById(req.params.id, function(err, user) {
       if (err) {
@@ -104,7 +107,11 @@ function UserHandler() {
           msg: 'User cannot be found'
         });
       }
-      user.role = req.body.role;
+      if(req.body.password === 'reset') {
+        user.password = DEFAULT_PASSWORD;
+      } else {
+        user.role = req.body.role;
+      }
       user.save(function(err) {
         if (err) {
           return res.status(400).json({

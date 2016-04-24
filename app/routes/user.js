@@ -32,15 +32,12 @@ router.get('/me', function(req, res) {
 //creates a new user (admin only)
 router.post('/', hasRole('admin'), controller.create);
 
-// reset password
-router.post('/:id/reset-pwd', hasRole('admin'), controller.resetPassword);
-
 // Update password
 router.post('/password', isLoggedIn, controller.updatePassword);
 
 //update an individual user
-router.put('/:id', hasRole('admin'), controller.updateRole);
-router.patch('/:id',  hasRole('admin'), controller.updateRole);
+router.put('/:id', hasRole('admin'), controller.update);
+router.patch('/:id',  hasRole('admin'), controller.update);
 
 
 //delete a user
