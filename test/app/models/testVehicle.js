@@ -4,11 +4,25 @@ var utils = require('../../utils');
 var expect = require('expect.js');
 var Vehicle = require('../../../app/models/vehicle');
 var Consumer = require('../../../app/models/consumer');
-var Staff = require('../../../app/models/staff');
+var Settings = require('../../../app/models/settings');
 
 
 describe('Vehicle: models', function() {
 
+  beforeEach(function(done) {
+    var settings = new Settings({
+      optionsIncAddress: '16820 197th Ave NW, Big Lake, MN 55309',
+      optionsIncCoords:{
+        lat:45.3292957,
+        lng:-93.69755090000001
+      },
+      maxPassengersPerVehicle: 14,
+      maxConsumerRouteTime: 90
+    });
+    settings.save(function(err, s) {
+        done();
+    });
+  })
 
   describe('#save()', function() {
     it('should save a new Vehicle', function(done) {
@@ -116,7 +130,7 @@ describe('Vehicle: models', function() {
         consumers.push(consumer._id);
         var v = new Vehicle({
           name: 'name',
-          seats: 1,
+          seats: 2,
           consumers: consumers
         });
         v.save(function(err, createdVehicle) {
@@ -155,14 +169,14 @@ describe('Vehicle: models', function() {
       v.seats = 0;
       v.save(function(err, createdVehicle) {
         expect(err.errors.consumers.path).to.be.equal('consumers');
-        expect(err.errors.consumers.message).to.be.equal('Consumers cannot fit in vehicle anymore');
+        expect(err.errors.consumers.message).to.be.equal('Consumers cannot fit in vehicle');
         expect(err.errors.consumers.kind).to.be.equal('user defined');
         done();
       });
     });
   })
-  
-  
+
+
 
   describe('driver validation', function() {
     var v;
@@ -175,79 +189,14 @@ describe('Vehicle: models', function() {
         done();
       });
     })
-    it('should have no errors if driver is in driver seat', function(done) {
-      var staff = new Staff({
-        name:"name",
-        roles:["driver"]
-      })
-      staff.save(function(err){
-        v.driver = staff
-        v.save(function(err, createdVehicle) {
-          expect(v.driver.name).to.be.equal(createdVehicle.driver.name);
-          done();
-        });
-        
-      })
-    });
-    it('should have error if rider is in driver seat', function(done) {
-      var rider = new Staff({
-        name:"name",
-        roles:["rider"]
-      })
-      rider.save(function(err){
-        v.driver = rider;
+    it('should have error if vehicle has no driver', function(done) {
+        v.driver = false;
         v.save(function(err, createdVehicle) {
           expect(err.errors.driver.path).to.be.equal('driver');
-          expect(err.errors.driver.message).to.be.equal('Driver must be a staff member with a driver role');
+          expect(err.errors.driver.message).to.be.equal('Vehicle must have a driver');
           expect(err.errors.driver.kind).to.be.equal('user defined');
           done();
         });
-        
-      })
-    });
-  })
-  
-  describe('rider validation', function() {
-    var v;
-    beforeEach(function(done) {
-      v = new Vehicle({
-        name: 'name',
-        seats: 1
-      });
-      v.save(function(err, createdVehicle) {
-        done();
-      });
-    })
-    
-    it('should have no errors when rider is in rider seat', function(done) {
-      var rider = new Staff({
-        name:"name",
-        roles:["rider"]
-      })
-      rider.save(function(err){
-        v.rider = rider;
-        v.save(function(err, createdVehicle) {
-          expect(v.rider.name).to.be.equal(createdVehicle.rider.name);
-          done();
-        });
-      })
-    });
-    
-    it('should have error when driver is in rider seat', function(done) {
-      var driver = new Staff({
-        name:"name",
-        roles:["driver"]
-      })
-      driver.save(function(err){
-        v.rider = driver;
-        v.save(function(err, createdVehicle) {
-          expect(err.errors.rider.path).to.be.equal('rider');
-          expect(err.errors.rider.message).to.be.equal('Rider must be a staff member with a rider role');
-          expect(err.errors.rider.kind).to.be.equal('user defined');
-          done();
-        });
-        
-      })
     });
   })
 });

@@ -38,7 +38,13 @@ var Vehicle = new Schema({
 
   driver: {
     type: Boolean,
-    default: false
+    default: true,
+    validate: {
+      validator: function(d) {
+        return d==true;
+      },
+      message: 'Vehicle must have a driver'
+    },
   },
 
   rider: {
@@ -70,19 +76,18 @@ function validateConsumersCanFit(next) {
 }
 
 function validateMaxPassengersCount(next) {
-  var settingsModel = mongoose.model("Settings");
+  var settingsModel = this.model("Settings");
   var self = this;
-  var settings = settingsModel.findOne(function(err, settings) {
+  var settings = settingsModel.findOne(function(err, s) {
     if (err) {
       self.invalidate('consumers', 'Settings cannot be accessed');
       return next();
     }
-    // Always counting driver, because his/her presence is mandatory
-    var driverSeatCount = 1;
+    var driverSeatCount = self.driver ? 1 : 0;
     var riderSeatCount = self.rider ? 1 : 0;
     if (
       self.consumers.length >
-        (settings.maxPassengersPerVehicle - driverSeatCount - riderSeatCount)
+        (s.maxPassengersPerVehicle - driverSeatCount - riderSeatCount)
       ) {
       self.invalidate('consumers', 'Passengers exceed max allowed')
     }

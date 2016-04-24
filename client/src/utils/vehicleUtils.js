@@ -19,6 +19,7 @@
 
     // rider occupies a Seat
     if (vehicle.rider) {vehicle.occupiedSeats++; }
+    if (vehicle.driver) {vehicle.occupiedSeats++; }
 
     vehicle.consumers.forEach(function(consumer) {
       if(consumers){
