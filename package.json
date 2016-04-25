@@ -40,6 +40,7 @@
     "body-parser": "^1.15.0",
     "css-loader": "^0.23.1",
     "dotenv": "^1.2.0",
+    "excel-export": "^0.5.1",
     "express": "^4.12.4",
     "express-session": "^1.11.3",
     "express-validator": "^2.20.3",
