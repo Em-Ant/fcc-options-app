@@ -100,6 +100,9 @@ var MapMain = React.createClass({
     })
 
   },
+  onClusteringend:function(e){
+    console.log("cluster end", e)
+  },
   render: function() {
     var self = this;
     return (
@@ -135,10 +138,11 @@ var MapMain = React.createClass({
               enableRetinaIcons
               gridSize={ 1 }
               onMouseover={this.props.clusterMouseover}
+              onClusteringend={this.props.onClusteringend}
             >
             {
-            this.props.clusters.length > 0?
-            self.renderClusterInfoWindows(this.props.clusters) : null
+            this.props.displayClusters.length > 0?
+            self.renderClusterInfoWindows(this.props.displayClusters) : null
             }
 
             {self.props.consumerMarkers.map(function(marker, index){
@@ -232,7 +236,7 @@ var mapStateToProps = function(state){
     displayDirections: state.mapPage.displayDirections,
     vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points),
     error:state.mapPage.error,
-    clusters: state.mapPage.clusters,
+    displayClusters: state.mapPage.displayClusters,
     center: state.mapPage.center
   }
 }
@@ -259,6 +263,9 @@ var mapDispatchToProps = function(dispatch) {
     markerInfoClose:function(marker){
       dispatch(mActions.markerInfoClose(marker))
     },
+    onClusteringend:function(markerClusterer){
+      dispatch(mActions.saveClusters(markerClusterer.clusters_))
+    }
 
   }
 }

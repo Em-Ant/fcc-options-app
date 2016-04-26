@@ -163,25 +163,45 @@ var findClusterIndex = function(clusters, cluster){
   }
   return -1;
 }
-var clusterMouseover = function (state, cluster_){
+var clusterMouseover = function(state, cluster_){
   var cluster = {
     markers:cluster_.markers_.slice(),
     center:cluster_.getCenter()
   }
-  var clusters = state.clusters.slice();
+  return clusterInfoOpen(state, cluster);
+}
+var clusterInfoOpen = function (state, cluster){
+  var clusters = state.displayClusters.slice();
   var index = findClusterIndex(clusters, cluster);
   if(index !== -1){
     return state;
   }
   clusters.push(cluster);
   return Object.assign({}, state, {
-    clusters:clusters
+    displayClusters:clusters
   })
 }
 var clusterInfoClose = function (state, cluster){
-  var clusters = state.clusters.slice();
+  var clusters = state.displayClusters.slice();
   var clusterIndex = findClusterIndex(clusters, cluster);
   clusters.splice(clusterIndex,  1);
+  return Object.assign({}, state, {
+    displayClusters:clusters
+  })
+}
+var saveClusters = function(state, clusters_){
+  var clusters = [];
+  clusters_.forEach(function(cluster_){
+    if(cluster_.markers_.length > 1){
+      var cluster = {
+        markers:cluster_.markers_,
+        center:cluster_.getCenter(),
+        showInfo:false
+      }
+      clusters.push(cluster);
+    }
+
+  });
   return Object.assign({}, state, {
     clusters:clusters
   })
@@ -202,7 +222,27 @@ var findConsumerMarkerIndex = function(consumerId, markers){
   return -1;
 }
 
+var findConsumerClusterIndex = function(clusters, consumerId){
+  for(var i = 0; i < clusters.length; i++){
+    var cluster = clusters[i];
+    for(var j = 0; j < cluster.markers.length; j++){
+      var marker = cluster.markers[j];
+      if(marker.consumerId == consumerId){
+        return i;
+      }
+    }
+  }
+  return -1;
+}
+
 var openMarkerInfo = function (state, consumerId){
+  //check if consumer is in cluster
+  var clusterIndex = findConsumerClusterIndex(state.clusters, consumerId);
+  if(clusterIndex != -1){
+    return clusterInfoOpen(state, state.clusters[clusterIndex]);
+  }
+
+  //find marker to open
   var index = findConsumerMarkerIndex(consumerId, state.consumerMarkers);
   if(index == -1){
     return state;
@@ -255,7 +295,7 @@ var clearCenter = function(state, consumerId){
    */
 var initState= {
   consumerMarkers:[],
-  clusters:[]
+  displayClusters:[]
 }
 var reducer = function(state, action) {
   state = state || initState;
@@ -299,6 +339,8 @@ var reducer = function(state, action) {
       return setCenter(state, action.consumerId)
     case (actionTypes.MAP_CLEAR_CENTER):
       return clearCenter(state)
+    case (actionTypes.MAP_SAVE_CLUSTERS):
+      return saveClusters(state, action.clusters_)
     case (modelActionTypes.FETCH):
       if(action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
         return setConsumerMarkers(state, action.response)

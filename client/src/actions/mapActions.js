@@ -185,11 +185,11 @@ module.exports.mapZoomChanged = function(){
 module.exports.clickConsumer = function(c_id){
   return function(dispatch) {
     dispatch({
-        type: actionTypes.MAP_OPEN_MARKER_INFO,
+        type: actionTypes.MAP_SET_CENTER,
         consumerId:c_id
     });
     dispatch({
-        type: actionTypes.MAP_SET_CENTER,
+        type: actionTypes.MAP_OPEN_MARKER_INFO,
         consumerId:c_id
     });
   }
@@ -206,5 +206,12 @@ module.exports.markerInfoClose = function(marker){
   return {
       type: actionTypes.MAP_CLOSE_MARKER_INFO,
       consumerId:marker.consumerId
+  }
+}
+
+module.exports.saveClusters = function(clusters_){
+  return {
+      type: actionTypes.MAP_SAVE_CLUSTERS,
+      clusters_:clusters_
   }
 }
