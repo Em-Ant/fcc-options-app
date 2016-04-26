@@ -197,7 +197,8 @@ return consumerMarkers.map(function(marker){
     var icon = marker.icon;
     if(markerLoading == c_id){
       icon = mapConst.LOADING_CONSUMER_ICON;
-    } else if (consumersToVehiclesMap[c_id]) {
+    }
+    else if (consumersToVehiclesMap[c_id]) {
       // consumer is on board
       if (highlightedConsumerId == c_id) {
         icon = mapConst.HIGHLIGHTED_CONSUMER_ICON;
@@ -205,6 +206,12 @@ return consumerMarkers.map(function(marker){
         icon = mapConst.ASSIGNED_CONSUMER_ICON;// not on the active bus
       }else{
         icon = mapConst.SELECTED_ASSIGNED_CONSUMER_ICON;// on the active bus
+      }
+    }
+    else{
+      //consumer not assigned to vehicle
+      if (highlightedConsumerId == c_id) {
+        icon = mapConst.HIGHLIGHTED_UNASSIGNED_ICON;
       }
     }
     return  Object.assign({}, marker, {

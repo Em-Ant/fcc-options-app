@@ -1,10 +1,12 @@
 var React = require('react');
 var connect = require('react-redux').connect;
+var actions = require('../../actions/mapActions')
 var _addFlags = require('../../utils/addConsumerFlags');
 
 var UnassignedConsumerPanel = React.createClass({
 
   render : function() {
+    var self = this;
     if(!this.props.unassignedConsumers.length){
       return <div></div>
     }
@@ -32,7 +34,9 @@ var UnassignedConsumerPanel = React.createClass({
                     />
                   ) : null;
                 return(
-                <tr key={consumer._id}>
+                <tr key={consumer._id}
+                  onMouseOver={self.props.nameHoverOn.bind(null,consumer._id)}
+                  onMouseOut={self.props.nameHoverOff.bind(null,consumer._id)}>
                   <td>
                       {consumer.name}
                   </td>
@@ -74,4 +78,16 @@ var mapStateToProps = function(state){
   }
 }
 
-module.exports = connect(mapStateToProps)(UnassignedConsumerPanel);
+
+var mapDispatchToProps = function(dispatch) {
+  return {
+    nameHoverOn: function(c_id) {
+      dispatch(actions.highlightMarker(c_id))
+    },
+    nameHoverOff: function(c_id) {
+      dispatch(actions.highlightMarkerOff(c_id))
+    }
+  }
+}
+
+module.exports = connect(mapStateToProps, mapDispatchToProps)(UnassignedConsumerPanel);
