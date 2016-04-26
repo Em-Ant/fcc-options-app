@@ -208,8 +208,3 @@ module.exports.markerInfoClose = function(marker){
       consumerId:marker.consumerId
   }
 }
-module.exports.clearCenter = function(){
-  return {
-      type: actionTypes.MAP_CLEAR_CENTER
-  }
-}
