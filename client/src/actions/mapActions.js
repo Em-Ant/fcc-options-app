@@ -183,9 +183,15 @@ module.exports.mapZoomChanged = function(){
 }
 
 module.exports.clickConsumer = function(c_id){
-  return {
-      type: actionTypes.MAP_OPEN_MARKER_INFO,
-      consumerId:c_id
+  return function(dispatch) {
+    dispatch({
+        type: actionTypes.MAP_OPEN_MARKER_INFO,
+        consumerId:c_id
+    });
+    dispatch({
+        type: actionTypes.MAP_SET_CENTER,
+        consumerId:c_id
+    });
   }
 }
 
@@ -200,5 +206,10 @@ module.exports.markerInfoClose = function(marker){
   return {
       type: actionTypes.MAP_CLOSE_MARKER_INFO,
       consumerId:marker.consumerId
+  }
+}
+module.exports.clearCenter = function(){
+  return {
+      type: actionTypes.MAP_CLEAR_CENTER
   }
 }

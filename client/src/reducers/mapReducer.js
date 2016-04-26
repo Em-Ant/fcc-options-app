@@ -234,6 +234,22 @@ var closeMarkerInfo = function (state, consumerId){
   })
 }
 
+var setCenter = function(state, consumerId){
+  var index = findConsumerMarkerIndex(consumerId, state.consumerMarkers);
+  if(index == -1){
+    return state;
+  }
+  var marker = state.consumerMarkers[index];
+  return Object.assign({}, state, {
+    center:marker.position
+  })
+}
+var clearCenter = function(state, consumerId){
+  var state = Object.assign({}, state);
+  delete state.center;
+  return state;
+}
+
   /**
    * TODO IMPORTANT handle errors
    */
@@ -279,6 +295,10 @@ var reducer = function(state, action) {
       return openMarkerInfo(state, action.consumerId)
     case (actionTypes.MAP_CLOSE_MARKER_INFO):
       return closeMarkerInfo(state, action.consumerId)
+    case (actionTypes.MAP_SET_CENTER):
+      return setCenter(state, action.consumerId)
+    case (actionTypes.MAP_CLEAR_CENTER):
+      return clearCenter(state)
     case (modelActionTypes.FETCH):
       if(action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
         return setConsumerMarkers(state, action.response)

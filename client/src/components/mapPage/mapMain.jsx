@@ -97,6 +97,7 @@ var MapMain = React.createClass({
   },
   render: function() {
     var self = this;
+    console.log("center",self.props.center)
     return (
     <section style={{height: "100%"}}>
       <GoogleMapLoader
@@ -117,8 +118,10 @@ var MapMain = React.createClass({
             }}
             defaultZoom={12}
             defaultCenter={self.props.optionsIncMarker.position}
+            center={self.props.center?self.props.center:undefined}
             onZoomChanged={self.props.mapZoomChanged}
             controls={self.errorMessage}
+            onCenterChanged={self.props.centerChanged}
             >
             <Marker
               position={self.props.optionsIncMarker.position}
@@ -227,7 +230,8 @@ var mapStateToProps = function(state){
     displayDirections: state.mapPage.displayDirections,
     vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points),
     error:state.mapPage.error,
-    clusters: state.mapPage.clusters
+    clusters: state.mapPage.clusters,
+    center: state.mapPage.center
   }
 }
 var mapDispatchToProps = function(dispatch) {
@@ -252,6 +256,9 @@ var mapDispatchToProps = function(dispatch) {
     },
     markerInfoClose:function(marker){
       dispatch(mActions.markerInfoClose(marker))
+    },
+    centerChanged:function(marker){
+      dispatch(mActions.clearCenter())
     }
 
   }
