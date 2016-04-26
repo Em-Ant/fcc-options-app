@@ -5,6 +5,7 @@ var connect = require('react-redux').connect;
 
 
 var VehiclePanel = require('./vehiclePanel.jsx')
+var UnassignedConsumerPanel = require('./unassignedConsumerPanel.jsx')
 var Directions = require('../directions/directions.jsx')
 var MapPage = require('./mapMain.jsx')
 var ModelActions = require('../../actions/modelActions.js');
@@ -42,7 +43,10 @@ var MapWrapper = React.createClass({
 
             {this.props.displayDirections?
             <Directions/>:
-            <VehiclePanel />}
+            <div>
+              <VehiclePanel />
+              <UnassignedConsumerPanel/>
+            </div>}
 
             </div>
             <div className="col-md-7 col-sm-7 col-xs-7">
