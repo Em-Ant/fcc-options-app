@@ -181,3 +181,24 @@ module.exports.mapZoomChanged = function(){
       type: actionTypes.MAP_ZOOM_CHANGED
   }
 }
+
+module.exports.clickConsumer = function(c_id){
+  return {
+      type: actionTypes.MAP_OPEN_MARKER_INFO,
+      consumerId:c_id
+  }
+}
+
+module.exports.markerInfoOpen = function(marker){
+  return {
+      type: actionTypes.MAP_OPEN_MARKER_INFO,
+      consumerId:marker.consumerId
+  }
+}
+
+module.exports.markerInfoClose = function(marker){
+  return {
+      type: actionTypes.MAP_CLOSE_MARKER_INFO,
+      consumerId:marker.consumerId
+  }
+}

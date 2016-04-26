@@ -36,7 +36,8 @@ var UnassignedConsumerPanel = React.createClass({
                 return(
                 <tr key={consumer._id}
                   onMouseOver={self.props.nameHoverOn.bind(null,consumer._id)}
-                  onMouseOut={self.props.nameHoverOff.bind(null,consumer._id)}>
+                  onMouseOut={self.props.nameHoverOff.bind(null,consumer._id)}
+                  onClick={self.props.clickConsumer.bind(null,consumer._id)}>
                   <td>
                       {consumer.name}
                   </td>
@@ -86,6 +87,9 @@ var mapDispatchToProps = function(dispatch) {
     },
     nameHoverOff: function(c_id) {
       dispatch(actions.highlightMarkerOff(c_id))
+    },
+    clickConsumer: function(c_id) {
+      dispatch(actions.clickConsumer(c_id))
     }
   }
 }

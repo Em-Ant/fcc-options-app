@@ -180,10 +180,8 @@ var clusterMouseover = function (state, cluster_){
 }
 var clusterInfoClose = function (state, cluster){
   var clusters = state.clusters.slice();
-  console.log("before", clusters);
   var clusterIndex = findClusterIndex(clusters, cluster);
   clusters.splice(clusterIndex,  1);
-  console.log("after",clusters);
   return Object.assign({}, state, {
     clusters:clusters
   })
@@ -194,6 +192,47 @@ var mapZoomChanged = function (state, cluster){
   })
 }
 
+var findConsumerMarkerIndex = function(consumerId, markers){
+  for(var i=0; i <markers.length; i++){
+    var marker = markers[i];
+    if(marker.consumerId == consumerId){
+      return i;
+    }
+  }
+  return -1;
+}
+
+var openMarkerInfo = function (state, consumerId){
+  var index = findConsumerMarkerIndex(consumerId, state.consumerMarkers);
+  if(index == -1){
+    return state;
+  }
+  var consumerMarkers = state.consumerMarkers.slice();
+  var marker = Object.assign({}, consumerMarkers[index], {
+    showInfo:true
+  })
+  consumerMarkers.splice(index, 1, marker);
+
+  return Object.assign({}, state, {
+    consumerMarkers:consumerMarkers
+  })
+}
+
+var closeMarkerInfo = function (state, consumerId){
+  var index = findConsumerMarkerIndex(consumerId, state.consumerMarkers);
+  if(index == -1){
+    return state;
+  }
+  var consumerMarkers = state.consumerMarkers.slice();
+  var marker = Object.assign({}, consumerMarkers[index], {
+    showInfo:false
+  })
+  consumerMarkers.splice(index, 1, marker);
+
+  return Object.assign({}, state, {
+    consumerMarkers:consumerMarkers
+  })
+}
 
   /**
    * TODO IMPORTANT handle errors
@@ -236,8 +275,10 @@ var reducer = function(state, action) {
       return clusterInfoClose(state, action.cluster)
     case (actionTypes.MAP_ZOOM_CHANGED):
       return mapZoomChanged(state)
-
-
+    case (actionTypes.MAP_OPEN_MARKER_INFO):
+      return openMarkerInfo(state, action.consumerId)
+    case (actionTypes.MAP_CLOSE_MARKER_INFO):
+      return closeMarkerInfo(state, action.consumerId)
     case (modelActionTypes.FETCH):
       if(action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
         return setConsumerMarkers(state, action.response)

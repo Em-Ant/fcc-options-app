@@ -30,6 +30,7 @@ var ConsumerInfoBox = React.createClass({
         <td
           onMouseOver={this.props.nameHoverOn.bind(null,this.props.consumerId)}
           onMouseOut={this.props.nameHoverOff.bind(null,this.props.consumerId)}
+          onClick={this.props.clickConsumer.bind(null,this.props.consumerId)}
         >
           {consumer.name}
       </td>
@@ -70,6 +71,9 @@ var mapDispatchToProps = function(dispatch) {
     },
     removeConsumerFromActiveBus: function(c_id, active_v) {
       dispatch(actions.removeFromActiveBus(c_id, active_v))
+    },
+    clickConsumer: function(c_id) {
+      dispatch(actions.clickConsumer(c_id))
     }
   }
 }

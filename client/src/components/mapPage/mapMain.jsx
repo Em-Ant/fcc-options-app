@@ -57,18 +57,10 @@ var MapMain = React.createClass({
       this.props.consumersToVehiclesMap, this.props.activeVehicleId,
       this.props.vehicles, this.props.consumers);
   },
-  handleMarkerMouseover:function(marker){
-    marker.showInfo = true;
-    this.setState(this.state);
-  },
-  handleMarkerMouseout:function(marker){
-    marker.showInfo = false;
-    this.setState(this.state);
-  },
   renderInfoWindow(marker) {
     var assignedVehicleId = this.props.consumersToVehiclesMap[marker.consumerId];
     return (
-      <InfoWindow>
+      <InfoWindow onCloseclick={this.props.markerInfoClose.bind(null, marker)}>
         {
         // HACK:  Have to manually pass store down to component.  For some reason
         // when using google-maps-react, store stops getting passed down to
@@ -159,8 +151,8 @@ var MapMain = React.createClass({
                   title = {marker.name}
                   icon={marker.icon}
                   onClick={self.handleMarkerClick.bind(null,marker.consumerId)}
-                  onMouseover={self.handleMarkerMouseover.bind(null, marker)}
-                  onMouseout={self.handleMarkerMouseout.bind(null, marker)}>
+                  onMouseover={self.props.markerMouseover.bind(null, marker)}
+                  onMouseout={self.props.markerMouseout.bind(null, marker)}>
                   {marker.showInfo ? self.renderInfoWindow(marker) : null}
                 </Marker>
               )
@@ -252,6 +244,15 @@ var mapDispatchToProps = function(dispatch) {
     mapZoomChanged:function(){
       dispatch(mActions.mapZoomChanged())
     },
+    markerMouseover:function(marker){
+      dispatch(mActions.markerInfoOpen(marker))
+    },
+    markerMouseout:function(marker){
+      dispatch(mActions.markerInfoClose(marker))
+    },
+    markerInfoClose:function(marker){
+      dispatch(mActions.markerInfoClose(marker))
+    }
 
   }
 }
