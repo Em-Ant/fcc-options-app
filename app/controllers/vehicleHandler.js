@@ -83,7 +83,7 @@ function VehicleHandler() {
         });
       }
       var updated = Object.assign(vehicle, req.body);
-      if(req.body.consumers){      
+      if(req.body.consumers){
         updated.markModified('consumers');
       }
       updated.save(function(err, savedVehicle) {

@@ -51,31 +51,30 @@ function ReportHandler() {
         conf[0].name = "Consumers";
         conf[0].cols = [{
             caption:'NAME',
-            type:'string',
-            width: 30
+            width: 26.0
         }, {
-          caption: 'SEX',
-          type: 'string'
+            caption: 'SEX',
+            width: 9.0
         }, {
             caption:'ADDRESS',
             type:'string',
-            width: 50
+            width: 50.0
         },{
             caption:'PHONE',
             type:'string',
-            width: 20
+            width: 26.0
         },{
             caption:'NEEDS',
             type:'string',
-            width: 50
+            width: 50.0
         },{
             caption:'NOTES',
             type:'string',
-            width: 50
+            width: 50.0
         },{
             caption:'VEHICLE',
             type:'string',
-            width: 20
+            width: 26.0
         }];
         conf[0].rows = consumers.map(function(consumer) {
           var needs = '';
