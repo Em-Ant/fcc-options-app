@@ -38,7 +38,7 @@ var VehiclePanel = React.createClass({
             </a>
           </div>
         </div>
-        <div className="box-body">
+        <div className="box-body cust-height">
           <div className="box-group" id="vehicle-accrd" role="tablist" aria-multiselectable="true">
           {
             this.props.vehiclesIds.map(function(id, index) {
