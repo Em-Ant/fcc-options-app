@@ -11,7 +11,7 @@ var UnassignedConsumerPanel = React.createClass({
       return <div></div>
     }
     return (
-      <div className="box box-widget cust-height">
+      <div className="box box-widget">
         <div className="box-header with-border">
           <h3 className="box-title">Unassigned Consumers</h3>
         </div>

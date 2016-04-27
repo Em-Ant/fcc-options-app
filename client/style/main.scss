@@ -1,4 +1,5 @@
 /* Add custom styles here */
+$map-height: 650px;
 
 .label {
   float: left;
@@ -25,11 +26,11 @@
 }
 
 .map-height{
-  height:800px;
+  height:$map-height;
 }
 
 .cust-height {
-  height: 390px;
+  height:$map-height;
   overflow-y: auto;
 }
 

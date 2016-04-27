@@ -43,7 +43,7 @@ var MapWrapper = React.createClass({
 
             {this.props.displayDirections?
             <Directions/>:
-            <div>
+            <div className="cust-height">
               <VehiclePanel />
               <UnassignedConsumerPanel/>
             </div>}

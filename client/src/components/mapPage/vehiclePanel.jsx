@@ -26,7 +26,7 @@ var VehiclePanel = React.createClass({
   },
   render : function() {
     return (
-      <div className="box box-widget cust-height">
+      <div className="box box-widget">
         <div className="box-header with-border">
           <h3 className="box-title">Vehicles</h3>
           <div className="pull-right">
