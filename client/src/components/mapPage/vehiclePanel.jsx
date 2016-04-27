@@ -21,7 +21,7 @@ var VehiclePanel = React.createClass({
     w.document.write('</style></head><body>');
     w.document.write(document.getElementById('print-report').innerHTML);
     w.document.write('</body></html>')
-    w.print();
+    //w.print();
     //w.close();
 
   },

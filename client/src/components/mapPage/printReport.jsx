@@ -4,8 +4,6 @@ var connect = require('react-redux').connect;
 var TableElem = React.createClass({
   render: function () {
     var name = this.props.consumer.name;
-    //if (this.props.consumer.hasWheelchair) name += ' <i class="fa fa-wheelchair"></i>';
-    //if (this.props.consumer.hasMedications) name += ' <i class="fa fa-medkit"></i>"';
     return (
       <tr>
         <td>{this.props.index}</td>
