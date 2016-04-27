@@ -113,8 +113,6 @@ var initState = {};
 var reducer = function(state, action) {
   state = state || initState;
 
-  console.log(action.type, action.status, action.model, action.error);
-
   if (action.model !== USERS) {
     return state;
   }

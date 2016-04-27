@@ -29,7 +29,11 @@ var MapMain = React.createClass({
   componentDidUpdate:function(prevProps){
     if(this.props.centerMarker != null &&
       (prevProps.centerMarker== null || this.props.centerMarker.consumerId != prevProps.centerMarker.consumerId)){
+      if(prevProps.centerMarker) {
+        this.props.markerInfoClose(prevProps.centerMarker)
+      }
       this.centerMarker(this.props.centerMarker);
+
     }
   },
   centerMarker:function(marker){

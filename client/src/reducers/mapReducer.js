@@ -259,6 +259,12 @@ var openMarkerInfo = function (state, consumerId){
 }
 
 var closeMarkerInfo = function (state, consumerId){
+  //check if consumer is in cluster
+  var clusterIndex = findConsumerClusterIndex(state.clusters, consumerId);
+  if(clusterIndex != -1){
+    return clusterInfoClose(state, state.clusters[clusterIndex]);
+  }
+
   var index = findConsumerMarkerIndex(consumerId, state.consumerMarkers);
   if(index == -1){
     return state;
@@ -270,8 +276,7 @@ var closeMarkerInfo = function (state, consumerId){
   consumerMarkers.splice(index, 1, marker);
 
   return Object.assign({}, state, {
-    consumerMarkers:consumerMarkers,
-    centerMarker:null
+    consumerMarkers:consumerMarkers
   })
 }
 
@@ -280,9 +285,10 @@ var centerConsumerMarker = function(state, consumerId){
   if(index == -1){
     return state;
   }
+
   var marker = state.consumerMarkers[index];
   return Object.assign({}, state, {
-    centerMarker:marker
+    centerMarker:marker,
   })
 }
 
