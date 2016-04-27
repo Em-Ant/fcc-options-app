@@ -27,9 +27,18 @@ var MapMain = React.createClass({
     window.addEventListener('resize', this.handleWindowResize);
   },
   componentDidUpdate:function(prevProps){
-    if(this.props.center && this.props.center != prevProps.center){
-      this._googleMapComponent.panTo(this.props.center);
+    if(this.props.centerMarker != null &&
+      (prevProps.centerMarker== null || this.props.centerMarker.consumerId != prevProps.centerMarker.consumerId)){
+      this.centerMarker(this.props.centerMarker);
     }
+  },
+  centerMarker:function(marker){
+    var self = this;
+    this._googleMapComponent.panTo(marker.position);
+    // this listener allows us to wait for the clusters to form
+    google.maps.event.addListenerOnce(this._googleMapComponent.props.map, 'idle', function(){
+      self.props.markerInfoOpen(marker);
+    })
   },
   makeErrorControl(controlDiv, error) {
     //clear div
@@ -99,9 +108,6 @@ var MapMain = React.createClass({
       );
     })
 
-  },
-  onClusteringend:function(e){
-    console.log("cluster end", e)
   },
   render: function() {
     var self = this;
@@ -237,7 +243,7 @@ var mapStateToProps = function(state){
     vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points),
     error:state.mapPage.error,
     displayClusters: state.mapPage.displayClusters,
-    center: state.mapPage.center
+    centerMarker: state.mapPage.centerMarker
   }
 }
 var mapDispatchToProps = function(dispatch) {
@@ -255,6 +261,9 @@ var mapDispatchToProps = function(dispatch) {
       dispatch(mActions.mapZoomChanged())
     },
     markerMouseover:function(marker){
+      dispatch(mActions.markerInfoOpen(marker))
+    },
+    markerInfoOpen:function(marker){
       dispatch(mActions.markerInfoOpen(marker))
     },
     markerMouseout:function(marker){

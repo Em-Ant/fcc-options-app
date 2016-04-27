@@ -270,24 +270,20 @@ var closeMarkerInfo = function (state, consumerId){
   consumerMarkers.splice(index, 1, marker);
 
   return Object.assign({}, state, {
-    consumerMarkers:consumerMarkers
+    consumerMarkers:consumerMarkers,
+    centerMarker:null
   })
 }
 
-var setCenter = function(state, consumerId){
+var centerConsumerMarker = function(state, consumerId){
   var index = findConsumerMarkerIndex(consumerId, state.consumerMarkers);
   if(index == -1){
     return state;
   }
   var marker = state.consumerMarkers[index];
   return Object.assign({}, state, {
-    center:marker.position
+    centerMarker:marker
   })
-}
-var clearCenter = function(state, consumerId){
-  var state = Object.assign({}, state);
-  delete state.center;
-  return state;
 }
 
   /**
@@ -295,7 +291,8 @@ var clearCenter = function(state, consumerId){
    */
 var initState= {
   consumerMarkers:[],
-  displayClusters:[]
+  displayClusters:[],
+  centerMarker:null
 }
 var reducer = function(state, action) {
   state = state || initState;
@@ -335,10 +332,8 @@ var reducer = function(state, action) {
       return openMarkerInfo(state, action.consumerId)
     case (actionTypes.MAP_CLOSE_MARKER_INFO):
       return closeMarkerInfo(state, action.consumerId)
-    case (actionTypes.MAP_SET_CENTER):
-      return setCenter(state, action.consumerId)
-    case (actionTypes.MAP_CLEAR_CENTER):
-      return clearCenter(state)
+    case (actionTypes.MAP_CENTER_CONSUMER_MARKER):
+      return centerConsumerMarker(state, action.consumerId)
     case (actionTypes.MAP_SAVE_CLUSTERS):
       return saveClusters(state, action.clusters_)
     case (modelActionTypes.FETCH):
