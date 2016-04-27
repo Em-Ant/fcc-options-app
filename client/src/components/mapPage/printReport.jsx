@@ -4,12 +4,16 @@ var connect = require('react-redux').connect;
 var TableElem = React.createClass({
   render: function () {
     var name = this.props.consumer.name;
-    if (this.props.consumer.hasWheelchair) name += ' [W]';
-    if (this.props.consumer.hasMedications) name += ' [M]';
+    //if (this.props.consumer.hasWheelchair) name += ' <i class="fa fa-wheelchair"></i>';
+    //if (this.props.consumer.hasMedications) name += ' <i class="fa fa-medkit"></i>"';
     return (
       <tr>
         <td>{this.props.index}</td>
-        <td>{name}</td>
+        <td>
+          {this.props.consumer.name}
+          {this.props.consumer.hasWheelchair ? <i className="fa fa-wheelchair mleft-8px"></i>: null }
+          {this.props.consumer.hasMedications ? <i className="fa fa-medkit mleft-8px"></i>: null }
+        </td>
       </tr>
     )
   }
@@ -76,7 +80,7 @@ var PrintReport = React.createClass({
         <h3>Options, Inc. - Vehicles Report | { (new Date()).toDateString()}</h3>
         <div><strong>Legend</strong></div>
         <div>Vehicle Header: S - Seats, F - Flex Seats, W - Wheelchairs</div>
-        <div>Consumer: [W] - Wheelchair, [M] - Medications </div>
+        <div>Consumer: <i className="fa fa-wheelchair"></i> - Wheelchair, <i className="fa fa-medkit"></i> - Medications </div>
         {
           tables.map(function(t, index) {
             return t

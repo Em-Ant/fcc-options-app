@@ -36,7 +36,9 @@ table, td, th {
   text-align: center;
 }
 
-
+.mleft-8px {
+  margin-left: 5px;
+}
 @media screen {
   body{
     padding: 30px 20px;

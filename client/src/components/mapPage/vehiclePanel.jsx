@@ -15,6 +15,7 @@ var VehiclePanel = React.createClass({
     var w=window.open();
     w.document.write('<!DOCTYPE html><html><head>');
     w.document.write('<title>Options, Inc. | Vehicles Report</title>');
+    w.document.write('<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"/>')
     w.document.write('<style type="text/css">');
     w.document.write(printStyle);
     w.document.write('</style></head><body>');
