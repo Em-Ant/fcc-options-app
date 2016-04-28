@@ -35,8 +35,8 @@ var consumer2 = new Consumer({
 });
 
 var vehicle1 = new Vehicle({
-  name: 'Minivan 4',
-  seats: 7,
+  name: 'Van 1',
+  seats: 12,
 });
 
 var vehicle2 = new Vehicle({
@@ -176,12 +176,99 @@ function seedVehicles(done){
     vehicle1.save();
     vehicle2.save();
     Vehicle.create({
+      name: 'Van 2',
+      seats: 12,
+    },{
       name: 'Van 3',
       seats: 12,
     }, {
+      name: 'Van 4',
+      seats: 12,
+    }, {
+      name: 'Van 5',
+      seats: 12,
+    }, {
+      name: 'Van 6',
+      seats: 12,
+    }, {
+      name: 'Van 7',
+      seats: 12,
+    }, {
+      name: 'Van 8',
+      seats: 8,
+    }, {
+      name: 'Van 9',
+      seats: 12,
+    }, {
+      name: 'Van 10',
+      seats: 7,
+    }, {
+      name: 'Van 11',
+      seats: 12,
+    }, {
+      name: 'Van 12',
+      seats: 7,
+    }, {
+      name: 'Van 13',
+      seats: 12,
+    }, {
+      name: 'Van 14',
+      seats: 7,
+    }, {
+      name: 'Van 15',
+      seats: 12,
+    }, {
+      name: 'Van 16',
+      seats: 12,
+    }, {
+      name: 'Van 17',
+      seats: 7,
+    }, {
+      name: 'Van 18',
+      seats: 7,
+    }, {
+      name: 'Van 19',
+      seats: 12,
+    }, {
+      name: 'Van 20',
+      seats: 12,
+    }, {
+      name: 'Van 21',
+      seats: 12,
+    }, {
+      name: 'Van 22',
+      seats: 12,
+    }, {
+      name: 'Van 23',
+      seats: 12,
+    }, {
       name: 'Bus 2',
+      seats: 10,
+      flexSeats:2,
+      wheelchairs: 2
+    },{
+      name: 'Bus 3',
+      seats: 8,
+      flexSeats:2,
+      wheelchairs: 4
+    },{
+      name: 'Bus 4',
+      seats: 8,
+      flexSeats: 2,
+      wheelchairs: 4
+    },{
+      name: 'Bus 5',
+      seats: 8,
+      wheelchairs: 5
+    },{
+      name: 'Bus 6',
       seats: 8,
       wheelchairs: 4
+    },{
+      name: 'Bus 7',
+      seats: 8,
+      flexSeats: 4,
+      wheelchairs: 3
     }, function() {
       done();
       console.log('finished populating vehicles');
@@ -227,36 +314,6 @@ User.find({}).remove(function() {
     role: 'admin'
   }, function() {
     console.log('finished populating users');
-  });
-});
-
-/**
-* ROUTES
-*
-* model:
-    name: {type: String, required: true},
-    locationServed: {type: String}
-*/
-
-
-var route1 = new Route({
-  name: 'Route C',
-  locationServed: 'Uptown'
-})
-Route.find({}).remove(function() {
-  route1.save();
-  Route.create({
-    name: 'Route A',
-    locationServed: 'Bronx'
-
-  }, {
-    name: 'Route B',
-    locationServed: 'Manhattan'
-  }, {
-    name: 'Route D',
-    locationServed: 'Queens'
-  }, function() {
-    console.log('finished populating routes');
   });
 });
 
