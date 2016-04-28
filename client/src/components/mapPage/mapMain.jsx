@@ -13,6 +13,7 @@ var ClusterInfo = require('./clusterInfo.jsx');
 var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
 const mapConst = require('../../constants/map');
 var _ = require('lodash');
+var clusterMouseoverTimer = null;
 
 var MapMain = React.createClass({
   _googleMapComponent:null,
@@ -35,6 +36,22 @@ var MapMain = React.createClass({
       this.centerMarker(this.props.centerMarker);
 
     }
+  },
+  clusterMouseover:function(cluster_){
+    var self = this;
+    this.clearClusterTimer();
+    //Copy object because sometimes cluster_.markers_ changes when timer is up.
+    var cluster = Object.assign({}, cluster_, {
+      center:cluster_.getCenter(),
+      markers_:cluster_.markers_.slice()
+    } );
+    clusterMouseoverTimer=setTimeout(function(){
+      self.props.clusterMouseover(cluster);
+    }, mapConst.CLUSTER_MOUSEOVER_TIMEOUT_INTERVAL)
+
+  },
+  clearClusterTimer:function(){
+    clearTimeout(clusterMouseoverTimer);
   },
   centerMarker:function(marker){
     var self = this;
@@ -147,7 +164,8 @@ var MapMain = React.createClass({
               averageCenter
               enableRetinaIcons
               gridSize={ 1 }
-              onMouseover={this.props.clusterMouseover}
+              onMouseover={self.clusterMouseover}
+              onMouseout={self.clearClusterTimer}
               onClusteringend={this.props.onClusteringend}
             >
             {

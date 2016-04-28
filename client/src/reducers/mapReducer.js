@@ -166,7 +166,7 @@ var findClusterIndex = function(clusters, cluster){
 var clusterMouseover = function(state, cluster_){
   var cluster = {
     markers:cluster_.markers_.slice(),
-    center:cluster_.getCenter()
+    center:cluster_.center
   }
   return clusterInfoOpen(state, cluster);
 }
