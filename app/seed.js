@@ -1049,6 +1049,846 @@ function seedConsumers(done) {
         "needsTwoSeats": false,
         "hasMedications": false,
         "behavioralIssues": false
+      }, {
+        "name": "Renato B.",
+        "address": "1723 Tipton Cir, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": true,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3082054,
+          "lng": -93.5872909
+        }
+      }, {
+        "name": "Jayson W.",
+        "address": "17676 Johnson St NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": true,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.2938954,
+          "lng": -93.52729409999999
+        }
+      }, {
+        "name": "Rico H.",
+        "address": "20776 Wilson St NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3481363,
+          "lng": -93.5460638
+        }
+      }, {
+        "name": "Geoffrey M.",
+        "address": "20776 Wilson St NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": true,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3481363,
+          "lng": -93.5460638
+        }
+      }, {
+        "name": "Karoline S.",
+        "address": "20776 Wilson St NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": true,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3481363,
+          "lng": -93.5460638
+        }
+      }, {
+        "name": "Carri J.",
+        "address": "13882 191st Ave NW,Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": true,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3206175,
+          "lng": -93.5327964
+        }
+      }, {
+        "name": "Maynard W.",
+        "address": "9771 226th Ave NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": true,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3802909,
+          "lng": -93.514675
+        }
+      }, {
+        "name": "Wilton Q.",
+        "address": "19069 Dodge St NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3160219,
+          "lng": -93.5567267
+        }
+      }, {
+        "name": "Hue M.",
+        "address": "19069 Dodge St NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": true,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3160219,
+          "lng": -93.5567267
+        }
+      }, {
+        "name": "Thomasena B.",
+        "address": "13650 Meadowvale Rd NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.335947,
+          "lng": -93.611868
+        }
+      }, {
+        "name": "Luther M.",
+        "address": "17676 Johnson St NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": true,
+        "position": {
+          "lat": 45.2938954,
+          "lng": -93.52729409999999
+        }
+      }, {
+        "name": "Werner P.",
+        "address": "21860 Norris Lake Rd NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.367292,
+          "lng": -93.47003699999999
+        }
+      }, {
+        "name": "Tod V.",
+        "address": "21860 Norris Lake Rd NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.367292,
+          "lng": -93.47003699999999
+        }
+      }, {
+        "name": "Porfirio H.",
+        "address": "19140 Concord Ct NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": true,
+        "hasMedications": true,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.2948604,
+          "lng": -93.60185539999999
+        }
+      }, {
+        "name": "Eusebia H.",
+        "address": "724 Auburn Pl NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": true,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.30926520000001,
+          "lng": -93.554035
+        }
+      }, {
+        "name": "Rosita M.",
+        "address": "19685 Carson Cir NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": true,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.323059,
+          "lng": -93.55567479999999
+        }
+      }, {
+        "name": "Abbey T.",
+        "address": "19685 Carson Cir NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": true,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.323059,
+          "lng": -93.55567479999999
+        }
+      }, {
+        "name": "Modesto C.",
+        "address": "1103 School St NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3115283,
+          "lng": -93.5750492
+        }
+      }, {
+        "name": "Jack M.",
+        "address": "19191 Kent St NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": true,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3178468,
+          "lng": -93.60902779999999
+        }
+      }, {
+        "name": "Terence B.",
+        "address": "13227 180 1/2 Ct NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": true,
+        "position": {
+          "lat": 45.2986075,
+          "lng": -93.60361660000001
+        }
+      }, {
+        "name": "Treena B.",
+        "address": "14246 189th Ln NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3152385,
+          "lng": -93.6297433
+        }
+      }, {
+        "name": "Solange Z.",
+        "address": "14246 189th Ln NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3152385,
+          "lng": -93.6297433
+        }
+      }, {
+        "name": "Johnny P.",
+        "address": "14246 189th Ln NW, Elk River, MN 55330",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3152385,
+          "lng": -93.6297433
+        }
+      }, {
+        "name": "Kacy K.",
+        "address": "19999 Polk St NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": true,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.333979,
+          "lng": -93.5351068
+        }
+      }, {
+        "name": "Zandra E.",
+        "address": "13463 -181s Cir NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": true,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.2998684,
+          "lng": -93.60983399999999
+        }
+      }, {
+        "name": "Agripina K.",
+        "address": "18263 Concord St NW, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3020826,
+          "lng": -93.5973183
+        }
+      }, {
+        "name": "Maisie R.",
+        "address": "15682 County Rd #35, Elk River, MN 55330",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.3379499,
+          "lng": -93.66482560000001
+        }
+      }, {
+        "name": "Arnoldo P.",
+        "address": "26251 4th St W, Zimmerman, MN 55398",
+        "sex": "male",
+        "needsWave": true,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": true,
+        "position": {
+          "lat": 45.4466836,
+          "lng": -93.5935432
+        }
+      }, {
+        "name": "Alfredo A.",
+        "address": "26251 4th St W, Zimmerman, MN 55398",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": true,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.4466836,
+          "lng": -93.5935432
+        }
+      }, {
+        "name": "Faye O.",
+        "address": "25895 100th St, Zimmerman, MN 55398",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.439398,
+          "lng": -93.52133189999999
+        }
+      }, {
+        "name": "Tynisha B.",
+        "address": "28520 138th St, Zimmerman, MN 55398",
+        "sex": "female",
+        "needsWave": true,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.4885213,
+          "lng": -93.62108289999999
+        }
+      }, {
+        "name": "Lisbeth T.",
+        "address": "27979 Blue Lake Dr NW, Zimmerman, MN 55398",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.4763312,
+          "lng": -93.5051447
+        }
+      }, {
+        "name": "Claud S.",
+        "address": "13903 290th Ave, Zimmerman, MN 55398",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": true,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.49540750000001,
+          "lng": -93.6236247
+        }
+      }, {
+        "name": "Mac A.",
+        "address": "13903 290th Ave, Zimmerman, MN 55398",
+        "sex": "male",
+        "needsWave": true,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.49540750000001,
+          "lng": -93.6236247
+        }
+      }, {
+        "name": "Francisco G.",
+        "address": "13903 290th Ave, Zimmerman, MN 55398",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.49540750000001,
+          "lng": -93.6236247
+        }
+      }, {
+        "address": "26131 10th St W, Zimmerman, MN 55398",
+        "behavioralIssues": true,
+        "hasMedications": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "name": "Chris N.",
+        "needsTwoSeats": false,
+        "needsWave": false,
+        "position": {
+          "lat": 45.4439486,
+          "lng": -93.6013704
+        },
+        "sex": "male"
+      }, {
+        "name": "Stanton C.",
+        "address": "11420 272nd Ave NW, Zimmerman, MN 55398",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.46383549999999,
+          "lng": -93.55761179999999
+        }
+      }, {
+        "name": "Alva R.",
+        "address": "8224 285th Ave NW #SPENCER, Zimmerman, MN 55398",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": true,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.48646160000001,
+          "lng": -93.4770116
+        }
+      }, {
+        "name": "Dianne O.",
+        "address": "8024 285th Ave NW, Zimmerman, MN 55398",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.4864334,
+          "lng": -93.4719856
+        }
+      }, {
+        "name": "Adaline C.",
+        "address": "11420 272nd Ave NW, Zimmerman, MN 55398",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.46383549999999,
+          "lng": -93.55761179999999
+        }
+      }, {
+        "name": "Dolores S.",
+        "address": "11580 272nd Ave NW, Zimmerman, MN 55398",
+        "sex": "female",
+        "needsWave": true,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.46280540000001,
+          "lng": -93.56167459999999
+        }
+      }, {
+        "name": "Gena E.",
+        "address": "25905 8th St W, Zimmerman, MN 55398",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": true,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.4406105,
+          "lng": -93.59966720000001
+        }
+      }, {
+        "name": "Emelina E.",
+        "address": "27979 Blue Lake Dr NW, Zimmerman, MN 55398",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": true,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.4763312,
+          "lng": -93.5051447
+        }
+      }, {
+        "name": "Galen F.",
+        "address": "25570 96th St, Zimmerman, MN 55398",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": true,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.47216359999999,
+          "lng": -93.510617
+        }
+      }, {
+        "name": "Jamey A.",
+        "address": "14833 262nd Ave NW, Zimmerman, MN 55398",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.445219,
+          "lng": -93.54537069999999
+        }
+      }, {
+        "name": "Lemuel T.",
+        "address": "11634 76th St NE, Albertville, MN 55301",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": true,
+        "position": {
+          "lat": 45.263053,
+          "lng": -93.6503479
+        }
+      }, {
+        "name": "Donovan P.",
+        "address": "11634 76th St NE, Albertville, MN 55301",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": true,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.263053,
+          "lng": -93.6503479
+        }
+      }, {
+        "name": "Howard M.",
+        "address": "11634 76th St NE, Albertville, MN 55301",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": true,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.263053,
+          "lng": -93.6503479
+        }
+      }, {
+        "name": "Lowell C.",
+        "address": "11255 75th St NE, Albertville, MN 55301",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": true,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.258717,
+          "lng": -93.658295
+        }
+      }, {
+        "name": "Mickie V.",
+        "address": "11255 75th St NE, Albertville, MN 55301",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.258717,
+          "lng": -93.658295
+        }
+      }, {
+        "name": "Romona K.",
+        "address": "11255 75th St NE, Albertville, MN 55301",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": true,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.258717,
+          "lng": -93.658295
+        }
+      }, {
+        "name": "Soo S.",
+        "address": "11255 75th St NE, Albertville, MN 55301",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.258717,
+          "lng": -93.658295
+        }
+      }, {
+        "name": "Derick K.",
+        "address": "5898 Lachman Ave NE, Albertville, MN 55301",
+        "sex": "male",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": true,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.23762850000001,
+          "lng": -93.65998040000001
+        }
+      }, {
+        "name": "Garry B.",
+        "address": "6357 Manchester Ave NE, Albertville, MN 55301",
+        "sex": "male",
+        "needsWave": true,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.243198,
+          "lng": -93.640834
+        }
+      }, {
+        "name": "Staci M.",
+        "address": "5553 Kalenda Dr NE, Albertville, MN 55301",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.232267,
+          "lng": -93.67053299999999
+        }
+      }, {
+        "name": "Saturnina G.",
+        "address": "5476 Lander Ave NE, Albertville, MN 55301",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.231307,
+          "lng": -93.65503400000001
+        }
+      }, {
+        "name": "Zola K.",
+        "address": "10539 61st St NE, Albertville, MN 55301",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": true,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": true,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.238446,
+          "lng": -93.67342599999999
+        }
+      }, {
+        "name": "Beatrice N.",
+        "address": "10784 53rd St NE, Albertville, MN 55301",
+        "sex": "female",
+        "needsWave": true,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.2285309,
+          "lng": -93.66994600000001
+        }
+      }, {
+        "name": "Thelma A.",
+        "address": "5476 Lander Ave NE, Albertville, MN 55301",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.231307,
+          "lng": -93.65503400000001
+        }
+      }, {
+        "name": "Annamarie M.",
+        "address": "12291 58th St NE, Albertville, MN 55301",
+        "sex": "female",
+        "needsWave": false,
+        "hasSeizures": false,
+        "hasWheelchair": false,
+        "needsTwoSeats": false,
+        "hasMedications": false,
+        "behavioralIssues": false,
+        "position": {
+          "lat": 45.234668,
+          "lng": -93.6374079
+        }
       },
       function() {
         done()
