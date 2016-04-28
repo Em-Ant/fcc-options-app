@@ -1889,6 +1889,905 @@ function seedConsumers(done) {
           "lat": 45.234668,
           "lng": -93.6374079
         }
+      },{
+         "name":"Lora Crowe",
+         "sex":"female",
+         "address":"700 Lake St N Big Lake, MN 55309",
+         "position":{
+            "lat":45.340471,
+            "lng":-93.74623
+         },
+         "needsWave":true,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Norris Turk",
+         "sex":"male",
+         "address":"25380 167th St NW Big Lake, MN 55309",
+         "position":{
+            "lat":45.431797,
+            "lng":-93.692647
+         },
+         "needsWave":true,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Yuki Borey",
+         "sex":"female",
+         "address":"3629 21st Ave S St. Cloud, MN 56301",
+         "position":{
+            "lat":45.508092,
+            "lng":-94.187906
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Qiana Mizelle",
+         "sex":"female",
+         "address":"5836 Bison Cir Monticello, MN 55362",
+         "position":{
+            "lat":45.277361,
+            "lng":-93.769908
+         },
+         "needsWave":true,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Kandra Mccallie",
+         "sex":"female",
+         "address":"20018 January St Big Lake Twp, MN 55309",
+         "position":{
+            "lat":45.333947,
+            "lng":-93.686223
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Tianna Gines",
+         "sex":"female",
+         "address":"10333 49th St NE Albertville, MN 55301",
+         "position":{
+            "lat":45.221843,
+            "lng":-93.679486
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Bell Whittingham",
+         "sex":"male",
+         "address":"10586 48th St Albertville, MN 55301",
+         "position":{
+            "lat":45.221468,
+            "lng":-93.674631
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Stephani Oatis",
+         "sex":"female",
+         "address":"10254 53rd St NE Albertville, MN 55301",
+         "position":{
+            "lat":45.23144,
+            "lng":-93.681559
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Stefani Fournier",
+         "sex":"female",
+         "address":"10443 51st Ct Albertville, MN 55301",
+         "position":{
+            "lat":45.227347,
+            "lng":-93.678419
+         },
+         "needsWave":true,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Marcene Husby",
+         "sex":"female",
+         "address":"101 Cedar Ct Maple Lake, MN 55358",
+         "position":{
+            "lat":45.237615,
+            "lng":-94.017501
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Clemmie Slawson",
+         "sex":"female",
+         "address":"9411 65th St NE Otsego, MN 55301",
+         "position":{
+            "lat":45.244006,
+            "lng":-93.695632
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Delorse Luedke",
+         "sex":"female",
+         "address":"300 Ramey Rd Maple Lake, MN 55358",
+         "position":{
+            "lat":45.226352,
+            "lng":-94.006927
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Evelyn Mejia",
+         "sex":"female",
+         "address":"10217 Karston Ave NE Albertville, MN 55301",
+         "position":{
+            "lat":45.24125,
+            "lng":-93.680414
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Loriann Mazzarella",
+         "sex":"female",
+         "address":"10209 Karston Dr NE Albertville, MN 55301",
+         "position":{
+            "lat":45.239163,
+            "lng":-93.680913
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Bernardina Schumacher",
+         "sex":"female",
+         "address":"1814 Whitetail Run Buffalo, MN 55313",
+         "position":{
+            "lat":45.200127,
+            "lng":-93.833799
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":true,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Delma Healey",
+         "sex":"male",
+         "address":"12712 County Road 37 NW Annandale, MN 55302",
+         "position":{
+            "lat":45.201586,
+            "lng":-94.149695
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Emerald Mccown",
+         "sex":"female",
+         "address":"13205 45th St NW Annandale, MN 55302",
+         "position":{
+            "lat":45.217668,
+            "lng":-94.159069
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Fran Aho",
+         "sex":"female",
+         "address":"10024 Norling Ave NW South Haven, MN 55382",
+         "position":{
+            "lat":45.297812,
+            "lng":-94.166134
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Lorenzo Coke",
+         "sex":"male",
+         "address":"3295 85th St NE Monticello, MN 55362",
+         "position":{
+            "lat":45.272022,
+            "lng":-93.82169
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Karleen Sasso",
+         "sex":"female",
+         "address":"315 Front St Monticello, MN 55362",
+         "position":{
+            "lat":45.309187,
+            "lng":-93.796521
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Inger Jelinek",
+         "sex":"male",
+         "address":"510 Highland St W Annandale, MN 55302",
+         "position":{
+            "lat":45.259507,
+            "lng":-94.133541
+         },
+         "needsWave":true,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Blair Stapleton",
+         "sex":"female",
+         "address":"9172 Fallon Dr NE Monticello, MN 55362",
+         "position":{
+            "lat":45.282886,
+            "lng":-93.783769
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Tonita Lavoie",
+         "sex":"female",
+         "address":"4658 Pebblebrook Dr Monticello, MN 55362",
+         "position":{
+            "lat":45.284161,
+            "lng":-93.79291
+         },
+         "needsWave":true,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Suk Dewalt",
+         "sex":"female",
+         "address":"4648 Homestead Dr Monticello, MN 55362",
+         "position":{
+            "lat":45.285403,
+            "lng":-93.79317
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Irving Dupre",
+         "sex":"male",
+         "address":"12351 Aetna Ave NE Monticello, MN 55362",
+         "position":{
+            "lat":45.32913,
+            "lng":-93.884454
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Tracey Scruton",
+         "sex":"female",
+         "address":"20331 Gordon Ln Big Lake, MN 55309",
+         "position":{
+            "lat":45.340645,
+            "lng":-93.778033
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Kizzy Montejano",
+         "sex":"female",
+         "address":"324 E River St Monticello, MN 55362",
+         "position":{
+            "lat":45.304861,
+            "lng":-93.789099
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Lenny Salais",
+         "sex":"male",
+         "address":"13209 80th St NW Annandale, MN 55302",
+         "position":{
+            "lat":45.267356,
+            "lng":-94.162218
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Casey Chancellor",
+         "sex":"female",
+         "address":"13223 80th St NW Annandale, MN 55302",
+         "position":{
+            "lat":45.267292,
+            "lng":-94.16254
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Hector Maranto",
+         "sex":"male",
+         "address":"4318 87th St NE Monticello, MN 55362",
+         "position":{
+            "lat":45.276761,
+            "lng":-93.800147
+         },
+         "needsWave":true,
+         "hasSeizures":true,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Bettyann Bourbeau",
+         "sex":"female",
+         "address":"413 W River St Monticello, MN 55362",
+         "position":{
+            "lat":45.308893,
+            "lng":-93.798249
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Delphine Prinz",
+         "sex":"female",
+         "address":"11000 118th St NW Annandale, MN 55302",
+         "position":{
+            "lat":45.323605,
+            "lng":-94.117093
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Shaina Breazeale",
+         "sex":"female",
+         "address":"310 Elm St Monticello, MN 55362",
+         "position":{
+            "lat":45.30737,
+            "lng":-93.805116
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Toby Thomas",
+         "sex":"male",
+         "address":"9111 Kennedy Ave NW Annandale, MN 55302",
+         "position":{
+            "lat":45.284485,
+            "lng":-94.100346
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Regena Waldorf",
+         "sex":"female",
+         "address":"5038 Mitchell Rd Big Lake, MN 55309",
+         "position":{
+            "lat":45.351056,
+            "lng":-93.775517
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Idella Steenberg",
+         "sex":"female",
+         "address":"4190 Lake Ridge Dr Big Lake, MN 55309",
+         "position":{
+            "lat":45.350107,
+            "lng":-93.775718
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Catherin Bunton",
+         "sex":"female",
+         "address":"1165 Lime Tree Cir St. Cloud, MN 56301",
+         "position":{
+            "lat":45.511489,
+            "lng":-94.164087
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Dedra Stone",
+         "sex":"female",
+         "address":"1940 37th St SE St. Cloud, MN 56304",
+         "position":{
+            "lat":45.515607,
+            "lng":-94.124341
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Jone Mckinley",
+         "sex":"male",
+         "address":"18492 120th St SE Big Lake, MN 55309",
+         "position":{
+            "lat":45.397197,
+            "lng":-93.779501
+         },
+         "needsWave":true,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":true,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Helene Burgett",
+         "sex":"female",
+         "address":"14807 Hillcrest Rd SE Becker, MN 55308",
+         "position":{
+            "lat":45.386694,
+            "lng":-93.859532
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Benjamin Fish",
+         "sex":"male",
+         "address":"8689 County Road 23 SE Becker Twp, MN 55308",
+         "position":{
+            "lat":45.447773,
+            "lng":-93.867189
+         },
+         "needsWave":true,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Mirella Kamel",
+         "sex":"female",
+         "address":"13985 Woodland Ct Becker, MN 55308",
+         "position":{
+            "lat":45.407401,
+            "lng":-93.871756
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Christa Boelter",
+         "sex":"female",
+         "address":"6101 Highway 10 S St. Cloud, MN 56304",
+         "position":{
+            "lat":45.477646,
+            "lng":-94.033513
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Rubin Greenhalgh",
+         "sex":"male",
+         "address":"9685 173rd Ave SE Becker Twp, MN 55308",
+         "position":{
+            "lat":45.451394,
+            "lng":-93.803749
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Jules Chunn",
+         "sex":"male",
+         "address":"4150 165th Ave Becker, MN 55308",
+         "position":{
+            "lat":45.509521,
+            "lng":-93.819947
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Clayton Dendy",
+         "sex":"male",
+         "address":"655 Juliet Ave Clearwater, MN 55320",
+         "position":{
+            "lat":45.401166,
+            "lng":-94.052923
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"May Alderman",
+         "sex":"female",
+         "address":"12150 Gopher St Becker, MN 55308",
+         "position":{
+            "lat":45.394188,
+            "lng":-93.866871
+         },
+         "needsWave":true,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Janyce Grieves",
+         "sex":"female",
+         "address":"18443 118th St SE Becker Twp, MN 55309",
+         "position":{
+            "lat":45.400604,
+            "lng":-93.773478
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Dora Saini",
+         "sex":"female",
+         "address":"11169 Olympia Ave Becker, MN 55308",
+         "position":{
+            "lat":45.412169,
+            "lng":-93.876366
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Alia Crotty",
+         "sex":"female",
+         "address":"11179 Brenda Blvd Becker, MN 55308",
+         "position":{
+            "lat":45.409692,
+            "lng":-93.880156
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Ricardo Makin",
+         "sex":"male",
+         "address":"17262 94th St SE Becker, MN 55308",
+         "position":{
+            "lat":45.434275,
+            "lng":-93.805912
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Tamala Keirn",
+         "sex":"female",
+         "address":"20877 Franklin Rd Clearwater, MN 55320",
+         "position":{
+            "lat":45.427229,
+            "lng":-94.055626
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Kiersten Reali",
+         "sex":"male",
+         "address":"1436 200th St Saint Augusta, MN 55320",
+         "position":{
+            "lat":45.413046,
+            "lng":-94.141712
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Dallas Wine",
+         "sex":"female",
+         "address":"13263 Monroe Dr Becker, MN 55308",
+         "position":{
+            "lat":45.406498,
+            "lng":-93.883308
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Osvaldo Decicco",
+         "sex":"male",
+         "address":"13444 Brenda Blvd Becker, MN 55308",
+         "position":{
+            "lat":45.40302,
+            "lng":-93.890885
+         },
+         "needsWave":true,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":true,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Jami Heady",
+         "sex":"male",
+         "address":"7645 Church St Clear Lake, MN 55319",
+         "position":{
+            "lat":45.445355,
+            "lng":-94.000283
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Monroe Stradford",
+         "sex":"male",
+         "address":"5106 135th Ave Clear Lake, MN 55319",
+         "position":{
+            "lat":45.495456,
+            "lng":-93.882269
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Vonda Styons",
+         "sex":"female",
+         "address":"641 Cedar Ave N Maple Lake, MN 55358",
+         "position":{
+            "lat":45.237826,
+            "lng":-94.018269
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":false,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":true
+      },
+      {
+         "name":"Paulette Mccarver",
+         "sex":"female",
+         "address":"1827 44th St NE Buffalo, MN 55313",
+         "position":{
+            "lat":45.214254,
+            "lng":-93.850889
+         },
+         "needsWave":false,
+         "hasSeizures":false,
+         "hasWheelchair":true,
+         "needsTwoSeats":false,
+         "hasMedications":false,
+         "behavioralIssues":false
+      },
+      {
+         "name":"Rueben Sweeney",
+         "sex":"male",
+         "address":"801 Spruce Ave N Maple Lake, MN 55358",
+         "position":{
+            "lat":45.238684,
+            "lng":-94.015296
+         },
+         "needsWave":false,
+         "hasSeizures":true,
+         "hasWheelchair":false,
+         "needsTwoSeats":true,
+         "hasMedications":false,
+         "behavioralIssues":false
       },
       function() {
         done()
