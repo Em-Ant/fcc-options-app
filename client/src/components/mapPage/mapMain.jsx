@@ -249,16 +249,49 @@ return consumerMarkers.map(function(marker){
   });
 }
 
-function calculateTotalSeatings(consumers, cIds) {
-  var 
+function neededSeatings(consumers) {
+  var neededSeats = 0;
+  var neededWheelchairs = 0;
+  for (var key in consumers) {
+    var c = consumers[key];
+    if (c.hasWheelchair) {
+      neededWheelchairs++;
+    } else if (c.needsTwoSeats) {
+      neededSeats += 2;
+    } else {
+      neededSeats++;
+    }
+  }
+  var neededSeatings = {seats: neededSeats, wheelchairs: neededWheelchairs};
+  console.log('needs', neededSeatings);
+  return neededSeatings;
 }
-function availableWheelchairs(vehicles)
+function availableSeatings(vehicles) {
+  var availableSeats = 0;
+  var availableWheelchairs = 0;
+  var availableFlexseats = 0;
+  for (var key in vehicles) {
+    var v = vehicles[key];
+    availableSeats += v.seats;
+    availableWheelchairs += v.wheelchairs;
+    availableFlexseats += v.flexSeats;
+  }
+  var availableSeatings = {
+    seats: availableSeats,
+    wheelchairs: availableWheelchairs,
+    flexSeats: availableFlexseats
+  }
+  console.log('available', availableSeatings);
+  return availableSeatings;
+}
 
 MapMain.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 var mapStateToProps = function(state){
-  return{
+  return {
+    neededSeatings : neededSeatings(state.consumers.data),
+    availableSeatings : availableSeatings(state.vehicles.data),
     consumerMarkers: colorMarkers(state.mapPage.consumerMarkers, state.vehicles.consumersToVehiclesMap,state.mapPage.activeVehicleId, state.mapPage.highlightedMarker, state.mapPage.markerLoading),
     optionsIncMarker: state.mapPage.optionsIncMarker,
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
