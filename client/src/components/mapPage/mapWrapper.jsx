@@ -45,7 +45,7 @@ var MapWrapper = React.createClass({
             <Directions/>:
             <div>
               <VehiclePanel/>
-              <UnassignedConsumerPanel/>
+              <UnassignedConsumerPanel />
             </div>}
 
             </div>
