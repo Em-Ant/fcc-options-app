@@ -249,6 +249,11 @@ return consumerMarkers.map(function(marker){
   });
 }
 
+function calculateTotalSeatings(consumers, cIds) {
+  var 
+}
+function availableWheelchairs(vehicles)
+
 MapMain.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
@@ -259,6 +264,7 @@ var mapStateToProps = function(state){
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
     vehicles : state.vehicles.data,
     consumers: state.consumers.data,
+    consumersIds: state.consumers.ids,
     activeVehicleId : state.mapPage.activeVehicleId,
     markerLoading: state.mapPage.markerLoading,
     displayDirections: state.mapPage.displayDirections,
