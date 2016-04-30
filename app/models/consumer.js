@@ -44,17 +44,43 @@ var Consumer = new Schema({
 // Back-end fix to #13
 
 Consumer.pre('remove', function(next) {
-	removeConsumerFromVehicle(this._id,this.model("Vehicle"), next);
+  removeConsumerFromVehicle(this._id, this.model("Vehicle"), next);
 });
 
-function removeConsumerFromVehicle(consumerId, vehicle ,next){
-	  vehicle.update({
-	    consumers: consumerId
-	  }, {
-	    $pull: {
-	      consumers: consumerId
-	    }
-	  },next);
+Consumer.pre('save', makePositionUnique);
+
+function makePositionUnique(next) {
+  var consumerModel = mongoose.model("Consumer");
+  var self = this;
+  consumerModel.find({
+    position: {
+      lat: self.position.lat,
+      lng: self.position.lng
+    }
+  }, function(err, consumers) {
+    if (err) {
+      //do nothing
+    }
+    if (consumers) {
+      //shift position if not unique
+      var min = .999999;
+      var max = 1.000001;
+      self.position.lat = self.position.lat * (Math.random() * (max - min) + min);
+      self.position.lng = self.position.lng * (Math.random() * (max - min) + min);
+    }
+    next();
+  })
+
+}
+
+function removeConsumerFromVehicle(consumerId, vehicle, next) {
+  vehicle.update({
+    consumers: consumerId
+  }, {
+    $pull: {
+      consumers: consumerId
+    }
+  }, next);
 }
 
 module.exports = mongoose.model('Consumer', Consumer);
