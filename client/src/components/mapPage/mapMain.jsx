@@ -246,6 +246,8 @@ return consumerMarkers.map(function(marker){
       //consumer not assigned to vehicle
       if (highlightedConsumerId == c_id) {
         icon.fillColor = mapConst.HIGHLIGHTED_UNASSIGNED_COLOR;
+      }else{
+        icon.fillColor = mapConst.UNASSIGNED_CONSUMER_COLOR;
       }
     }
     return  Object.assign({}, marker, {
