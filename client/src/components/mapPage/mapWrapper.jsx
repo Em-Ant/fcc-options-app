@@ -39,14 +39,12 @@ var MapWrapper = React.createClass({
       <div className="content-wrapper">
         <section className="content">
           <div className="row">
-            <div className="col-md-5 col-sm-5 col-xs-5">
+            <div className="col-md-3 col-sm-3 col-xs-3">
 
             {this.props.displayDirections?
-            <Directions/>:
-            <div>
+              <Directions/>:
               <VehiclePanel/>
-              <UnassignedConsumerPanel />
-            </div>}
+              }
 
             </div>
             <div className="col-md-7 col-sm-7 col-xs-7">
@@ -54,6 +52,9 @@ var MapWrapper = React.createClass({
               <MapPage></MapPage>
               <PrintDiv/>
               </div>
+            </div>
+            <div className="col-md-2 col-sm-2 col-xs-2">
+              <UnassignedConsumerPanel />
             </div>
           </div>
         </section>
