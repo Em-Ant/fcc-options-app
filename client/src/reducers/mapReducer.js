@@ -190,6 +190,9 @@ var updateConsumerMarker = function(state, consumer){
 }
 
 var findClusterIndex = function(clusters, cluster) {
+  if(!clusters){
+    return -1;
+  }
   for (var i = 0; i < clusters.length; i++) {
     var c = clusters[i];
     if (c.center.lat() == cluster.center.lat() &&
@@ -259,6 +262,9 @@ var findConsumerMarkerIndex = function(consumerId, markers) {
 }
 
 var findConsumerClusterIndex = function(clusters, consumerId) {
+  if(!clusters){
+    return -1;
+  }
   for (var i = 0; i < clusters.length; i++) {
     var cluster = clusters[i];
     for (var j = 0; j < cluster.markers.length; j++) {
