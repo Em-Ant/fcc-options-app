@@ -32,6 +32,9 @@ module.exports = {
         test: /\.scss$/,
         loaders: ['style','css','sass']
       }, {
+       test: /\.json$/,
+       loaders: ['json']
+      }, {
         test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
         loader: 'file-loader?name=[name].[ext]'
       }

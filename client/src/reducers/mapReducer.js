@@ -3,6 +3,7 @@ const modelConst = require('../constants/models');
 const mapConst = require('../constants/map');
 var modelActionTypes = require('../constants/actionTypes/modelActionTypes');
 
+
 var vehicleBoxClick = function(state, v_id) {
 
   var activeVId = state.activeVehicleId;
@@ -122,10 +123,12 @@ var hideDirections = function(state) {
   })
 }
 var setOptionsIncMarker = function(state, settings) {
+  var icon = Object.assign({}, mapConst.icon);
+  icon.fillColor = mapConst.OPTIONS_INC_MARKER_COLOR;
   var optionsIncMarker = {
     position: settings.optionsIncCoords,
     title: mapConst.OPTIONS_INC_NAME,
-    icon: mapConst.OPTIONS_INC_MARKER_ICON
+    icon: icon
   }
   return Object.assign({}, state, {
     optionsIncMarker: optionsIncMarker
@@ -154,9 +157,10 @@ var addConsumerMarker = function(state, consumer) {
   });
 }
 var createConsumerMarker = function(consumer, highlightedConsumerId){
-  var icon = mapConst.UNASSIGNED_CONSUMER_ICON;
+  var icon = Object.assign({}, mapConst.icon);
+  icon.fillColor = mapConst.UNASSIGNED_CONSUMER_COLOR;
   if (highlightedConsumerId == consumer._id) {
-    icon = mapConst.HIGHLIGHTED_CONSUMER_ICON;
+    icon.fillColor = mapConst.HIGHLIGHTED_UNASSIGNED_COLOR;
   }
   var marker = {
     position: consumer.position,

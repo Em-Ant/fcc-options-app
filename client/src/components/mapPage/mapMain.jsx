@@ -230,22 +230,22 @@ return consumerMarkers.map(function(marker){
     var c_id = marker.consumerId;
     var icon = marker.icon;
     if(markerLoading == c_id){
-      icon = mapConst.LOADING_CONSUMER_ICON;
+      icon.fillColor =  mapConst.LOADING_CONSUMER_COLOR;
     }
     else if (consumersToVehiclesMap[c_id]) {
       // consumer is on board
       if (highlightedConsumerId == c_id) {
-        icon = mapConst.HIGHLIGHTED_CONSUMER_ICON;
+        icon.fillColor =  mapConst.HIGHLIGHTED_CONSUMER_COLOR;
       }else if(activeVehicleId !== consumersToVehiclesMap[c_id]){
-        icon = mapConst.ASSIGNED_CONSUMER_ICON;// not on the active bus
+        icon.fillColor =  mapConst.ASSIGNED_CONSUMER_COLOR;// not on the active bus
       }else{
-        icon = mapConst.SELECTED_ASSIGNED_CONSUMER_ICON;// on the active bus
+        icon.fillColor =  mapConst.SELECTED_ASSIGNED_CONSUMER_COLOR;// on the active bus
       }
     }
     else{
       //consumer not assigned to vehicle
       if (highlightedConsumerId == c_id) {
-        icon = mapConst.HIGHLIGHTED_UNASSIGNED_ICON;
+        icon.fillColor = mapConst.HIGHLIGHTED_UNASSIGNED_COLOR;
       }
     }
     return  Object.assign({}, marker, {
@@ -268,7 +268,7 @@ function neededSeatings(consumers) {
     }
   }
   var neededSeatings = {seats: neededSeats, wheelchairs: neededWheelchairs};
-  console.log('needs', neededSeatings);
+//  console.log('needs', neededSeatings);
   return neededSeatings;
 }
 function availableSeatings(vehicles) {
@@ -286,7 +286,7 @@ function availableSeatings(vehicles) {
     wheelchairs: availableWheelchairs,
     flexSeats: availableFlexseats
   }
-  console.log('available', availableSeatings);
+//  console.log('available', availableSeatings);
   return availableSeatings;
 }
 
@@ -295,8 +295,8 @@ MapMain.contextTypes = {
 };
 var mapStateToProps = function(state){
   return {
-    neededSeatings : neededSeatings(state.consumers.data),
-    availableSeatings : availableSeatings(state.vehicles.data),
+    //neededSeatings : neededSeatings(state.consumers.data),
+    //availableSeatings : availableSeatings(state.vehicles.data),
     consumerMarkers: colorMarkers(state.mapPage.consumerMarkers, state.vehicles.consumersToVehiclesMap,state.mapPage.activeVehicleId, state.mapPage.highlightedMarker, state.mapPage.markerLoading),
     optionsIncMarker: state.mapPage.optionsIncMarker,
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
