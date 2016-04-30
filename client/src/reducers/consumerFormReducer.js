@@ -78,7 +78,7 @@ function addConsumer (state) {
       errorMsg: undefined,
       updatingConsumers: undefined,
       loadingConsumers: undefined,
-      displayForm: undefined
+      displayForm: true
     });
 }
 
