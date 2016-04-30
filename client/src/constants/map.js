@@ -1,11 +1,11 @@
 var fontawesome = require('fontawesome-markers');
 exports.icon = {
       path: fontawesome.MAP_MARKER,
-      scale: 0.5,
+      scale: 0.4,
       strokeWeight: 0.2,
       strokeColor: 'black',
       strokeOpacity: 1,
-      fillOpacity: 0.7
+      fillOpacity: 0.9
 }
 
 const RED  = "#FE7569";
