@@ -12,7 +12,7 @@ var vehicleBoxClick = function(state, v_id) {
     $('#vp-' + v_id).collapse('toggle');
 
     return Object.assign({}, state, {
-      error:null,
+      error: null,
       activeVehicleId: undefined,
       directionsLoading: false,
       displayDirections: false
@@ -24,7 +24,7 @@ var vehicleBoxClick = function(state, v_id) {
     $('#vp-' + activeVId).collapse('toggle');
 
     return Object.assign({}, state, {
-      error:null,
+      error: null,
       activeVehicleId: v_id,
       directionsLoading: false,
       displayDirections: false
@@ -34,9 +34,9 @@ var vehicleBoxClick = function(state, v_id) {
 
 var request = function(state, c_id) {
   return Object.assign({}, state, {
-    error:null,
+    error: null,
     markerLoading: c_id,
-    vehicleLoading:true,
+    vehicleLoading: true,
     directionsLoading: false,
     displayDirections: false,
     highlightedMarker: undefined
@@ -46,30 +46,30 @@ var request = function(state, c_id) {
 var success = function(state) {
   return Object.assign({}, state, {
     markerLoading: undefined,
-    vehicleLoading:false,
+    vehicleLoading: false,
     serverSuccess: true
   });
 }
 
 var error = function(state, err) {
   return Object.assign({}, state, {
-    error:err.responseJSON.msg,
+    error: err.responseJSON.msg,
     markerLoading: undefined,
-    vehicleLoading:false,
+    vehicleLoading: false,
     serverSuccess: false
   });
 }
 
 var highlightMarker = function(state, id) {
   return Object.assign({}, state, {
-    error:null,
+    error: null,
     highlightedMarker: id
   })
 }
 
 var highlightMarkerOff = function(state, id) {
   return Object.assign({}, state, {
-    error:null,
+    error: null,
     highlightedMarker: undefined
   })
 }
@@ -135,99 +135,135 @@ var setOptionsIncMarker = function(state, settings) {
 var setConsumerMarkers = function(state, consumers) {
   var highlightedConsumerId = state.highlightedMarker;
   var consumerMarkers = consumers.map(function(consumer) {
-
-    var icon = mapConst.UNASSIGNED_CONSUMER_ICON;
-    if (highlightedConsumerId == consumer._id) {
-      icon = mapConst.HIGHLIGHTED_CONSUMER_ICON;
-    }
-    var marker = {
-      position: consumer.position,
-      title: consumer.name,
-      icon: icon,
-      consumerId: consumer._id
-    }
-    return marker;
+    return createConsumerMarker(consumer, highlightedConsumerId);;
   });
 
   return Object.assign({}, state, {
     consumerMarkers: consumerMarkers
   });
 }
-var findClusterIndex = function(clusters, cluster){
-  for(var i = 0; i < clusters.length; i ++){
+
+
+var addConsumerMarker = function(state, consumer) {
+  var highlightedConsumerId = state.highlightedMarker;
+  var consumerMarker = createConsumerMarker(consumer, highlightedConsumerId);
+  var consumerMarkers = state.consumerMarkers.slice();
+  consumerMarkers.push(consumerMarker);
+  return Object.assign({}, state, {
+    consumerMarkers: consumerMarkers
+  });
+}
+var createConsumerMarker = function(consumer, highlightedConsumerId){
+  var icon = mapConst.UNASSIGNED_CONSUMER_ICON;
+  if (highlightedConsumerId == consumer._id) {
+    icon = mapConst.HIGHLIGHTED_CONSUMER_ICON;
+  }
+  var marker = {
+    position: consumer.position,
+    title: consumer.name,
+    icon: icon,
+    consumerId: consumer._id
+  }
+  return marker;
+}
+
+var removeConsumerMarker = function(state, consumerId){
+  var consumerMarkers = state.consumerMarkers.slice();
+  var index = findConsumerMarkerIndex(consumerId, consumerMarkers);
+  consumerMarkers.splice(index, 1);
+  return Object.assign({}, state, {
+    consumerMarkers: consumerMarkers
+  });
+}
+
+
+var updateConsumerMarker = function(state, consumer){
+  var consumerId = consumer._id;
+  var consumerMarkers = state.consumerMarkers.slice();
+  var index = findConsumerMarkerIndex(consumerId, consumerMarkers);
+  var highlightedConsumerId = state.highlightedMarker;
+  var consumerMarker = createConsumerMarker(consumer, highlightedConsumerId);
+  consumerMarkers.splice(index, 1, consumerMarker);
+  return Object.assign({}, state, {
+    consumerMarkers: consumerMarkers
+  });
+}
+
+var findClusterIndex = function(clusters, cluster) {
+  for (var i = 0; i < clusters.length; i++) {
     var c = clusters[i];
-    if(c.center.lat()== cluster.center.lat() &&
-       c.center.lng()== cluster.center.lng()){
+    if (c.center.lat() == cluster.center.lat() &&
+      c.center.lng() == cluster.center.lng()) {
       return i;
     }
   }
   return -1;
 }
-var clusterMouseover = function(state, cluster_){
+var clusterMouseover = function(state, cluster_) {
   var cluster = {
-    markers:cluster_.markers_.slice(),
-    center:cluster_.center
+    markers: cluster_.markers_.slice(),
+    center: cluster_.center
   }
   return clusterInfoOpen(state, cluster);
 }
-var clusterInfoOpen = function (state, cluster){
+var clusterInfoOpen = function(state, cluster) {
   var clusters = state.displayClusters.slice();
   var index = findClusterIndex(clusters, cluster);
-  if(index !== -1){
+  if (index !== -1) {
     return state;
   }
   clusters.push(cluster);
   return Object.assign({}, state, {
-    displayClusters:clusters
+    displayClusters: clusters
   })
 }
-var clusterInfoClose = function (state, cluster){
+var clusterInfoClose = function(state, cluster) {
   var clusters = state.displayClusters.slice();
   var clusterIndex = findClusterIndex(clusters, cluster);
-  clusters.splice(clusterIndex,  1);
+  clusters.splice(clusterIndex, 1);
   return Object.assign({}, state, {
-    displayClusters:clusters
+    displayClusters: clusters
   })
 }
-var saveClusters = function(state, clusters_){
+var saveClusters = function(state, clusters_) {
   var clusters = [];
-  clusters_.forEach(function(cluster_){
-    if(cluster_.markers_.length > 1){
+  clusters_.forEach(function(cluster_) {
+    if (cluster_.markers_.length > 1) {
       var cluster = {
-        markers:cluster_.markers_,
-        center:cluster_.getCenter(),
-        showInfo:false
+        markers: cluster_.markers_,
+        center: cluster_.getCenter(),
+        showInfo: false
       }
       clusters.push(cluster);
     }
 
   });
   return Object.assign({}, state, {
-    clusters:clusters
+    clusters: clusters
   })
 }
-var mapZoomChanged = function (state, cluster){
+var mapZoomChanged = function(state, cluster) {
   return Object.assign({}, state, {
-    clusters:[]
+    clusters: []
   })
 }
 
-var findConsumerMarkerIndex = function(consumerId, markers){
-  for(var i=0; i <markers.length; i++){
+var findConsumerMarkerIndex = function(consumerId, markers) {
+  for (var i = 0; i < markers.length; i++) {
     var marker = markers[i];
-    if(marker.consumerId == consumerId){
+    if (marker.consumerId == consumerId) {
       return i;
     }
   }
   return -1;
 }
 
-var findConsumerClusterIndex = function(clusters, consumerId){
-  for(var i = 0; i < clusters.length; i++){
+var findConsumerClusterIndex = function(clusters, consumerId) {
+  for (var i = 0; i < clusters.length; i++) {
     var cluster = clusters[i];
-    for(var j = 0; j < cluster.markers.length; j++){
+    for (var j = 0; j < cluster.markers.length; j++) {
       var marker = cluster.markers[j];
-      if(marker.consumerId == consumerId){
+      if (marker.consumerId == consumerId) {
         return i;
       }
     }
@@ -235,70 +271,70 @@ var findConsumerClusterIndex = function(clusters, consumerId){
   return -1;
 }
 
-var openMarkerInfo = function (state, consumerId){
+var openMarkerInfo = function(state, consumerId) {
   //check if consumer is in cluster
   var clusterIndex = findConsumerClusterIndex(state.clusters, consumerId);
-  if(clusterIndex != -1){
+  if (clusterIndex != -1) {
     return clusterInfoOpen(state, state.clusters[clusterIndex]);
   }
 
   //find marker to open
   var index = findConsumerMarkerIndex(consumerId, state.consumerMarkers);
-  if(index == -1){
+  if (index == -1) {
     return state;
   }
   var consumerMarkers = state.consumerMarkers.slice();
   var marker = Object.assign({}, consumerMarkers[index], {
-    showInfo:true
+    showInfo: true
   })
   consumerMarkers.splice(index, 1, marker);
 
   return Object.assign({}, state, {
-    consumerMarkers:consumerMarkers
+    consumerMarkers: consumerMarkers
   })
 }
 
-var closeMarkerInfo = function (state, consumerId){
+var closeMarkerInfo = function(state, consumerId) {
   //check if consumer is in cluster
   var clusterIndex = findConsumerClusterIndex(state.clusters, consumerId);
-  if(clusterIndex != -1){
+  if (clusterIndex != -1) {
     return clusterInfoClose(state, state.clusters[clusterIndex]);
   }
 
   var index = findConsumerMarkerIndex(consumerId, state.consumerMarkers);
-  if(index == -1){
+  if (index == -1) {
     return state;
   }
   var consumerMarkers = state.consumerMarkers.slice();
   var marker = Object.assign({}, consumerMarkers[index], {
-    showInfo:false
+    showInfo: false
   })
   consumerMarkers.splice(index, 1, marker);
 
   return Object.assign({}, state, {
-    consumerMarkers:consumerMarkers
+    consumerMarkers: consumerMarkers
   })
 }
 
-var centerConsumerMarker = function(state, consumerId){
+var centerConsumerMarker = function(state, consumerId) {
   var index = findConsumerMarkerIndex(consumerId, state.consumerMarkers);
-  if(index == -1){
+  if (index == -1) {
     return state;
   }
 
   var marker = state.consumerMarkers[index];
   return Object.assign({}, state, {
-    centerMarker:marker,
+    centerMarker: marker,
   })
 }
 
-  /**
-   * TODO IMPORTANT handle errors
-   */
-var initState= {
-  consumerMarkers:[],
-  displayClusters:[],
-  centerMarker:null
+/**
+ * TODO IMPORTANT handle errors
+ */
+var initState = {
+  consumerMarkers: [],
+  displayClusters: [],
+  centerMarker: null
 }
 var reducer = function(state, action) {
   state = state || initState;
@@ -343,9 +379,14 @@ var reducer = function(state, action) {
     case (actionTypes.MAP_SAVE_CLUSTERS):
       return saveClusters(state, action.clusters_)
     case (modelActionTypes.FETCH):
-      if(action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
+      if (action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
         return setConsumerMarkers(state, action.response)
+    case (modelActionTypes.CREATE):
+      if (action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
+        return addConsumerMarker(state, action.response)
     case (modelActionTypes.UPDATE):
+      if (action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
+        return updateConsumerMarker(state, action.response)
       if (action.model == modelConst.SETTINGS && action.status == modelActionTypes.SUCCESS)
         return setOptionsIncMarker(state, action.response)
       if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.LOADING)
@@ -355,8 +396,11 @@ var reducer = function(state, action) {
       if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.SUCCESS)
         return success(state)
     case (modelActionTypes.DELETE):
+      if (action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
+        return removeConsumerMarker(state, action.id)
       if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.SUCCESS)
         return checkActiveVehicleIdForDelete(state, action.id)
+
     default:
       return state;
   }
