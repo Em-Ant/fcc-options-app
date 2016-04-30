@@ -159,19 +159,22 @@ var MapMain = React.createClass({
               position={self.props.optionsIncMarker.position}
               title={self.props.optionsIncMarker.title}
               icon={self.props.optionsIncMarker.icon}/>
-            <MarkerClusterer
-              ref="markerClusterer"
-              averageCenter
-              enableRetinaIcons
-              gridSize={ 1 }
-              onMouseover={self.clusterMouseover}
-              onMouseout={self.clearClusterTimer}
-              onClusteringend={this.props.onClusteringend}
-            >
             {
-            this.props.displayClusters.length > 0?
-            self.renderClusterInfoWindows(this.props.displayClusters) : null
-            }
+            // <MarkerClusterer
+            //   ref="markerClusterer"
+            //   averageCenter
+            //   enableRetinaIcons
+            //   gridSize={ 1 }
+            //   onMouseover={self.clusterMouseover}
+            //   onMouseout={self.clearClusterTimer}
+            //   onClusteringend={this.props.onClusteringend}
+            // >
+          }
+            {
+            // this.props.displayClusters.length > 0?
+            // self.renderClusterInfoWindows(this.props.displayClusters) : null
+            //
+          }
 
             {self.props.consumerMarkers.map(function(marker, index){
               return(
@@ -194,7 +197,9 @@ var MapMain = React.createClass({
                 </Marker>
               )
             })}
-            </MarkerClusterer>
+            {
+            //</MarkerClusterer>
+            }
             {self.props.displayDirections?
             <Polyline
               path={self.props.vehiclePath}
