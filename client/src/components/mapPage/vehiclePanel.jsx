@@ -73,13 +73,13 @@ var VehiclePanel = React.createClass({
           </div>
         </div>
         <div className="box-body" style={{height: '92%', display:'flex' ,'flexDirection' : 'column'}}>
-          <div style={{flex: '1'}}>
-            {
-              this.props.activeVehicleId ?
+          {
+            this.props.activeVehicleId ?
+            <div style={{flex: '1'}}>
               <BusBox vehicleId={this.props.activeVehicleId}/>
-              : "NO ACTIVE VEHICLE"
-            }
-          </div>
+            </div>
+            : null
+          }
           <div style={{flex: '4', 'overflowY': 'auto'}}>
             <table className="table table-striped">
               <tbody>
