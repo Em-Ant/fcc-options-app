@@ -25,11 +25,17 @@ var CollapsibleBusBox = React.createClass({
       'avail-color' : 'unavail-color';
 
     return (
-      <div className={"box " + activeClass} style={{height: '90%'}}>
-        <div className="box-header with-border" >
-          <h4 className="box-title">
+      <div className={"box " + activeClass} style={{'maxHeight': '350px', display:'flex', 'flexDirection' : 'column'}}>
+        <div className="box-header with-border vpanel" >
+          <a
+            href="#"
+            data-toggle="active-vehicle"
+            onClick={this.props.toggleActive.bind(null, this.props.vehicleId)}
+            >
+            <h4 className="box-title">
               {vehicle.name}
-          </h4>
+            </h4>
+          </a>
           <div className="pull-right">
             {vehicle.needsMedications ?
               <span
@@ -62,7 +68,7 @@ var CollapsibleBusBox = React.createClass({
         <div className="box-body vpanel" >
           <BusBoxBody vehicle={vehicle}/>
         </div>
-        <div className="box-footer">
+        <div className="box-footer vpanel">
           <div className="btn-group pull-right">
             <button className="btn btn-default btn-sm">Optimize Route</button>
             <button className="btn btn-default btn-sm"

@@ -28,16 +28,18 @@
   height:83vh;
 }
 
+div.box-header.vpanel, div.box-footer.vpanel{
+  flex: initial;
+}
 
 div.box-body.vpanel {
-  height: 65%;
-  max-height: 250px;
+  flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .overflow {
-  height: 88%;
+  height: 91%;
   overflow-y: auto;
 }
 .cust-label {
