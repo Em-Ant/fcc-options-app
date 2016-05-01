@@ -7,9 +7,10 @@ var BusBoxBody = require('./busBoxBody.jsx');
 /**
 * Props that have to be passed from parent :
 *   vehicleId - id of the related vehicle
+*   parentId - DOM id of the parent element, needed by bootstrap
 */
 
-var CollapsibleBusBox = React.createClass({
+var VehicleListElement = React.createClass({
   render: function() {
 
     var vehicle = this.props.vehicles[this.props.vehicleId];
@@ -25,12 +26,13 @@ var CollapsibleBusBox = React.createClass({
       'avail-color' : 'unavail-color';
 
     return (
-      <div className={"box " + activeClass} style={{height: '90%'}}>
-        <div className="box-header with-border" >
-          <h4 className="box-title">
+        <tr>
+          <td>
+            <a href="#" data-toggle="active-bus" onClick={this.props.toggleActive.bind(null, this.props.vehicleId)}>
               {vehicle.name}
-          </h4>
-          <div className="pull-right">
+            </a>
+          </td>
+          <td className="text-right">
             {vehicle.needsMedications ?
               <span
                 className="cust-label med"
@@ -57,21 +59,8 @@ var CollapsibleBusBox = React.createClass({
                 <i className="fa fa-wheelchair"></i>&nbsp;
               {vehicle.occupiedWheelchairs}/{vehicle.wheelchairs}
             </span>: null}
-          </div>
-        </div>
-        <div className="box-body vpanel" >
-          <BusBoxBody vehicle={vehicle}/>
-        </div>
-        <div className="box-footer">
-          <div className="btn-group pull-right">
-            <button className="btn btn-default btn-sm">Optimize Route</button>
-            <button className="btn btn-default btn-sm"
-              onClick={this.props.onDirectionsClick.bind(
-                null,this.props.activeVehicleId)}
-              >Get Directions</button>
-          </div>
-        </div>
-      </div>
+          </td>
+        </tr>
     )
   }
 })
@@ -85,17 +74,12 @@ var mapStateToProps = function(state){
 }
 var mapDispatchToProps = function(dispatch) {
   return {
-    onDirectionsClick: function(v_id) {
-      if (v_id) {
-        dispatch(actions.displayDirections(v_id))
-      }
-    },
     toggleActive: function(vehicleId) {
       dispatch(actions.vehicleBoxClick(vehicleId))
     },
   }
 }
 
-var CBBContainer = connect(mapStateToProps, mapDispatchToProps)(CollapsibleBusBox);
+var VLElemC = connect(mapStateToProps, mapDispatchToProps)(VehicleListElement);
 
-module.exports = CBBContainer;
+module.exports = VLElemC;

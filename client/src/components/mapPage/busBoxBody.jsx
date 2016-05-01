@@ -71,13 +71,6 @@ var BusBoxBodyComponent = React.createClass({
             }
           </tbody>
         </table>
-        <div className="btn-group pull-right">
-          <button className="btn btn-default">Optimize Route</button>
-          <button className="btn btn-default"
-            onClick={this.props.onDirectionsClick.bind(
-              null,this.props.vehicle._id )}
-            >Get Directions</button>
-        </div>
       </div>:
       "Vehicle has no consumers"
       }
@@ -88,9 +81,6 @@ var BusBoxBodyComponent = React.createClass({
 
 var mapDispatchToProps = function(dispatch, ownProps) {
   return {
-    onDirectionsClick: function(v_id) {
-      dispatch(actions.displayDirections(v_id))
-    },
     onConsumerReorder: function(startConsumerPosition, endConsumerPosition) {
       dispatch(actions.reorderConsumer(ownProps.vehicle, startConsumerPosition, endConsumerPosition))
     },

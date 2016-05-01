@@ -1,7 +1,40 @@
 var React = require('react');
 var connect = require('react-redux').connect;
-var CollapsibleBusBox = require('./collapsibleBusBox.jsx');
+var VehicleListElem = require('./vehicleListElem.jsx');
 var printStyle = require('raw!./printStyle_css')
+var BusBoxBody = require('./busBoxBody.jsx');
+var BusBox = require('./collapsibleBusBox.jsx');
+
+/*
+<div className="box-body cust-height">
+  <div className="box-group" id="vehicle-accrd" role="tablist" aria-multiselectable="true">
+  {
+    this.props.vehiclesIds.map(function(id, index) {
+      return (
+        <CollapsibleBusBox
+          vehicleId={id}
+          parentId={'vehicle-accrd'}
+          key={index}
+        />
+      )
+    }.bind(this))
+  }
+  </div>
+</div>
+
+<div className="box box-primary box-solid" style={{height: '100%'}}>
+  <div className="box-header with-border">
+    <h3 className="box-title">{this.props.vehicles[this.props.activeVehicleId].name}</h3>
+  </div>
+  <div className="box-body" style={{height: '70%', 'overflow-y': 'auto', 'overflow-x': 'hidden'}}>
+    <BusBoxBody vehicle={this.props.vehicles[this.props.activeVehicleId]}/>
+  </div>
+  <div className="box-footer">
+    The footer of the box
+  </div>
+</div>
+
+*/
 
 var VehiclePanel = React.createClass({
   componentDidMount: function () {
@@ -27,7 +60,7 @@ var VehiclePanel = React.createClass({
   },
   render : function() {
     return (
-      <div className="box box-widget">
+      <div className="box box-widget map-height">
         <div className="box-header with-border">
           <h3 className="box-title">Vehicles</h3>
           <div className="pull-right">
@@ -39,19 +72,29 @@ var VehiclePanel = React.createClass({
             </a>
           </div>
         </div>
-        <div className="box-body cust-height">
-          <div className="box-group" id="vehicle-accrd" role="tablist" aria-multiselectable="true">
-          {
-            this.props.vehiclesIds.map(function(id, index) {
-              return (
-                <CollapsibleBusBox
-                  vehicleId={id}
-                  parentId={'vehicle-accrd'}
-                  key={index}
-                />
-              )
-            }.bind(this))
-          }
+        <div className="box-body" style={{height: '92%'}}>
+          <div style={{height: '55%', 'marginBottom': '2px'}}>
+            {
+              this.props.activeVehicleId ?
+              <BusBox vehicleId={this.props.activeVehicleId}/>
+              : "NO ACTIVE VEHICLE"
+            }
+          </div>
+          <div style={{height: '45%', 'overflowY': 'auto'}}>
+            <table className="table table-striped">
+              <tbody>
+              {
+                this.props.vehiclesIds.map(function(id, index) {
+                  return (
+                    <VehicleListElem
+                      vehicleId={id}
+                      key={index}
+                    />
+                  )
+                }.bind(this))
+              }
+              </tbody>
+            </table>
           </div>
         </div>
         {this.props.loading ?

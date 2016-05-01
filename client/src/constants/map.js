@@ -2,8 +2,8 @@ var fontawesome = require('fontawesome-markers');
 exports.icon = {
       path: fontawesome.MAP_MARKER,
       scale: 0.4,
-      strokeWeight: 0.2,
-      strokeColor: 'black',
+      strokeWeight: 1,
+      strokeColor: '#111',
       strokeOpacity: 1,
       fillOpacity: 0.9
 }

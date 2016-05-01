@@ -1,4 +1,5 @@
 /* Add custom styles here */
+
 .label {
   float: left;
   margin: 3px 2px;
@@ -25,14 +26,20 @@
 
 .map-height{
   height:83vh;
-  position:relative;
 }
 
-.cust-height {
-  height: 83vh;
-  overflow-y:auto;
+
+div.box-body.vpanel {
+  height: 65%;
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
+.overflow {
+  height: 88%;
+  overflow-y: auto;
+}
 .cust-label {
   background-color: #555;
   color: white;
