@@ -16,10 +16,13 @@ var v_actions = new ModelActions(models.VEHICLES);
 var s_actions = new ModelActions(models.SETTINGS);
 var c_actions = new ModelActions(models.CONSUMERS);
 
+var PureRenderMixin = require('react-addons-pure-render-mixin');
+
 // When the map is rendered, we are sure that all needed data
 // are properly loaded so we can handle them in 'componentDidMount'
 
 var MapWrapper = React.createClass({
+  mixins: [PureRenderMixin],
   componentDidMount: function () {
     if(this.props.consumersNeedToBeFetched)
       this.props.loadConsumers();

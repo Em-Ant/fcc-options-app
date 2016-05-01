@@ -15,7 +15,17 @@ const mapConst = require('../../constants/map');
 var _ = require('lodash');
 var clusterMouseoverTimer = null;
 
+var PureRenderMixin = require('react-addons-pure-render-mixin');
+
+var WMarker = React.createClass({
+  mixins: [PureRenderMixin],
+  render: function() {
+    return <Marker {...this.props}/>
+  }
+})
+
 var MapMain = React.createClass({
+  mixins: [PureRenderMixin],
   _googleMapComponent:null,
   alertDiv:null,
   handleWindowResize:function(){
@@ -155,7 +165,7 @@ var MapMain = React.createClass({
             onZoomChanged={self.props.mapZoomChanged}
             controls={self.errorMessage}
             >
-            <Marker
+            <WMarker
               position={self.props.optionsIncMarker.position}
               title={self.props.optionsIncMarker.title}
               icon={self.props.optionsIncMarker.icon}/>
@@ -178,14 +188,16 @@ var MapMain = React.createClass({
 
             {self.props.consumerMarkers.map(function(marker, index){
               return(
-                <Marker
+                <WMarker
                   key={index}
                   ref= {function(refMarker){
+                    /*
                     //HACK:  don't know any other way for the cluster to see
                     //the consumer id
                     if(refMarker){
                       refMarker.state.marker.consumerId=marker.consumerId;
                     }
+                    */
                   }}
                   position={marker.position}
                   title = {marker.name}
@@ -194,7 +206,7 @@ var MapMain = React.createClass({
                   onMouseover={self.props.markerMouseover.bind(null, marker)}
                   onMouseout={self.props.markerMouseout.bind(null, marker)}>
                   {marker.showInfo ? self.renderInfoWindow(marker) : null}
-                </Marker>
+                </WMarker>
               )
             })}
             {
