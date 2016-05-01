@@ -97,11 +97,6 @@ var VehiclePanel = React.createClass({
             </table>
           </div>
         </div>
-        {this.props.loading ?
-        <div className="overlay">
-          <i className="fa fa-refresh fa-spin"></i>
-        </div>
-        : null }
       </div>
     )
   }
@@ -112,7 +107,6 @@ var mapStateToProps = function(state){
     vehiclesIds: state.vehicles.ids,
     vehicles: state.vehicles.data,
     consumers: state.consumers.data,
-    loading: state.mapPage.vehicleLoading,
     activeVehicleId: state.mapPage.activeVehicleId
   }
 }

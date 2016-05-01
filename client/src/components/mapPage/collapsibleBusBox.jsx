@@ -70,13 +70,22 @@ var CollapsibleBusBox = React.createClass({
         </div>
         <div className="box-footer vpanel">
           <div className="btn-group pull-right">
-            <button className="btn btn-default btn-sm">Optimize Route</button>
-            <button className="btn btn-default btn-sm"
+            <button
+              className="btn btn-default btn-sm"
+              onClick={this.props.optimizeRoute.bind(null, this.props.activeVehicleId)}
+              >Optimize Route</button>
+            <button
+              className="btn btn-default btn-sm"
               onClick={this.props.onDirectionsClick.bind(
                 null,this.props.activeVehicleId)}
               >Get Directions</button>
           </div>
         </div>
+        {this.props.isLoading
+          ? <div className="overlay">
+              <i className="fa fa-refresh fa-spin"></i>
+            </div>
+          : null}
       </div>
     )
   }
@@ -86,11 +95,15 @@ var mapStateToProps = function(state){
   return {
     activeVehicleId : state.mapPage.activeVehicleId,
     vehicles: state.vehicles.data,
-    consumers: state.consumers.data
+    consumers: state.consumers.data,
+    isLoading: state.mapPage.vehicleLoading
   }
 }
 var mapDispatchToProps = function(dispatch) {
   return {
+    optimizeRoute: function(v_id) {
+      dispatch(actions.optimizeRoute(v_id));
+    },
     onDirectionsClick: function(v_id) {
       if (v_id) {
         dispatch(actions.displayDirections(v_id))

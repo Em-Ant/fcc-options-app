@@ -348,6 +348,7 @@ var initState = {
 }
 var reducer = function(state, action) {
   state = state || initState;
+  console.log(action.type)
   switch (action.type) {
     case (actionTypes.MAP_VEHICLE_BOX_CLICK):
       return vehicleBoxClick(state, action.id);
@@ -387,7 +388,13 @@ var reducer = function(state, action) {
     case (actionTypes.MAP_CENTER_CONSUMER_MARKER):
       return centerConsumerMarker(state, action.consumerId)
     case (actionTypes.MAP_SAVE_CLUSTERS):
-      return saveClusters(state, action.clusters_)
+      return saveClusters(state, action.clusters_);
+    case (actionTypes.MAP_OPTIMIZE_ROUTE_REQUEST):
+      return request(state);
+    case (actionTypes.MAP_OPTIMIZE_ROUTE_ERROR):
+      return error(state, action.error)
+    case (actionTypes.MAP_OPTIMIZE_ROUTE_SUCCESS):
+      return success(state)
     case (modelActionTypes.FETCH):
       if (action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
         return setConsumerMarkers(state, action.response)

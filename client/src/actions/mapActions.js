@@ -161,6 +161,26 @@ module.exports.reorderConsumer = function(vehicle, startConsumerPosition, endCon
   return vehicleActions.update(updatedVehicle);
 }
 
+module.exports.optimizeRoute = function(v_id) {
+  return function(dispatch) {
+    dispatch({
+      type: actionTypes.MAP_OPTIMIZE_ROUTE_REQUEST
+    });
+    Ajax.get('/api/vehicle/optimize-route/' + v_id, function(err, response) {
+      if (err) {
+        return dispatch({
+          type: actionTypes.MAP_OPTIMIZE_ROUTE_FAILURE,
+          error: err
+        });
+      }
+      dispatch({
+        type: actionTypes.MAP_OPTIMIZE_ROUTE_SUCCESS,
+        vehicle: response
+      })
+    })
+  }
+}
+
 module.exports.clusterMouseover = function(cluster_) {
   return {
     type: actionTypes.MAP_CLUSTER_MOUSEOVER,

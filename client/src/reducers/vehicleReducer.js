@@ -60,6 +60,8 @@ var vehiclesReducer = function(state, action) {
     case mapActions.MAP_ADD_TO_ACTIVE_BUS_SUCCESS:
       var newState =  updateConsumersArray(state, action.v_id, action.consumersArray);
       return mapConsumersToVehicles(newState);
+    case mapActions.MAP_OPTIMIZE_ROUTE_SUCCESS:
+      return commonCRUD.update(state, action.vehicle);
     case actionTypes.DELETE:
       if(action.model === CONSUMERS
         && action.status === actionTypes.SUCCESS) {
