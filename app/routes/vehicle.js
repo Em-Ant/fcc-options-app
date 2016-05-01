@@ -9,6 +9,14 @@ var isLoggedIn = require('../auth/ensureAuth.js').isLoggedIn;
 
 //router.post('/consumers/:v_id', isLoggedIn, controller.updateConsumersArray);
 router.get('/', isLoggedIn, controller.index);
+
+/**
+optimize route
+if query param ?origin='first' optimizes using the first consumer as origin
+else origin is point-to-point farthest consumer from Options 
+*/
+router.get('/optimize-route/:id', isLoggedIn, controller.optimizeRoute)
+
 router.get('/:id', isLoggedIn, controller.show);
 router.post('/', isLoggedIn, controller.create);
 router.post('/:id', isLoggedIn, controller.update);

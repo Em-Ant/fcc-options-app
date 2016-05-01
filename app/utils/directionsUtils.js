@@ -7,6 +7,7 @@ var config = {
 var gmAPI = new GoogleMapsAPI(config);
 var async = require("async");
 
+module.exports.getWaypointDirections = getWaypointDirections;
 module.exports.getDirections = function(vehicle, origin, destination, done) {
   var morningConsumers = vehicle.consumers;
   var morningWaypoints = getWaypoints(morningConsumers);
@@ -35,14 +36,14 @@ module.exports.getDirections = function(vehicle, origin, destination, done) {
       }
       morningDirections = addAppDataToDirections(morningDirections, morningConsumers);
       eveningDirections = addAppDataToDirections(eveningDirections, eveningConsumers);
-      
+
       var waypoints = morningConsumers.map(function(consumer){
         return{
           name:consumer.name,
           address:consumer.address
         }
       });
-      
+
       directions = {
         v_id: vehicle._id,
         morningRoute: morningDirections.routes[0],
@@ -50,7 +51,7 @@ module.exports.getDirections = function(vehicle, origin, destination, done) {
         waypoints: waypoints,
         origin_address: origin,
         destination_address:destination
-        
+
       }
       return done(null, directions);
     });
@@ -70,6 +71,8 @@ function getWaypointDirections(waypoints, origin, destination, done) {
     done(null, response);
   });
 }
+
+
 
 function addAppDataToDirections(directions, consumers) {
   var totalDuration = 0;
