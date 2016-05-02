@@ -98,11 +98,13 @@ return (
   }
 });
 
+import { sortAlphabetically } from '../../selectors'
+
 var mapStateToProps = function(state){
 return{
     needToBeFetched: state.vehicles.needToBeFetched,
     vehicles:state.vehicles.data,
-    vehiclesIds:state.vehicles.ids,
+    vehiclesIds:sortAlphabetically(state.vehicles),
     isLoading:state.vehiclesPage.isLoading,
     displayForm:state.vehiclesPage.form.display
   }

@@ -6,12 +6,14 @@ var models = require('../constants/models.js');
 var actions = new ModelActions(models.CONSUMERS);
 var vehicleActions = new ModelActions(models.VEHICLES);
 
+import { sortAlphabetically } from '../selectors'
+
 var mapStateToProps = function(state){
 
   return {
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     consumersNeedToBeFetched: state.consumers.needToBeFetched,
-    consumerIds: state.consumers.ids,
+    consumerIds: sortAlphabetically(state.consumers),
     consumers: state.consumers.data,
     loadingConsumers: state.consumersForm.loadingConsumers,
     editId: state.consumersForm.editId,

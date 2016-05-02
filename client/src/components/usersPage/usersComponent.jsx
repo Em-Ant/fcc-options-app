@@ -127,17 +127,12 @@ var Users = React.createClass({
   }
 });
 
-var mapStateToProps = function(state){
+import { removeUIDFromLIstAndSort } from '../../selectors'
 
-  // remove current logged in user
-  var userIds = state.users.ids.slice();
-  var index = userIds.indexOf(state.auth._id);
-  if(index !== -1){
-    userIds.splice(index,1);
-  }
+var mapStateToProps = function(state){
   return {
     usersNeedToBeFetched: state.users.needToBeFetched,
-    usersIds: userIds,
+    usersIds:removeUIDFromLIstAndSort(state),
     users: state.users.data,
     loadingUsers: state.usersPage.loadingUsers,
     displayForm: state.usersPage.displayForm

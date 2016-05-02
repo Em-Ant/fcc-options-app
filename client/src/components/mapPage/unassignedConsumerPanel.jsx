@@ -60,21 +60,12 @@ var UnassignedConsumerPanel = React.createClass({
   }
 });
 
-var getUnassignedConsumers = function(c_ids, consumers, consumersToVehiclesMap ){
-  var unassignedConsumers = [];
-  c_ids.forEach(function(c_id){
-    if(!consumersToVehiclesMap[c_id]){
-      unassignedConsumers.push(consumers[c_id])
-    }
-  })
-  return unassignedConsumers;
+import { getUnassignedConsumersSorted } from '../../selectors'
 
-}
 
 var mapStateToProps = function(state){
-  var unassignedConsumers = getUnassignedConsumers(state.consumers.ids,state.consumers.data, state.vehicles.consumersToVehiclesMap )
   return{
-    unassignedConsumers: unassignedConsumers,
+    unassignedConsumers: getUnassignedConsumersSorted(state),
     loading: state.mapPage.vehicleLoading
   }
 }
