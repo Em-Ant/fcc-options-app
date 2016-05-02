@@ -238,9 +238,12 @@ var MapMain = React.createClass({
 });
 
 /*
-TODO:  I think this should be in a reducer. I tried adding this to the consumer
-reducer, but I couldn't find a way to access
-*/
+TODO:  ~~I think this should be in a reducer. I tried adding this to the consumer
+reducer, but I couldn't find a way to access ~~
+
+It has been turned into a selector. Using this tool data derived from reducers are
+recomputed only if some part of the state on which the selector depends are modified.
+
 var colorMarkers = function(consumerMarkers, consumersToVehiclesMap, activeVehicleId, highlightedConsumerId, markerLoading) {
 return consumerMarkers.map(function(marker){
     var c_id = marker.consumerId;
@@ -271,6 +274,10 @@ return consumerMarkers.map(function(marker){
     })
   });
 }
+*/
+
+/*
+TODO: Total seating calculations should be moved to selectors
 
 function neededSeatings(consumers) {
   var neededSeats = 0;
@@ -286,7 +293,6 @@ function neededSeatings(consumers) {
     }
   }
   var neededSeatings = {seats: neededSeats, wheelchairs: neededWheelchairs};
-//  console.log('needs', neededSeatings);
   return neededSeatings;
 }
 function availableSeatings(vehicles) {
@@ -307,15 +313,18 @@ function availableSeatings(vehicles) {
 //  console.log('available', availableSeatings);
   return availableSeatings;
 }
+*/
 
 MapMain.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
+
+import { colorMarkers } from '../../selectors'
 var mapStateToProps = function(state){
   return {
     //neededSeatings : neededSeatings(state.consumers.data),
     //availableSeatings : availableSeatings(state.vehicles.data),
-    consumerMarkers: colorMarkers(state.mapPage.consumerMarkers, state.vehicles.consumersToVehiclesMap,state.mapPage.activeVehicleId, state.mapPage.highlightedMarker, state.mapPage.markerLoading),
+    consumerMarkers: colorMarkers(state),
     optionsIncMarker: state.mapPage.optionsIncMarker,
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
     vehicles : state.vehicles.data,
