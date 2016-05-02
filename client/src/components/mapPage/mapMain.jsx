@@ -14,18 +14,21 @@ var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
 const mapConst = require('../../constants/map');
 var _ = require('lodash');
 var clusterMouseoverTimer = null;
-
-var PureRenderMixin = require('react-addons-pure-render-mixin');
-
+/*
+Marker Wrapper to speed up performance
+*/
 var WMarker = React.createClass({
-  mixins: [PureRenderMixin],
+  //Needed to speed up marker performance
+  shouldComponentUpdate(nextProps,nextState){
+    return (nextProps.icon.fillColor != this.props.icon.fillColor ||
+            nextProps.showInfo != this.props.showInfo)
+  },
   render: function() {
     return <Marker {...this.props}/>
   }
 })
 
 var MapMain = React.createClass({
-  mixins: [PureRenderMixin],
   _googleMapComponent:null,
   alertDiv:null,
   handleWindowResize:function(){
@@ -204,7 +207,8 @@ var MapMain = React.createClass({
                   icon={marker.icon}
                   onClick={self.handleMarkerClick.bind(null,marker.consumerId)}
                   onMouseover={self.props.markerMouseover.bind(null, marker)}
-                  onMouseout={self.props.markerMouseout.bind(null, marker)}>
+                  onMouseout={self.props.markerMouseout.bind(null, marker)}
+                  showInfo = {marker.showInfo}>
                   {marker.showInfo ? self.renderInfoWindow(marker) : null}
                 </WMarker>
               )
@@ -240,7 +244,7 @@ reducer, but I couldn't find a way to access
 var colorMarkers = function(consumerMarkers, consumersToVehiclesMap, activeVehicleId, highlightedConsumerId, markerLoading) {
 return consumerMarkers.map(function(marker){
     var c_id = marker.consumerId;
-    var icon = marker.icon;
+    var icon = Object.assign({}, marker.icon);
     if(markerLoading == c_id){
       icon.fillColor =  mapConst.LOADING_CONSUMER_COLOR;
     }
