@@ -4,7 +4,7 @@ body {
 }
 
 table {
-  width: 23%;
+  width: 31%;
   float: left;
   border-collapse: collapse;
   margin: 20px 1%;
@@ -32,7 +32,7 @@ table, td, th {
 }
 
 .ind-col {
-  width: 10%;
+  width: 8%;
   text-align: center;
 }
 

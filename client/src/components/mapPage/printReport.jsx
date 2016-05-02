@@ -44,7 +44,7 @@ var PrintReport = React.createClass({
       var vehicle = this.props.vehicles[id];
       var tableClass="table";
       if(vehicle.consumers.length) {
-        if(vehiclesCount > 0 && vehiclesCount % 4 === 0) {
+        if(vehiclesCount > 0 && vehiclesCount % 3 === 0) {
           tableClass += " clear";
         }
         vehiclesCount++;
