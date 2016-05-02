@@ -38,7 +38,7 @@ var MapMain = React.createClass({
     }
   },
   componentDidMount: function() {
-    window.addEventListener('resize', this.handleWindowResize);
+    //window.addEventListener('resize', this.handleWindowResize);
   },
   componentDidUpdate:function(prevProps){
     if(this.props.centerMarker != null &&

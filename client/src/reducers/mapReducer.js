@@ -3,14 +3,12 @@ const modelConst = require('../constants/models');
 const mapConst = require('../constants/map');
 var modelActionTypes = require('../constants/actionTypes/modelActionTypes');
 
+var fontawesome = require('fontawesome-markers');
 
 var vehicleBoxClick = function(state, v_id) {
 
   var activeVId = state.activeVehicleId;
   if (activeVId === v_id) {
-    // click on the active box : set none active
-
-    $('#vp-' + v_id).collapse('toggle');
 
     return Object.assign({}, state, {
       error: null,
@@ -19,10 +17,6 @@ var vehicleBoxClick = function(state, v_id) {
       displayDirections: false
     })
   } else {
-    // click on a non-active box : activate it
-
-    $('#vp-' + v_id).collapse('toggle');
-    $('#vp-' + activeVId).collapse('toggle');
 
     return Object.assign({}, state, {
       error: null,
@@ -156,8 +150,15 @@ var addConsumerMarker = function(state, consumer) {
     consumerMarkers: consumerMarkers
   });
 }
+
+
 var createConsumerMarker = function(consumer, highlightedConsumerId){
   var icon = Object.assign({}, mapConst.icon);
+
+  // test new icons
+  if (consumer.hasWheelchair) icon.path = fontawesome.WHEELCHAIR_ALT
+  else icon.path = fontawesome.MALE
+
   icon.fillColor = mapConst.UNASSIGNED_CONSUMER_COLOR;
   if (highlightedConsumerId == consumer._id) {
     icon.fillColor = mapConst.HIGHLIGHTED_UNASSIGNED_COLOR;
