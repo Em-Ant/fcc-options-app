@@ -1,3 +1,6 @@
+//For React performance debugging
+//document.Perf = require('react-addons-perf')
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 require('../style/main.scss');

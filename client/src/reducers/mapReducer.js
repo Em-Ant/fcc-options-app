@@ -348,7 +348,6 @@ var initState = {
 }
 var reducer = function(state, action) {
   state = state || initState;
-  console.log(action.type)
   switch (action.type) {
     case (actionTypes.MAP_VEHICLE_BOX_CLICK):
       return vehicleBoxClick(state, action.id);
