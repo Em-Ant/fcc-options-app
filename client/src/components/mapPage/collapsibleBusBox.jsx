@@ -3,6 +3,7 @@ var actions = require('../../actions/mapActions')
 var connect = require('react-redux').connect;
 var vehicleUtils = require('../../utils/vehicleUtils');
 var BusBoxBody = require('./busBoxBody.jsx');
+var Link = require('react-router').Link
 
 /**
 * Props that have to be passed from parent :
@@ -70,6 +71,10 @@ var CollapsibleBusBox = React.createClass({
         </div>
         <div className="box-footer vpanel">
           <div className="btn-group pull-right">
+            <Link
+              className="btn btn-default btn-sm"
+              to={"/vehicleRoute/" + vehicle._id }
+              >Configure Route</Link>
             <button
               className="btn btn-default btn-sm"
               onClick={this.props.optimizeRoute.bind(null, this.props.activeVehicleId)}
