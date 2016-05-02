@@ -14,8 +14,8 @@ var connect = require('react-redux').connect;
  var v_actions = new ModelActions(models.VEHICLES);
 
  var vehicleUtils = require('../../utils/vehicleUtils');
-var s_actions = new ModelActions(models.SETTINGS);
-var c_actions = new ModelActions(models.CONSUMERS);
+// var s_actions = new ModelActions(models.SETTINGS);
+// var c_actions = new ModelActions(models.CONSUMERS);
 //
 // var PureRenderMixin = require('react-addons-pure-render-mixin');
 
@@ -25,12 +25,12 @@ var c_actions = new ModelActions(models.CONSUMERS);
 var VehicleRouteComponent = React.createClass({
   // mixins: [PureRenderMixin],
    componentDidMount: function () {
-    if(this.props.consumersNeedToBeFetched)
-      this.props.loadConsumers();
+  //   if(this.props.consumersNeedToBeFetched)
+  //     this.props.loadConsumers();
     if(this.props.vehiclesNeedToBeFetched)
       this.props.loadVehicles();
-    if(this.props.settingsNeedToBeFetched)
-      this.props.loadSettings();
+  //   if(this.props.settingsNeedToBeFetched)
+  //     this.props.loadSettings();
    },
     render: function() {
     var vehicle = this.props.vehicle;
@@ -74,26 +74,16 @@ var mapStateToProps = function(state){
   if(this){
     vehicleId = this.props.params.vehicleId;
   }
-  console.log(state.consumers.loaded,state.vehicles.loaded, state.settings.optionsIncAddress)
   return {
     vehicle:state.vehicles.data[vehicleId],
-    consumersNeedToBeFetched: state.consumers.needToBeFetched,
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
-    settingsNeedToBeFetched: state.settings.needToBeFetched,
-    dataLoaded : (state.consumers.loaded
-      && state.vehicles.loaded && state.settings.optionsIncAddress)
+    dataLoaded : state.vehicles.loaded
   }
 }
 var mapDispatchToProps = function(dispatch) {
   return {
-    loadConsumers: function() {
-      dispatch(c_actions.fetch());
-    },
     loadVehicles : function() {
       dispatch(v_actions.fetch());
-    },
-    loadSettings: function() {
-      dispatch(s_actions.fetch())
     }
   }
 }
