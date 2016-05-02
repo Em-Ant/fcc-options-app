@@ -102,9 +102,11 @@ var VehiclePanel = React.createClass({
   }
 });
 
+import { sortAlphabetically } from '../../selectors'
+
 var mapStateToProps = function(state){
   return{
-    vehiclesIds: state.vehicles.ids,
+    vehiclesIds: sortAlphabetically(state.vehicles),
     vehicles: state.vehicles.data,
     consumers: state.consumers.data,
     activeVehicleId: state.mapPage.activeVehicleId
