@@ -25,7 +25,7 @@ var CollapsibleBusBox = React.createClass({
       'avail-color' : 'unavail-color';
 
     return (
-      <div className={"box " + activeClass} style={{'maxHeight': '350px', display:'flex', 'flexDirection' : 'column'}}>
+      <div className={" bus-box box " + activeClass} >
         <div className="box-header with-border vpanel" >
           <a
             href="#"

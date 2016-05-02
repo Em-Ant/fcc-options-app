@@ -28,16 +28,6 @@
   height:83vh;
 }
 
-div.box-header.vpanel, div.box-footer.vpanel{
-  flex: initial;
-}
-
-div.box-body.vpanel {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
 .overflow {
   height: 91%;
   overflow-y: auto;
@@ -101,4 +91,24 @@ div.box-body.vpanel {
 
 .map-alert {
   margin-top: 22px;
+}
+
+div.box-header.vpanel {
+  min-height: 50px;
+  flex: 1;
+}
+div.box-body.vpanel {
+  flex: 3;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+div.box-footer.vpanel {
+  flex: 1;
+  min-height: 50px;
+}
+div.bus-box {
+  max-height: 350px;
+  display: flex;
+  flex-direction: column;
 }
