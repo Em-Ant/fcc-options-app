@@ -94,12 +94,18 @@ function setItemToDelete(state, id) {
   })
 }
 
-var initState = {};
+function setPage(state, page) {
+  return Object.assign({}, state, {page: page})
+}
+
+var initState = {
+  page : 1,
+  itemsPerPage : 10
+};
 
 // TODO: HANDLE ERRORS
 var reducer = function(state, action) {
   state = state || initState;
-
   if (action.model !== CONSUMERS) {
     return state;
   }
@@ -164,6 +170,8 @@ var reducer = function(state, action) {
       return setEditMode(state, undefined);
     case actionTypes.CLOSE_FORM:
       return resetEditMode(state);
+    case actionTypes.SET_PAGE :
+      return setPage(state, action.page)
     default:
       return state;
   }

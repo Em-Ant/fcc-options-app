@@ -8,3 +8,4 @@ exports.DELETE = "DELETE";
 exports.SET_EDIT_MODE = "SET_EDIT_MODE";
 exports.SET_ADD_MODE = "SET_ADD_MODE";
 exports.CLOSE_FORM = "CLOSE_FORM";
+exports.SET_PAGE = "SET_PAGE"

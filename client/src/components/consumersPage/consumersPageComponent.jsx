@@ -24,6 +24,18 @@ var Consumers = React.createClass({
     this.props.deleteConsumer(this.state.deleteId);
     this.setState({deleteId: undefined});
   },
+  incrPage : function (e) {
+    e.preventDefault();
+    if (this.props.currPage < this.props.pages) {
+      this.props.setPage(this.props.currPage + 1)
+    }
+  },
+  decrPage : function (e) {
+    e.preventDefault();
+    if (this.props.currPage > 1) {
+      this.props.setPage(this.props.currPage - 1);
+    }
+  },
   render: function() {
 
     var modalBody = this.state.deleteId !== undefined ?
@@ -108,6 +120,13 @@ var Consumers = React.createClass({
                 </div>
                 : null }
               </div>
+              <nav>
+                <ul className="pager">
+                  <li onClick={this.decrPage}><a href="#" data-toggle="pager" >Prev</a></li>
+                  <li><span>{this.props.currPage} / {this.props.pages}</span></li>
+                  <li onClick={this.incrPage}><a href="#" data-toggle="pager" >Next</a></li>
+                </ul>
+              </nav>
             </div>
           </div>
           {this.props.displayForm ?

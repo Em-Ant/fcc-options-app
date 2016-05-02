@@ -15,6 +15,31 @@ export const sortAlphabetically = createSelector(
 )
 
 
+export const paginateAndSort = (getIds, getData, getPage, getItemsPerPage) => {
+  return createSelector (
+    [getIds, getData, getPage, getItemsPerPage],
+    (ids, data, page, itemsPerPage) => {
+      var outIds = ids.slice()
+      outIds.sort(function(a, b) {
+        return data[a].name.localeCompare(data[b].name);
+      })
+      return outIds.splice(itemsPerPage*(page-1), itemsPerPage);
+    }
+  )
+}
+
+export const getPages = (getIds, getItemsPerPage) => {
+  return createSelector (
+    [getIds, getItemsPerPage],
+    (ids, itemsPerPage) => {
+      let items = ids.length
+      let pages = parseInt(items / itemsPerPage)
+      if (pages*itemsPerPage < items) { pages += 1 }
+      return pages
+    }
+  )
+}
+
 const getCIds = (state) => state.consumers.ids
 const getConsumers = (state) => state.consumers.data
 const getC2V = (state) => state.vehicles.consumersToVehiclesMap

@@ -131,6 +131,13 @@ function ModelActions(model) {
     }
   }
 
+  this.setPage = function(page) {
+    return {
+      type: actionTypes.SET_PAGE,
+      model: model,
+      page: page
+    }
+  }
 
 
 }

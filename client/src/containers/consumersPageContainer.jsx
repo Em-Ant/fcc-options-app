@@ -6,14 +6,23 @@ var models = require('../constants/models.js');
 var actions = new ModelActions(models.CONSUMERS);
 var vehicleActions = new ModelActions(models.VEHICLES);
 
-import { sortAlphabetically } from '../selectors'
+import {paginateAndSort, getPages} from '../selectors'
+
+const getIds = (state) => state.consumers.ids
+const getData = (state) => state.consumers.data
+const getPage = (state) => state.consumersForm.page
+const getItemsPerPage = (state) => state.consumersForm.itemsPerPage
+
+const pagAndSort = paginateAndSort(getIds, getData, getPage, getItemsPerPage)
+const pages = getPages(getIds, getItemsPerPage)
 
 var mapStateToProps = function(state){
-
   return {
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     consumersNeedToBeFetched: state.consumers.needToBeFetched,
-    consumerIds: sortAlphabetically(state.consumers),
+    consumerIds: pagAndSort(state),
+    currPage : state.consumersForm.page,
+    pages : pages(state),
     consumers: state.consumers.data,
     loadingConsumers: state.consumersForm.loadingConsumers,
     editId: state.consumersForm.editId,
@@ -49,6 +58,9 @@ var mapDispatchToProps = function(dispatch){
     },
     setAddMode: function() {
       dispatch(actions.setAddMode())
+    },
+    setPage: function(page) {
+      dispatch(actions.setPage(page))
     }
   };
 }
