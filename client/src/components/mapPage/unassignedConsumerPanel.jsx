@@ -16,7 +16,7 @@ var UnassignedConsumerPanel = React.createClass({
           <h3 className="box-title">Unassigned Consumers</h3>
         </div>
         <div className="box-body overflow">
-          <table className="table table-striped table-hover">
+          <table className="table table-striped table-hover clickable">
             <thead>
               <tr>
                 <th>Name</th>
