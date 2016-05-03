@@ -46,7 +46,7 @@ var VehiclePanel = React.createClass({
     }
   },
   print: function() {
-    var w=window.open();
+    var w=window.open("about:blank", 'win');
     w.document.write('<!DOCTYPE html><html><head>');
     w.document.write('<title>Options, Inc. | Vehicles Report</title>');
     w.document.write('<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"/>')
@@ -55,9 +55,9 @@ var VehiclePanel = React.createClass({
     w.document.write('</style></head><body>');
     w.document.write(document.getElementById('print-report').innerHTML);
     w.document.write('</body></html>')
+    setTimeout(function(){w.stop()}, 1000); // fix perpetual loading on firefox
     //w.print();
     //w.close();
-
   },
   render : function() {
     return (
