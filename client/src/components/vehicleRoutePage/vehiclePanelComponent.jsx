@@ -31,7 +31,7 @@ var VehiclePanelComponent = React.createClass({
               <div className="box-header with-border" >
 
                   <h4 className="box-title">
-                    {vehicle.name} Route
+                     {vehicle.name} Route
                   </h4>
                 <div className="pull-right">
                   {vehicle.needsMedications ?
@@ -60,10 +60,6 @@ var VehiclePanelComponent = React.createClass({
                       <i className="fa fa-wheelchair"></i>&nbsp;
                     {vehicle.occupiedWheelchairs}/{vehicle.wheelchairs}
                   </span>: null}
-
-                  <a href="#"  title="Print Data Table">
-                    <i className="fa fa-print cust-btn"></i>
-                  </a>
                 </div>
               </div>
               <div className="box-body" >

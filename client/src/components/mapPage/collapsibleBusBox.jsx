@@ -75,15 +75,6 @@ var CollapsibleBusBox = React.createClass({
               className="btn btn-default btn-sm"
               to={"/vehicleRoute/" + vehicle._id }
               >Configure Route</Link>
-            <button
-              className="btn btn-default btn-sm"
-              onClick={this.props.optimizeRoute.bind(null, this.props.activeVehicleId)}
-              >Optimize Route</button>
-            <button
-              className="btn btn-default btn-sm"
-              onClick={this.props.onDirectionsClick.bind(
-                null,this.props.activeVehicleId)}
-              >Get Directions</button>
           </div>
         </div>
         {this.props.isLoading
@@ -106,14 +97,6 @@ var mapStateToProps = function(state){
 }
 var mapDispatchToProps = function(dispatch) {
   return {
-    optimizeRoute: function(v_id) {
-      dispatch(actions.optimizeRoute(v_id));
-    },
-    onDirectionsClick: function(v_id) {
-      if (v_id) {
-        dispatch(actions.displayDirections(v_id))
-      }
-    },
     toggleActive: function(vehicleId) {
       dispatch(actions.vehicleBoxClick(vehicleId))
     },
