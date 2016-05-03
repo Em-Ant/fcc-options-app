@@ -3,7 +3,7 @@
 var React = require('react');
 var connect = require('react-redux').connect;
 var RouteBody = require('./routeBodyComponent.jsx')
-var actions = require('../../actions/mapActions')
+var actions = require('../../actions/vehicleRouteActions')
 
 var vehicleUtils = require('../../utils/vehicleUtils');
 
@@ -91,7 +91,7 @@ var VehiclePanelComponent = React.createClass({
 var mapStateToProps = function(state, ownProps) {
   return {
     vehicle: state.vehicles.data[ownProps.vehicleId],
-    isLoading: state.mapPage.vehicleLoading
+    isLoading: state.vehicleRoutePage.vehicleLoading
   }
 }
 var mapDispatchToProps = function(dispatch) {

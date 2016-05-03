@@ -1,6 +1,6 @@
 var React = require('react');
 var ConsumerInfoBox = require('./consumerInfoBox.jsx');
-var actions = require('../../actions/mapActions')
+var actions = require('../../actions/vehicleRouteActions')
 var ModelActions = require('../../actions/modelActions.js');
 var models = require('../../constants/models.js');
 var vActions = new ModelActions(models.VEHICLES);

@@ -2,7 +2,7 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var actions = require('../../actions/mapActions');
+var actions = require('../../actions/vehicleRouteActions');
 var DirectionsBody = require('./directionsBody.jsx');
 
 
@@ -15,7 +15,7 @@ var Directions = React.createClass({
               <li className=""><a href="#" className="text-muted" onClick={this.props.onBackClick}><i className="fa fa-chevron-left cust-btn"></i></a></li>
               <li className="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">AM Directions</a></li>
               <li className=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">PM Directions</a></li>
-              
+
             </ul>
             <div className="tab-content">
               <div className="tab-pane active" id="tab_1">
