@@ -10,7 +10,7 @@ var NotFound = require('./components/adminLTE/notFound.jsx');
 var NotPermitted = require('./components/adminLTE/notPermitted.jsx');
 var Login = require('./containers/loginContainer.jsx');
 var Logout = require('./components/auth/logoutComponent.jsx');
-var VehicleRoute = require('./components/vehicleRoute/vehicleRouteComponent.jsx');
+var VehicleRoute = require('./components/vehicleRoutePage/vehicleRouteComponent.jsx');
 var Vehicles = require('./components/vehiclesPage/vehiclesComponent.jsx');
 var Staff = require('./components/staffPage/staffComponent.jsx');
 

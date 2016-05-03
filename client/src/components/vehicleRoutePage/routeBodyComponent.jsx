@@ -78,7 +78,11 @@ var RouteBodyComponent = React.createClass({
     )
   }
 })
-
+var mapStateToProps = function(state, ownProps) {
+  return {
+    vehicle: state.vehicles.data[ownProps.vehicleId]
+  }
+}
 var mapDispatchToProps = function(dispatch, ownProps) {
   return {
     onConsumerReorder: function(startConsumerPosition, endConsumerPosition) {
@@ -92,4 +96,4 @@ var mapDispatchToProps = function(dispatch, ownProps) {
   }
 }
 
-module.exports = connect(null, mapDispatchToProps)(RouteBodyComponent);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(RouteBodyComponent);

@@ -2,38 +2,28 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-//
- var RouteBody = require('./routeBodyComponent.jsx')
-// var UnassignedConsumerPanel = require('./unassignedConsumerPanel.jsx')
-// var Directions = require('../directions/directions.jsx')
-// var MapPage = require('./mapMain.jsx')
- var ModelActions = require('../../actions/modelActions.js');
- var models = require('../../constants/models.js');
-// var PrintDiv = require('./printReport.jsx')
-//
+var RouteBody = require('./routeBodyComponent.jsx')
+var ModelActions = require('../../actions/modelActions.js');
+var models = require('../../constants/models.js');
 var actions = require('../../actions/mapActions')
- var v_actions = new ModelActions(models.VEHICLES);
+var v_actions = new ModelActions(models.VEHICLES);
 
- var vehicleUtils = require('../../utils/vehicleUtils');
-// var s_actions = new ModelActions(models.SETTINGS);
-// var c_actions = new ModelActions(models.CONSUMERS);
-//
-// var PureRenderMixin = require('react-addons-pure-render-mixin');
-
-// When the map is rendered, we are sure that all needed data
-// are properly loaded so we can handle them in 'componentDidMount'
+var vehicleUtils = require('../../utils/vehicleUtils');
 
 var VehiclePanelComponent = React.createClass({
 
-    render: function() {
-      var vehicle = this.props.vehicle
+  render: function() {
+    var vehicle = this.props.vehicle
     vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
-  var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs ?
-    'avail-color' : 'unavail-color';
-  var availSeats = vehicle.occupiedSeats < vehicle.seats ?
-    'avail-color' : 'unavail-color';
-  var availFlexSeats = vehicle.occupiedFlexSeats < vehicle.flexSeats ?
-    'avail-color' : 'unavail-color';
+    var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs
+      ? 'avail-color'
+      : 'unavail-color';
+    var availSeats = vehicle.occupiedSeats < vehicle.seats
+      ? 'avail-color'
+      : 'unavail-color';
+    var availFlexSeats = vehicle.occupiedFlexSeats < vehicle.flexSeats
+      ? 'avail-color'
+      : 'unavail-color';
 
     return (
           <div className="box box-widget map-height">
@@ -77,7 +67,7 @@ var VehiclePanelComponent = React.createClass({
                 </div>
               </div>
               <div className="box-body" >
-                <RouteBody vehicle={vehicle}/>
+                <RouteBody vehicleId={vehicle._id}/>
               </div>
               <div className="box-footer">
                 <div className="btn-group pull-right">
@@ -105,9 +95,9 @@ var VehiclePanelComponent = React.createClass({
     }
 });
 
-var mapStateToProps = function(state, ownProps){
-  return{
-    vehicle:state.vehicles.data[ownProps.vehicleId],
+var mapStateToProps = function(state, ownProps) {
+  return {
+    vehicle: state.vehicles.data[ownProps.vehicleId],
     isLoading: state.mapPage.vehicleLoading
   }
 }
@@ -118,7 +108,7 @@ var mapDispatchToProps = function(dispatch) {
     },
     onDirectionsClick: function(v_id) {
       dispatch(actions.displayDirections(v_id))
-    },
+    }
   }
 }
 
