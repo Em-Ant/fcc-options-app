@@ -3,10 +3,7 @@
 var React = require('react');
 var connect = require('react-redux').connect;
 var RouteBody = require('./routeBodyComponent.jsx')
-var ModelActions = require('../../actions/modelActions.js');
-var models = require('../../constants/models.js');
 var actions = require('../../actions/mapActions')
-var v_actions = new ModelActions(models.VEHICLES);
 
 var vehicleUtils = require('../../utils/vehicleUtils');
 

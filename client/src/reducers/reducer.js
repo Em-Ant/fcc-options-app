@@ -1,4 +1,3 @@
-var vehicleRoutes =require('./vehicleRoutesReducer');
 var vehicles =require('./vehicleReducer');
 var vehiclesPage =require('./vehiclePageReducer');
 var staffPage =require('./staffPageReducer');
@@ -24,7 +23,6 @@ var rootReducer = combineReducers({
   consumersForm: consumersForm,
   vehiclesPage: vehiclesPage,
   routing: routerReducer,
-  vehicleRoutes: vehicleRoutes,
   staffPage: staffPage,
   mapPage: mapPage,
   loginForm: loginForm,
