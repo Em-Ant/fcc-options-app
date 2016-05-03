@@ -9,21 +9,22 @@ var connect = require('react-redux').connect;
 var RouteBodyComponent = React.createClass({
   componentDidMount:function(){
     var self = this;
+    var vehicle = this.props.vehicle;
     var startSortPosition;
-    $( "#sortable-" + this.props.vehicle._id ).sortable({
+    $( "#sortable-" + vehicle._id ).sortable({
       axis: "y",
       cursor: "move",
       stop: function( event, ui ) {
         var endSortPosition = ui.item.index();
         if(startSortPosition != endSortPosition){
-          self.props.onConsumerReorder(startSortPosition, endSortPosition);
+          self.props.onConsumerReorder(vehicle,startSortPosition, endSortPosition);
         }
       },
       start: function(event, ui) {
         startSortPosition = ui.item.index();
       }
     });
-    $( "#sortable-" + this.props.vehicle._id ).disableSelection();
+    $( "#sortable-" + vehicle._id ).disableSelection();
   },
   render: function() {
     return (
@@ -83,10 +84,10 @@ var mapStateToProps = function(state, ownProps) {
     vehicle: state.vehicles.data[ownProps.vehicleId]
   }
 }
-var mapDispatchToProps = function(dispatch, ownProps) {
+var mapDispatchToProps = function(dispatch) {
   return {
-    onConsumerReorder: function(startConsumerPosition, endConsumerPosition) {
-      dispatch(actions.reorderConsumer(ownProps.vehicle, startConsumerPosition, endConsumerPosition))
+    onConsumerReorder: function(vehicle, startConsumerPosition, endConsumerPosition) {
+      dispatch(actions.reorderConsumer(vehicle, startConsumerPosition, endConsumerPosition))
     },
     onRiderClick: function(vehicle, e) {
       dispatch(vActions.update(Object.assign({}, vehicle, {
