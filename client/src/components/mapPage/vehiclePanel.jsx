@@ -60,7 +60,7 @@ var VehiclePanel = React.createClass({
   },
   render : function() {
     return (
-      <div className="box box-widget map-height">
+      <div className="box box-widget map-height pad-bot-10 flex">
         <div className="box-header with-border">
           <h3 className="box-title">Vehicles</h3>
           <div className="pull-right">
@@ -72,15 +72,16 @@ var VehiclePanel = React.createClass({
             </a>
           </div>
         </div>
-        <div className="box-body" style={{height: '92%', display:'flex' ,'flexDirection' : 'column'}}>
-          {
-            this.props.activeVehicleId ?
-            <div style={{flex: '1'}}>
-              <BusBox vehicleId={this.props.activeVehicleId}/>
-            </div>
-            : null
-          }
-          <div style={{flex: '4', 'overflowY': 'auto'}}>
+        {
+          this.props.activeVehicleId ?
+          <div className="busbox-wrap">
+            <BusBox vehicleId={this.props.activeVehicleId}/>
+          </div>          
+          : null
+        }
+        <div className="box-body overflow">
+
+          <div className="vehicles-list">
             <table className="table table-striped">
               <tbody>
               {

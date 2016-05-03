@@ -26,12 +26,9 @@
 
 .map-height{
   height:83vh;
+  overflow: hidden;
 }
 
-.overflow {
-  height: 91%;
-  overflow-y: auto;
-}
 .cust-label {
   background-color: #555;
   color: white;
@@ -88,27 +85,64 @@
   visibility: hidden;
 }
 
-
 .map-alert {
   margin-top: 22px;
 }
 
+/* MAP PAGE PANELS */
+.flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.overflow {
+  overflow-y: auto;
+}
+.pad-bot-10 {
+  padding-bottom: 10px;
+}
+@mixin flex($f) {
+  -webkit-box-flex: $f;
+  -webkit-flex: $f;
+      -ms-flex: $f;
+          flex: $f;
+}
+.box-widget.flex > .box-header{
+  @include flex(1);
+  min-height: 35px;
+}
+.box-widget.flex > .box-body{
+  @include flex(100);
+}
+div.vehicles-list {
+  @include flex(1);
+}
 div.box-header.vpanel {
   min-height: 50px;
-  flex: 1;
+  @include flex(1);
 }
 div.box-body.vpanel {
-  flex: 3;
-  max-height: 200px;
+  @include flex(8);
   overflow-y: auto;
   overflow-x: hidden;
 }
 div.box-footer.vpanel {
-  flex: 1;
+  @include flex(1);
   min-height: 50px;
 }
-div.bus-box {
+div.busbox-wrap{
+  @include flex(1);
+  height: 50%;
   max-height: 350px;
-  display: flex;
-  flex-direction: column;
+  padding-bottom: 5px;
 }
+div.bus-box {
+  height: 100%
+}
+/* END MAP PAGE PANELS */
