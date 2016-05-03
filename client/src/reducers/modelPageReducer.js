@@ -149,7 +149,14 @@ function closeForm(state) {
   });
 }
 
+function setPage(state, page) {
+  return Object.assign({}, state, {page: page})
+}
+
+
 var initState = {
+  page : 1,
+  itemsPerPage : 10,
   isLoading: false,
   form: {
     display: false
@@ -158,6 +165,7 @@ var initState = {
 var modelPageReducer = function(state, action) {
   state = state || initState;
 
+  console.log(action.type, action.model)
   switch (action.type) {
     case actionTypes.INDEX:
       if (action.status == actionTypes.LOADING)
@@ -193,6 +201,8 @@ var modelPageReducer = function(state, action) {
       return setAddMode(state);
     case actionTypes.CLOSE_FORM:
       return closeForm(state);
+    case actionTypes.SET_PAGE :
+      return setPage(state, action.page)
     default:
       return state;
   }

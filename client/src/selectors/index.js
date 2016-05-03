@@ -16,20 +16,17 @@ export const sortAlphabetically = createSelector(
 
 
 export const paginateAndSort = (getIds, getData, getPage, getItemsPerPage) => {
-  return createSelector (
-    [getIds, getData, getPage, getItemsPerPage],
-    (ids, data, page, itemsPerPage) => {
-      var outIds = ids.slice()
-      outIds.sort(function(a, b) {
-        return data[a].name.localeCompare(data[b].name);
-      })
-      return outIds.splice(itemsPerPage*(page-1), itemsPerPage);
-    }
-  )
-}
-
-export const getPages = (getIds, getItemsPerPage) => {
-  return createSelector (
+  let pager = createSelector (
+      [getIds, getData, getPage, getItemsPerPage],
+      (ids, data, page, itemsPerPage) => {
+        var outIds = ids.slice()
+        outIds.sort(function(a, b) {
+          return data[a].name.localeCompare(data[b].name);
+        })
+        return outIds.splice(itemsPerPage*(page-1), itemsPerPage);
+      }
+    )
+  let getPagesCount = createSelector (
     [getIds, getItemsPerPage],
     (ids, itemsPerPage) => {
       let items = ids.length
@@ -38,6 +35,10 @@ export const getPages = (getIds, getItemsPerPage) => {
       return pages
     }
   )
+  return [
+    pager,
+    getPagesCount
+  ]
 }
 
 const getCIds = (state) => state.consumers.ids

@@ -2,6 +2,8 @@ const VEHICLES = require('../constants/models').VEHICLES;
 var modelPageReducer = require('./modelPageReducer');
 
 var initState = {
+  page : 1,
+  itemsPerPage: 10,
   isLoading: false,
   form: {
     display: false

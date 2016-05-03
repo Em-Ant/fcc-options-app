@@ -6,15 +6,14 @@ var models = require('../constants/models.js');
 var actions = new ModelActions(models.CONSUMERS);
 var vehicleActions = new ModelActions(models.VEHICLES);
 
-import {paginateAndSort, getPages} from '../selectors'
+import {paginateAndSort} from '../selectors'
 
 const getIds = (state) => state.consumers.ids
 const getData = (state) => state.consumers.data
 const getPage = (state) => state.consumersForm.page
 const getItemsPerPage = (state) => state.consumersForm.itemsPerPage
 
-const pagAndSort = paginateAndSort(getIds, getData, getPage, getItemsPerPage)
-const pages = getPages(getIds, getItemsPerPage)
+const [pagAndSort, pages] = paginateAndSort(getIds, getData, getPage, getItemsPerPage)
 
 var mapStateToProps = function(state){
   return {
