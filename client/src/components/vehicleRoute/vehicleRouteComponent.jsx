@@ -2,30 +2,31 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-//
- var VehiclePanel = require('./vehiclePanelComponent.jsx')
-// var UnassignedConsumerPanel = require('./unassignedConsumerPanel.jsx')
-// var Directions = require('../directions/directions.jsx')
- var MapComponent = require('./mapComponent.jsx')
- var ModelActions = require('../../actions/modelActions.js');
- var models = require('../../constants/models.js');
-// var PrintDiv = require('./printReport.jsx')
-//
- var v_actions = new ModelActions(models.VEHICLES);
+var VehiclePanel = require('./vehiclePanelComponent.jsx')
+var MapComponent = require('./mapComponent.jsx')
+var ModelActions = require('../../actions/modelActions.js');
+var models = require('../../constants/models.js');
 
- var vehicleUtils = require('../../utils/vehicleUtils');
+var v_actions = new ModelActions(models.VEHICLES);
 var s_actions = new ModelActions(models.SETTINGS);
 var c_actions = new ModelActions(models.CONSUMERS);
-//
-// var PureRenderMixin = require('react-addons-pure-render-mixin');
 
-// When the map is rendered, we are sure that all needed data
-// are properly loaded so we can handle them in 'componentDidMount'
+var LoadingComponent = React.createClass({
+  render:function(){
+    return(
+    <div className="content-wrapper">
+      <section className="content">
+        <div id="map-loader">
+          <i className="fa fa-refresh fa-spin"></i> Loading data...
+        </div>
+      </section>
+    </div>
+    )
+  }
+})
 
 var VehicleRouteComponent = React.createClass({
-  // mixins: [PureRenderMixin],
    componentDidMount: function () {
-     console.log("componentDidMount", this.props);
     if(this.props.consumersNeedToBeFetched)
       this.props.loadConsumers();
     if(this.props.vehiclesNeedToBeFetched)
@@ -38,30 +39,18 @@ var VehicleRouteComponent = React.createClass({
     if(!vehicle){
       return <div></div>
     }
-    vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
-  var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs ?
-    'avail-color' : 'unavail-color';
-  var availSeats = vehicle.occupiedSeats < vehicle.seats ?
-    'avail-color' : 'unavail-color';
-  var availFlexSeats = vehicle.occupiedFlexSeats < vehicle.flexSeats ?
-    'avail-color' : 'unavail-color';
-
     return (
       !this.props.dataLoaded?
-        <div id="map-loader">
-          <i className="fa fa-refresh fa-spin"></i> Loading data...
-        </div>
+      <LoadingComponent/>
       :
       <div className="content-wrapper">
         <section className="content">
           <div className="row">
             <div className="col-md-5 col-sm-5 col-xs-5">
-              <VehiclePanel vehicle={vehicle}/>
+              <VehiclePanel vehicleId={vehicle._id}/>
             </div>
             <div className="col-md-7 col-sm-7 col-xs-7">
-              <div className="box box-widget map-height">
-                <MapComponent vehicle={vehicle}/>
-              </div>
+              <MapComponent vehicleId={vehicle._id}/>
             </div>
           </div>
         </section>
@@ -70,14 +59,9 @@ var VehicleRouteComponent = React.createClass({
     }
 });
 
-var mapStateToProps = function(state){
-  var vehicleId;
-  console.log("thi", this);
-  if(this){
-    vehicleId = this.props.params.vehicleId;
-  }
+var mapStateToProps = function(state, ownProps){
   return {
-    vehicle:state.vehicles.data[vehicleId],
+    vehicle:state.vehicles.data[ownProps.params.vehicleId],
     consumersNeedToBeFetched: state.consumers.needToBeFetched,
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     settingsNeedToBeFetched: state.settings.needToBeFetched,

@@ -106,6 +106,8 @@ var MapMain = React.createClass({
   render: function() {
     var self = this;
     return (
+
+        <div className="box box-widget map-height">
     <section style={{height: "100%"}}>
       <GoogleMapLoader
         containerElement={
@@ -161,6 +163,8 @@ var MapMain = React.createClass({
         }
       />
     </section>
+
+  </div>
   );
   }
 
@@ -173,7 +177,7 @@ MapMain.contextTypes = {
 import { colorMarkers } from '../../selectors'
 var mapStateToProps = function(state, ownProps){
   var consumerMarkers = state.mapPage.consumerMarkers.filter(function(consumerMarker){
-    return state.vehicles.consumersToVehiclesMap[consumerMarker.consumerId] == ownProps.vehicle._id
+    return state.vehicles.consumersToVehiclesMap[consumerMarker.consumerId] == ownProps.vehicleId
   })
   return {
     //neededSeatings : neededSeatings(state.consumers.data),
