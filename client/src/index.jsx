@@ -10,7 +10,7 @@ var NotFound = require('./components/adminLTE/notFound.jsx');
 var NotPermitted = require('./components/adminLTE/notPermitted.jsx');
 var Login = require('./containers/loginContainer.jsx');
 var Logout = require('./components/auth/logoutComponent.jsx');
-var VehicleRoutes = require('./containers/vehicleRoutesContainer.jsx');
+var VehicleRoute = require('./components/vehicleRoutePage/vehicleRouteComponent.jsx');
 var Vehicles = require('./components/vehiclesPage/vehiclesComponent.jsx');
 var Staff = require('./components/staffPage/staffComponent.jsx');
 
@@ -60,9 +60,9 @@ ReactDOM.render(
     <Route path="/" component={App}>
       <Route component={Main}  onEnter={requireAuth} >
         <IndexRoute component={MapPage}/>
-        <Route path="/routes" component={VehicleRoutes} onEnter={requireAuth} />
         <Route path="/consumers" component={Consumers} onEnter={requireAuth} />
         <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
+        <Route path="/vehicleRoute/:vehicleId" component={VehicleRoute} onEnter={requireAuth} />
         <Route path="/users" component={User} onEnter={requireRole.bind(null, ADMIN)} />
         <Route path="/staff" component={Staff} onEnter={requireAuth} />
         <Route path="/notPermitted" component={NotPermitted} />
