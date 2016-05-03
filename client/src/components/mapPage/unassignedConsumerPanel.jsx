@@ -11,11 +11,11 @@ var UnassignedConsumerPanel = React.createClass({
       return <div></div>
     }
     return (
-      <div className="box box-widget  map-height flex pad-bot-10">
+      <div className="box box-widget  map-height pad-bot-10">
         <div className="box-header with-border">
           <h3 className="box-title">Unassigned Consumers</h3>
         </div>
-        <div className="box-body overflow">
+        <div className="box-body abs-body overflow">
           <table className="table table-striped table-hover clickable">
             <thead>
               <tr>

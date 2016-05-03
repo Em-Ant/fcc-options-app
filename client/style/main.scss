@@ -101,48 +101,40 @@
   -ms-flex-direction: column;
   flex-direction: column;
 }
+
+@mixin flex($g, $s:1) {
+  -webkit-box-flex : $g $s;
+  -webkit-flex : $g $s;
+      -ms-flex : $g $s;
+          flex : $g $s;
+}
+
+.flex-1 {
+  @include flex(1);
+}
+.abs-body {
+  position: absolute;
+  top: 45px;
+  width: 100%;
+  bottom: 10px;
+}
+
+.bus-box {
+  .box-body {
+    position: absolute;
+    top: 50px;
+    bottom: 55px;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .box-footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+  }
+}
+
 .overflow {
   overflow-y: auto;
-}
-.pad-bot-10 {
-  padding-bottom: 10px;
-}
-@mixin flex($f) {
-  -webkit-box-flex: $f;
-  -webkit-flex: $f;
-      -ms-flex: $f;
-          flex: $f;
-}
-.box-widget.flex > .box-header{
-  @include flex(1);
-  min-height: 35px;
-}
-.box-widget.flex > .box-body{
-  @include flex(100);
-}
-div.vehicles-list {
-  @include flex(1);
-}
-div.box-header.vpanel {
-  min-height: 50px;
-  @include flex(1);
-}
-div.box-body.vpanel {
-  @include flex(8);
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-div.box-footer.vpanel {
-  @include flex(1);
-  min-height: 50px;
-}
-div.busbox-wrap{
-  @include flex(1);
-  height: 50%;
-  max-height: 350px;
-  padding-bottom: 5px;
-}
-div.bus-box {
-  height: 100%
 }
 /* END MAP PAGE PANELS */

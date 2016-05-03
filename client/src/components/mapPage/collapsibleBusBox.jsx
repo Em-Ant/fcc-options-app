@@ -25,8 +25,8 @@ var CollapsibleBusBox = React.createClass({
       'avail-color' : 'unavail-color';
 
     return (
-      <div className={"flex bus-box box " + activeClass} >
-        <div className="box-header with-border vpanel" >
+      <div className={"bus-box box flex-1" + activeClass} >
+        <div className="box-header with-border " >
           <a
             href="#"
             data-toggle="active-vehicle"
@@ -65,10 +65,10 @@ var CollapsibleBusBox = React.createClass({
             </span>: null}
           </div>
         </div>
-        <div className="box-body vpanel" >
+        <div className="box-body overflow">
           <BusBoxBody vehicle={vehicle}/>
         </div>
-        <div className="box-footer vpanel">
+        <div className="box-footer">
           <div className="btn-group pull-right">
             <button
               className="btn btn-default btn-sm"
