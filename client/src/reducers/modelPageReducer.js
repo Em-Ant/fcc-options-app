@@ -165,7 +165,6 @@ var initState = {
 var modelPageReducer = function(state, action) {
   state = state || initState;
 
-  console.log(action.type, action.model)
   switch (action.type) {
     case actionTypes.INDEX:
       if (action.status == actionTypes.LOADING)

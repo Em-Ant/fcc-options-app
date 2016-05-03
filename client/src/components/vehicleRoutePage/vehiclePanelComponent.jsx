@@ -26,10 +26,8 @@ var VehiclePanelComponent = React.createClass({
       : 'unavail-color';
 
     return (
-          <div className="box box-widget map-height">
-            <div className="box" >
+          <div className="box box-widget map-height bus-box">
               <div className="box-header with-border" >
-
                   <h4 className="box-title">
                      {vehicle.name} Route
                   </h4>
@@ -84,8 +82,6 @@ var VehiclePanelComponent = React.createClass({
                     <i className="fa fa-refresh fa-spin"></i>
                   </div>
                 : null}
-            </div>
-
           </div>
       )
     }

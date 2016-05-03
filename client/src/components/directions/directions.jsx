@@ -10,14 +10,14 @@ var Directions = React.createClass({
 
   render: function() {
     return (
-      <div className="nav-tabs-custom">
+      <div className="nav-tabs-custom map-height flex">
             <ul className="nav nav-tabs">
               <li className=""><a href="#" className="text-muted" onClick={this.props.onBackClick}><i className="fa fa-chevron-left cust-btn"></i></a></li>
               <li className="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">AM Directions</a></li>
               <li className=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">PM Directions</a></li>
-              
+
             </ul>
-            <div className="tab-content">
+            <div className="tab-content overflow flex-1" style={{'height': '100%', 'marginBottom' : '5px'}}>
               <div className="tab-pane active" id="tab_1">
                 <DirectionsBody routeType="AM"/>
               </div>
