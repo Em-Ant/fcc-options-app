@@ -31,7 +31,7 @@ var Header = React.createClass({
       <header className="main-header">
         <a href="/" className="logo">
           <span className="logo-mini">
-            <img src="img/opt_logo_wht.png" height="30px"></img></span>
+            <img src="/img/opt_logo_wht.png" height="30px"></img></span>
           <span className="logo-lg">
             <b>Options</b> Inc.</span>
         </a>
@@ -45,12 +45,12 @@ var Header = React.createClass({
 
               <li className="dropdown user user-menu">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                  <img src="static/adminLTE/dist/img/default_avatar.jpg" className="user-image" alt="User Image"/>
+                  <img src="/static/adminLTE/dist/img/default_avatar.jpg" className="user-image" alt="User Image"/>
                   <span className="hidden-xs">{this.props.user}</span>
                 </a>
                 <ul className="dropdown-menu">
                   <li className="user-header">
-                    <img src="static/adminLTE/dist/img/default_avatar.jpg" className="img-circle" alt="User Image"/>
+                    <img src="/static/adminLTE/dist/img/default_avatar.jpg" className="img-circle" alt="User Image"/>
 
                     <p>{this.props.user}</p>
                     <p>{this.props.role}</p>
