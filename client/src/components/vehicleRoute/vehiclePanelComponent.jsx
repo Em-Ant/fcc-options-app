@@ -11,6 +11,7 @@ var connect = require('react-redux').connect;
  var models = require('../../constants/models.js');
 // var PrintDiv = require('./printReport.jsx')
 //
+var actions = require('../../actions/mapActions')
  var v_actions = new ModelActions(models.VEHICLES);
 
  var vehicleUtils = require('../../utils/vehicleUtils');
@@ -83,11 +84,12 @@ var VehiclePanelComponent = React.createClass({
 
                   <button
                     className="btn btn-default btn-sm"
-
+                    onClick={this.props.optimizeRoute.bind(null, this.props.vehicleId)}
                     >Optimize Route</button>
                   <button
                     className="btn btn-default btn-sm"
-
+                    onClick={this.props.onDirectionsClick.bind(
+                      null,this.props.vehicleId)}
                     >Get Directions</button>
                 </div>
               </div>
@@ -103,14 +105,20 @@ var VehiclePanelComponent = React.createClass({
     }
 });
 
-var mapStateToProps = function(state){
+var mapStateToProps = function(state, ownProps){
   return{
-
+    vehicle:state.vehicles.data[ownProps.vehicleId],
+    isLoading: state.mapPage.vehicleLoading
   }
 }
 var mapDispatchToProps = function(dispatch) {
   return {
-
+    optimizeRoute: function(v_id) {
+      dispatch(actions.optimizeRoute(v_id));
+    },
+    onDirectionsClick: function(v_id) {
+      dispatch(actions.displayDirections(v_id))
+    },
   }
 }
 
