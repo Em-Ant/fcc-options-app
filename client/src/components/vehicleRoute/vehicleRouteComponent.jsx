@@ -4,6 +4,7 @@ var React = require('react');
 var connect = require('react-redux').connect;
 var VehiclePanel = require('./vehiclePanelComponent.jsx')
 var MapComponent = require('./mapComponent.jsx')
+var Directions = require('../directions/directions.jsx')
 var ModelActions = require('../../actions/modelActions.js');
 var models = require('../../constants/models.js');
 
@@ -47,7 +48,10 @@ var VehicleRouteComponent = React.createClass({
         <section className="content">
           <div className="row">
             <div className="col-md-5 col-sm-5 col-xs-5">
-              <VehiclePanel vehicleId={vehicle._id}/>
+              {this.props.displayDirections?
+                <Directions/>:
+                <VehiclePanel vehicleId={vehicle._id}/>
+                }
             </div>
             <div className="col-md-7 col-sm-7 col-xs-7">
               <MapComponent vehicleId={vehicle._id}/>
@@ -66,7 +70,8 @@ var mapStateToProps = function(state, ownProps){
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     settingsNeedToBeFetched: state.settings.needToBeFetched,
     dataLoaded : (state.consumers.loaded
-      && state.vehicles.loaded && state.settings.optionsIncAddress)
+      && state.vehicles.loaded && state.settings.optionsIncAddress),
+    displayDirections: state.mapPage.displayDirections
   }
 }
 var mapDispatchToProps = function(dispatch) {

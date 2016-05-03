@@ -38,19 +38,6 @@ var ConsumerInfoBox = React.createClass({
       <td>
         {needFlags}
       </td>
-      <td>
-        <i
-          className="fa fa-times cust-btn"
-          onClick={
-            this.props.removeConsumerFromActiveBus
-            .bind(
-              null,
-              this.props.consumerId,
-              this.props.vehicles[this.props.activeVehicleId]
-            )}
-        ></i>
-
-      </td>
     </tr>
   )}
 })
