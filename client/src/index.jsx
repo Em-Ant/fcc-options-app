@@ -62,7 +62,7 @@ ReactDOM.render(
         <IndexRoute component={MapPage}/>
         <Route path="/consumers" component={Consumers} onEnter={requireAuth} />
         <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
-          <Route path="/vehicleRoute/:vehicleId" component={VehicleRoute} onEnter={requireAuth} />
+        <Route path="/vehicleRoute/:vehicleId" component={VehicleRoute} onEnter={requireAuth} />
         <Route path="/users" component={User} onEnter={requireRole.bind(null, ADMIN)} />
         <Route path="/staff" component={Staff} onEnter={requireAuth} />
         <Route path="/notPermitted" component={NotPermitted} />

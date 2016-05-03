@@ -25,22 +25,19 @@ var connect = require('react-redux').connect;
 var VehiclePanelComponent = React.createClass({
 
     render: function() {
-    var vehicle = this.props.vehicle;
-    if(vehicle){
+      var vehicle = this.props.vehicle
+    vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
+  var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs ?
+    'avail-color' : 'unavail-color';
+  var availSeats = vehicle.occupiedSeats < vehicle.seats ?
+    'avail-color' : 'unavail-color';
+  var availFlexSeats = vehicle.occupiedFlexSeats < vehicle.flexSeats ?
+    'avail-color' : 'unavail-color';
 
-      vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
-      console.log(vehicle);
-    var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs ?
-      'avail-color' : 'unavail-color';
-    var availSeats = vehicle.occupiedSeats < vehicle.seats ?
-      'avail-color' : 'unavail-color';
-    var availFlexSeats = vehicle.occupiedFlexSeats < vehicle.flexSeats ?
-      'avail-color' : 'unavail-color';
-    }
     return (
           <div className="box box-widget map-height">
-            <div className={" bus-box box "} >
-              <div className="box-header with-border vpanel" >
+            <div className="box" >
+              <div className="box-header with-border" >
 
                   <h4 className="box-title">
                     {vehicle.name} Route
@@ -78,10 +75,10 @@ var VehiclePanelComponent = React.createClass({
                   </a>
                 </div>
               </div>
-              <div className="box-body vpanel" >
+              <div className="box-body" >
                 <RouteBody vehicle={vehicle}/>
               </div>
-              <div className="box-footer vpanel">
+              <div className="box-footer">
                 <div className="btn-group pull-right">
 
                   <button

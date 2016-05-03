@@ -6,7 +6,7 @@ var connect = require('react-redux').connect;
  var VehiclePanel = require('./vehiclePanelComponent.jsx')
 // var UnassignedConsumerPanel = require('./unassignedConsumerPanel.jsx')
 // var Directions = require('../directions/directions.jsx')
-// var MapPage = require('./mapMain.jsx')
+ var MapComponent = require('./mapComponent.jsx')
  var ModelActions = require('../../actions/modelActions.js');
  var models = require('../../constants/models.js');
 // var PrintDiv = require('./printReport.jsx')
@@ -25,6 +25,7 @@ var c_actions = new ModelActions(models.CONSUMERS);
 var VehicleRouteComponent = React.createClass({
   // mixins: [PureRenderMixin],
    componentDidMount: function () {
+     console.log("componentDidMount", this.props);
     if(this.props.consumersNeedToBeFetched)
       this.props.loadConsumers();
     if(this.props.vehiclesNeedToBeFetched)
@@ -34,17 +35,17 @@ var VehicleRouteComponent = React.createClass({
    },
     render: function() {
     var vehicle = this.props.vehicle;
-    if(vehicle){
-
-      vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
-      console.log(vehicle);
-    var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs ?
-      'avail-color' : 'unavail-color';
-    var availSeats = vehicle.occupiedSeats < vehicle.seats ?
-      'avail-color' : 'unavail-color';
-    var availFlexSeats = vehicle.occupiedFlexSeats < vehicle.flexSeats ?
-      'avail-color' : 'unavail-color';
+    if(!vehicle){
+      return <div></div>
     }
+    vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
+  var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs ?
+    'avail-color' : 'unavail-color';
+  var availSeats = vehicle.occupiedSeats < vehicle.seats ?
+    'avail-color' : 'unavail-color';
+  var availFlexSeats = vehicle.occupiedFlexSeats < vehicle.flexSeats ?
+    'avail-color' : 'unavail-color';
+
     return (
       !this.props.dataLoaded?
         <div id="map-loader">
@@ -59,7 +60,7 @@ var VehicleRouteComponent = React.createClass({
             </div>
             <div className="col-md-7 col-sm-7 col-xs-7">
               <div className="box box-widget map-height">
-
+                <MapComponent vehicle={vehicle}/>
               </div>
             </div>
           </div>
@@ -71,10 +72,10 @@ var VehicleRouteComponent = React.createClass({
 
 var mapStateToProps = function(state){
   var vehicleId;
+  console.log("thi", this);
   if(this){
     vehicleId = this.props.params.vehicleId;
   }
-  console.log(state.consumers.loaded,state.vehicles.loaded, state.settings.optionsIncAddress)
   return {
     vehicle:state.vehicles.data[vehicleId],
     consumersNeedToBeFetched: state.consumers.needToBeFetched,
