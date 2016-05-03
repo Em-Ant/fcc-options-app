@@ -13,8 +13,6 @@ var ConsumerInfoBox = React.createClass({
 
     render: function() {
     var consumer = this.props.consumers[this.props.consumerId];
-      console.log(this.props.consumerId);
-      console.log(consumer);
     var flags = _addFlags(consumer);
     var createMarkup = function(s) {return {__html: s}}
     var needFlags = flags.needs
