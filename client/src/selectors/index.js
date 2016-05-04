@@ -41,6 +41,7 @@ export const paginateAndSort = (getIds, getData, getPage, getItemsPerPage) => {
     [getIds, getItemsPerPage],
     (ids, itemsPerPage) => {
       let items = ids.length
+      if (items === 0) return 1
       let pages = parseInt(items / itemsPerPage)
       if (pages*itemsPerPage < items) { pages += 1 }
       return pages
