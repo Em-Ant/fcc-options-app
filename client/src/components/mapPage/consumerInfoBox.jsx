@@ -22,7 +22,6 @@ var ConsumerInfoBox = React.createClass({
       ) : null;
     return (
     <tr>
-      <td><i className="fa fa-arrows-v cust-btn draggable"></i></td>
       <td>
         {this.props.index + 1}
       </td>

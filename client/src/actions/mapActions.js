@@ -88,32 +88,6 @@ var addToActiveBus = module.exports.addToActiveBus = function(c_id, active_v) {
   }
 }
 
-module.exports.displayDirections = function(v_id) {
-  return function(dispatch) {
-    dispatch({
-      type: actionTypes.DIRECTIONS_LOAD_REQUEST
-    });
-    Ajax.get('/api/directions/' + v_id, function(err, response) {
-      if (err) {
-        return dispatch({
-          type: actionTypes.DIRECTIONS_LOAD_FAILURE,
-          error: err
-        });
-      }
-      dispatch({
-        type: actionTypes.DIRECTIONS_LOAD_SUCCESS,
-        response: response
-      })
-    })
-  }
-};
-
-module.exports.hideDirections = function(vehicle, consumers, settings) {
-  return {
-    type: actionTypes.DIRECTIONS_HIDE
-  }
-};
-
 module.exports.markerClick = function(c_id, markerLoading, consumersToVehiclesMap, activeVehicleId, vehicles, consumers) {
   if (!markerLoading) {
     // not in loading state
@@ -148,36 +122,6 @@ module.exports.markerClick = function(c_id, markerLoading, consumersToVehiclesMa
     error: {
       msg: "markers frozen in loading state"
     }
-  }
-}
-
-module.exports.reorderConsumer = function(vehicle, startConsumerPosition, endConsumerPosition) {
-  var consumers = vehicle.consumers.slice();
-  var removedConsumers = consumers.splice(startConsumerPosition, 1);
-  consumers.splice(endConsumerPosition, 0, removedConsumers[0]);
-  var updatedVehicle = Object.assign({}, vehicle, {
-    consumers: consumers
-  })
-  return vehicleActions.update(updatedVehicle);
-}
-
-module.exports.optimizeRoute = function(v_id) {
-  return function(dispatch) {
-    dispatch({
-      type: actionTypes.MAP_OPTIMIZE_ROUTE_REQUEST
-    });
-    Ajax.get('/api/vehicle/optimize-route/' + v_id, function(err, response) {
-      if (err) {
-        return dispatch({
-          type: actionTypes.MAP_OPTIMIZE_ROUTE_FAILURE,
-          error: err
-        });
-      }
-      dispatch({
-        type: actionTypes.MAP_OPTIMIZE_ROUTE_SUCCESS,
-        vehicle: response
-      })
-    })
   }
 }
 

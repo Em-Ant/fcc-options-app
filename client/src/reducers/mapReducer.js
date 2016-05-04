@@ -389,12 +389,6 @@ var reducer = function(state, action) {
       return centerConsumerMarker(state, action.consumerId)
     case (actionTypes.MAP_SAVE_CLUSTERS):
       return saveClusters(state, action.clusters_);
-    case (actionTypes.MAP_OPTIMIZE_ROUTE_REQUEST):
-      return request(state);
-    case (actionTypes.MAP_OPTIMIZE_ROUTE_ERROR):
-      return error(state, action.error)
-    case (actionTypes.MAP_OPTIMIZE_ROUTE_SUCCESS):
-      return success(state)
     case (modelActionTypes.FETCH):
       if (action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
         return setConsumerMarkers(state, action.response)

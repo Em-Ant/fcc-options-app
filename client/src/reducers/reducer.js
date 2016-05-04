@@ -1,4 +1,3 @@
-var vehicleRoutes =require('./vehicleRoutesReducer');
 var vehicles =require('./vehicleReducer');
 var vehiclesPage =require('./vehiclePageReducer');
 var staffPage =require('./staffPageReducer');
@@ -8,6 +7,7 @@ var loginForm = require('./loginFormReducer');
 var auth = require('./authReducer');
 var routerReducer = require('react-router-redux').routerReducer;
 var mapPage = require('./mapReducer')
+var vehicleRoutePage = require('./vehicleRouteReducer')
 var usersPage = require('./usersPageReducer');
 
 var settings = require('./settingsReducer');
@@ -24,9 +24,9 @@ var rootReducer = combineReducers({
   consumersForm: consumersForm,
   vehiclesPage: vehiclesPage,
   routing: routerReducer,
-  vehicleRoutes: vehicleRoutes,
   staffPage: staffPage,
   mapPage: mapPage,
+  vehicleRoutePage: vehicleRoutePage,
   loginForm: loginForm,
   usersPage: usersPage,
 

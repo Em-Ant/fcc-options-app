@@ -9,7 +9,6 @@ var GoogleMap = require('react-google-maps').GoogleMap;
 var InfoWindow = require('react-google-maps').InfoWindow;
 var Marker = require('react-google-maps').Marker;
 var Polyline = require('react-google-maps').Polyline;
-const mapConst = require('../../constants/map');
 
 var MapMain = React.createClass({
   _googleMapComponent:null,
