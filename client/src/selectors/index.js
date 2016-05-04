@@ -14,6 +14,17 @@ export const sortAlphabetically = createSelector(
   }
 )
 
+export const filterByName = (getIds, getData, getFilter) => {
+  let filter = createSelector (
+    [getIds, getData, getFilter],
+    (ids, data, filter) => {
+      return ids.filter((id)=>{
+        return (data[id].name.toLowerCase().search(filter.toLowerCase()) != -1)
+      })
+    }
+  )
+  return filter
+}
 
 export const paginateAndSort = (getIds, getData, getPage, getItemsPerPage) => {
   let pager = createSelector (

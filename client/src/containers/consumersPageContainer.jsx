@@ -6,17 +6,21 @@ var models = require('../constants/models.js');
 var actions = new ModelActions(models.CONSUMERS);
 var vehicleActions = new ModelActions(models.VEHICLES);
 
-import {paginateAndSort} from '../selectors'
+import {paginateAndSort, filterByName} from '../selectors'
 
 const getIds = (state) => state.consumers.ids
 const getData = (state) => state.consumers.data
 const getPage = (state) => state.consumersForm.page
 const getItemsPerPage = (state) => state.consumersForm.itemsPerPage
+const getFilter = (state) => state.consumersForm.filter
 
-const [pagAndSort, pages] = paginateAndSort(getIds, getData, getPage, getItemsPerPage)
+const filteredIds = filterByName(getIds, getData, getFilter)
+const [pagAndSort, pages] = paginateAndSort(filteredIds, getData, getPage, getItemsPerPage)
+
 
 var mapStateToProps = function(state){
   return {
+    textFilter: state.consumersForm.filter,
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     consumersNeedToBeFetched: state.consumers.needToBeFetched,
     consumerIds: pagAndSort(state),
@@ -34,6 +38,13 @@ var mapStateToProps = function(state){
 
 var mapDispatchToProps = function(dispatch){
   return {
+    setFilter : function (e) {
+      dispatch({
+        type: 'FILTER',
+        model: 'CONSUMERS',
+        value: e.target.value
+      })
+    },
     loadConsumers: function () {
       dispatch(actions.fetch());
     },

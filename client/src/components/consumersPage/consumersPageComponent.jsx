@@ -54,6 +54,10 @@ var Consumers = React.createClass({
               <div className="box box-primary">
                 <div className="box-header with-border">
                   <h3 className="box-title">Consumers</h3>
+                  
+                  <input id="namefilter"type="text" onChange={this.props.setFilter} value={this.props.textFilter}
+                    ref="filter" placeholder="filter by name"></input>
+
                   <span className="pull-right">
                     <button className="btn btn-success" onClick={this.props.setAddMode}>
                       Add New Consumer
