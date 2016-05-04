@@ -3,6 +3,7 @@ const VEHICLES = require('../constants/models').VEHICLES;
 const CONSUMERS = require('../constants/models').CONSUMERS;
 var commonCRUD = require('../commons/commonReducerFunctions');
 var mapActions = require('../constants/actionTypes/mapActionTypes.js');
+var vehicleRouteActions = require('../constants/actionTypes/vehicleRouteActionTypes.js');
 var _ = require('lodash');
 
 function updateConsumersArray(state, v_id, cArray) {
@@ -60,7 +61,7 @@ var vehiclesReducer = function(state, action) {
     case mapActions.MAP_ADD_TO_ACTIVE_BUS_SUCCESS:
       var newState =  updateConsumersArray(state, action.v_id, action.consumersArray);
       return mapConsumersToVehicles(newState);
-    case mapActions.MAP_OPTIMIZE_ROUTE_SUCCESS:
+    case vehicleRouteActions.OPTIMIZE_ROUTE_SUCCESS:
       return commonCRUD.update(state, action.vehicle);
     case actionTypes.DELETE:
       if(action.model === CONSUMERS

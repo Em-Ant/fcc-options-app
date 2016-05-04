@@ -32,7 +32,7 @@ module.exports.hideDirections = function() {
 
 module.exports.reorderConsumer = function(vehicle, startConsumerPosition, endConsumerPosition) {
   var consumers = vehicle.consumers.slice();
-  //remove at start position, and place in end position 
+  //remove at start position, and place in end position
   var removedConsumers = consumers.splice(startConsumerPosition, 1);
   consumers.splice(endConsumerPosition, 0, removedConsumers[0]);
 
@@ -55,6 +55,7 @@ module.exports.optimizeRoute = function(v_id) {
         });
       }
       dispatch({
+
         type: actionTypes.OPTIMIZE_ROUTE_SUCCESS,
         vehicle: response
       })
