@@ -87,7 +87,7 @@ var VehiclePanelComponent = React.createClass({
 var mapStateToProps = function(state, ownProps) {
   return {
     vehicle: state.vehicles.data[ownProps.vehicleId],
-    isLoading: state.vehicleRoutePage.vehicleLoading
+    isLoading: state.vehicleRoutePage.vehicleLoading || state.vehicleRoutePage.directionsLoading
   }
 }
 var mapDispatchToProps = function(dispatch) {
