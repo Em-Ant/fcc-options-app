@@ -2,7 +2,7 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var actions = require('../../actions/mapActions');
+var actions = require('../../actions/vehicleRouteActions');
 var DirectionsBody = require('./directionsBody.jsx');
 
 

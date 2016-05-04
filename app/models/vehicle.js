@@ -38,13 +38,7 @@ var Vehicle = new Schema({
 
   driver: {
     type: Boolean,
-    default: true,
-    validate: {
-      validator: function(d) {
-        return d==true;
-      },
-      message: 'Vehicle must have a driver'
-    },
+    default: true
   },
 
   rider: {

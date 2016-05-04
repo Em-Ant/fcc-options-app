@@ -120,12 +120,18 @@ export const colorMarkers = createSelector(
       }
       else if (consumersToVehiclesMap[c_id]) {
         // consumer is on board
-        if (highlightedConsumerId == c_id) {
-          icon.fillColor =  mapConst.HIGHLIGHTED_CONSUMER_COLOR;
-        }else if(activeVehicleId !== consumersToVehiclesMap[c_id]){
-          icon.fillColor =  mapConst.ASSIGNED_CONSUMER_COLOR;// not on the active bus
+        if(activeVehicleId == consumersToVehiclesMap[c_id]){
+          if (highlightedConsumerId == c_id) {
+            icon.fillColor =  mapConst.HIGHLIGHTED_CONSUMER_COLOR;
+          }else{
+            icon.fillColor =  mapConst.SELECTED_ASSIGNED_CONSUMER_COLOR;// on the active bus
+          }
         }else{
-          icon.fillColor =  mapConst.SELECTED_ASSIGNED_CONSUMER_COLOR;// on the active bus
+          if (highlightedConsumerId == c_id) {
+            icon.fillColor =  mapConst.HIGHLIGHTED_ASSIGNED_COLOR;
+          }else{
+            icon.fillColor =  mapConst.ASSIGNED_CONSUMER_COLOR;// not on the active bus
+          }
         }
       }
       else{

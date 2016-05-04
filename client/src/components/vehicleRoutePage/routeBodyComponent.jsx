@@ -1,6 +1,6 @@
 var React = require('react');
 var ConsumerInfoBox = require('./consumerInfoBox.jsx');
-var actions = require('../../actions/mapActions')
+var actions = require('../../actions/vehicleRouteActions')
 var ModelActions = require('../../actions/modelActions.js');
 var models = require('../../constants/models.js');
 var vActions = new ModelActions(models.VEHICLES);
@@ -9,22 +9,21 @@ var connect = require('react-redux').connect;
 var RouteBodyComponent = React.createClass({
   componentDidMount:function(){
     var self = this;
-    var vehicle = this.props.vehicle;
     var startSortPosition;
-    $( "#sortable-" + vehicle._id ).sortable({
+    $( "#sortable-" + self.props.vehicle._id ).sortable({
       axis: "y",
       cursor: "move",
       stop: function( event, ui ) {
         var endSortPosition = ui.item.index();
         if(startSortPosition != endSortPosition){
-          self.props.onConsumerReorder(vehicle,startSortPosition, endSortPosition);
+          self.props.onConsumerReorder(self.props.vehicle,startSortPosition, endSortPosition);
         }
       },
       start: function(event, ui) {
         startSortPosition = ui.item.index();
       }
     });
-    $( "#sortable-" + vehicle._id ).disableSelection();
+    $( "#sortable-" + self.props.vehicle._id ).disableSelection();
   },
   render: function() {
     return (
@@ -32,18 +31,20 @@ var RouteBodyComponent = React.createClass({
       <div className="row">
         <div className="col-xs-6">
           <div className="checkbox">
-            <label>
-              <input type="checkbox" disabled="true" checked={this.props.vehicle.driver}/>
-              Driver
-              </label>
+              {this.props.vehicle.driver?
+              <i className="fa fa-check" aria-hidden="true"></i>
+              :<i className="fa fa-times" aria-hidden="true"></i>
+              }
+              &nbsp;Driver
           </div>
         </div>
         <div className="col-xs-6">
           <div className="checkbox">
-            <label>
-              <input type="checkbox" checked={this.props.vehicle.rider} onClick={this.props.onRiderClick.bind(null, this.props.vehicle)}/>
-              Rider
-            </label>
+              {this.props.vehicle.rider?
+              <i className="fa fa-check" aria-hidden="true"></i>
+              :<i className="fa fa-times" aria-hidden="true"></i>
+              }
+              &nbsp;Rider
           </div>
         </div>
       </div>
@@ -88,11 +89,6 @@ var mapDispatchToProps = function(dispatch) {
   return {
     onConsumerReorder: function(vehicle, startConsumerPosition, endConsumerPosition) {
       dispatch(actions.reorderConsumer(vehicle, startConsumerPosition, endConsumerPosition))
-    },
-    onRiderClick: function(vehicle, e) {
-      dispatch(vActions.update(Object.assign({}, vehicle, {
-        rider:e.target.checked
-      })));
     }
   }
 }

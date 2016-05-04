@@ -2,6 +2,7 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
+var Link = require('react-router').Link
 var VehicleForm= require('./vehicleFormComponent.jsx');
 
 var ModelActions = require('../../actions/modelActions.js');
@@ -70,6 +71,11 @@ return (
                         <td>{vehicle.wheelchairs}</td>
                         <td>{vehicle.flexSeats}</td>
                         <td className="text-center">
+                            <Link className="btn btn-sm btn-default in-table"
+                              title="Configure Route"
+                              to={"/vehicleRoute/" + vehicle._id}>
+                              <i className="fa fa-road" aria-hidden="true"></i>
+                            </Link>
                             <button className="btn btn-sm btn-default in-table"
                               title="Edit" type="button"
                               onClick={this.handleEditButton.bind(null, vehicle._id)} >

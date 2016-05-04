@@ -9,10 +9,28 @@ var GoogleMap = require('react-google-maps').GoogleMap;
 var InfoWindow = require('react-google-maps').InfoWindow;
 var Marker = require('react-google-maps').Marker;
 var Polyline = require('react-google-maps').Polyline;
-const mapConst = require('../../constants/map');
 
 var MapMain = React.createClass({
   _googleMapComponent:null,
+
+  centerMarker:function(marker){
+    this._googleMapComponent.panTo(marker.position);
+    this.props.markerInfoOpen(marker);
+  },
+  didCenterMarkerChange(newCenterMarker, prevCenterMarker){
+    return (newCenterMarker != null &&
+      (prevCenterMarker== null || newCenterMarker.consumerId != prevCenterMarker.consumerId))
+  },
+  componentDidUpdate:function(prevProps){
+    var newCenterMarker = this.props.centerMarker;
+    var prevCenterMarker = prevProps.centerMarker;
+    if(this.didCenterMarkerChange(newCenterMarker, prevCenterMarker)){
+      if(prevCenterMarker) {
+        this.props.markerInfoClose(prevCenterMarker)
+      }
+      this.centerMarker(newCenterMarker);
+    }
+  },
   getInitialState:function(){
     return {
     }
@@ -99,8 +117,10 @@ MapMain.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 
+import { colorMarkers } from '../../selectors'
 var mapStateToProps = function(state, ownProps){
-  var consumerMarkers = state.mapPage.consumerMarkers.filter(function(consumerMarker){
+  var consumerMarkers = colorMarkers(state);
+  consumerMarkers = consumerMarkers.filter(function(consumerMarker){
     return state.vehicles.consumersToVehiclesMap[consumerMarker.consumerId] == ownProps.vehicleId
   })
   return {
@@ -109,6 +129,7 @@ var mapStateToProps = function(state, ownProps){
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
     displayDirections: state.mapPage.displayDirections,
     vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points),
+    centerMarker: state.mapPage.centerMarker
   }
 }
 var mapDispatchToProps = function(dispatch) {
