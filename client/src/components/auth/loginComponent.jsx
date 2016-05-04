@@ -1,6 +1,8 @@
 'use strict'
 
 var React = require('react');
+var connect = require('react-redux').connect;
+var actions = require('../../actions/authActions.js');
 var Login = React.createClass({
 
   handleSubmit: function(e) {
@@ -16,7 +18,7 @@ var Login = React.createClass({
   },
   render: function() {
     return (
-      <div className="login-box">
+       <div className="login-box overlay-wrapper">
         <div className="login-logo">
           <a href="http://www.options-inc.org" target="_blank">
             <b>Options, Inc.</b>
@@ -52,8 +54,26 @@ var Login = React.createClass({
             </div>
           </form>
         </div>
+        {this.props.isLoading?
+          <div className="overlay">
+            <i className="fa fa-refresh fa-spin"></i>
+          </div>:
+          null}
       </div>
     )
   }
 });
-module.exports = Login;
+
+
+var mapStateToProps = function(state){
+  return Object.assign({}, state.auth, state.loginForm)
+}
+var mapDispatchToProps = function(dispatch) {
+  return {
+    onSubmit: function(formData) {
+      dispatch(actions.login(formData));
+    }
+  }
+}
+
+module.exports = connect(mapStateToProps, mapDispatchToProps)(Login);;

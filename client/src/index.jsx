@@ -8,7 +8,7 @@ require('../style/main.scss');
 var Main = require('./components/adminLTE/main.jsx');
 var NotFound = require('./components/adminLTE/notFound.jsx');
 var NotPermitted = require('./components/adminLTE/notPermitted.jsx');
-var Login = require('./containers/loginContainer.jsx');
+var Login = require('./components/auth/loginComponent.jsx');
 var Logout = require('./components/auth/logoutComponent.jsx');
 var VehicleRoute = require('./components/vehicleRoutePage/vehicleRouteComponent.jsx');
 var Vehicles = require('./components/vehiclesPage/vehiclesComponent.jsx');

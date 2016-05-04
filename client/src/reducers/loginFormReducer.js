@@ -7,7 +7,6 @@ var loginRequest = function(state){
 }
 
 var loginFailure = function(state, error){
-  console.log(error);
   return Object.assign({}, state, {
     isLoading:false,
     message:error.responseJSON.msg
