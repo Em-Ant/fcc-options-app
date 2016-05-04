@@ -1,6 +1,7 @@
 var actionTypes = require('../constants/actionTypes/vehicleRouteActionTypes.js');
 const modelConst = require('../constants/models');
 const mapConst = require('../constants/map');
+var modelActionTypes = require('../constants/actionTypes/modelActionTypes');
 
 var request = function(state, c_id) {
   return Object.assign({}, state, {
@@ -72,6 +73,13 @@ var reducer = function(state, action) {
       return error(state, action.error)
     case (actionTypes.OPTIMIZE_ROUTE_SUCCESS):
       return success(state)
+    case (modelActionTypes.UPDATE):
+      if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.LOADING)
+        return request(state)
+      if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.ERROR)
+        return error(state, action.error)
+      if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.SUCCESS)
+        return success(state)
     default:
       return state;
   }
