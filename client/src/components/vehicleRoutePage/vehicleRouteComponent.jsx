@@ -8,6 +8,7 @@ var Directions = require('../directions/directions.jsx')
 var ModelActions = require('../../actions/modelActions.js');
 var models = require('../../constants/models.js');
 
+var m_actions = require('../../actions/mapActions.js');
 var v_actions = new ModelActions(models.VEHICLES);
 var s_actions = new ModelActions(models.SETTINGS);
 var c_actions = new ModelActions(models.CONSUMERS);
@@ -28,6 +29,9 @@ var LoadingComponent = React.createClass({
 
 var VehicleRouteComponent = React.createClass({
    componentDidMount: function () {
+    if(this.props.assignedVehicleId!=this.props.params.vehicleId){
+      this.props.setActiveVehicleId(this.props.params.vehicleId)
+    }
     if(this.props.consumersNeedToBeFetched)
       this.props.loadConsumers();
     if(this.props.vehiclesNeedToBeFetched)
@@ -71,11 +75,15 @@ var mapStateToProps = function(state, ownProps){
     settingsNeedToBeFetched: state.settings.needToBeFetched,
     dataLoaded : (state.consumers.loaded
       && state.vehicles.loaded && state.settings.optionsIncAddress),
-    displayDirections: state.mapPage.displayDirections
+    displayDirections: state.mapPage.displayDirections,
+    activeVehicleId:state.mapPage.activeVehicleId
   }
 }
 var mapDispatchToProps = function(dispatch) {
   return {
+    setActiveVehicleId: function(vehicleId) {
+      dispatch(m_actions.setActiveVehicleId(vehicleId));
+    },
     loadConsumers: function() {
       dispatch(c_actions.fetch());
     },
