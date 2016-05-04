@@ -89,8 +89,13 @@
   margin-top: 22px;
 }
 
-#namefilter {
-  margin-left: 10px;
+.box-head-form {
+  display: inline-block;
+  margin-left: 15px;
+  input[type="text"] {
+    padding-left: 3px;
+    margin-right: 5px;
+  }
 }
 /* MAP PAGE PANELS */
 .flex {

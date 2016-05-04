@@ -101,7 +101,8 @@ function setPage(state, page) {
 var initState = {
   page : 1,
   itemsPerPage : 10,
-  filter: ''
+  filter: 'name',
+  filterString : ''
 };
 
 // TODO: HANDLE ERRORS
@@ -173,7 +174,9 @@ var reducer = function(state, action) {
       return resetEditMode(state);
     case actionTypes.SET_PAGE :
       return setPage(state, action.page)
-    case 'FILTER' :
+    case 'FILTER_STRING' :
+      return Object.assign({}, state, {filterString: action.value})
+    case 'FILTER_TYPE' :
       return Object.assign({}, state, {filter: action.value})
     default:
       return state;

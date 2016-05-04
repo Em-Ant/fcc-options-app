@@ -14,12 +14,13 @@ export const sortAlphabetically = createSelector(
   }
 )
 
-export const filterByName = (getIds, getData, getFilter) => {
+export const filterByString = (getIds, getData, getFilterString, getFilter) => {
   let filter = createSelector (
-    [getIds, getData, getFilter],
-    (ids, data, filter) => {
+    [getIds, getData, getFilterString, getFilter],
+    (ids, data, fString, filter) => {
       return ids.filter((id)=>{
-        return (data[id].name.toLowerCase().search(filter.toLowerCase()) != -1)
+        return (data[id][filter || 'name']
+          .toLowerCase().search(fString.toLowerCase()) != -1)
       })
     }
   )

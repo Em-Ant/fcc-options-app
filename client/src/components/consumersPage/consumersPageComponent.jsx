@@ -59,10 +59,35 @@ var Consumers = React.createClass({
               <div className="box box-primary">
                 <div className="box-header with-border">
                   <h3 className="box-title">Consumers</h3>
-
-                  <input id="namefilter"type="text" onChange={this.props.setFilter} value={this.props.textFilter}
-                    ref="filter" placeholder="filter by name"></input>
-
+                  <form className="box-head-form">
+                    <label>
+                      <input id="namefilter"type="text"
+                        onChange={this.props.setFilterString}
+                        value={this.props.textFilter}
+                        ref="filter" placeholder="filter">
+                      </input>
+                    </label>
+                    <label className="radio-inline">
+                      <input
+                        type="radio"
+                        name="filter_type"
+                        id="c_name_radio"
+                        value="name"
+                        onChange={this.props.setFilterType}
+                        checked={this.props.filterType === "name"}/>
+                        &nbsp;name
+                    </label>
+                    <label className="radio-inline">
+                      <input
+                        type="radio"
+                        name="filter_type"
+                        id="c_address_radio"
+                        value="address"
+                        onChange={this.props.setFilterType}
+                        cheched={this.props.filterType === "address"}/>
+                        &nbsp;address
+                    </label>
+                  </form>
                   <span className="pull-right">
                     <button className="btn btn-success" onClick={this.props.setAddMode}>
                       Add New Consumer

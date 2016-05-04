@@ -6,21 +6,23 @@ var models = require('../constants/models.js');
 var actions = new ModelActions(models.CONSUMERS);
 var vehicleActions = new ModelActions(models.VEHICLES);
 
-import {paginateAndSort, filterByName} from '../selectors'
+import {paginateAndSort, filterByString} from '../selectors'
 
 const getIds = (state) => state.consumers.ids
 const getData = (state) => state.consumers.data
 const getPage = (state) => state.consumersForm.page
 const getItemsPerPage = (state) => state.consumersForm.itemsPerPage
+const getFilterString = (state) => state.consumersForm.filterString
 const getFilter = (state) => state.consumersForm.filter
 
-const filteredIds = filterByName(getIds, getData, getFilter)
+const filteredIds = filterByString(getIds, getData, getFilterString, getFilter)
 const [pagAndSort, pages] = paginateAndSort(filteredIds, getData, getPage, getItemsPerPage)
 
 
 var mapStateToProps = function(state){
   return {
-    textFilter: state.consumersForm.filter,
+    textFilter: state.consumersForm.filterString,
+    filterType: state.consumersForm.filter,
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     consumersNeedToBeFetched: state.consumers.needToBeFetched,
     consumerIds: pagAndSort(state),
@@ -38,9 +40,16 @@ var mapStateToProps = function(state){
 
 var mapDispatchToProps = function(dispatch){
   return {
-    setFilter : function (e) {
+    setFilterString : function (e) {
       dispatch({
-        type: 'FILTER',
+        type: 'FILTER_STRING',
+        model: 'CONSUMERS',
+        value: e.target.value
+      })
+    },
+    setFilterType : function (e) {
+      dispatch({
+        type: 'FILTER_TYPE',
         model: 'CONSUMERS',
         value: e.target.value
       })
