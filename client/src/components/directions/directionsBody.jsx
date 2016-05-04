@@ -14,6 +14,17 @@ var DirectionsBody = React.createClass({
     var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/MINUTES_IN_HOUR);
     return(
       <div>
+      <div><b>Max Passenger Duration (w/out stops and traffic) </b></div>
+      <div>{maxPassengerDuration} minutes</div>
+      {maxPassengerDuration > this.props.maxConsumerRouteTime?
+        <Message message={{type:"info", msg:"The max passenger duration is greater than the maximum route time setting"}}/>
+        :null
+      }
+      <div><b>Total Duration (w/out stops and traffic) </b></div>
+      <div>{Math.ceil(route.totalDuration/MINUTES_IN_HOUR)} minutes</div>
+
+      <div><b>Total Distance</b> </div>
+      <div>{Math.ceil(route.totalDistance*MILES_IN_METER)} miles</div>
       {
         route.legs.map(function(leg, index){
           return(
@@ -41,17 +52,6 @@ var DirectionsBody = React.createClass({
           )
         })
       }
-      <div><b>Total Duration (w/out stops and traffic) </b></div>
-      <div>{Math.ceil(route.totalDuration/MINUTES_IN_HOUR)} minutes</div>
-
-      <div><b>Max Passenger Duration (w/out stops and traffic) </b></div>
-      <div>{maxPassengerDuration} minutes</div>
-      {maxPassengerDuration > this.props.maxConsumerRouteTime?
-        <Message message={{type:"info", msg:"The max passenger duration is greater than the maximum route time setting"}}/>
-        :null
-      }
-      <div><b>Total Distance</b> </div>
-      <div>{Math.ceil(route.totalDistance*MILES_IN_METER)} miles</div>
       </div>
     )
   }
