@@ -14,7 +14,7 @@ var BusBoxBodyComponent = React.createClass({
         <div className="col-xs-6">
           <div className="checkbox">
             <label>
-              <input type="checkbox" disabled="true" checked={this.props.vehicle.driver}/>
+              <input type="checkbox" checked={this.props.vehicle.driver} onClick={this.props.onDriverClick.bind(null, this.props.vehicle)}/>
               Driver
               </label>
           </div>
@@ -65,6 +65,11 @@ var mapDispatchToProps = function(dispatch, ownProps) {
     onRiderClick: function(vehicle, e) {
       dispatch(vActions.update(Object.assign({}, vehicle, {
         rider:e.target.checked
+      })));
+    },
+    onDriverClick: function(vehicle, e) {
+      dispatch(vActions.update(Object.assign({}, vehicle, {
+        driver:e.target.checked
       })));
     }
   }
