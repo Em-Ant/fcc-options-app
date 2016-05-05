@@ -9,13 +9,9 @@ var vehicleBoxClick = function(state, v_id) {
 
   var activeVId = state.activeVehicleId;
   if (activeVId === v_id) {
-
-    return Object.assign({}, state, {
-      error: null,
-      activeVehicleId: undefined,
-      directionsLoading: false,
-      displayDirections: false
-    })
+    
+    return state;
+    
   } else {
 
     return Object.assign({}, state, {
@@ -67,18 +63,6 @@ var highlightMarkerOff = function(state, id) {
     error: null,
     highlightedMarker: undefined
   })
-}
-
-var checkActiveVehicleIdForDelete = function(state, id) {
-  // checks if the active Vehicle has been deleted,
-  // if yes reset the tracker - Fix for #14
-
-  if (state.activeVehicleId === id) {
-    return Object.assign({}, state, {
-      activeVehicleId: undefined
-    })
-  }
-  return state;
 }
 
 var checkActiveVehicleIdForDelete = function(state, id) {

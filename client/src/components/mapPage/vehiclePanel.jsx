@@ -39,10 +39,8 @@ var BusBox = require('./collapsibleBusBox.jsx');
 
 var VehiclePanel = React.createClass({
   componentDidMount: function () {
-    if(this.props.activeVehicleId) {
-
-      // Open the active Collapsible box
-      $('#vp-'+this.props.activeVehicleId).collapse('show');
+    if(!this.props.activeVehicleId) {
+      this.props.setActiveVehicleId(this.props.vehiclesIds[0])
     }
   },
   print: function() {
@@ -112,5 +110,13 @@ var mapStateToProps = function(state){
   }
 }
 
-var VehiclePanelContainer = connect(mapStateToProps)(VehiclePanel);
+var mapDispatchToProps = function(dispatch) {
+  return {
+    setActiveVehicleId:function(v_id){
+      dispatch(actions.vehicleBoxClick(v_id))
+    }
+  }
+}
+
+var VehiclePanelContainer = connect(mapStateToProps, mapDispatchToProps)(VehiclePanel);
 module.exports = VehiclePanelContainer;
