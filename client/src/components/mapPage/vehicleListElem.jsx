@@ -17,16 +17,16 @@ var VehicleListElement = React.createClass({
     vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
 
     var activeClass = this.props.activeVehicleId === this.props.vehicleId
-      ? ' box-primary box-solid' : ' box-default';
+      ? 'warning' : null;
     var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs ?
       'avail-color' : 'unavail-color';
     var availSeats = vehicle.occupiedSeats < vehicle.seats ?
       'avail-color' : 'unavail-color';
     var availFlexSeats = vehicle.occupiedFlexSeats < vehicle.flexSeats ?
       'avail-color' : 'unavail-color';
-
+    
     return (
-        <tr>
+        <tr className={activeClass}>
           <td>
             <a href="#" data-toggle="active-bus" onClick={this.props.toggleActive.bind(null, this.props.vehicleId)}>
               {vehicle.name}
