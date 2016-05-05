@@ -43,12 +43,7 @@ var MapWrapper = React.createClass({
         <section className="content">
           <div className="row">
             <div className="col-md-3 col-sm-3 col-xs-3">
-
-            {this.props.displayDirections?
-              <Directions/>:
               <VehiclePanel/>
-              }
-
             </div>
             <div className="col-md-7 col-sm-7 col-xs-7">
               <div className="box box-widget map-height">
@@ -72,8 +67,7 @@ var mapStateToProps = function(state){
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     settingsNeedToBeFetched: state.settings.needToBeFetched,
     dataLoaded : ((state.consumers.loaded
-      && state.vehicles.loaded) && state.settings.optionsIncAddress),
-    displayDirections: state.mapPage.displayDirections
+      && state.vehicles.loaded) && state.settings.optionsIncAddress)
   }
 }
 var mapDispatchToProps = function(dispatch) {

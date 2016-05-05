@@ -332,8 +332,6 @@ var mapStateToProps = function(state){
     consumersIds: state.consumers.ids,
     activeVehicleId : state.mapPage.activeVehicleId,
     markerLoading: state.mapPage.markerLoading,
-    displayDirections: state.mapPage.displayDirections,
-    vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points),
     error:state.mapPage.error,
     displayClusters: state.mapPage.displayClusters,
     centerMarker: state.mapPage.centerMarker
