@@ -14,7 +14,7 @@ var BusBoxBodyComponent = React.createClass({
         <div className="col-xs-6">
           <div className="checkbox">
             <label>
-              <input type="checkbox" checked={this.props.vehicle.driver} onClick={this.props.onDriverClick.bind(null, this.props.vehicle)}/>
+              <input type="checkbox" checked={this.props.vehicle.driver} onChange={this.props.onDriverClick.bind(null, this.props.vehicle)}/>
               Driver
               </label>
           </div>
@@ -22,7 +22,7 @@ var BusBoxBodyComponent = React.createClass({
         <div className="col-xs-6">
           <div className="checkbox">
             <label>
-              <input type="checkbox" checked={this.props.vehicle.rider} onClick={this.props.onRiderClick.bind(null, this.props.vehicle)}/>
+              <input type="checkbox" checked={this.props.vehicle.rider} onChange={this.props.onRiderClick.bind(null, this.props.vehicle)}/>
               Rider
             </label>
           </div>
