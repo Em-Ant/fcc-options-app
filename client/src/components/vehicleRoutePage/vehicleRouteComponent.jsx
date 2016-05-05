@@ -82,7 +82,7 @@ var mapStateToProps = function(state, ownProps){
 var mapDispatchToProps = function(dispatch) {
   return {
     setActiveVehicleId: function(vehicleId) {
-      dispatch(m_actions.setActiveVehicleId(vehicleId));
+      dispatch(m_actions.vehicleBoxClick(vehicleId));
     },
     loadConsumers: function() {
       dispatch(c_actions.fetch());

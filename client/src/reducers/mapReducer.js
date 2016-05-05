@@ -9,9 +9,9 @@ var vehicleBoxClick = function(state, v_id) {
 
   var activeVId = state.activeVehicleId;
   if (activeVId === v_id) {
-    
+
     return state;
-    
+
   } else {
 
     return Object.assign({}, state, {
@@ -323,12 +323,6 @@ var centerConsumerMarker = function(state, consumerId) {
   })
 }
 
-var setActiveVehicleId = function(state, vehicleId){
-  return Object.assign({}, state, {
-    activeVehicleId: vehicleId
-  })
-}
-
 /**
  * TODO IMPORTANT handle errors
  */
@@ -379,8 +373,6 @@ var reducer = function(state, action) {
       return centerConsumerMarker(state, action.consumerId)
     case (actionTypes.MAP_SAVE_CLUSTERS):
       return saveClusters(state, action.clusters_);
-    case (actionTypes.MAP_SET_ACTIVE_VEHICLE_ID):
-      return setActiveVehicleId(state, action.vehicleId);
     case (modelActionTypes.FETCH):
       if (action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
         return setConsumerMarkers(state, action.response)

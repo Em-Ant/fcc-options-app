@@ -171,9 +171,3 @@ module.exports.saveClusters = function(clusters_) {
     clusters_: clusters_
   }
 }
-module.exports.setActiveVehicleId = function(vehicleId) {
-  return {
-    type: actionTypes.MAP_SET_ACTIVE_VEHICLE_ID,
-    vehicleId: vehicleId
-  }
-}
