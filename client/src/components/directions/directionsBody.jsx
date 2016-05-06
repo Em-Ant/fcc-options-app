@@ -3,7 +3,7 @@
 var React = require('react');
 var connect = require('react-redux').connect;
 var Message = require('../message.jsx');
-var printStyle = require('raw!../mapPage/printStyle_css')
+var PrintableRoute = require('./printableRoute.jsx');
 
 const MINUTES_IN_HOUR = 60;
 const MILES_IN_METER = 0.00062137;
@@ -15,14 +15,14 @@ var DirectionsBody = React.createClass({
     w.document.write('<!DOCTYPE html><html><head>');
     w.document.write('<title>Options, Inc. | Vehicles Report</title>');
     w.document.write('<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"/>')
+    w.document.write('<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>')
     w.document.write('<style type="text/css">');
-    w.document.write(printStyle);
+    w.document.write('.i-info {margin: 2px 3px;  }');
     w.document.write('</style></head><body>');
     w.document.write(document.getElementById(this.props.routeType + "-report").innerHTML);
     w.document.write('</body></html>')
     setTimeout(function(){w.stop()}, 1000); // fix perpetual loading on firefox
-    //w.print();
-    //w.close();
+
   },
   render:function(){
     var self = this;
@@ -31,17 +31,7 @@ var DirectionsBody = React.createClass({
     return(
       <div>
       <div><button className="btn btn-default" onClick={this.print}> <i className="fa fa-print"></i> Print </button></div>
-      <div id={this.props.routeType + "-report"}>
-        <div><b>ROUTE {this.props.routeType}</b></div>
-        <div><b>THIS ROUTE HAS MEDS</b></div>
-        <div><b>Passengers</b></div>
-        {
-          self.props.vehicle.consumers.map(function(consumerId){
-            return(
-              <div key={consumerId}>{self.props.consumers[consumerId].name}</div>
-            )
-          })
-        }
+      <div>
         <div><b>Max Passenger Duration (w/out stops and traffic) </b></div>
         <div>{maxPassengerDuration} minutes</div>
         {maxPassengerDuration > this.props.maxConsumerRouteTime?
@@ -81,7 +71,9 @@ var DirectionsBody = React.createClass({
           })
         }
         </div>
-
+        <div id={this.props.routeType + "-report"}>
+        <PrintableRoute routeType={this.props.routeType} />
+        </div>
       </div>
     )
   }
