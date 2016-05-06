@@ -48,6 +48,10 @@ return (
                   <button className="btn btn-success" onClick={this.handleAddButton}>
                     Add New Vehicle
                   </button>
+                  &nbsp;
+                  <a href="/api/report/vehicles"  className="btn btn-default" >
+                    <i className="fa fa-file-excel-o"></i>&nbsp;Export to Excel
+                  </a>
                 </span>
             </div>
             <div className="box-body">

@@ -91,7 +91,10 @@ var Consumers = React.createClass({
                   <span className="pull-right">
                     <button className="btn btn-success" onClick={this.props.setAddMode}>
                       Add New Consumer
-                    </button>
+                    </button>&nbsp;
+                    <a href="/api/report/consumers"  className="btn btn-default" >
+                      <i className="fa fa-file-excel-o"></i>&nbsp;Export to Excel
+                    </a>
                   </span>
                 </div>
                 <div className="box-body">

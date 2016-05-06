@@ -63,9 +63,6 @@ var VehiclePanel = React.createClass({
         <div className="box-header with-border">
           <h3 className="box-title">Vehicles</h3>
           <div className="pull-right">
-            <a href="/api/report" title="Get Excel Report" >
-              <i className="fa fa-file-excel-o cust-btn"></i>
-            </a>
             <a href="#" onClick={this.print} title="Print Data Table">
               <i className="fa fa-print cust-btn"></i>
             </a>

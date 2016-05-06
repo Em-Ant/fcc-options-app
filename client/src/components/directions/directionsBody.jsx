@@ -22,7 +22,6 @@ var DirectionsBody = React.createClass({
     w.document.write(document.getElementById(this.props.routeType + "-report").innerHTML);
     w.document.write('</body></html>')
     setTimeout(function(){w.stop()}, 1000); // fix perpetual loading on firefox
-
   },
   render:function(){
     var self = this;
@@ -78,7 +77,6 @@ var DirectionsBody = React.createClass({
     )
   }
 })
-
 var mapStateToProps = function(state, ownProps){
   var route;
   if(ownProps.routeType=="PM"){

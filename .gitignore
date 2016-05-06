@@ -24,3 +24,6 @@ client/public/static/vendors.js*
 
 #start_script
 quick_start.sh
+
+# atom beautify
+.jsbeautifyrc

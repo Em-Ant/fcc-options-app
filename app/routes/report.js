@@ -8,7 +8,8 @@ var controller = new Controller();
 var isLoggedIn = require('../auth/ensureAuth.js').isLoggedIn;
 
 //retrieves all routes
-router.get('/', isLoggedIn, controller.report);
+router.get('/vehicles', isLoggedIn, controller.vehiclesReport);
+router.get('/consumers', isLoggedIn, controller.consumersReport);
 
 
 module.exports = router;
