@@ -55,9 +55,14 @@ var FilterControls = React.createClass({
                 <h4 className="modal-title" id="myModalLabel">Consumer Filters</h4>
               </div>
               <div className="modal-body">
-                <label label-default="">Consumers</label>
+                <label label-default="">Consumers Needs</label>
                 <div className="row">
                   <div className="col-sm-4">
+                    <div className="checkbox">
+                      <label>
+                        <input type="checkbox"/>No Needs
+                      </label>
+                    </div>
                     <div className="checkbox">
                       <label>
                         <input type="checkbox"/>Wheelchair

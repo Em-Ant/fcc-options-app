@@ -117,7 +117,7 @@ MapMain.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 
-import { colorMarkers } from '../../selectors'
+import { colorMarkers } from '../../selectors/markerSelector'
 var mapStateToProps = function(state, ownProps){
   var consumerMarkers = colorMarkers(state);
   consumerMarkers = consumerMarkers.filter(function(consumerMarker){

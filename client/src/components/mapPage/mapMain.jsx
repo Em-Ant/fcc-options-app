@@ -319,12 +319,12 @@ MapMain.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 
-import { colorMarkers } from '../../selectors'
+import { colorMarkers, filterMarkers  } from '../../selectors/markerSelector'
 var mapStateToProps = function(state){
   return {
     //neededSeatings : neededSeatings(state.consumers.data),
     //availableSeatings : availableSeatings(state.vehicles.data),
-    consumerMarkers: colorMarkers(state),
+    consumerMarkers: filterMarkers(state),
     optionsIncMarker: state.mapPage.optionsIncMarker,
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
     vehicles : state.vehicles.data,
