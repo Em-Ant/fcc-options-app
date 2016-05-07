@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import alphanumCase from '../utils/alphanumCase'
 
 const getIds = (state) => state.ids
 const getData = (state) => state.data
@@ -8,7 +9,7 @@ export const sortAlphabetically = createSelector(
   (ids, data) => {
     var outIds = ids.slice();
     outIds.sort(function(a, b) {
-      return data[a].name.localeCompare(data[b].name);
+      return alphanumCase(data[a].name,data[b].name);
     })
     return outIds;
   }

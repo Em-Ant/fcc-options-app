@@ -117,8 +117,9 @@ var FilterControls = React.createClass({
   }
 });
 
+import { sortAlphabetically } from '../../selectors'
 var mapStateToProps = function(state) {
-  return {vehicles: state.vehicles.data, vehiclesIds: state.vehicles.ids}
+  return {vehicles: state.vehicles.data, vehiclesIds: sortAlphabetically(state.vehicles)}
 }
 
 module.exports = connect(mapStateToProps)(FilterControls);
