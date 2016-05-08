@@ -91,10 +91,15 @@
 
 .box-head-form {
   display: inline-block;
-  margin-left: 15px;
-  input[type="text"] {
+  margin-left: 25px;
+  input {
+    margin-left: 3px;
+  }
+  input[type='text'] {
     padding-left: 3px;
-    margin-right: 5px;
+  }
+  label {
+    margin-right: 8px;
   }
 }
 /* MAP PAGE PANELS */
