@@ -64,10 +64,6 @@ var FilterControls = React.createClass({
     ])
     return (
       <div>
-        <button type="button" className="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
-          <i className="fa fa-filter"></i>&nbsp;Filter
-        </button>
-
         <div className="modal fade" id="myModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div className="modal-dialog" role="document">
             <div className="modal-content">

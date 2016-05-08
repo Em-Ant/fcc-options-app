@@ -85,7 +85,20 @@ var MapMain = React.createClass({
       controlDiv.appendChild(alertDiv);
     }
   },
-  showError:function(error){
+  makeFilterControl(controlDiv){
+
+    var filterButton = document.createElement('button');
+    filterButton.type="button";
+    filterButton.className="btn btn-default btn-sm filter-btn";
+    filterButton.setAttribute("data-toggle", "modal");
+    filterButton.setAttribute("data-target", "#myModal");
+    filterButton.setAttribute("data-backdrop", "static");
+    filterButton.setAttribute("data-keyboard", "false");
+    filterButton.innerHTML="<i class='fa fa-filter'></i>&nbsp;Filter"
+
+    controlDiv.appendChild(filterButton);
+  },
+  createControls:function(){
     // google-maps-react doesn't support custom controls, so this has to be
     // set up manually
     if(!this.alertDiv){
@@ -93,8 +106,15 @@ var MapMain = React.createClass({
       this.alertDiv = document.createElement('div');
       map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.alertDiv);
     }
-    this.makeErrorControl(this.alertDiv, error);
+    this.makeErrorControl(this.alertDiv, this.props.error);
 
+
+    if(!this.filterDiv){
+      var map = this._googleMapComponent.props.map;
+      this.filterDiv = document.createElement('div');
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.filterDiv);
+      this.makeFilterControl(this.filterDiv);
+    }
   },
   getInitialState:function(){
     return {
@@ -160,12 +180,19 @@ var MapMain = React.createClass({
             ref={function(map){
               if(map){
                 self._googleMapComponent = map;
-                self.showError(self.props.error);
+                self.createControls();
               }
             }}
             defaultZoom={12}
             defaultCenter={self.props.optionsIncMarker.position}
             onZoomChanged={self.props.mapZoomChanged}
+            defaultOptions={{
+              mapTypeControl: true,
+              mapTypeControlOptions:{
+                  style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                  position: google.maps.ControlPosition.LEFT_BOTTOM
+              }
+            }}
             controls={self.errorMessage}
             >
             <WMarker

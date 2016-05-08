@@ -47,9 +47,7 @@ var MapWrapper = React.createClass({
             </div>
             <div className="col-md-7 col-sm-7 col-xs-7">
               <div className="box box-widget map-height">
-                <div className="box-header with-border">
-                  <FilterControls/>
-                </div>
+                <FilterControls/>
                 <MapPage></MapPage>
                 <PrintDiv/>
               </div>
