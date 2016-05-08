@@ -1,3 +1,9 @@
+var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
+
+var saveFilters = function(state, filters) {
+  return Object.assign({}, state, filters)
+}
+
 var initState = {
   needsWave: true,
   behavioralIssues: true,
@@ -10,6 +16,8 @@ var initState = {
 var mapFiltersReducer = function(state, action) {
   state = state || initState;
   switch (action.type) {
+    case (actionTypes.MAP_SAVE_FILTERS):
+      return saveFilters(state, action.filters);
     default:
       return state;
   }

@@ -70,12 +70,14 @@ export const filterMarkers = createSelector(
         (mapFilters.hasSeizures && consumers[marker.consumerId].hasSeizures) ||
         (mapFilters.hasWheelchair && consumers[marker.consumerId].hasWheelchair) ||
         (mapFilters.hasMedications && consumers[marker.consumerId].hasMedications) ||
+        (mapFilters.needsWave && consumers[marker.consumerId].needsWave) ||
         (mapFilters.noNeeds &&
           !consumers[marker.consumerId].behavioralIssues &&
           !consumers[marker.consumerId].needsTwoSeats &&
           !consumers[marker.consumerId].hasSeizures &&
           !consumers[marker.consumerId].hasWheelchair &&
-          !consumers[marker.consumerId].hasMedications)
+          !consumers[marker.consumerId].hasMedications)&&
+          !consumers[marker.consumerId].needsWave
     });
   }
 )
