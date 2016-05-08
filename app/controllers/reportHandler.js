@@ -8,105 +8,106 @@ var Consumer = mongoose.model('Consumer');
 
 function ReportHandler() {
   this.consumersReport = function (req, res) {
-    var vehicles = [];
-    var consumers = [];
-    Consumer.find({}, function (err, results) {
+    Vehicle.find({}, function(err, vehicles) {
       if (err) {
-        return res.status(500).json({
-          msg: 'Error generating report'
-        });
-      }
-      consumers = results;
-
-      if (err) {
-        return res.status(500).json({
-          msg: 'Error generating report'
-        });
-      }
-
-      var c2v = {};
-      vehicles.forEach(function (v) {
-        v.consumers.forEach(function (c) {
-          c2v[c._id] = v;
-        })
-      })
-
-      var conf = [{}];
-
-      conf[0].name = "Consumers";
-      conf[0].cols = [{
-        caption: 'NAME',
-        width: 26.0
-      }, {
-        caption: 'SEX',
-        width: 9.0
-      }, {
-        caption: 'ADDRESS',
-        type: 'string',
-        width: 50.0
-      }, {
-        caption: 'PHONE',
-        type: 'string',
-        width: 26.0
-      }, {
-        caption: 'NEEDS',
-        type: 'string',
-        width: 50.0
-      }, {
-        caption: 'NOTES',
-        type: 'string',
-        width: 50.0
-      }, {
-        caption: 'VEHICLE',
-        type: 'string',
-        width: 26.0
-      }];
-      conf[0].rows = consumers.map(function (consumer) {
-        var needs = '';
-        if (consumer.hasWheelchair) needs += 'Wheelchair, ';
-        if (consumer.hasMedications) needs += 'Medications, ';
-        if (consumer.hasSeizures) needs += 'Seizures, ';
-        if (consumer.needsTwoSeats) needs += '2 Seats, ';
-        if (consumer.needsWave) needs += 'Wave, ';
-        if (consumer.behavioralIssues) needs += 'Behavioral Issues, '
-        needs = needs.replace(/,\s$/, '');
-        var vehicle = c2v[consumer._id] ? c2v[consumer._id] : {};
-        return [consumer.name, consumer.sex, consumer.address,
-          consumer.phone || '', needs, consumer.notes || '', vehicle.name || ''
-        ];
-      });
-
-      var result = nodeExcel.execute(conf);
-      res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-      res.setHeader("Content-Disposition", "attachment; filename=" + "consumers report.xlsx");
-      res.end(result, 'binary');
-    })
-  }
-
-  this.vehiclesReport = function (req, res) {
-    var vehicles = [];
-    var consumers = [];
-
-    Vehicle.find({})
-      .populate('consumers')
-      .exec(function (err, results) {
         if (err) {
           return res.status(500).json({
             msg: 'Error generating report'
           });
         }
-        vehicles = results;
+      }
+      Consumer.find({}, function (err, consumers) {
+        if (err) {
+          return res.status(500).json({
+            msg: 'Error generating report'
+          });
+        }
+
+        if (err) {
+          return res.status(500).json({
+            msg: 'Error generating report'
+          });
+        }
+
         var c2v = {};
         vehicles.forEach(function (v) {
           v.consumers.forEach(function (c) {
-            c2v[c._id] = v;
+            c2v[c] = v;
           })
         })
 
-        var conf = [{}];
+        var conf = {};
 
-        conf[0].name = "Vehicles";
-        conf[0].cols = [{
+        conf.name = "Consumers";
+        conf.cols = [{
+          caption: 'NAME',
+          width: 26.0
+        }, {
+          caption: 'SEX',
+          width: 9.0
+        }, {
+          caption: 'ADDRESS',
+          type: 'string',
+          width: 50.0
+        }, {
+          caption: 'PHONE',
+          type: 'string',
+          width: 26.0
+        }, {
+          caption: 'NEEDS',
+          type: 'string',
+          width: 50.0
+        }, {
+          caption: 'NOTES',
+          type: 'string',
+          width: 50.0
+        }, {
+          caption: 'VEHICLE',
+          type: 'string',
+          width: 26.0
+        }];
+        conf.rows = consumers.map(function (consumer) {
+          var needs = '';
+          if (consumer.hasWheelchair) needs += 'Wheelchair, ';
+          if (consumer.hasMedications) needs += 'Medications, ';
+          if (consumer.hasSeizures) needs += 'Seizures, ';
+          if (consumer.needsTwoSeats) needs += '2 Seats, ';
+          if (consumer.needsWave) needs += 'Wave, ';
+          if (consumer.behavioralIssues) needs += 'Behavioral Issues, '
+          needs = needs.replace(/,\s$/, '');
+          var vehicle = c2v[consumer._id] ? c2v[consumer._id] : {};
+          return [consumer.name, consumer.sex, consumer.address,
+            consumer.phone || '', needs, consumer.notes || '', vehicle.name || ''
+          ];
+        });
+
+        var d = new Date();
+        var dateString = d.toDateString().split(' ');
+        dateString.shift();
+        dateString = dateString.join('_').toLowerCase();
+        var result = nodeExcel.execute(conf);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+        res.setHeader("Content-Disposition", "attachment; filename=" +
+          "consumers_report_" + dateString + ".xlsx");
+        res.end(result, 'binary');
+      })
+    })
+  }
+
+  this.vehiclesReport = function (req, res) {
+    Vehicle.find({})
+      .populate('consumers')
+      .exec(function (err, vehicles) {
+        if (err) {
+          return res.status(500).json({
+            msg: 'Error generating report'
+          });
+        }
+
+        var conf = {};
+
+        conf.name = "Vehicles";
+        conf.cols = [{
           caption: 'NAME',
           type: 'string',
           width: 30
@@ -128,7 +129,7 @@ function ReportHandler() {
           width: 50
         }];
 
-        conf[0].rows = vehicles.map(function (v) {
+        conf.rows = vehicles.map(function (v) {
 
           var consumers = '';
           v.consumers.forEach(function (c) {
@@ -140,10 +141,14 @@ function ReportHandler() {
             rider, consumers
           ];
         });
-
+        var d = new Date();
+        var dateString = d.toDateString().split(' ');
+        dateString.shift();
+        dateString = dateString.join('_').toLowerCase();
         var result = nodeExcel.execute(conf);
         res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-        res.setHeader("Content-Disposition", "attachment; filename=" + "vehicles report.xlsx");
+        res.setHeader("Content-Disposition", "attachment; filename=" +
+          "vehicles_report_" + dateString +".xlsx");
         res.end(result, 'binary');
       })
   }
