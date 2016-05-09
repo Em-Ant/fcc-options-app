@@ -4,7 +4,7 @@ var React = require('react');
 var connect = require('react-redux').connect;
 
 var VehiclePanel = require('./vehiclePanel.jsx')
-var ConsumersPanel = require('./ConsumersPanel.jsx')
+var ConsumersPanel = require('./consumersPanel.jsx')
 var Directions = require('../directions/directions.jsx')
 var MapPage = require('./mapMain.jsx')
 var FilterControls = require('./filterControls.jsx')
