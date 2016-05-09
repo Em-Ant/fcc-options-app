@@ -98,11 +98,27 @@ function setPage(state, page) {
   return Object.assign({}, state, {page: page})
 }
 
+function setNeedsFilter(state, updatedCheckFilter) {
+  var needs = Object.assign({}, state.needsFilter, updatedCheckFilter);
+  return Object.assign({}, state, {needsFilter: needs})
+}
+
 var initState = {
   page : 1,
   itemsPerPage : 10,
   filter: 'name',
-  filterString : ''
+  filterString : '',
+  needsFilter: {
+    male: true,
+    female: true,
+    hasWheelchair: true,
+    hasMedications: true,
+    hasSeizures: true,
+    needsTwoSeats: true,
+    needsWave: true,
+    behavioralIssues: true,
+    noNeeds: true
+  }
 };
 
 // TODO: HANDLE ERRORS
@@ -178,6 +194,8 @@ var reducer = function(state, action) {
       return Object.assign({}, state, {filterString: action.value})
     case 'FILTER_TYPE' :
       return Object.assign({}, state, {filter: action.value})
+    case 'FILTER_NEEDS' :
+      return setNeedsFilter(state, action.value)
     default:
       return state;
   }

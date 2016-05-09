@@ -60,33 +60,97 @@ var Consumers = React.createClass({
                 <div className="box-header with-border">
                   <h3 className="box-title">Consumers</h3>
                   <form className="box-head-form">
-                    <label>
-                      <input id="namefilter"type="text"
-                        onChange={this.props.setFilterString}
-                        value={this.props.textFilter}
-                        ref="filter" placeholder="filter">
-                      </input>
-                    </label>
-                    <label className="radio-inline">
-                      <input
-                        type="radio"
-                        name="filter_type"
-                        id="c_name_radio"
-                        value="name"
-                        onChange={this.props.setFilterType}
-                        checked={this.props.filterType === "name"}/>
-                        &nbsp;name
-                    </label>
-                    <label className="radio-inline">
-                      <input
-                        type="radio"
-                        name="filter_type"
-                        id="c_address_radio"
-                        value="address"
-                        onChange={this.props.setFilterType}
-                        cheched={this.props.filterType === "address"}/>
-                        &nbsp;address
-                    </label>
+                    <div className="form-group">
+                      <label>
+                        <input
+                          type="radio"
+                          name="filter_type"
+                          id="c_name_radio"
+                          value="name"
+                          onChange={this.props.setFilterType}
+                          checked={this.props.filterType === "name"}/>
+                          &nbsp;name
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name="filter_type"
+                          id="c_address_radio"
+                          value="address"
+                          onChange={this.props.setFilterType}
+                          cheched={this.props.filterType === "address"}/>
+                          &nbsp;address
+                      </label>
+                      <label>
+                        <input id="namefilter"type="text"
+                          onChange={this.props.setFilterString}
+                          value={this.props.textFilter}
+                          ref="filter" placeholder="filter">
+                        </input>
+                      </label>
+                      <label>
+                        <input type="checkbox"
+                          name="male"
+                          checked={this.props.needsFilter.male}
+                          onChange={this.props.filterChecks}/> M
+                      </label>
+                      <label>
+                        <input type="checkbox"
+                          name="female"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.female}
+                          /> F
+                      </label>
+                      <label>
+                        <input type="checkbox"
+                          name="hasWheelchair"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.hasWheelchair}
+                          /> <i className="fa fa-wheelchair"></i>
+                      </label>
+                      <label>
+                        <input type="checkbox"
+                          name="hasMedications"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.hasMedications}
+                          /> <i className="fa fa-medkit"></i>
+                      </label>
+                      <label>
+                        <input type="checkbox"
+                          name="hasSeizures"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.hasSeizures}
+                          /> SZ
+                      </label>
+                      <label>
+                        <input type="checkbox"
+                          name="needsTwoSeats"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.needsTwoSeats}
+                          /> 2S
+                      </label>
+                      <label>
+                        <input type="checkbox"
+                          name="needsWave"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.needsWave}
+                          /> <i className="fa fa-phone"></i>
+                      </label>
+                      <label>
+                        <input type="checkbox"
+                          name="behavioralIssues"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.behavioralIssues}
+                          /> BI
+                      </label>
+                      <label>
+                        <input type="checkbox"
+                          name="noNeeds"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.noNeeds}
+                          /> No Needs
+                      </label>
+                    </div>
                   </form>
                   <span className="pull-right">
                     <button className="btn btn-success" onClick={this.props.setAddMode}>
