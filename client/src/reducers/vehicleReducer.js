@@ -93,7 +93,7 @@ var vehiclesReducer = function(state, action) {
         return commonCRUD.update(state, action.response);
     case actionTypes.DELETE:
       if (action.status == actionTypes.SUCCESS){
-        var newState = commonCRUD.destroy(state, action.response);
+        var newState = commonCRUD.destroy(state, action.id);
         return mapConsumersToVehicles(newState);
       }
     default:
