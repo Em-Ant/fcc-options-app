@@ -27,6 +27,7 @@ var mapStateToProps = function(state){
     filterType: state.consumersForm.filter,
     vehiclesNeedToBeFetched: state.vehicles.needToBeFetched,
     consumersNeedToBeFetched: state.consumers.needToBeFetched,
+    filteredNItems: stringFilteredIds(state).length,
     consumerIds: pagAndSort(state),
     currPage : state.consumersForm.page,
     pages : pages(state),

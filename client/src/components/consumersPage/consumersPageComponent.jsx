@@ -150,8 +150,15 @@ var Consumers = React.createClass({
                           checked={this.props.needsFilter.noNeeds}
                           /> No Needs
                       </label>
+                      <span className="items-count">
+                        <strong>
+                           - {this.props.filteredNItems} Consumers found
+                        </strong>
+                      </span>
                     </div>
+
                   </form>
+
                   <span className="pull-right">
                     <button className="btn btn-success" onClick={this.props.setAddMode}>
                       Add New Consumer
