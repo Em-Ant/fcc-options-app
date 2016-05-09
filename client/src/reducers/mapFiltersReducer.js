@@ -11,7 +11,8 @@ var initState = {
   hasSeizures: true,
   hasWheelchair: true,
   hasMedications: true,
-  noNeeds:true
+  noNeeds:true,
+  vehicleIds:[]
 }
 var mapFiltersReducer = function(state, action) {
   state = state || initState;

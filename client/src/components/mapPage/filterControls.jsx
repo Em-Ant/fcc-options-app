@@ -4,26 +4,16 @@ var React = require('react');
 var connect = require('react-redux').connect;
 var actions = require('../../actions/mapActions')
 
-var VehicleFilterCol = React.createClass({
-  render: function() {
-    return (
-      <div className="col-sm-4">
-        {this.props.vehicles.map(function(vehicle) {
-          return (
-            <div key={vehicle._id} className="checkbox">
-              <label>
-                <input type="checkbox"/>{vehicle.name}
-              </label>
-            </div>
-          )
-        })}
-      </div>
-    )
-  }
-})
 
 var FilterControls = React.createClass({
+  vehicleCheckboxes:[],
   handleSubmit: function() {
+    var vehicleIds = this.vehicleCheckboxes.reduce(function(prev, cur){
+      if(cur.checked){
+        prev.push(cur.value)
+      }
+      return prev;
+    }, [])
     var filters = {
       noNeeds: this.refs.noNeeds.checked,
       needsWave: this.refs.needsWave.checked,
@@ -31,7 +21,8 @@ var FilterControls = React.createClass({
       needsTwoSeats: this.refs.needsTwoSeats.checked,
       hasSeizures: this.refs.hasSeizures.checked,
       hasWheelchair: this.refs.hasWheelchair.checked,
-      hasMedications: this.refs.hasMedications.checked
+      hasMedications: this.refs.hasMedications.checked,
+      vehicleIds: vehicleIds
     }
     this.props.saveFilters(filters);
   },
@@ -43,6 +34,14 @@ var FilterControls = React.createClass({
       this.refs.hasSeizures.checked = boolean;
       this.refs.hasWheelchair.checked = boolean;
       this.refs.hasMedications.checked = boolean;
+  },
+  addVehicleCheckbox:function(input){
+    var index = this.vehicleCheckboxes.findIndex(function(vehicleCheckbox){
+      return input.value==vehicleCheckbox.value
+    });
+    if(index == -1){
+      this.vehicleCheckboxes.push(input);
+    }
   },
   render: function() {
     var self = this;
@@ -121,7 +120,24 @@ var FilterControls = React.createClass({
                 <label label-default="">Vehicles</label>
                 <div className="row">
                   {vehicleCols.map(function(vehicles, index) {
-                    return (<VehicleFilterCol key={index} vehicles={vehicles}/>)
+                    return (
+                        <div key={index} ref ="vehicleCheckboxes" className="col-sm-4">
+                          {vehicles.map(function(vehicle) {
+                            return (
+                              <div key={vehicle._id} className="checkbox">
+                                <label>
+                                  <input type="checkbox" ref={function(input){
+                                      if(input){
+                                        input.checked=true;
+                                        self.addVehicleCheckbox(input);
+                                      }
+                                    }} value={vehicle._id}/>{vehicle.name}
+                                </label>
+                              </div>
+                            )
+                          })}
+                        </div>
+                    )
                   })
 }
                 </div>

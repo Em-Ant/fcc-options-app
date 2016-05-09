@@ -88,11 +88,13 @@ export const getFilteredConsumers = createSelector(
   (c_ids, consumers, consumersToVehiclesMap, mapFilters, activeVehicleId) => {
     var filteredConsumerIds =  c_ids.filter(function (c_id) {
       var consumer = consumers[c_id];
+
       var consumerVehicleId = consumersToVehiclesMap[c_id];
       if(consumerVehicleId == activeVehicleId){
         return true;
       }
-      return (mapFilters.behavioralIssues && consumer.behavioralIssues) ||
+      return ( mapFilters.vehicleIds.indexOf(consumerVehicleId) !== -1 ) &&
+      ((mapFilters.behavioralIssues && consumer.behavioralIssues) ||
         (mapFilters.needsTwoSeats && consumer.needsTwoSeats) ||
         (mapFilters.hasSeizures && consumer.hasSeizures) ||
         (mapFilters.hasWheelchair && consumer.hasWheelchair) ||
@@ -104,7 +106,7 @@ export const getFilteredConsumers = createSelector(
           !consumer.hasSeizures &&
           !consumer.hasWheelchair &&
           !consumer.hasMedications)&&
-          !consumer.needsWave
+          !consumer.needsWave)
     });
     var filteredConsumers =  filteredConsumerIds.map(function(c_ids){
       return consumers[c_ids];

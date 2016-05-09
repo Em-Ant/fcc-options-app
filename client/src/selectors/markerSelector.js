@@ -69,7 +69,8 @@ export const filterMarkers = createSelector(
       if(consumerVehicleId == activeVehicleId){
         return true;
       }
-      return (mapFilters.behavioralIssues && consumer.behavioralIssues) ||
+      return ( mapFilters.vehicleIds.indexOf(consumerVehicleId) !== -1 ) &&
+      ((mapFilters.behavioralIssues && consumer.behavioralIssues) ||
         (mapFilters.needsTwoSeats && consumer.needsTwoSeats) ||
         (mapFilters.hasSeizures && consumer.hasSeizures) ||
         (mapFilters.hasWheelchair && consumer.hasWheelchair) ||
@@ -81,7 +82,7 @@ export const filterMarkers = createSelector(
           !consumer.hasSeizures &&
           !consumer.hasWheelchair &&
           !consumer.hasMedications)&&
-          !consumer.needsWave
+          !consumer.needsWave)
     });
   }
 )
