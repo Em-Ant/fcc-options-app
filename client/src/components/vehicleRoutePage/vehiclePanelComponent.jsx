@@ -14,6 +14,7 @@ var VehiclePanelComponent = React.createClass({
   render: function() {
     var vehicle = this.props.vehicle
     vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
+    console.log(vehicle);
     var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs
       ? 'avail-color'
       : 'unavail-color';
@@ -104,6 +105,7 @@ var VehiclePanelComponent = React.createClass({
 var mapStateToProps = function(state, ownProps) {
   return {
     vehicle: state.vehicles.data[ownProps.vehicleId],
+    consumers: state.consumers.data,
     isLoading: state.vehicleRoutePage.vehicleLoading || state.vehicleRoutePage.directionsLoading
   }
 }
