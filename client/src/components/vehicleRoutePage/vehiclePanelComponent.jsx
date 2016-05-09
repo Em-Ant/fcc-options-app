@@ -72,7 +72,8 @@ var VehiclePanelComponent = React.createClass({
                 <form className="form-inline" style={{display: 'inline-block'}}>
                   <label>
                     Optimizer Origin: &nbsp;
-                    <select defaultValue="auto" className="form-control" ref="optimizeMode">
+                    <select
+                      defaultValue={this.props.vehicle.optimized || 'auto'} className="form-control" ref="optimizeMode">
                       <option value="auto">Auto</option>
                       <option value="first">First Consumer</option>
                     </select>
