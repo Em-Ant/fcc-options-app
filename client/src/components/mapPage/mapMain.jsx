@@ -219,7 +219,7 @@ var MapMain = React.createClass({
             {self.props.consumerMarkers.map(function(marker, index){
               return(
                 <WMarker
-                  key={index}
+                  key={marker.consumerId}
                   ref= {function(refMarker){
                     /*
                     //HACK:  don't know any other way for the cluster to see

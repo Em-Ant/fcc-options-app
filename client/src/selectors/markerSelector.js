@@ -61,23 +61,27 @@ const mapConst = require('../constants/map');
 const getConsumers = (state) => state.consumers.data
 const getMapFilters = (state) => state.mapFilters
 export const filterMarkers = createSelector(
-  [colorMarkers, getConsumers, getMapFilters],
-  (consumerMarkers, consumers, mapFilters) => {
+  [colorMarkers, getConsumers, getMapFilters, getActiveVId, getC2VMap],
+  (consumerMarkers, consumers, mapFilters, activeVehicleId, consumersToVehiclesMap) => {
     return consumerMarkers.filter(function (marker) {
-      //TODO need to handle no needs case?
-      return (mapFilters.behavioralIssues && consumers[marker.consumerId].behavioralIssues) ||
-        (mapFilters.needsTwoSeats && consumers[marker.consumerId].needsTwoSeats) ||
-        (mapFilters.hasSeizures && consumers[marker.consumerId].hasSeizures) ||
-        (mapFilters.hasWheelchair && consumers[marker.consumerId].hasWheelchair) ||
-        (mapFilters.hasMedications && consumers[marker.consumerId].hasMedications) ||
-        (mapFilters.needsWave && consumers[marker.consumerId].needsWave) ||
+      var consumer = consumers[marker.consumerId];
+      var consumerVehicleId = consumersToVehiclesMap[marker.consumerId];
+      if(consumerVehicleId == activeVehicleId){
+        return true;
+      }
+      return (mapFilters.behavioralIssues && consumer.behavioralIssues) ||
+        (mapFilters.needsTwoSeats && consumer.needsTwoSeats) ||
+        (mapFilters.hasSeizures && consumer.hasSeizures) ||
+        (mapFilters.hasWheelchair && consumer.hasWheelchair) ||
+        (mapFilters.hasMedications && consumer.hasMedications) ||
+        (mapFilters.needsWave && consumer.needsWave) ||
         (mapFilters.noNeeds &&
-          !consumers[marker.consumerId].behavioralIssues &&
-          !consumers[marker.consumerId].needsTwoSeats &&
-          !consumers[marker.consumerId].hasSeizures &&
-          !consumers[marker.consumerId].hasWheelchair &&
-          !consumers[marker.consumerId].hasMedications)&&
-          !consumers[marker.consumerId].needsWave
+          !consumer.behavioralIssues &&
+          !consumer.needsTwoSeats &&
+          !consumer.hasSeizures &&
+          !consumer.hasWheelchair &&
+          !consumer.hasMedications)&&
+          !consumer.needsWave
     });
   }
 )
