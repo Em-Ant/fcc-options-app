@@ -42,12 +42,13 @@ module.exports.reorderConsumer = function(vehicle, startConsumerPosition, endCon
   return vehicleActions.update(updatedVehicle);
 }
 
-module.exports.optimizeRoute = function(v_id) {
+module.exports.optimizeRoute = function(v_id, mode) {
   return function(dispatch) {
     dispatch({
       type: actionTypes.OPTIMIZE_ROUTE_REQUEST
     });
-    Ajax.get('/api/vehicle/optimize-route/' + v_id, function(err, response) {
+    Ajax.get('/api/vehicle/optimize-route/' + v_id + '?origin=' + mode,
+     function(err, response) {
       if (err) {
         return dispatch({
           type: actionTypes.OPTIMIZE_ROUTE_FAILURE,

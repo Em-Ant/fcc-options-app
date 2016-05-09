@@ -8,7 +8,9 @@ var actions = require('../../actions/vehicleRouteActions')
 var vehicleUtils = require('../../utils/vehicleUtils');
 
 var VehiclePanelComponent = React.createClass({
-
+  optimizeRoute: function (v_id) {
+    this.props.optimizeRoute(v_id, this.refs.optimizeMode.value);
+  },
   render: function() {
     var vehicle = this.props.vehicle
     vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
@@ -29,6 +31,12 @@ var VehiclePanelComponent = React.createClass({
                      {vehicle.name} Route
                   </h4>
                 <div className="pull-right">
+                {vehicle.optimized ?
+                  <span
+                    className="cust-label optimized"
+                    title="Route optimized mode">
+                    <i className="fa fa-road"></i>&nbsp;{vehicle.optimized}
+                  </span> : null}
                   {vehicle.needsMedications ?
                     <span
                       className="cust-label med"
@@ -61,11 +69,19 @@ var VehiclePanelComponent = React.createClass({
                 <RouteBody vehicleId={vehicle._id}/>
               </div>
               <div className="box-footer">
+                <form className="form-inline" style={{display: 'inline-block'}}>
+                  <label>
+                    Optimizer Origin: &nbsp;
+                    <select defaultValue="auto" className="form-control" ref="optimizeMode">
+                      <option value="auto">Auto</option>
+                      <option value="first">First Consumer</option>
+                    </select>
+                  </label>
+                </form>
                 <div className="btn-group pull-right">
-
                   <button
                     className="btn btn-default btn-sm"
-                    onClick={this.props.optimizeRoute.bind(null, this.props.vehicleId)}
+                    onClick={this.optimizeRoute.bind(null, this.props.vehicleId)}
                     >Optimize Route</button>
                   <button
                     className="btn btn-default btn-sm"
@@ -92,8 +108,8 @@ var mapStateToProps = function(state, ownProps) {
 }
 var mapDispatchToProps = function(dispatch) {
   return {
-    optimizeRoute: function(v_id) {
-      dispatch(actions.optimizeRoute(v_id));
+    optimizeRoute: function(v_id, mode) {
+      dispatch(actions.optimizeRoute(v_id, mode));
     },
     onDirectionsClick: function(v_id) {
       dispatch(actions.displayDirections(v_id))

@@ -44,8 +44,13 @@ var Vehicle = new Schema({
   rider: {
     type: Boolean,
     default: false
-  }
+  },
 
+  optimized: {
+    type: String,
+    enum: ['auto', 'first'],
+    default: undefined
+  }
 });
 
 Vehicle.plugin(uniqueValidator, { message: 'Another vehicle with that {PATH} already exists' });

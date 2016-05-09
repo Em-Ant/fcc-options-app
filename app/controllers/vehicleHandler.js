@@ -89,6 +89,7 @@ function VehicleHandler() {
       var updated = Object.assign(vehicle, req.body);
       if(req.body.consumers){
         updated.markModified('consumers');
+        updated.optimized= undefined;
       }
       updated.save(function(err, savedVehicle) {
         if (err) {
@@ -162,7 +163,11 @@ function VehicleHandler() {
       },
       get_optimized_wpts: ['get_options_inc_address', 'get_vehicle', function(results, callback) {
 
-        if(results.get_vehicle.consumers.length <= 1) {
+        if(results.get_vehicle.consumers.length <= 1
+          || (results.get_vehicle.optimized === req.query.origin)
+          || (!req.query.origin && results.get_vehicle.optimized === 'auto')) {
+          var cIds = results.get_vehicle.consumers.map(c => c._id)
+          results.get_vehicle.consumers = cIds;
           res.status(200).json(results.get_vehicle);
           return callback();
         }
@@ -245,6 +250,7 @@ function VehicleHandler() {
         var vehicle = results.get_vehicle;
         vehicle.consumers = optimizedConsumerIds;
         vehicle.markModified('consumers');
+        vehicle.optimized = req.query.origin === 'first' ? 'first' : 'auto'
         vehicle.save(function(err, saved) {
           if(err) {
             return res.status(500).json({
