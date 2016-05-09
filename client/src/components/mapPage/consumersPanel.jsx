@@ -3,17 +3,17 @@ var connect = require('react-redux').connect;
 var actions = require('../../actions/mapActions')
 var _addFlags = require('../../utils/addConsumerFlags');
 
-var UnassignedConsumerPanel = React.createClass({
+var ConsumersPanel = React.createClass({
 
   render : function() {
     var self = this;
-    if(!this.props.unassignedConsumers.length){
+    if(!this.props.consumers.length){
       return <div></div>
     }
     return (
       <div className="box box-widget  map-height pad-bot-10">
         <div className="box-header with-border">
-          <h3 className="box-title">Unassigned Consumers</h3>
+          <h3 className="box-title">Consumers</h3>
         </div>
         <div className="box-body abs-body overflow">
           <table className="table table-striped table-hover clickable">
@@ -24,7 +24,7 @@ var UnassignedConsumerPanel = React.createClass({
               </tr>
             </thead>
             <tbody>
-              {this.props.unassignedConsumers.map(function(consumer){
+              {this.props.consumers.map(function(consumer){
                 var flags = _addFlags(consumer);
                 var createMarkup = function(s) {return {__html: s}}
                 var needFlags = flags.needs
@@ -60,12 +60,12 @@ var UnassignedConsumerPanel = React.createClass({
   }
 });
 
-import { getUnassignedConsumersSorted } from '../../selectors'
+import { getFilteredConsumers } from '../../selectors'
 
 
 var mapStateToProps = function(state){
   return{
-    unassignedConsumers: getUnassignedConsumersSorted(state),
+    consumers: getFilteredConsumers(state),
     loading: state.mapPage.vehicleLoading
   }
 }
@@ -85,4 +85,4 @@ var mapDispatchToProps = function(dispatch) {
   }
 }
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(UnassignedConsumerPanel);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(ConsumersPanel);

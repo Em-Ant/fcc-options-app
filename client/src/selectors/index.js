@@ -58,19 +58,38 @@ export const paginateAndSort = (getIds, getData, getPage, getItemsPerPage) => {
 const getCIds = (state) => state.consumers.ids
 const getConsumers = (state) => state.consumers.data
 const getC2V = (state) => state.vehicles.consumersToVehiclesMap
-export const getUnassignedConsumersSorted = createSelector(
-  [getCIds, getConsumers, getC2V],
-  (c_ids, consumers, consumersToVehiclesMap) => {
-    var unassignedConsumers = [];
-    c_ids.forEach(function(c_id){
-      if(!consumersToVehiclesMap[c_id]){
-        unassignedConsumers.push(consumers[c_id])
+const getActiveVId = (state) => state.mapPage.activeVehicleId
+const getMapFilters = (state) => state.mapFilters
+export const getFilteredConsumers = createSelector(
+  [getCIds, getConsumers, getC2V, getMapFilters, getActiveVId],
+  (c_ids, consumers, consumersToVehiclesMap, mapFilters, activeVehicleId) => {
+    var filteredConsumerIds =  c_ids.filter(function (c_id) {
+      var consumer = consumers[c_id];
+      var consumerVehicleId = consumersToVehiclesMap[c_id];
+      if(consumerVehicleId == activeVehicleId){
+        return true;
       }
+      return (mapFilters.behavioralIssues && consumer.behavioralIssues) ||
+        (mapFilters.needsTwoSeats && consumer.needsTwoSeats) ||
+        (mapFilters.hasSeizures && consumer.hasSeizures) ||
+        (mapFilters.hasWheelchair && consumer.hasWheelchair) ||
+        (mapFilters.hasMedications && consumer.hasMedications) ||
+        (mapFilters.needsWave && consumer.needsWave) ||
+        (mapFilters.noNeeds &&
+          !consumer.behavioralIssues &&
+          !consumer.needsTwoSeats &&
+          !consumer.hasSeizures &&
+          !consumer.hasWheelchair &&
+          !consumer.hasMedications)&&
+          !consumer.needsWave
+    });
+    var filteredConsumers =  filteredConsumerIds.map(function(c_ids){
+      return consumers[c_ids];
     })
-    unassignedConsumers.sort(function(a, b){
+    var sortedConsumers = filteredConsumers.sort(function(a, b){
       return a.name.localeCompare(b.name);
     })
-    return unassignedConsumers;
+    return sortedConsumers;
   }
 )
 

@@ -4,7 +4,7 @@ var React = require('react');
 var connect = require('react-redux').connect;
 
 var VehiclePanel = require('./vehiclePanel.jsx')
-var UnassignedConsumerPanel = require('./unassignedConsumerPanel.jsx')
+var ConsumersPanel = require('./ConsumersPanel.jsx')
 var Directions = require('../directions/directions.jsx')
 var MapPage = require('./mapMain.jsx')
 var FilterControls = require('./filterControls.jsx')
@@ -53,7 +53,7 @@ var MapWrapper = React.createClass({
               </div>
             </div>
             <div className="col-md-2 col-sm-2 col-xs-2">
-              <UnassignedConsumerPanel/>
+              <ConsumersPanel/>
             </div>
           </div>
         </section>
