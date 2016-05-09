@@ -6,22 +6,28 @@ var _addFlags = require('../../utils/addConsumerFlags');
 const MINUTES_IN_HOUR = 60;
 const MILES_IN_METER = 0.00062137;
 
+
+
 var PrintableRoute = React.createClass({
   render:function(){
     var self = this;
     var route = this.props.route;
     var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/MINUTES_IN_HOUR);
     var consumers =  self.props.vehicle.consumers;
-
+    var routeHasMeds = consumers.some(function(consumerId){
+      var consumer = self.props.consumers[consumerId];
+      return consumer.hasMedications
+    })
     //HACK: When we switch to use drop in waypoints, this might change.
     if(this.props.routeType=="PM"){
       consumers = consumers.slice().reverse();
     }
     return(
-      <div className="container">
+      <div className="container printable-route">
         <div>
-        <div className="text-center"><h3>ROUTE {this.props.routeType}</h3></div>
-        <div className="text-center"><h4>THIS ROUTE HAS MEDS</h4></div>
+        <div className="text-center"><h3>{this.props.vehicle.name} {this.props.routeType} Route </h3></div>
+        {routeHasMeds?<div className="text-center"><h4>THIS ROUTE HAS MEDS</h4></div>:null}
+       
         <p/>
         <table className="table">
           <thead>
