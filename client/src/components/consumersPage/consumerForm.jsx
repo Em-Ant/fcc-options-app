@@ -23,7 +23,7 @@ var ConsumerForm = React.createClass({
     // handle component from Plugins
     $(".select2").val(props.defaults.sex).trigger("change");
 
-    $('input').iCheck('uncheck');
+    $('input.icheck').iCheck('uncheck');
 
     if(props.defaults.hasWheelchair) $('#c_wheel').iCheck('check');
     if(props.defaults.hasSeizures) $('#c_seiz').iCheck('check');
@@ -61,7 +61,7 @@ var ConsumerForm = React.createClass({
     this.props.buttonHandles(newConsumer)
   },
   componentDidMount: function () {
-    $('input').iCheck({
+    $('input.icheck').iCheck({
       checkboxClass: 'icheckbox_square-blue',
       radioClass: 'iradio_square-blue',
       increaseArea: '20%' // optional
@@ -147,34 +147,34 @@ var ConsumerForm = React.createClass({
                       <label htmlFor="c_wheel" className="col-sm-2 control-label">
                         Wheelchair</label>
                       <div className="col-sm-4">
-                        <input type="checkbox" id="c_wheel" className="minimal"
+                        <input type="checkbox" id="c_wheel" className="minimal icheck"
                           ref="wheel" />
                       </div>
                       <label htmlFor="c_twoseat" className="col-sm-3 control-label">Two Seats</label>
                       <div className="col-sm-3">
-                        <input type="checkbox" id="c_twoseat" className="minimal" ref="twoSeats"/>
+                        <input type="checkbox" id="c_twoseat" className="minimal icheck" ref="twoSeats"/>
                       </div>
                     </div>
 
                     <div className="form-group">
                       <label htmlFor="c_wave" className="col-sm-2 control-label">Needs Wave</label>
                       <div className="col-sm-4">
-                        <input type="checkbox" id="c_wave" className="minimal" ref="wave"/>
+                        <input type="checkbox" id="c_wave" className="minimal icheck" ref="wave"/>
                       </div>
                       <label htmlFor="c_behavior" className="col-sm-3 control-label">Behavioral Issues</label>
                       <div className="col-sm-3">
-                        <input type="checkbox" id="c_behavior" className="minimal" ref="behavior"/>
+                        <input type="checkbox" id="c_behavior" className="minimal icheck" ref="behavior"/>
                       </div>
                     </div>
 
                     <div className="form-group">
                       <label htmlFor="c_seiz" className="col-sm-2 control-label">Seizures</label>
                       <div className="col-sm-4">
-                        <input type="checkbox" id="c_seiz" className="minimal" ref="seiz"/>
+                        <input type="checkbox" id="c_seiz" className="minimal icheck" ref="seiz"/>
                       </div>
                       <label htmlFor="c_med" className="col-sm-3 control-label">Medications</label>
                       <div className="col-sm-3">
-                        <input type="checkbox" id="c_med" className="minimal" ref="med"/>
+                        <input type="checkbox" id="c_med" className="minimal icheck" ref="med"/>
                       </div>
                     </div>
 

@@ -89,31 +89,66 @@ var Consumers = React.createClass({
                         </input>
                       </label>
                       <label>
-                        <input type="checkbox"/> M
+                        <input type="checkbox"
+                          name="male"
+                          checked={this.props.needsFilter.male}
+                          onChange={this.props.filterChecks}/> M
                       </label>
                       <label>
-                        <input type="checkbox"/> F
+                        <input type="checkbox"
+                          name="female"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.female}
+                          /> F
                       </label>
                       <label>
-                        <input type="checkbox"/> <i className="fa fa-wheelchair"></i>
+                        <input type="checkbox"
+                          name="hasWheelchair"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.hasWheelchair}
+                          /> <i className="fa fa-wheelchair"></i>
                       </label>
                       <label>
-                        <input type="checkbox"/> <i className="fa fa-medkit"></i>
+                        <input type="checkbox"
+                          name="hasMedications"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.hasMedications}
+                          /> <i className="fa fa-medkit"></i>
                       </label>
                       <label>
-                        <input type="checkbox"/> SZ
+                        <input type="checkbox"
+                          name="hasSeizures"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.hasSeizures}
+                          /> SZ
                       </label>
                       <label>
-                        <input type="checkbox"/> 2S
+                        <input type="checkbox"
+                          name="needsTwoSeats"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.needsTwoSeats}
+                          /> 2S
                       </label>
                       <label>
-                        <input type="checkbox"/> <i className="fa fa-phone"></i>
+                        <input type="checkbox"
+                          name="needsWave"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.needsWave}
+                          /> <i className="fa fa-phone"></i>
                       </label>
                       <label>
-                        <input type="checkbox"/> BI
+                        <input type="checkbox"
+                          name="behavioralIssues"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.behavioralIssues}
+                          /> BI
                       </label>
                       <label>
-                        <input type="checkbox"/> No Needs
+                        <input type="checkbox"
+                          name="noNeeds"
+                          onChange={this.props.filterChecks}
+                          checked={this.props.needsFilter.noNeeds}
+                          /> No Needs
                       </label>
                     </div>
                   </form>

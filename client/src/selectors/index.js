@@ -27,6 +27,29 @@ export const filterByString = (getIds, getData, getFilterString, getFilter) => {
   return filter
 }
 
+export const filterByNeeds = (getIds, getData, getNeedsFilter) => {
+  let filter = createSelector (
+    [getIds, getData, getNeedsFilter],
+    (ids, data, needs) => {
+      return ids.filter((id) => {
+        if (data[id].sex === 'male' && !needs.male) return false
+        if (data[id].sex === 'female' && !needs.female) return false
+        return (data[id].hasWheelchair && needs.hasWheelchair) ||
+          (data[id].hasMedications && needs.hasMedications) ||
+          (data[id].hasSeizures && needs.hasSeizures) ||
+          (data[id].needsTwoSeats && needs.needsTwoSeats) ||
+          (data[id].needsWave && needs.needsWave) ||
+          (data[id].behavioralIssues && needs.behavioralIssues) ||
+          (needs.noNeeds &&
+            !(data[id].hasWheelchair || data[id].hasSeizures
+              || data[id].hasMedications || data[id].needsTwoSeats
+              || data[id].needsWave || data[id].behavioralIssues))
+      })
+    }
+  )
+  return filter
+}
+
 export const paginateAndSort = (getIds, getData, getPage, getItemsPerPage) => {
   let pager = createSelector (
       [getIds, getData, getPage, getItemsPerPage],

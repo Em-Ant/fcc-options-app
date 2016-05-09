@@ -6,7 +6,7 @@ var models = require('../constants/models.js');
 var actions = new ModelActions(models.CONSUMERS);
 var vehicleActions = new ModelActions(models.VEHICLES);
 
-import {paginateAndSort, filterByString} from '../selectors'
+import {paginateAndSort, filterByString, filterByNeeds} from '../selectors'
 
 const getIds = (state) => state.consumers.ids
 const getData = (state) => state.consumers.data
@@ -14,9 +14,11 @@ const getPage = (state) => state.consumersForm.page
 const getItemsPerPage = (state) => state.consumersForm.itemsPerPage
 const getFilterString = (state) => state.consumersForm.filterString
 const getFilter = (state) => state.consumersForm.filter
+const getNeedsFilter = (state) => state.consumersForm.needsFilter
 
-const filteredIds = filterByString(getIds, getData, getFilterString, getFilter)
-const [pagAndSort, pages] = paginateAndSort(filteredIds, getData, getPage, getItemsPerPage)
+const needsFilteredIds = filterByNeeds(getIds, getData, getNeedsFilter)
+const stringFilteredIds = filterByString(needsFilteredIds, getData, getFilterString, getFilter)
+const [pagAndSort, pages] = paginateAndSort(stringFilteredIds, getData, getPage, getItemsPerPage)
 
 
 var mapStateToProps = function(state){
@@ -34,12 +36,22 @@ var mapStateToProps = function(state){
     formLoading : state.consumersForm.updatingConsumers,
     deleteId: state.consumersForm.deleteId,
     displayForm: state.consumersForm.displayForm,
-    errorMsg: state.consumersForm.errorMsg
+    errorMsg: state.consumersForm.errorMsg,
+    needsFilter: state.consumersForm.needsFilter
   }
 }
 
 var mapDispatchToProps = function(dispatch){
   return {
+    filterChecks: function(e) {
+      var filter = {};
+      filter[e.target.name] = e.target.checked;
+      dispatch({
+        type: 'FILTER_NEEDS',
+        model: 'CONSUMERS',
+        value: filter
+      })
+    },
     setFilterString : function (e) {
       dispatch({
         type: 'FILTER_STRING',
