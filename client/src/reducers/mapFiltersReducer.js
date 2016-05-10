@@ -19,7 +19,32 @@ var updateVehicleFilter = function (state, vehicleId, value) {
     vehicleIds: vehicleIds
   });
 }
+var setAllNeedFilters = function (state, value) {
+  return Object.assign({}, state, {
+    needsWave: value,
+    behavioralIssues: value,
+    needsTwoSeats: value,
+    hasSeizures: value,
+    hasWheelchair: value,
+    hasMedications: value,
+    noNeeds: value
+  })
+}
+var setAllVehicleFilters = function (state, vehicleIds, value) {
+  vehicleIds =  vehicleIds.slice();
+  if (value) {
+    return Object.assign({}, state, {
+      vehicleUnassigned: value,
+      vehicleIds: vehicleIds
+    })
+  } else {
+    return Object.assign({}, state, {
+      vehicleUnassigned: value,
+      vehicleIds: []
+    })
+  }
 
+}
 var initState = {
   needsWave: true,
   behavioralIssues: true,
@@ -38,10 +63,14 @@ var mapFiltersReducer = function (state, action) {
     return updateFilter(state, action.filterName, action.value);
   case (actionTypes.FILTER_VEHICLE_UPDATE):
     return updateVehicleFilter(state, action.vehicleId, action.value);
+  case (actionTypes.FILTER_SET_ALL_NEEDS):
+    return setAllNeedFilters(state, action.value);
+  case (actionTypes.FILTER_SET_ALL_VEHICLES):
+    return setAllVehicleFilters(state, action.vehicleIds, action.value);
   case modelActionTypes.FETCH:
     if (action.model == VEHICLES && action.status == modelActionTypes.SUCCESS) {
-      action.response.forEach(function(vehicle){
-          state = updateVehicleFilter(state, vehicle._id, true)
+      action.response.forEach(function (vehicle) {
+        state = updateVehicleFilter(state, vehicle._id, true)
       })
       return state;
     }
