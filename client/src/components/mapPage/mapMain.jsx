@@ -15,6 +15,7 @@ const mapConst = require('../../constants/map');
 var _ = require('lodash');
 var clusterMouseoverTimer = null;
 var _markerClusterer = null;
+var repaintTimer = null;
 ClusterIcon.prototype.createCss = function(pos) {
   var size = Math.min(this.cluster_.getMarkers().length + 10,
       100 //possible max-size of a cluster-icon
@@ -35,22 +36,66 @@ ClusterIcon.prototype.createCss = function(pos) {
 /*
 Marker Wrapper to speed up performance
 */
-var WMarker = React.createClass({
+var WMarkerComponent = React.createClass({
+  marker:null,
   //Needed to speed up marker performance
   shouldComponentUpdate(nextProps,nextState){
     return (nextProps.icon.fillColor != this.props.icon.fillColor ||
             nextProps.showInfo != this.props.showInfo)
   },
+  clusterMouseover:function(cluster_){
+    var self = this;
+    this.clearClusterTimer();
+    //Copy object because sometimes cluster_.markers_ changes when timer is up.
+    var cluster = Object.assign({}, cluster_, {
+      center:cluster_.getCenter(),
+      markers_:cluster_.markers_.slice()
+    } );
+    clusterMouseoverTimer=setTimeout(function(){
+      self.props.clusterMouseover(cluster);
+    }, mapConst.CLUSTER_MOUSEOVER_TIMEOUT_INTERVAL)
+
+  },
+  clusterMouseout:function(){
+    clearTimeout(clusterMouseoverTimer);
+  },
+  clearClusterTimer:function(){
+    clearTimeout(clusterMouseoverTimer);
+  },
+  componentWillUnmount:function(){
+    console.log("unmounting");
+    if(this.marker){
+
+      _markerClusterer.removeMarker(this.marker.state.marker, true)
+
+      clearTimeout(repaintTimer);
+      repaintTimer=setTimeout(function(){
+        _markerClusterer.repaint();
+      }, 1000)
+
+    }
+  },
   render: function() {
+    var self = this;
     return <Marker ref={function(marker){
+        self.marker = marker;
         if(!_markerClusterer){
           _markerClusterer = new MarkerClusterer(marker.state.marker.map,[],{
             gridSize:1,
             enableRetinaIcons: true,
             clusterClass: 'cluster cluster_red_circle'
           });
+
+          google.maps.event.addListener(_markerClusterer, "mouseover", function (c) {
+            self.clusterMouseover(c);
+          });
+          google.maps.event.addListener(_markerClusterer, "mouseout", function (c) {
+            self.clusterMouseout(c);
+          });
+          google.maps.event.addListener(_markerClusterer, "clusteringEnd", self.props.onClusteringEnd);
         }
         if(marker && marker.state){
+          marker.state.marker.consumerId=self.props.consumerId;
           _markerClusterer.addMarker(marker.state.marker)
         }
       }
@@ -191,6 +236,7 @@ var MapMain = React.createClass({
     })
 
   },
+
   render: function() {
     var self = this;
     return (
@@ -239,9 +285,9 @@ var MapMain = React.createClass({
             // >
           }
             {
-            // this.props.displayClusters.length > 0?
-            // self.renderClusterInfoWindows(this.props.displayClusters) : null
-            //
+            this.props.displayClusters.length > 0?
+            self.renderClusterInfoWindows(this.props.displayClusters) : null
+
           }
 
             {self.props.consumerMarkers.map(function(marker, index){
@@ -257,6 +303,7 @@ var MapMain = React.createClass({
                     }
                     */
                   }}
+                  consumerId={marker.consumerId}
                   position={marker.position}
                   title = {marker.name}
                   icon={marker.icon}
@@ -424,5 +471,5 @@ var mapDispatchToProps = function(dispatch) {
 
   }
 }
-
+var WMarker = connect(mapStateToProps, mapDispatchToProps)(WMarkerComponent);
 module.exports = connect(mapStateToProps, mapDispatchToProps)(MapMain);
