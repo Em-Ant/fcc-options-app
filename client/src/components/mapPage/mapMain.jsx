@@ -10,10 +10,11 @@ var Marker = require('react-google-maps').Marker;
 var Polyline = require('react-google-maps').Polyline;
 var ConsumerMarkerInfo = require('./consumerMarkerInfo.jsx');
 var ClusterInfo = require('./clusterInfo.jsx');
-var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
+//var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
 const mapConst = require('../../constants/map');
 var _ = require('lodash');
 var clusterMouseoverTimer = null;
+var _markerClusterer = null;
 /*
 Marker Wrapper to speed up performance
 */
@@ -24,7 +25,17 @@ var WMarker = React.createClass({
             nextProps.showInfo != this.props.showInfo)
   },
   render: function() {
-    return <Marker {...this.props}/>
+    return <Marker ref={function(marker){
+        if(!_markerClusterer){
+          _markerClusterer = new MarkerClusterer(marker.state.marker.map,[],{
+            gridSize:1
+          });
+        }
+        if(marker && marker.state){
+          _markerClusterer.addMarker(marker.state.marker)
+        }
+      }
+      }{...this.props}/>
   }
 })
 
