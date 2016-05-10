@@ -20,7 +20,6 @@ ClusterIcon.prototype.createCss = function(pos) {
   var size = Math.min(this.cluster_.getMarkers().length + 10,
       100 //possible max-size of a cluster-icon
     ),
-
     style = ['border-radius : 50%',
       'line-height   : ' + size + 'px',
       'cursor        : pointer',
@@ -79,6 +78,7 @@ var WMarkerComponent = React.createClass({
         if(!_markerClusterer){
           _markerClusterer = new MarkerClusterer(marker.state.marker.map,[],{
             gridSize:1,
+            averageCenter:true,
             enableRetinaIcons: true,
             clusterClass: 'cluster cluster_red_circle'
           });
