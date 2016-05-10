@@ -63,16 +63,13 @@ var WMarkerComponent = React.createClass({
     clearTimeout(clusterMouseoverTimer);
   },
   componentWillUnmount:function(){
-    console.log("unmounting");
     if(this.marker){
 
-      _markerClusterer.removeMarker(this.marker.state.marker, true)
-
+      var result = _markerClusterer.removeMarker(this.marker.state.marker, true)
       clearTimeout(repaintTimer);
       repaintTimer=setTimeout(function(){
         _markerClusterer.repaint();
       }, 1000)
-
     }
   },
   render: function() {
@@ -94,9 +91,14 @@ var WMarkerComponent = React.createClass({
           });
           google.maps.event.addListener(_markerClusterer, "clusteringEnd", self.props.onClusteringEnd);
         }
-        if(marker && marker.state){
+        if(marker && marker.state && self.props.consumerId){
           marker.state.marker.consumerId=self.props.consumerId;
-          _markerClusterer.addMarker(marker.state.marker)
+          var index = _markerClusterer.markers_.findIndex(function(marker,index){
+            return (marker.consumerId == self.props.consumerId)
+          })
+          if(index == -1){
+            _markerClusterer.addMarker(marker.state.marker)
+          }
         }
       }
       }{...this.props}/>
