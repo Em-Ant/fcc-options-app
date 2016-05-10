@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git+https://github.com/Em-Ant/fcc-options-app.git"
   },
+  "engines": {
+    "node": "4.1.1"
+  },
   "homepage": "https://options-inc.herokuapp.com",
   "bugs": "https://github.com/Em-Ant/fcc-options-app/issues",
   "keywords": [
