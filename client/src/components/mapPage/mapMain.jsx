@@ -92,8 +92,6 @@ var MapMain = React.createClass({
     filterButton.className="btn btn-default btn-sm filter-btn";
     filterButton.setAttribute("data-toggle", "modal");
     filterButton.setAttribute("data-target", "#myModal");
-    filterButton.setAttribute("data-backdrop", "static");
-    filterButton.setAttribute("data-keyboard", "false");
     filterButton.innerHTML="<i class='fa fa-filter'></i>&nbsp;Filter"
 
     controlDiv.appendChild(filterButton);

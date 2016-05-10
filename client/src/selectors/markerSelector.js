@@ -56,7 +56,9 @@ const colorMarkers = createSelector(
     });
   }
 )
-
+import {
+  isFiltered
+} from '../utils/consumerFilter'
 const mapConst = require('../constants/map');
 const getConsumers = (state) => state.consumers.data
 const getMapFilters = (state) => state.mapFilters
@@ -66,23 +68,7 @@ export const filterMarkers = createSelector(
     return consumerMarkers.filter(function (marker) {
       var consumer = consumers[marker.consumerId];
       var consumerVehicleId = consumersToVehiclesMap[marker.consumerId];
-      if(consumerVehicleId == activeVehicleId){
-        return true;
-      }
-      return ( mapFilters.vehicleIds.indexOf(consumerVehicleId) !== -1 ) &&
-      ((mapFilters.behavioralIssues && consumer.behavioralIssues) ||
-        (mapFilters.needsTwoSeats && consumer.needsTwoSeats) ||
-        (mapFilters.hasSeizures && consumer.hasSeizures) ||
-        (mapFilters.hasWheelchair && consumer.hasWheelchair) ||
-        (mapFilters.hasMedications && consumer.hasMedications) ||
-        (mapFilters.needsWave && consumer.needsWave) ||
-        (mapFilters.noNeeds &&
-          !consumer.behavioralIssues &&
-          !consumer.needsTwoSeats &&
-          !consumer.hasSeizures &&
-          !consumer.hasWheelchair &&
-          !consumer.hasMedications)&&
-          !consumer.needsWave)
+      return isFiltered(mapFilters, activeVehicleId, consumer, consumerVehicleId)
     });
   }
 )

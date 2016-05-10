@@ -2,14 +2,13 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
-var actions = require('../../actions/mapActions')
-
+var actions = require('../../actions/mapFilterActions')
 
 var FilterControls = React.createClass({
   vehicleCheckboxes:[],
   handleSubmit: function() {
-    var vehicleIds = this.vehicleCheckboxes.reduce(function(prev, cur){
-      if(cur.checked){
+    var excludedVehicleIds = this.vehicleCheckboxes.reduce(function(prev, cur){
+      if(!cur.checked){
         prev.push(cur.value)
       }
       return prev;
@@ -22,6 +21,7 @@ var FilterControls = React.createClass({
       hasSeizures: this.refs.hasSeizures.checked,
       hasWheelchair: this.refs.hasWheelchair.checked,
       hasMedications: this.refs.hasMedications.checked,
+      vehicleUnassigned:this.refs.vehicleUnassigned.checked,
       vehicleIds: vehicleIds
     }
     this.props.saveFilters(filters);
@@ -34,6 +34,10 @@ var FilterControls = React.createClass({
       this.refs.hasSeizures.checked = boolean;
       this.refs.hasWheelchair.checked = boolean;
       this.refs.hasMedications.checked = boolean;
+      this.refs.vehicleUnassigned.checked = boolean;
+      this.vehicleCheckboxes.forEach(function(vehicleCheckbox){
+        vehicleCheckbox.checked = boolean
+      })
   },
   addVehicleCheckbox:function(input){
     var index = this.vehicleCheckboxes.findIndex(function(vehicleCheckbox){
@@ -41,6 +45,10 @@ var FilterControls = React.createClass({
     });
     if(index == -1){
       this.vehicleCheckboxes.push(input);
+    }
+  },
+  getInitialState:function(){
+    return {
     }
   },
   render: function() {
@@ -76,48 +84,53 @@ var FilterControls = React.createClass({
                   <div className="col-sm-4">
                     <div className="checkbox">
                       <label>
-                        <input ref="noNeeds" type="checkbox" defaultChecked={this.props.filters.noNeeds}/>No Needs
+                        <input type="checkbox" checked={this.props.filters.noNeeds} onChange={this.props.filterChange.bind(this, "noNeeds")}/>No Needs
                       </label>
                     </div>
                     <div className="checkbox">
                       <label>
-                        <input ref="hasWheelchair" type="checkbox" defaultChecked={this.props.filters.hasWheelchair}/>Wheelchair
+                        <input type="checkbox" checked={this.props.filters.hasWheelchair} onChange={this.props.filterChange.bind(this, "hasWheelchair")}/>Wheelchair
                       </label>
                     </div>
                     <div className="checkbox">
                       <label>
-                        <input ref="needsWave" type="checkbox" defaultChecked={this.props.filters.needsWave}/>Needs Wave
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-sm-4">
-                    <div className="checkbox">
-                      <label>
-                        <input ref="hasSeizures" type="checkbox" defaultChecked={this.props.filters.hasSeizures}/>Seizures
-                      </label>
-                    </div>
-                    <div className="checkbox">
-                      <label>
-                        <input ref="needsTwoSeats" type="checkbox" defaultChecked={this.props.filters.needsTwoSeats}/>Two Seats
+                        <input  type="checkbox" checked={this.props.filters.needsWave} onChange={this.props.filterChange.bind(this, "needsWave")}/>Needs Wave
                       </label>
                     </div>
                   </div>
                   <div className="col-sm-4">
                     <div className="checkbox">
                       <label>
-                        <input ref="behavioralIssues" type="checkbox" defaultChecked={this.props.filters.behavioralIssues}/>Behavioral Issues
+                        <input  type="checkbox" checked={this.props.filters.hasSeizures} onChange={this.props.filterChange.bind(this, "hasSeizures")}/>Seizures
                       </label>
                     </div>
                     <div className="checkbox">
                       <label>
-                        <input ref="hasMedications" type="checkbox" defaultChecked={this.props.filters.hasMedications}/>Medications
+                        <input type="checkbox" checked={this.props.filters.needsTwoSeats} onChange={this.props.filterChange.bind(this, "needsTwoSeats")}/>Two Seats
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-sm-4">
+                    <div className="checkbox">
+                      <label>
+                        <input type="checkbox" checked={this.props.filters.behavioralIssues} onChange={this.props.filterChange.bind(this, "behavioralIssues")}/>Behavioral Issues
+                      </label>
+                    </div>
+                    <div className="checkbox">
+                      <label>
+                        <input type="checkbox" checked={this.props.filters.hasMedications} onChange={this.props.filterChange.bind(this, "hasMedications")}/>Medications
                       </label>
                     </div>
 
                   </div>
                 </div>
 
-                <label label-default="">Vehicles</label>
+                <label label-default="">Assigned to Vehicle</label>
+                <div className="checkbox">
+                  <label>
+                    <input type="checkbox" checked={this.props.filters.vehicleUnassigned} onChange={this.props.filterChange.bind(this, "vehicleUnassigned")}/>Not Assigned
+                  </label>
+                </div>
                 <div className="row">
                   {vehicleCols.map(function(vehicles, index) {
                     return (
@@ -126,12 +139,7 @@ var FilterControls = React.createClass({
                             return (
                               <div key={vehicle._id} className="checkbox">
                                 <label>
-                                  <input type="checkbox" ref={function(input){
-                                      if(input){
-                                        input.checked=true;
-                                        self.addVehicleCheckbox(input);
-                                      }
-                                    }} value={vehicle._id}/>{vehicle.name}
+                                  <input type="checkbox" checked={self.props.filters.vehicleIds.indexOf(vehicle._id) !==-1} onChange={self.props.filterVehicleChange.bind(this, vehicle._id)}/>{vehicle.name}
                                 </label>
                               </div>
                             )
@@ -145,7 +153,7 @@ var FilterControls = React.createClass({
               <div className="modal-footer">
                 <button type="button" className="btn btn-default" onClick={this.setAll.bind(this, true)}>Select All</button>
                 <button type="button" className="btn btn-default" onClick={this.setAll.bind(this, false)}>Unselect All</button>
-                <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.handleSubmit}>Submit</button>
+                <button type="button" className="btn btn-primary" data-dismiss="modal">Submit</button>
               </div>
             </div>
           </div>
@@ -166,8 +174,12 @@ var mapStateToProps = function(state) {
 
 var mapDispatchToProps = function(dispatch) {
   return {
-    saveFilters: function(filters) {
-      dispatch(actions.saveFilters(filters))
+    filterChange: function(filterName, e) {
+      dispatch(actions.updateFilter(filterName, e.target.checked))
+    },
+    filterVehicleChange: function(vehicleId, e) {
+
+      dispatch(actions.updateVehicleFilter(vehicleId, e.target.checked))
     }
   }
 }

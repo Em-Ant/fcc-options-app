@@ -78,6 +78,9 @@ export const paginateAndSort = (getIds, getData, getPage, getItemsPerPage) => {
   ]
 }
 
+import {
+  isFiltered
+} from '../utils/consumerFilter'
 const getCIds = (state) => state.consumers.ids
 const getConsumers = (state) => state.consumers.data
 const getC2V = (state) => state.vehicles.consumersToVehiclesMap
@@ -90,23 +93,7 @@ export const getFilteredConsumers = createSelector(
       var consumer = consumers[c_id];
 
       var consumerVehicleId = consumersToVehiclesMap[c_id];
-      if(consumerVehicleId == activeVehicleId){
-        return true;
-      }
-      return ( mapFilters.vehicleIds.indexOf(consumerVehicleId) !== -1 ) &&
-      ((mapFilters.behavioralIssues && consumer.behavioralIssues) ||
-        (mapFilters.needsTwoSeats && consumer.needsTwoSeats) ||
-        (mapFilters.hasSeizures && consumer.hasSeizures) ||
-        (mapFilters.hasWheelchair && consumer.hasWheelchair) ||
-        (mapFilters.hasMedications && consumer.hasMedications) ||
-        (mapFilters.needsWave && consumer.needsWave) ||
-        (mapFilters.noNeeds &&
-          !consumer.behavioralIssues &&
-          !consumer.needsTwoSeats &&
-          !consumer.hasSeizures &&
-          !consumer.hasWheelchair &&
-          !consumer.hasMedications)&&
-          !consumer.needsWave)
+      return isFiltered(mapFilters, activeVehicleId, consumer, consumerVehicleId)
     });
     var filteredConsumers =  filteredConsumerIds.map(function(c_ids){
       return consumers[c_ids];

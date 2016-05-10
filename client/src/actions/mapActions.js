@@ -171,9 +171,3 @@ module.exports.saveClusters = function(clusters_) {
     clusters_: clusters_
   }
 }
-module.exports.saveFilters = function(filters) {
-  return {
-    type: actionTypes.MAP_SAVE_FILTERS,
-    filters: filters
-  }
-}

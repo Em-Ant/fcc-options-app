@@ -1,7 +1,23 @@
-var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
+var actionTypes = require('../constants/actionTypes/mapFilterActionTypes.js');
+var modelActionTypes = require('../constants/actionTypes/modelActionTypes');
+const VEHICLES = require('../constants/models').VEHICLES;
 
-var saveFilters = function(state, filters) {
-  return Object.assign({}, state, filters)
+var updateFilter = function (state, filterName, value) {
+  var newFilter = {};
+  newFilter[filterName] = value;
+  return Object.assign({}, state, newFilter);
+}
+var updateVehicleFilter = function (state, vehicleId, value) {
+  var vehicleIds = state.vehicleIds.slice();
+  if (value) {
+    vehicleIds.push(vehicleId)
+  } else {
+    var index = vehicleIds.indexOf(vehicleId);
+    vehicleIds.splice(index, 1);
+  }
+  return Object.assign({}, state, {
+    vehicleIds: vehicleIds
+  });
 }
 
 var initState = {
@@ -11,16 +27,34 @@ var initState = {
   hasSeizures: true,
   hasWheelchair: true,
   hasMedications: true,
-  noNeeds:true,
-  vehicleIds:[]
+  noNeeds: true,
+  vehicleUnassigned: true,
+  vehicleIds: []
 }
-var mapFiltersReducer = function(state, action) {
+var mapFiltersReducer = function (state, action) {
   state = state || initState;
   switch (action.type) {
-    case (actionTypes.MAP_SAVE_FILTERS):
-      return saveFilters(state, action.filters);
-    default:
+  case (actionTypes.FILTER_UPDATE):
+    return updateFilter(state, action.filterName, action.value);
+  case (actionTypes.FILTER_VEHICLE_UPDATE):
+    return updateVehicleFilter(state, action.vehicleId, action.value);
+  case modelActionTypes.FETCH:
+    if (action.model == VEHICLES && action.status == modelActionTypes.SUCCESS) {
+      action.response.forEach(function(vehicle){
+          state = updateVehicleFilter(state, vehicle._id, true)
+      })
       return state;
+    }
+  case modelActionTypes.CREATE:
+    if (action.model == VEHICLES && action.status == modelActionTypes.SUCCESS) {
+      return updateVehicleFilter(state, action.response._id, true)
+    }
+  case modelActionTypes.DELETE:
+    if (action.model == VEHICLES && action.status == modelActionTypes.SUCCESS) {
+      return updateVehicleFilter(state, action.id, false)
+    }
+  default:
+    return state;
   }
 };
 
