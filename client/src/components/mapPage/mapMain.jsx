@@ -15,6 +15,23 @@ const mapConst = require('../../constants/map');
 var _ = require('lodash');
 var clusterMouseoverTimer = null;
 var _markerClusterer = null;
+ClusterIcon.prototype.createCss = function(pos) {
+  var size = Math.min(this.cluster_.getMarkers().length + 10,
+      100 //possible max-size of a cluster-icon
+    ),
+
+    style = ['border-radius : 50%',
+      'line-height   : ' + size + 'px',
+      'cursor        : pointer',
+      'position      : absolute',
+      'top           : ' + pos.y + 'px',
+      'left          : ' + pos.x + 'px',
+      'width         : ' + size + 'px',
+      'height        : ' + size + 'px'
+    ];
+  return style.join(";") + ';';
+};
+
 /*
 Marker Wrapper to speed up performance
 */
@@ -28,7 +45,9 @@ var WMarker = React.createClass({
     return <Marker ref={function(marker){
         if(!_markerClusterer){
           _markerClusterer = new MarkerClusterer(marker.state.marker.map,[],{
-            gridSize:1
+            gridSize:1,
+            enableRetinaIcons: true,
+            clusterClass: 'cluster cluster_red_circle'
           });
         }
         if(marker && marker.state){
