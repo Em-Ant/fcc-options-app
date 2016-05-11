@@ -50,6 +50,11 @@ var Vehicle = new Schema({
     type: String,
     enum: ['auto', 'first'],
     default: undefined
+  },
+
+  maxPassengerDuration : {
+    type: String,
+    default: undefined
   }
 });
 

@@ -2,7 +2,7 @@
 
 var Vehicle = require('../models/vehicle.js');
 var Settings = require('../models/settings.js');
-var coordsDistance = require('../utils/haversine');
+//var coordsDistance = require('../utils/haversine');
 var _ = require('lodash');
 var async = require("async");
 
@@ -89,7 +89,8 @@ function VehicleHandler() {
       var updated = Object.assign(vehicle, req.body);
       if(req.body.consumers){
         updated.markModified('consumers');
-        updated.optimized= undefined;
+        updated.optimized = undefined;
+        updated.maxPassengerDuration = undefined;
       }
       updated.save(function(err, savedVehicle) {
         if (err) {
@@ -149,6 +150,37 @@ function VehicleHandler() {
     });
   }
 
+  function getWaypointsAsyncFn(consumers, destAddress) {
+
+    return function(originIndex, callback) {
+
+      var cns = consumers.slice();
+      cns.splice(originIndex, 1)
+
+      var waypoints = cns.map(function(c) {
+        return c.address;
+      })
+
+      var originCons = consumers[originIndex];
+
+      waypoints.unshift('optimize:true');
+      waypoints = waypoints.join('|');
+
+      getWaypoints(waypoints, originCons.address,  destAddress,
+        function(err, response) {
+        if (err) {
+          console.log(err);
+          return callback('Directions request failed');
+        }
+
+        // bubble-up originIndex
+        response.originIndex = originIndex;
+
+        callback(null, response);
+      });
+    }
+  }
+
   this.optimizeRoute = function (req, res) {
     async.auto({
       get_options_inc_address: function(callback) {
@@ -174,49 +206,76 @@ function VehicleHandler() {
 
         var optionsAddress = results.get_options_inc_address.optionsIncAddress;
         var optionsCoords = results.get_options_inc_address.optionsIncCoords;
-        var consumers = results.get_vehicle.consumers.slice()
+        var consumers = results.get_vehicle.consumers;
+
+        var wptAsyncFn = getWaypointsAsyncFn(consumers, optionsAddress);
+
+        if(!req.query.origin) req.query.origin = 'auto';
 
         // if query param ?origin='first' optimizes using the first consumer as origin
         // else origin is point-to-point farthest consumer from Options
 
-        var farthestIndex = 0;
-        var farthestConsumer = consumers[0];
+        var originIndex = 0;
 
-        if (req.query.origin !== 'first') {
+        /*
+        var originConsumer = consumers[0];
+
+        if (req.query.origin === 'furthest') {
           // calculate point-to-point farthest consumer and his/her index.
-          var farthestConsumer = consumers.reduce(function(p, c, i) {
+          var originConsumer = consumers.reduce(function(p, c, i) {
             var d1 = coordsDistance(p.position, optionsCoords);
             var d2 = coordsDistance(c.position, optionsCoords);
             if( d1 > d2) {
               return p;
             }
             else {
-              farthestIndex = i;
+              originIndex = i;
               return c;
             }
           });
         }
 
-        consumers.splice(farthestIndex, 1)
-        var waypoints = consumers.map(function(c) {
-          return c.address;
-        })
+        */
 
-        waypoints.unshift('optimize:true');
-        waypoints = waypoints.join('|');
+        var originIndexes = [];
+        if(req.query.origin !== 'auto') {
+          originIndexes.push(originIndex);
+        } else {
+          originIndexes = consumers.map((c,i) => i)
+        }
 
-        getWaypoints(waypoints, farthestConsumer.address,  optionsAddress,
-          function(err, response) {
-          if (err) {
-            console.log(err);
-            return callback('Directions request failed');
+        // call Google API to optimize each route
+        async.map(originIndexes, wptAsyncFn, function(err, results) {
+          if (results.length === 1) {
+            let r = results[0];
+            r.maxPassengerDuration = Math.ceil(
+                r.routes[0].legs.reduce(function (prev, curr) {
+                return prev + curr.duration.value;
+              }, 0) / 60
+            )
+            callback(null, r);
+          } else {
+            // calculate max passenger durations
+            let maxPassengerDurations = results.map(function (r) {
+              return r.routes[0].legs.reduce(function (prev, curr) {
+                return prev + curr.duration.value;
+              }, 0)
+            })
+
+            // find min duration
+            let minDurationIndex = 0;
+            maxPassengerDurations.forEach(function(d, i) {
+              if (d < maxPassengerDurations[minDurationIndex])
+                minDurationIndex = i;
+            })
+
+            // bubble up min duration route
+            let r = results[minDurationIndex];
+            r.maxPassengerDuration =
+              Math.ceil(maxPassengerDurations[minDurationIndex] / 60);
+            callback(null, results[minDurationIndex])
           }
-
-          // pass farthestIndex to the following function
-          response.farthestIndex = farthestIndex;
-
-          callback(null, response);
-        });
+        })
       }]
     }, function (err, results) {
         if (err) {
@@ -231,16 +290,17 @@ function VehicleHandler() {
 
         var wptOrder = results.get_optimized_wpts.routes[0].waypoint_order;
         var consumers = results.get_vehicle.consumers;
+        var maxDuration = results.get_optimized_wpts.maxPassengerDuration;
 
         // generate map waypoints -> consumers
         // i.e an array of indexes, without farthestIndex
         var map = consumers.map(function(c, i) { return i});
-        map.splice(results.get_optimized_wpts.farthestIndex, 1);
+        map.splice(results.get_optimized_wpts.originIndex, 1);
 
         var optimizedConsumerIds = []
 
         // push the farthest first...
-        optimizedConsumerIds.push(consumers[results.get_optimized_wpts.farthestIndex]._id);
+        optimizedConsumerIds.push(consumers[results.get_optimized_wpts.originIndex]._id);
 
         wptOrder.forEach(function(w) {
           // push the optimized list, mapped to vehicle.consumers array
@@ -250,7 +310,8 @@ function VehicleHandler() {
         var vehicle = results.get_vehicle;
         vehicle.consumers = optimizedConsumerIds;
         vehicle.markModified('consumers');
-        vehicle.optimized = req.query.origin === 'first' ? 'first' : 'auto'
+        vehicle.optimized = req.query.origin || 'auto';
+        vehicle.maxPassengerDuration = maxDuration;
         vehicle.save(function(err, saved) {
           if(err) {
             return res.status(500).json({

@@ -24,7 +24,9 @@ var VehiclePanelComponent = React.createClass({
     var availFlexSeats = vehicle.occupiedFlexSeats < vehicle.flexSeats
       ? 'avail-color'
       : 'unavail-color';
-
+    var durationBg = vehicle.maxPassengerDuration < this.props.maxPassengerDuration
+      ? 'avail-color'
+      : 'unavail-color';
     return (
           <div className="box box-widget map-height bus-box">
               <div className="box-header with-border" >
@@ -35,9 +37,15 @@ var VehiclePanelComponent = React.createClass({
                 {vehicle.optimized ?
                   <span
                     className="cust-label optimized"
-                    title="Route optimized mode">
-                    <i className="fa fa-road"></i>&nbsp;{vehicle.optimized}
+                    title="Route optimized / mode">
+                    <i className="fa fa-rocket"></i>&nbsp;{vehicle.optimized}
                   </span> : null}
+                  {vehicle.maxPassengerDuration ?
+                    <span
+                      className={"cust-label " + durationBg}
+                      title="Max Passenger Duration">
+                      <i className="fa fa-clock-o"></i>&nbsp;{vehicle.maxPassengerDuration} mins
+                    </span> : null}
                   {vehicle.needsMedications ?
                     <span
                       className="cust-label med"
@@ -72,11 +80,14 @@ var VehiclePanelComponent = React.createClass({
               <div className="box-footer">
                 <form className="form-inline" style={{display: 'inline-block'}}>
                   <label>
-                    Optimizer Origin: &nbsp;
+                    Optimizer Mode: &nbsp;
                     <select
-                      defaultValue={this.props.vehicle.optimized || 'auto'} className="form-control" ref="optimizeMode">
-                      <option value="auto">Auto</option>
-                      <option value="first">First Consumer</option>
+                      defaultValue={this.props.vehicle.optimized || 'auto'} className="form-control opt-select" ref="optimizeMode">
+                      <option value="auto" title="Automatic Optimizer (Requires many Google API calls)">Auto &#xf071;</option>
+                      <option value="first" title="Consumer in pos #1 is picked first">First Consumer</option>
+                      {
+                        //<option value="furthest" title="Furthest Consumer from Options, Inc. is picked first">Furthest Consumer</option>
+                      }
                     </select>
                   </label>
                 </form>
@@ -104,6 +115,7 @@ var VehiclePanelComponent = React.createClass({
 
 var mapStateToProps = function(state, ownProps) {
   return {
+    maxPassengerDuration : state.settings.maxConsumerRouteTime,
     vehicle: state.vehicles.data[ownProps.vehicleId],
     consumers: state.consumers.data,
     isLoading: state.vehicleRoutePage.vehicleLoading || state.vehicleRoutePage.directionsLoading
