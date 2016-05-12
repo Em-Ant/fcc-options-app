@@ -67,6 +67,7 @@ var Consumers = React.createClass({
                           name="filter_type"
                           id="c_name_radio"
                           value="name"
+                          title="filter by name"
                           onChange={this.props.setFilterType}
                           checked={this.props.filterType === "name"}/>
                           &nbsp;name
@@ -77,6 +78,7 @@ var Consumers = React.createClass({
                           name="filter_type"
                           id="c_address_radio"
                           value="address"
+                          title="filter by address"
                           onChange={this.props.setFilterType}
                           cheched={this.props.filterType === "address"}/>
                           &nbsp;address
@@ -85,18 +87,22 @@ var Consumers = React.createClass({
                         <input id="namefilter"type="text"
                           onChange={this.props.setFilterString}
                           value={this.props.textFilter}
-                          ref="filter" placeholder="filter">
+                          ref="filter"
+                          title="text filter"
+                          placeholder="filter">
                         </input>
                       </label>
                       <label>
                         <input type="checkbox"
                           name="male"
+                          title="male"
                           checked={this.props.needsFilter.male}
                           onChange={this.props.filterChecks}/> M
                       </label>
                       <label>
                         <input type="checkbox"
                           name="female"
+                          title="female"
                           onChange={this.props.filterChecks}
                           checked={this.props.needsFilter.female}
                           /> F
@@ -104,6 +110,7 @@ var Consumers = React.createClass({
                       <label>
                         <input type="checkbox"
                           name="hasWheelchair"
+                          title="wheelchair"
                           onChange={this.props.filterChecks}
                           checked={this.props.needsFilter.hasWheelchair}
                           /> <i className="fa fa-wheelchair"></i>
@@ -111,6 +118,7 @@ var Consumers = React.createClass({
                       <label>
                         <input type="checkbox"
                           name="hasMedications"
+                          title="medications"
                           onChange={this.props.filterChecks}
                           checked={this.props.needsFilter.hasMedications}
                           /> <i className="fa fa-medkit"></i>
@@ -118,6 +126,7 @@ var Consumers = React.createClass({
                       <label>
                         <input type="checkbox"
                           name="hasSeizures"
+                          title="seizures"
                           onChange={this.props.filterChecks}
                           checked={this.props.needsFilter.hasSeizures}
                           /> SZ
@@ -125,6 +134,7 @@ var Consumers = React.createClass({
                       <label>
                         <input type="checkbox"
                           name="needsTwoSeats"
+                          title="two seats"
                           onChange={this.props.filterChecks}
                           checked={this.props.needsFilter.needsTwoSeats}
                           /> 2S
@@ -132,6 +142,7 @@ var Consumers = React.createClass({
                       <label>
                         <input type="checkbox"
                           name="needsWave"
+                          title="needs wave"
                           onChange={this.props.filterChecks}
                           checked={this.props.needsFilter.needsWave}
                           /> <i className="fa fa-phone"></i>
@@ -139,6 +150,7 @@ var Consumers = React.createClass({
                       <label>
                         <input type="checkbox"
                           name="behavioralIssues"
+                          title="behavioral issues"
                           onChange={this.props.filterChecks}
                           checked={this.props.needsFilter.behavioralIssues}
                           /> BI
@@ -146,6 +158,7 @@ var Consumers = React.createClass({
                       <label>
                         <input type="checkbox"
                           name="noNeeds"
+                          title="no needs"
                           onChange={this.props.filterChecks}
                           checked={this.props.needsFilter.noNeeds}
                           /> No Needs
