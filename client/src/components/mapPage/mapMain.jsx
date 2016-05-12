@@ -24,7 +24,6 @@ var WMarkerComponent = React.createClass({
   marker:null,
   //Needed to speed up marker performance
   shouldComponentUpdate(nextProps,nextState){
-    return true;
     return (nextProps.icon.fillColor != this.props.icon.fillColor ||
             nextProps.showInfo != this.props.showInfo)
   },
@@ -146,7 +145,11 @@ var MapMain = React.createClass({
         this.props.markerInfoClose(prevProps.centerMarker)
       }
       this.centerMarker(this.props.centerMarker);
+    }
 
+    //HACK: force repaint of clusters when active vechicleId changes
+    if(prevProps.activeVehicleId != this.props.activeVehicleId){
+      _markerClusterer.repaint();
     }
   },
   clusterMouseover:function(cluster_){
