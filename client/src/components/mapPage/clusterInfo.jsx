@@ -13,11 +13,12 @@ var ClusterInfo = React.createClass({
               var consumerId = marker.consumerId;
               return (
                 <li key={consumerId} className="item">
+
                   <div className="cluster-infowindow-marker">
-                    <div dangerouslySetInnerHTML={{
+                    <h3 dangerouslySetInnerHTML={{
                       __html: marker.getIcon().tag
-                    }} style={{color:marker.getIcon().fillColor,
-                    border: '1px'}}onClick={self.props.markerClick.bind(null, consumerId)} className="clickable"/>
+                    }} style={{color:marker.getIcon().fillColor
+                      }}onClick={self.props.markerClick.bind(null, consumerId)} className="info-window-marker clickable"/>
                   </div>
                   <div className="product-info">
                     <ConsumerMarkerInfo consumerId={consumerId} store={self.props.store}/>
