@@ -16,21 +16,7 @@ var _ = require('lodash');
 var clusterMouseoverTimer = null;
 var _markerClusterer = null;
 var repaintTimer = null;
-ClusterIcon.prototype.createCss = function(pos) {
-  var size = Math.min(this.cluster_.getMarkers().length + 10,
-      100 //possible max-size of a cluster-icon
-    ),
-    style = ['border-radius : 50%',
-      'line-height   : ' + size + 'px',
-      'cursor        : pointer',
-      'position      : absolute',
-      'top           : ' + pos.y + 'px',
-      'left          : ' + pos.x + 'px',
-      'width         : ' + size + 'px',
-      'height        : ' + size + 'px'
-    ];
-  return style.join(";") + ';';
-};
+
 
 /*
 Marker Wrapper to speed up performance
@@ -39,6 +25,7 @@ var WMarkerComponent = React.createClass({
   marker:null,
   //Needed to speed up marker performance
   shouldComponentUpdate(nextProps,nextState){
+    return true;
     return (nextProps.icon.fillColor != this.props.icon.fillColor ||
             nextProps.showInfo != this.props.showInfo)
   },
@@ -80,7 +67,7 @@ var WMarkerComponent = React.createClass({
             gridSize:1,
             averageCenter:true,
             enableRetinaIcons: true,
-            clusterClass: 'cluster cluster_red_circle'
+            clusterClass: 'cluster cluster_gray_circle'
           });
 
           google.maps.event.addListener(_markerClusterer, "mouseover", function (c) {
@@ -114,8 +101,44 @@ var MapMain = React.createClass({
       this._googleMapComponent.panTo(this.props.optionsIncMarker.position);
     }
   },
+  getClusterColor:function(markers){
+    var self = this;
+    var unassignedConsumerExists = markers.some(function(marker){
+      return !self.props.consumersToVehiclesMap[marker.consumerId]
+    })
+    if(unassignedConsumerExists){
+      return "#A6A6A6"
+    }
+    var consumerOnActiveVehicleExists = markers.some(function(marker){
+      var vehicleId = self.props.consumersToVehiclesMap[marker.consumerId]
+      return self.props.activeVehicleId == vehicleId;
+    })
+    if(consumerOnActiveVehicleExists){
+      return "#5AA02C"
+    }
+
+    //consumer is assigned on a vehicle
+    return "#FFD42A"
+  },
   componentDidMount: function() {
-    //window.addEventListener('resize', this.handleWindowResize);
+    var self = this;
+    ClusterIcon.prototype.createCss = function(pos) {
+      var color = self.getClusterColor(this.cluster_.getMarkers());
+      var size = Math.min(this.cluster_.getMarkers().length + 10,
+          100 //possible max-size of a cluster-icon
+        ),
+        style = ['border-radius : 50%',
+          'line-height   : ' + size + 'px',
+          'cursor        : pointer',
+          'position      : absolute',
+          'top           : ' + pos.y + 'px',
+          'left          : ' + pos.x + 'px',
+          'width         : ' + size + 'px',
+          'height        : ' + size + 'px',
+          'background    : ' + color
+        ];
+      return style.join(";") + ';';
+    };
   },
   componentDidUpdate:function(prevProps){
     if(this.props.centerMarker != null &&
