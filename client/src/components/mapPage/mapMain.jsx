@@ -17,7 +17,6 @@ var clusterMouseoverTimer = null;
 var _markerClusterer = null;
 var repaintTimer = null;
 
-
 /*
 Marker Wrapper to speed up performance
 */
