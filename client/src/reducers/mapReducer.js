@@ -140,8 +140,14 @@ var createConsumerMarker = function(consumer, highlightedConsumerId){
   var icon = Object.assign({}, mapConst.icon);
 
   // test new icons
-  if (consumer.hasWheelchair) icon.path = fontawesome.WHEELCHAIR_ALT
-  else icon.path = fontawesome.MALE
+  if (consumer.hasWheelchair) {
+    icon.path = fontawesome.WHEELCHAIR_ALT
+    icon.tag = "<i class='fa fa-wheelchair-alt'></i>"
+  }
+  else{
+    icon.path = fontawesome.MALE
+    icon.tag = "<i class='fa fa-male'></i>"
+  }
 
   icon.fillColor = mapConst.UNASSIGNED_CONSUMER_COLOR;
   if (highlightedConsumerId == consumer._id) {
