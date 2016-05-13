@@ -137,6 +137,27 @@ var MapMain = React.createClass({
         ];
       return style.join(";") + ';';
     };
+    ClusterIcon.prototype.useStyle = function (sums) {
+      var size = Math.min(this.cluster_.getMarkers().length + 10,
+        100 //possible max-size of a cluster-icon
+      );
+      this.sums_ = sums;
+      var index = Math.max(0, sums.index - 1);
+      index = Math.min(this.styles_.length - 1, index);
+      var style = this.styles_[index];
+      this.url_ = "";
+      this.height_ = size;
+      this.width_ = size;
+      this.anchorText_ = style.anchorText || [0, 0];
+      this.anchorIcon_ = style.anchorIcon || [parseInt(this.height_ / 2, 10), parseInt(this.width_ / 2, 10)];
+      this.textColor_ = style.textColor || "black";
+      this.textSize_ = style.textSize || 11;
+      this.textDecoration_ = style.textDecoration || "none";
+      this.fontWeight_ = style.fontWeight || "bold";
+      this.fontStyle_ = style.fontStyle || "normal";
+      this.fontFamily_ = style.fontFamily || "Arial,sans-serif";
+      this.backgroundPosition_ = style.backgroundPosition || "0 0";
+    };
   },
   componentDidUpdate:function(prevProps){
     if(this.props.centerMarker != null &&
