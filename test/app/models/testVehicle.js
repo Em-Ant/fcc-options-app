@@ -175,28 +175,4 @@ describe('Vehicle: models', function() {
       });
     });
   })
-
-
-
-  describe('driver validation', function() {
-    var v;
-    beforeEach(function(done) {
-      v = new Vehicle({
-        name: 'name',
-        seats: 1
-      });
-      v.save(function(err, createdVehicle) {
-        done();
-      });
-    })
-    it('should have error if vehicle has no driver', function(done) {
-        v.driver = false;
-        v.save(function(err, createdVehicle) {
-          expect(err.errors.driver.path).to.be.equal('driver');
-          expect(err.errors.driver.message).to.be.equal('Vehicle must have a driver');
-          expect(err.errors.driver.kind).to.be.equal('user defined');
-          done();
-        });
-    });
-  })
 });
