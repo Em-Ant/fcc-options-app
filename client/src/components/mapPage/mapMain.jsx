@@ -52,7 +52,7 @@ var WMarkerComponent = React.createClass({
       clearTimeout(repaintTimer);
       repaintTimer=setTimeout(function(){
         _markerClusterer.repaint();
-      }, 1000)
+      }, 200)
     }
   },
   componentDidUpdate:function(prevProps){
