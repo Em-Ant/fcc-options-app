@@ -10,7 +10,6 @@ var Marker = require('react-google-maps').Marker;
 var Polyline = require('react-google-maps').Polyline;
 var ConsumerMarkerInfo = require('./consumerMarkerInfo.jsx');
 var ClusterInfo = require('./clusterInfo.jsx');
-//var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
 const mapConst = require('../../constants/map');
 var _ = require('lodash');
 var clusterMouseoverTimer = null;
@@ -105,21 +104,24 @@ var MapMain = React.createClass({
       return !self.props.consumersToVehiclesMap[marker.consumerId]
     })
     if(unassignedConsumerExists){
-      return "#A6A6A6"
+      return mapConst.UNASSIGNED_CONSUMER_COLOR;
     }
     var consumerOnActiveVehicleExists = markers.some(function(marker){
       var vehicleId = self.props.consumersToVehiclesMap[marker.consumerId]
       return self.props.activeVehicleId == vehicleId;
     })
     if(consumerOnActiveVehicleExists){
-      return "#5AA02C"
+      return mapConst.SELECTED_ASSIGNED_CONSUMER_COLOR;
     }
 
-    //consumer is assigned on a vehicle
-    return "#FFD42A"
+    return mapConst.ASSIGNED_CONSUMER_COLOR;
   },
   componentDidMount: function() {
     var self = this;
+
+    /*
+    Overwrite the Cluster icon's createCss function to modify size and color of cluster
+    */
     ClusterIcon.prototype.createCss = function(pos) {
       var color = self.getClusterColor(this.cluster_.getMarkers());
       var size = Math.min(this.cluster_.getMarkers().length + 10,
@@ -137,6 +139,9 @@ var MapMain = React.createClass({
         ];
       return style.join(";") + ';';
     };
+    /*
+    Overwrite the Cluster icon's useStyle function to modify size and color of cluster
+    */
     ClusterIcon.prototype.useStyle = function (sums) {
       var size = Math.min(this.cluster_.getMarkers().length + 10,
         100 //possible max-size of a cluster-icon
@@ -322,17 +327,6 @@ var MapMain = React.createClass({
               title={self.props.optionsIncMarker.title}
               icon={self.props.optionsIncMarker.icon}/>
             {
-            // <MarkerClusterer
-            //   ref="markerClusterer"
-            //   averageCenter
-            //   enableRetinaIcons
-            //   gridSize={ 1 }
-            //   onMouseover={self.clusterMouseover}
-            //   onMouseout={self.clearClusterTimer}
-            //   onClusteringend={this.props.onClusteringend}
-            // >
-          }
-            {
             this.props.displayClusters.length > 0?
             self.renderClusterInfoWindows(this.props.displayClusters) : null
 
@@ -342,15 +336,6 @@ var MapMain = React.createClass({
               return(
                 <WMarker
                   key={marker.consumerId}
-                  ref= {function(refMarker){
-                    /*
-                    //HACK:  don't know any other way for the cluster to see
-                    //the consumer id
-                    if(refMarker){
-                      refMarker.state.marker.consumerId=marker.consumerId;
-                    }
-                    */
-                  }}
                   consumerId={marker.consumerId}
                   position={marker.position}
                   title = {marker.name}
@@ -363,9 +348,6 @@ var MapMain = React.createClass({
                 </WMarker>
               )
             })}
-            {
-            //</MarkerClusterer>
-            }
             {self.props.displayDirections?
             <Polyline
               path={self.props.vehiclePath}
@@ -386,45 +368,6 @@ var MapMain = React.createClass({
   }
 
 });
-
-/*
-TODO:  ~~I think this should be in a reducer. I tried adding this to the consumer
-reducer, but I couldn't find a way to access ~~
-
-It has been turned into a selector. Using this tool data derived from reducers are
-recomputed only if some part of the state on which the selector depends are modified.
-
-var colorMarkers = function(consumerMarkers, consumersToVehiclesMap, activeVehicleId, highlightedConsumerId, markerLoading) {
-return consumerMarkers.map(function(marker){
-    var c_id = marker.consumerId;
-    var icon = Object.assign({}, marker.icon);
-    if(markerLoading == c_id){
-      icon.fillColor =  mapConst.LOADING_CONSUMER_COLOR;
-    }
-    else if (consumersToVehiclesMap[c_id]) {
-      // consumer is on board
-      if (highlightedConsumerId == c_id) {
-        icon.fillColor =  mapConst.HIGHLIGHTED_CONSUMER_COLOR;
-      }else if(activeVehicleId !== consumersToVehiclesMap[c_id]){
-        icon.fillColor =  mapConst.ASSIGNED_CONSUMER_COLOR;// not on the active bus
-      }else{
-        icon.fillColor =  mapConst.SELECTED_ASSIGNED_CONSUMER_COLOR;// on the active bus
-      }
-    }
-    else{
-      //consumer not assigned to vehicle
-      if (highlightedConsumerId == c_id) {
-        icon.fillColor = mapConst.HIGHLIGHTED_UNASSIGNED_COLOR;
-      }else{
-        icon.fillColor = mapConst.UNASSIGNED_CONSUMER_COLOR;
-      }
-    }
-    return  Object.assign({}, marker, {
-      icon:icon
-    })
-  });
-}
-*/
 
 /*
 TODO: Total seating calculations should be moved to selectors
