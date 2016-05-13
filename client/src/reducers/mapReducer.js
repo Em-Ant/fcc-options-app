@@ -242,7 +242,8 @@ var saveClusters = function(state, clusters_) {
 }
 var mapZoomChanged = function(state, cluster) {
   return Object.assign({}, state, {
-    clusters: []
+    clusters: [],
+    displayClusters: [],
   })
 }
 
