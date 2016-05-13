@@ -201,8 +201,12 @@
 }
 
 .info-window-marker{
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
+   text-shadow:
+       1px 1px 0 #000,
+     -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
 }
 
 /* END MAP PAGE PANELS */
