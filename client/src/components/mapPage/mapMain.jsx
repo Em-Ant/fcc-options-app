@@ -55,6 +55,14 @@ var WMarkerComponent = React.createClass({
       }, 1000)
     }
   },
+  componentDidUpdate:function(prevProps){
+    if(prevProps.icon.fillColor != this.props.icon.fillColor){
+      clearTimeout(repaintTimer);
+      repaintTimer=setTimeout(function(){
+        _markerClusterer.repaint();
+      }, 200)
+    }
+  },
   render: function() {
     var self = this;
     return <Marker ref={function(marker){
