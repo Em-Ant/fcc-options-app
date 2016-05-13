@@ -10,21 +10,82 @@ var Marker = require('react-google-maps').Marker;
 var Polyline = require('react-google-maps').Polyline;
 var ConsumerMarkerInfo = require('./consumerMarkerInfo.jsx');
 var ClusterInfo = require('./clusterInfo.jsx');
-var MarkerClusterer= require("react-google-maps/lib/addons/MarkerClusterer");
 const mapConst = require('../../constants/map');
 var _ = require('lodash');
 var clusterMouseoverTimer = null;
+var _markerClusterer = null;
+var repaintTimer = null;
+
 /*
 Marker Wrapper to speed up performance
 */
-var WMarker = React.createClass({
+var WMarkerComponent = React.createClass({
+  marker:null,
   //Needed to speed up marker performance
   shouldComponentUpdate(nextProps,nextState){
     return (nextProps.icon.fillColor != this.props.icon.fillColor ||
             nextProps.showInfo != this.props.showInfo)
   },
+  clusterMouseover:function(cluster_){
+    var self = this;
+    this.clearClusterTimer();
+    //Copy object because sometimes cluster_.markers_ changes when timer is up.
+    var cluster = Object.assign({}, cluster_, {
+      center:cluster_.getCenter(),
+      markers_:cluster_.markers_.slice()
+    } );
+    clusterMouseoverTimer=setTimeout(function(){
+      self.props.clusterMouseover(cluster);
+    }, mapConst.CLUSTER_MOUSEOVER_TIMEOUT_INTERVAL)
+
+  },
+  clusterMouseout:function(){
+    clearTimeout(clusterMouseoverTimer);
+  },
+  clearClusterTimer:function(){
+    clearTimeout(clusterMouseoverTimer);
+  },
+  componentWillUnmount:function(){
+    if(this.marker){
+
+      var result = _markerClusterer.removeMarker(this.marker.state.marker, true)
+      clearTimeout(repaintTimer);
+      repaintTimer=setTimeout(function(){
+        _markerClusterer.repaint();
+      }, 1000)
+    }
+  },
   render: function() {
-    return <Marker {...this.props}/>
+    var self = this;
+    return <Marker ref={function(marker){
+        self.marker = marker;
+        if(!_markerClusterer){
+          _markerClusterer = new MarkerClusterer(marker.state.marker.map,[],{
+            gridSize:1,
+            averageCenter:true,
+            enableRetinaIcons: true,
+            clusterClass: 'cluster cluster_gray_circle'
+          });
+
+          google.maps.event.addListener(_markerClusterer, "mouseover", function (c) {
+            self.clusterMouseover(c);
+          });
+          google.maps.event.addListener(_markerClusterer, "mouseout", function (c) {
+            self.clusterMouseout(c);
+          });
+          google.maps.event.addListener(_markerClusterer, "clusteringEnd", self.props.onClusteringEnd);
+        }
+        if(marker && marker.state && self.props.consumerId){
+          marker.state.marker.consumerId=self.props.consumerId;
+          var index = _markerClusterer.markers_.findIndex(function(marker,index){
+            return (marker.consumerId == self.props.consumerId)
+          })
+          if(index == -1){
+            _markerClusterer.addMarker(marker.state.marker)
+          }
+        }
+      }
+      }{...this.props}/>
   }
 })
 
@@ -37,8 +98,71 @@ var MapMain = React.createClass({
       this._googleMapComponent.panTo(this.props.optionsIncMarker.position);
     }
   },
+  getClusterColor:function(markers){
+    var self = this;
+    var unassignedConsumerExists = markers.some(function(marker){
+      return !self.props.consumersToVehiclesMap[marker.consumerId]
+    })
+    if(unassignedConsumerExists){
+      return mapConst.UNASSIGNED_CONSUMER_COLOR;
+    }
+    var consumerOnActiveVehicleExists = markers.some(function(marker){
+      var vehicleId = self.props.consumersToVehiclesMap[marker.consumerId]
+      return self.props.activeVehicleId == vehicleId;
+    })
+    if(consumerOnActiveVehicleExists){
+      return mapConst.SELECTED_ASSIGNED_CONSUMER_COLOR;
+    }
+
+    return mapConst.ASSIGNED_CONSUMER_COLOR;
+  },
   componentDidMount: function() {
-    //window.addEventListener('resize', this.handleWindowResize);
+    var self = this;
+
+    /*
+    Overwrite the Cluster icon's createCss function to modify size and color of cluster
+    */
+    ClusterIcon.prototype.createCss = function(pos) {
+      var color = self.getClusterColor(this.cluster_.getMarkers());
+      var size = Math.min(this.cluster_.getMarkers().length + 10,
+          100 //possible max-size of a cluster-icon
+        ),
+        style = ['border-radius : 50%',
+          'line-height   : ' + size + 'px',
+          'cursor        : pointer',
+          'position      : absolute',
+          'top           : ' + pos.y + 'px',
+          'left          : ' + pos.x + 'px',
+          'width         : ' + size + 'px',
+          'height        : ' + size + 'px',
+          'background    : ' + color
+        ];
+      return style.join(";") + ';';
+    };
+    /*
+    Overwrite the Cluster icon's useStyle function to modify size and color of cluster
+    */
+    ClusterIcon.prototype.useStyle = function (sums) {
+      var size = Math.min(this.cluster_.getMarkers().length + 10,
+        100 //possible max-size of a cluster-icon
+      );
+      this.sums_ = sums;
+      var index = Math.max(0, sums.index - 1);
+      index = Math.min(this.styles_.length - 1, index);
+      var style = this.styles_[index];
+      this.url_ = "";
+      this.height_ = size;
+      this.width_ = size;
+      this.anchorText_ = style.anchorText || [0, 0];
+      this.anchorIcon_ = style.anchorIcon || [parseInt(this.height_ / 2, 10), parseInt(this.width_ / 2, 10)];
+      this.textColor_ = style.textColor || "black";
+      this.textSize_ = style.textSize || 11;
+      this.textDecoration_ = style.textDecoration || "none";
+      this.fontWeight_ = style.fontWeight || "bold";
+      this.fontStyle_ = style.fontStyle || "normal";
+      this.fontFamily_ = style.fontFamily || "Arial,sans-serif";
+      this.backgroundPosition_ = style.backgroundPosition || "0 0";
+    };
   },
   componentDidUpdate:function(prevProps){
     if(this.props.centerMarker != null &&
@@ -47,7 +171,11 @@ var MapMain = React.createClass({
         this.props.markerInfoClose(prevProps.centerMarker)
       }
       this.centerMarker(this.props.centerMarker);
+    }
 
+    //HACK: force repaint of clusters when active vechicleId changes
+    if(prevProps.activeVehicleId != this.props.activeVehicleId){
+      _markerClusterer.repaint();
     }
   },
   clusterMouseover:function(cluster_){
@@ -161,6 +289,7 @@ var MapMain = React.createClass({
     })
 
   },
+
   render: function() {
     var self = this;
     return (
@@ -198,35 +327,16 @@ var MapMain = React.createClass({
               title={self.props.optionsIncMarker.title}
               icon={self.props.optionsIncMarker.icon}/>
             {
-            // <MarkerClusterer
-            //   ref="markerClusterer"
-            //   averageCenter
-            //   enableRetinaIcons
-            //   gridSize={ 1 }
-            //   onMouseover={self.clusterMouseover}
-            //   onMouseout={self.clearClusterTimer}
-            //   onClusteringend={this.props.onClusteringend}
-            // >
-          }
-            {
-            // this.props.displayClusters.length > 0?
-            // self.renderClusterInfoWindows(this.props.displayClusters) : null
-            //
+            this.props.displayClusters.length > 0?
+            self.renderClusterInfoWindows(this.props.displayClusters) : null
+
           }
 
             {self.props.consumerMarkers.map(function(marker, index){
               return(
                 <WMarker
                   key={marker.consumerId}
-                  ref= {function(refMarker){
-                    /*
-                    //HACK:  don't know any other way for the cluster to see
-                    //the consumer id
-                    if(refMarker){
-                      refMarker.state.marker.consumerId=marker.consumerId;
-                    }
-                    */
-                  }}
+                  consumerId={marker.consumerId}
                   position={marker.position}
                   title = {marker.name}
                   icon={marker.icon}
@@ -238,9 +348,6 @@ var MapMain = React.createClass({
                 </WMarker>
               )
             })}
-            {
-            //</MarkerClusterer>
-            }
             {self.props.displayDirections?
             <Polyline
               path={self.props.vehiclePath}
@@ -261,45 +368,6 @@ var MapMain = React.createClass({
   }
 
 });
-
-/*
-TODO:  ~~I think this should be in a reducer. I tried adding this to the consumer
-reducer, but I couldn't find a way to access ~~
-
-It has been turned into a selector. Using this tool data derived from reducers are
-recomputed only if some part of the state on which the selector depends are modified.
-
-var colorMarkers = function(consumerMarkers, consumersToVehiclesMap, activeVehicleId, highlightedConsumerId, markerLoading) {
-return consumerMarkers.map(function(marker){
-    var c_id = marker.consumerId;
-    var icon = Object.assign({}, marker.icon);
-    if(markerLoading == c_id){
-      icon.fillColor =  mapConst.LOADING_CONSUMER_COLOR;
-    }
-    else if (consumersToVehiclesMap[c_id]) {
-      // consumer is on board
-      if (highlightedConsumerId == c_id) {
-        icon.fillColor =  mapConst.HIGHLIGHTED_CONSUMER_COLOR;
-      }else if(activeVehicleId !== consumersToVehiclesMap[c_id]){
-        icon.fillColor =  mapConst.ASSIGNED_CONSUMER_COLOR;// not on the active bus
-      }else{
-        icon.fillColor =  mapConst.SELECTED_ASSIGNED_CONSUMER_COLOR;// on the active bus
-      }
-    }
-    else{
-      //consumer not assigned to vehicle
-      if (highlightedConsumerId == c_id) {
-        icon.fillColor = mapConst.HIGHLIGHTED_UNASSIGNED_COLOR;
-      }else{
-        icon.fillColor = mapConst.UNASSIGNED_CONSUMER_COLOR;
-      }
-    }
-    return  Object.assign({}, marker, {
-      icon:icon
-    })
-  });
-}
-*/
 
 /*
 TODO: Total seating calculations should be moved to selectors
@@ -394,5 +462,5 @@ var mapDispatchToProps = function(dispatch) {
 
   }
 }
-
+var WMarker = connect(mapStateToProps, mapDispatchToProps)(WMarkerComponent);
 module.exports = connect(mapStateToProps, mapDispatchToProps)(MapMain);
