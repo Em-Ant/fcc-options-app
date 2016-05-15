@@ -12,7 +12,6 @@ var Login = require('./components/auth/loginComponent.jsx');
 var Logout = require('./components/auth/logoutComponent.jsx');
 var VehicleRoute = require('./components/vehicleRoutePage/vehicleRouteComponent.jsx');
 var Vehicles = require('./components/vehiclesPage/vehiclesComponent.jsx');
-var Staff = require('./components/staffPage/staffComponent.jsx');
 
 var Consumers = require('./containers/consumersPageContainer.jsx');
 
@@ -64,7 +63,6 @@ ReactDOM.render(
         <Route path="/vehicles" component={Vehicles} onEnter={requireAuth} />
         <Route path="/vehicleRoute/:vehicleId" component={VehicleRoute} onEnter={requireAuth} />
         <Route path="/users" component={User} onEnter={requireRole.bind(null, ADMIN)} />
-        <Route path="/staff" component={Staff} onEnter={requireAuth} />
         <Route path="/notPermitted" component={NotPermitted} />
       </Route>
       <Route path="/login" component={Login}/>
