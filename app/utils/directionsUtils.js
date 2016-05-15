@@ -97,12 +97,10 @@ function addAppDataToDirections(directions, consumers, routeType) {
     }
   })
   if (routeType === 'AM') {
-    console.log('morning', maxPassengerDuration, legs[0].duration.value)
     // AM route
     maxPassengerDuration -= legs[0].duration.value;
     // AM route
   } else {
-    console.log('evening', maxPassengerDuration, legs[0].duration.value)
     // PM route
     maxPassengerDuration -= legs[legs.length - 1].duration.value;
   }
