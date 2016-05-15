@@ -44,7 +44,7 @@ var VehiclePanelComponent = React.createClass({
                     <span
                       className={"cust-label " + durationBg}
                       title="Max Passenger Duration">
-                      <i className="fa fa-clock-o"></i>&nbsp;{vehicle.maxPassengerDuration} mins
+                     <i className="fa fa-clock-o"></i>(AM)&nbsp;{vehicle.maxPassengerDuration} mins
                     </span> : null}
                   {vehicle.needsMedications ?
                     <span

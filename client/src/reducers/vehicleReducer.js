@@ -11,6 +11,8 @@ function updateConsumersArray(state, v_id, cArray) {
 
   var vehicle = Object.assign({}, state.data[v_id]);
   vehicle.consumers = cArray.slice();
+  vehicle.optimized = undefined;
+  vehicle.maxPassengerDuration = undefined;
   data[v_id] = vehicle;
 
   return Object.assign({}, state, {
