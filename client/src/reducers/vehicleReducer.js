@@ -51,6 +51,14 @@ var mapConsumersToVehicles = function(state) {
   })
 }
 
+var setAmMaxPassDuration = function(state, directions) {
+  var vehicle = Object.assign({}, state.data[directions.v_id]);
+  var data = Object.assign({}, state.data);
+  vehicle.maxPassengerDuration
+    = Math.ceil(directions.morningRoute.maxPassengerDuration/60);
+  data[directions.v_id] = vehicle;
+  return Object.assign({}, state, {data: data});
+}
 var vehiclesReducer = function(state, action) {
   state = state || {
     ids: [],
@@ -65,6 +73,8 @@ var vehiclesReducer = function(state, action) {
       return mapConsumersToVehicles(newState);
     case vehicleRouteActions.OPTIMIZE_ROUTE_SUCCESS:
       return commonCRUD.update(state, action.vehicle);
+    case vehicleRouteActions.DIRECTIONS_LOAD_SUCCESS:
+      return setAmMaxPassDuration(state, action.response);
     case actionTypes.DELETE:
       if(action.model === CONSUMERS
         && action.status === actionTypes.SUCCESS) {

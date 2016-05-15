@@ -66,13 +66,20 @@ function DirectionsHandler() {
       }],
       save_directions: ['get_directions', function(results, callback) {
         var directions = results.get_directions;
-        Directions.findOneAndUpdate({
-          v_id: directions.v_id
-        }, directions, {
-          upsert: true
-        }, function(err, response) {
-          callback(err, response);
-        });
+        var maxPassDurationMinutes =
+          Math.ceil(results.get_directions.morningRoute.maxPassengerDuration/60);
+          // update vehicle max pass duration
+        Vehicle.findOneAndUpdate({_id: directions.v_id},
+          {$set: {maxPassengerDuration: maxPassDurationMinutes}}, function(err, stat){
+            // update directions
+            Directions.findOneAndUpdate({
+              v_id: directions.v_id
+            }, directions, {
+              upsert: true
+            }, function(err, response) {
+              callback(err, response);
+            });
+          });
       }]
     }, function(err, results) {
       if (err) {
