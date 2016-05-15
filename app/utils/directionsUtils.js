@@ -34,8 +34,8 @@ module.exports.getDirections = function(vehicle, origin, destination, done) {
       if (err) {
         return done(err);
       }
-      morningDirections = addAppDataToDirections(morningDirections, morningConsumers);
-      eveningDirections = addAppDataToDirections(eveningDirections, eveningConsumers);
+      morningDirections = addAppDataToDirections(morningDirections, morningConsumers, 'AM');
+      eveningDirections = addAppDataToDirections(eveningDirections, eveningConsumers, 'PM');
 
       var waypoints = morningConsumers.map(function(consumer){
         return{
@@ -74,16 +74,14 @@ function getWaypointDirections(waypoints, origin, destination, done) {
 
 
 
-function addAppDataToDirections(directions, consumers) {
+function addAppDataToDirections(directions, consumers, routeType) {
   var totalDuration = 0;
   var maxPassengerDuration = 0;
   var totalDistance = 0;
   var legs = directions.routes[0].legs;
   legs.forEach(function(leg, index) {
     totalDuration += leg.duration.value;
-    if (index != 0) {
-      maxPassengerDuration += leg.duration.value;
-    }
+    maxPassengerDuration += leg.duration.value;
     totalDistance += leg.distance.value;
     if (index == 0) {
       leg.start_location_name = "Options Inc.";
@@ -98,6 +96,16 @@ function addAppDataToDirections(directions, consumers) {
       leg.end_location_name = consumer.name;
     }
   })
+  if (routeType === 'AM') {
+    console.log('morning', maxPassengerDuration, legs[0].duration.value)
+    // AM route
+    maxPassengerDuration -= legs[0].duration.value;
+    // AM route
+  } else {
+    console.log('evening', maxPassengerDuration, legs[0].duration.value)
+    // PM route
+    maxPassengerDuration -= legs[legs.length - 1].duration.value;
+  }
   directions.routes[0].totalDuration = totalDuration;
   directions.routes[0].maxPassengerDuration = maxPassengerDuration;
   directions.routes[0].totalDistance = totalDistance;
