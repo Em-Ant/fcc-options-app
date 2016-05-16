@@ -201,12 +201,19 @@
 }
 
 .info-window-marker{
-   text-shadow:
-       1px 1px 0 #000,
-     -1px -1px 0 #000,
-      1px -1px 0 #000,
-      -1px 1px 0 #000,
-       1px 1px 0 #000;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
+@-moz-document url-prefix() {
+  .info-window-marker{
+     text-shadow:
+         1px 1px 0 #000,
+       -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+         1px 1px 0 #000;
+  }
 }
 
 /* END MAP PAGE PANELS */
