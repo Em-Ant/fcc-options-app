@@ -74,8 +74,8 @@ var WMarkerComponent = React.createClass({
     }
   },
   componentWillUnmount:function(){
-    if(this.marker){
-
+    // Needed to make filtering work properly
+    if(this.marker && _markerClusterer){
       var result = _markerClusterer.removeMarker(this.marker.state.marker, true)
       clearTimeout(repaintTimer);
       repaintTimer=setTimeout(function(){
@@ -174,6 +174,12 @@ var MapMain = React.createClass({
       this.fontFamily_ = style.fontFamily || "Arial,sans-serif";
       this.backgroundPosition_ = style.backgroundPosition || "0 0";
     };
+  },
+  componentWillUnmount:function(){
+    // This fixes a bug where clusters wouldn't show up after first render.
+    // If a user clicks away from the map page, we must manually clear out the
+    // clusterer 
+    _markerClusterer = null;
   },
   componentDidUpdate:function(prevProps){
     if(this.props.centerMarker != null &&
