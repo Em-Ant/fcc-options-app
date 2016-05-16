@@ -45,6 +45,34 @@ var WMarkerComponent = React.createClass({
   clearClusterTimer:function(){
     clearTimeout(clusterMouseoverTimer);
   },
+  componentDidMount:function(){
+    var self = this;
+    if(!_markerClusterer){
+      _markerClusterer = new MarkerClusterer(self.marker.state.marker.map,[],{
+        gridSize:1,
+        averageCenter:true,
+        enableRetinaIcons: true,
+        clusterClass: 'cluster cluster_gray_circle'
+      });
+
+      google.maps.event.addListener(_markerClusterer, "mouseover", function (c) {
+        self.clusterMouseover(c);
+      });
+      google.maps.event.addListener(_markerClusterer, "mouseout", function (c) {
+        self.clusterMouseout(c);
+      });
+      google.maps.event.addListener(_markerClusterer, "clusteringEnd", self.props.onClusteringEnd);
+    }
+    if(self.marker && self.marker.state && self.props.consumerId){
+      self.marker.state.marker.consumerId=self.props.consumerId;
+      var index = _markerClusterer.markers_.findIndex(function(marker,index){
+        return (marker.consumerId == self.props.consumerId)
+      })
+      if(index == -1){
+        _markerClusterer.addMarker(self.marker.state.marker)
+      }
+    }
+  },
   componentWillUnmount:function(){
     if(this.marker){
 
@@ -67,31 +95,6 @@ var WMarkerComponent = React.createClass({
     var self = this;
     return <Marker ref={function(marker){
         self.marker = marker;
-        if(!_markerClusterer){
-          _markerClusterer = new MarkerClusterer(marker.state.marker.map,[],{
-            gridSize:1,
-            averageCenter:true,
-            enableRetinaIcons: true,
-            clusterClass: 'cluster cluster_gray_circle'
-          });
-
-          google.maps.event.addListener(_markerClusterer, "mouseover", function (c) {
-            self.clusterMouseover(c);
-          });
-          google.maps.event.addListener(_markerClusterer, "mouseout", function (c) {
-            self.clusterMouseout(c);
-          });
-          google.maps.event.addListener(_markerClusterer, "clusteringEnd", self.props.onClusteringEnd);
-        }
-        if(marker && marker.state && self.props.consumerId){
-          marker.state.marker.consumerId=self.props.consumerId;
-          var index = _markerClusterer.markers_.findIndex(function(marker,index){
-            return (marker.consumerId == self.props.consumerId)
-          })
-          if(index == -1){
-            _markerClusterer.addMarker(marker.state.marker)
-          }
-        }
       }
       }{...this.props}/>
   }
