@@ -2,7 +2,6 @@
 
 var Vehicle = require('../models/vehicle.js');
 var Settings = require('../models/settings.js');
-//var coordsDistance = require('../utils/haversine');
 var _ = require('lodash');
 var async = require("async");
 
@@ -213,29 +212,9 @@ function VehicleHandler() {
         if(!req.query.origin) req.query.origin = 'auto';
 
         // if query param ?origin='first' optimizes using the first consumer as origin
-        // else origin is point-to-point farthest consumer from Options
+        // else try all consumers as origin and make na API call for each consumer
 
         var originIndex = 0;
-
-        /*
-        var originConsumer = consumers[0];
-
-        if (req.query.origin === 'furthest') {
-          // calculate point-to-point farthest consumer and his/her index.
-          var originConsumer = consumers.reduce(function(p, c, i) {
-            var d1 = coordsDistance(p.position, optionsCoords);
-            var d2 = coordsDistance(c.position, optionsCoords);
-            if( d1 > d2) {
-              return p;
-            }
-            else {
-              originIndex = i;
-              return c;
-            }
-          });
-        }
-
-        */
 
         var originIndexes = [];
         if(req.query.origin !== 'auto') {
