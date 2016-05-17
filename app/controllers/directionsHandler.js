@@ -5,6 +5,7 @@ var Settings = require('../models/settings.js');
 var directionsUtils = require('../utils/directionsUtils');
 var Directions = require("../models/directions");
 var _ = require("lodash");
+
 var async = require("async");
 
 function DirectionsHandler() {
@@ -92,6 +93,7 @@ function DirectionsHandler() {
     });
 
   }
+
 
 }
 

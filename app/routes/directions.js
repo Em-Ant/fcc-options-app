@@ -8,4 +8,5 @@ var isLoggedIn = require('../auth/ensureAuth.js').isLoggedIn;
 
 router.get('/:id', isLoggedIn, controller.index);
 
+
 module.exports = router;

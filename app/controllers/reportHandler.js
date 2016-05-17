@@ -5,6 +5,12 @@ var mongoose = require('mongoose');
 
 var Vehicle = mongoose.model('Vehicle');
 var Consumer = mongoose.model('Consumer');
+var Directions = require("../models/directions");
+
+var officegen = require('officegen');
+var htmlparser = require('htmlparser2');
+
+var async = require("async");
 
 function ReportHandler() {
   this.consumersReport = function (req, res) {
@@ -152,6 +158,131 @@ function ReportHandler() {
         res.end(result, 'binary');
       })
   }
+
+  this.getDocxDirections = function (req, res) {
+
+    // this handler needs to be called from inside the vehicle route page,
+    // so we are sure that an updatetd directions object is already generated
+    // for the current vehicle.
+
+    async.parallel([
+      function(callback) {
+          Directions.findOne({v_id:req.params.v_id},function(err, data){
+            callback(err, data)
+          })
+      },
+      function(callback) {
+        Vehicle.findById(req.params.v_id).populate('consumers').exec(function(err, data) {
+          callback(err, data);
+        })
+      }
+    ], function(err, results) {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          msg: 'Could not generate directions report'
+        });
+      }
+
+      var directions = results[0];
+      var vehicle = results[1];
+
+      var routeType = req.query.route ? req.query.route.toUpperCase() : 'AM';
+      routeType = routeType === 'AM' ? routeType : 'PM';
+      var route = routeType === 'PM' ? 'eveningRoute' : 'morningRoute';
+      var docx = officegen('docx');
+
+      var bold = false;
+      var pObj = {};
+
+
+      // directions need to be parsed, google uses an html string for each step
+      var parser = new htmlparser.Parser({
+
+        // using pObj inside this constructor relies on JS
+        // passing objects by reference
+        // Maybe it's not good practice, but passing the right pObj
+        // to a function argument would be very complicated.
+
+          onopentag: function(name) {
+            if (name === 'b') bold = true;
+            if (name === 'div') pObj.addText('\n');
+          },
+          onclosetag: function(name) {
+            if (name === 'b') bold = false;
+          },
+          ontext: function(text) {
+            pObj.addText(text, {bold: bold});
+          }
+        }, {
+        decodeEntities: true
+      });
+
+      var routeHasMeds = vehicle.consumers.some(function(consumer){
+        return consumer.hasMedications
+      })
+
+      pObj = docx.createP();
+      pObj.options.align = 'center';
+      pObj.addText(vehicle.name+ ' - ' + routeType.toUpperCase() + ' Route',
+      {bold:true, font_size:22})
+      if (routeHasMeds) pObj.addText('\nTHIS ROUTE HAS MEDS', {bold: false, font_size: 16})
+
+
+      pObj = docx.createP();
+      var consumers = vehicle.consumers;
+      if(routeType === 'PM') consumers.reverse() ;
+      consumers.forEach(function(c, i) {
+        pObj.addText((i+1) + ' - ' + c.name, {bold: true, font_size: 12});
+        var needs = needsString(c);
+        if (needs) pObj.addText(' [' + needs + ']', {bold: false, font_size: 12});
+        pObj.addText('\n     ' + c.address.toUpperCase() + '\n', {bold: false, font_size: 11});
+      })
+
+      directions[route].legs.forEach(function(l, index) {
+        pObj = docx.createP();
+        pObj.addText(l.start_location_name+'\n', {bold: true, font_size: 16})
+        pObj.addText(l.start_address.toUpperCase()+'\n\n', {bold: false, font_size: 12})
+        l.steps.forEach(function(s) {
+          parser.write(s.html_instructions);
+          parser.end();
+          pObj.addText('\n');
+        })
+
+        if(index === directions[route].legs.length-1) {
+          pObj.addText('\n'+l.end_location_name+'\n', {bold: true, font_size: 16})
+          pObj.addText(l.end_address.toUpperCase()+'\n', {bold: false, font_size: 12})
+        }
+      })
+
+      var d = new Date();
+      var dateString = d.toDateString().split(' ');
+      dateString.shift();
+      dateString = dateString.join('_').toLowerCase();
+
+      res.writeHead ( 200, {
+        "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        'Content-disposition': 'attachment; filename=' +
+          vehicle.name.replace(' ','_') + '_' + routeType + '_' + dateString + '.docx'
+      });
+      docx.generate(res);
+
+    })
+  }
+
+}
+
+function needsString (consumer) {
+  var s = '';
+  if (consumer.hasWheelchair) s += 'Wheelchair, '
+  if (consumer.hasMedications) s += 'Meds, '
+  if (consumer.hasSeizures) s += 'Seizures, '
+  if (consumer.needsWave) s += 'Wave, '
+  if (consumer.needsTwoSeats) s += '2 Seats, '
+  if (consumer.behavioralIssues) s += 'Behav. Issues, '
+
+  s = s.trim().replace(/,$/,'');
+  return s;
 }
 
 module.exports = ReportHandler;
