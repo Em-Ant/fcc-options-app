@@ -10,7 +10,8 @@ const MILES_IN_METER = 0.00062137;
 
 var DirectionsBody = React.createClass({
 
-  print: function() {
+  print: function(e) {
+    e.preventDefault();
     var w=window.open("about:blank", 'win');
     w.document.write('<!DOCTYPE html><html><head>');
     w.document.write('<title>Options, Inc. | Vehicles Report</title>');
@@ -29,7 +30,14 @@ var DirectionsBody = React.createClass({
     var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/MINUTES_IN_HOUR);
     return(
       <div>
-      <div><button className="btn btn-default" onClick={this.print}> <i className="fa fa-print"></i> Print </button></div>
+      <div className="btn btn-group">
+        <a href="#" onClick={this.print} className="btn btn-default" > <i className="fa fa-print"></i> Print</a>
+        <a
+          href={'/api/report/directions/' + this.props.vehicle._id +
+            '?route=' + this.props.routeType}
+          className="btn btn-default"
+        > <i className="fa fa-file-word-o"></i> .docx</a>
+      </div>
       <div>
         <div><b>Max Passenger Duration (w/out stops and traffic) </b></div>
         <div>{maxPassengerDuration} minutes</div>
