@@ -26,11 +26,9 @@ var VehicleListElement = React.createClass({
       'avail-color' : 'unavail-color';
     
     return (
-        <tr className={activeClass}>
+        <tr className={activeClass += ' clickable'} onClick={this.props.toggleActive.bind(null, this.props.vehicleId)}>
           <td>
-            <a href="#" data-toggle="active-bus" onClick={this.props.toggleActive.bind(null, this.props.vehicleId)}>
               {vehicle.name}
-            </a>
           </td>
           <td className="text-right">
             {vehicle.needsMedications ?
