@@ -206,7 +206,7 @@ function ReportHandler() {
 
           onopentag: function(name) {
             if (name === 'b') bold = true;
-            if (name === 'div') pObj.addText('\n');
+            if (name === 'div') pObj.addLineBreak();
           },
           onclosetag: function(name) {
             if (name === 'b') bold = false;
@@ -226,7 +226,8 @@ function ReportHandler() {
       pObj.options.align = 'center';
       pObj.addText(vehicle.name+ ' - ' + routeType.toUpperCase() + ' Route',
       {bold:true, font_size:22})
-      if (routeHasMeds) pObj.addText('\nTHIS ROUTE HAS MEDS', {bold: false, font_size: 16})
+      pObj.addLineBreak();
+      if (routeHasMeds) pObj.addText('THIS ROUTE HAS MEDS', {bold: false, font_size: 16})
 
 
       pObj = docx.createP();
@@ -236,22 +237,30 @@ function ReportHandler() {
         pObj.addText((i+1) + ' - ' + c.name, {bold: true, font_size: 12});
         var needs = needsString(c);
         if (needs) pObj.addText(' [' + needs + ']', {bold: false, font_size: 12});
-        pObj.addText('\n     ' + c.address.toUpperCase() + '\n', {bold: false, font_size: 11});
+        pObj.addLineBreak();
+        pObj.addText('     ' + c.address.toUpperCase(), {bold: false, font_size: 11});
+        pObj.addLineBreak();
       })
 
       directions[route].legs.forEach(function(l, index) {
         pObj = docx.createP();
-        pObj.addText(l.start_location_name+'\n', {bold: true, font_size: 16})
-        pObj.addText(l.start_address.toUpperCase()+'\n\n', {bold: false, font_size: 12})
+        pObj.addText(l.start_location_name, {bold: true, font_size: 16})
+        pObj.addLineBreak();
+        pObj.addText(l.start_address.toUpperCase(), {bold: false, font_size: 12})
+        pObj.addLineBreak();
+        pObj.addLineBreak();
         l.steps.forEach(function(s) {
           parser.write(s.html_instructions);
           parser.end();
-          pObj.addText('\n');
+          pObj.addLineBreak();
         })
 
         if(index === directions[route].legs.length-1) {
-          pObj.addText('\n'+l.end_location_name+'\n', {bold: true, font_size: 16})
-          pObj.addText(l.end_address.toUpperCase()+'\n', {bold: false, font_size: 12})
+          pObj.addLineBreak();
+          pObj.addText(l.end_location_name, {bold: true, font_size: 16})
+          pObj.addLineBreak();
+          pObj.addText(l.end_address.toUpperCase(), {bold: false, font_size: 12})
+          pObj.addLineBreak();
         }
       })
 
