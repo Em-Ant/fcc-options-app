@@ -21,17 +21,14 @@ var ConsumerInfoBox = React.createClass({
         />
       ) : null;
     return (
-    <tr>
+    <tr className="clickable" onClick={this.props.clickConsumer.bind(null,this.props.consumerId)}>
       <td>
         {this.props.index + 1}
       </td>
 
         <td
-          className="clickable"
           onMouseOver={this.props.nameHoverOn.bind(null,this.props.consumerId)}
           onMouseOut={this.props.nameHoverOff.bind(null,this.props.consumerId)}
-          onClick={this.props.clickConsumer.bind(null,this.props.consumerId)}
-
         >
           {consumer.name}
       </td>
