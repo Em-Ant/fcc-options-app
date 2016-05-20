@@ -34,6 +34,7 @@ var RouteBodyComponent = React.createClass({
     var waypoints = this.props.vehicle.additionalWpts.slice();
     var wptToBeRemoved = this.props.waypoints[ind].index;
     waypoints.splice(wptToBeRemoved,1);
+    waypoints.forEach((w,i) => {w.index = i});
     this.props.delWpt(this.props.vehicle._id, waypoints);
   },
   render: function() {
