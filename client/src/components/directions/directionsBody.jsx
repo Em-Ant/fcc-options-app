@@ -122,11 +122,12 @@ var mapStateToProps = function(state, ownProps){
   var routeStartTime;
   if(ownProps.routeType=="PM"){
     route = state.directions.eveningRoute;
-    routeStartTime = 1463781600000;
+    routeStartTime = state.directions.eveningStartTime;
   }else{
     route = state.directions.morningRoute;
-    routeStartTime = 1463752800000;
+    routeStartTime = state.directions.morningStartTime;
   }
+  console.log(state.directions);
   return {
     vehicle: state.vehicles.data[state.directions.v_id],
     consumers: state.consumers.data,

@@ -16,8 +16,17 @@ var Directions = new Schema({
     address:String
   }],
   morningRoute: mongoose.Schema.Types.Mixed,
-  eveningRoute: mongoose.Schema.Types.Mixed
-
+  eveningRoute: mongoose.Schema.Types.Mixed,
+  morningStartTime:{
+    type: Date,
+    required:true,
+    default: 'Fri May 20 2016 07:00:00 GMT-0700 (PDT)'
+  },
+  eveningStartTime:{
+    type: Date,
+    required:true,
+    default: 'Fri May 20 2016 15:00:00 GMT-0700 (PDT)'
+  }
 });
 
 module.exports = mongoose.model('Directions', Directions);

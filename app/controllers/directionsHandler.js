@@ -89,7 +89,7 @@ function DirectionsHandler() {
           msg: 'Could not get directions'
         });
       }
-      return res.status(200).json(results.get_directions);
+      return res.status(200).json(results.save_directions);
     });
 
   }

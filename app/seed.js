@@ -8,7 +8,6 @@
 var Settings = require('./models/settings.js');
 var Consumer = require('./models/consumer.js');
 var User = require('./models/users.js');
-var Route = require('./models/routes.js');
 var Vehicle = require('./models/vehicle.js');
 var Directions = require('./models/directions.js');
 var async = require('async');
