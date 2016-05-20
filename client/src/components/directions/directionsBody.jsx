@@ -10,7 +10,29 @@ const MILES_IN_METER = 0.00062137;
 const TIME_FORMAT = "h:mm A";
 
 var DirectionsBody = React.createClass({
-
+  componentDidMount:function(){
+    this.setState({
+      routeStartTime:this.props.routeStartTime,
+      startRouteTimeField:moment(this.props.routeStartTime).format(TIME_FORMAT)
+    })
+  },
+  getInitialState:function(){
+    return {
+      startRouteTimeField:''
+    }
+  },
+  handleTimeChange:function(e){
+    var time = moment(e.target.value, TIME_FORMAT);
+    if(time.isValid()){
+      this.setState({
+        routeStartTime:time.unix()*1000,
+        startRouteTimeField:e.target.value
+      })
+    }
+    this.setState({
+      startRouteTimeField:e.target.value
+    })
+  },
   print: function(e) {
     e.preventDefault();
     var w=window.open("about:blank", 'win');
@@ -29,8 +51,8 @@ var DirectionsBody = React.createClass({
     var self = this;
     var route = this.props.route;
     var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/MINUTES_IN_HOUR);
-    var routeStartTime = moment(this.props.routeStartTime);
-    var routeTime = moment(this.props.routeStartTime);
+    var routeStartTime = moment(this.state.routeStartTime);
+    var routeTime = moment(this.state.routeStartTime);
     return(
       <div>
       <div className="btn btn-group">
@@ -42,6 +64,8 @@ var DirectionsBody = React.createClass({
         > <i className="fa fa-file-word-o"></i> .docx</a>
       </div>
       <div>
+        <div><b>Start Route Time</b></div>
+        <div><input type="text" value = {self.state.startRouteTimeField} onChange={this.handleTimeChange}/> </div>
         <div><b>Max Passenger Duration (w/out stops and traffic) </b></div>
         <div>{maxPassengerDuration} minutes</div>
         {maxPassengerDuration > this.props.maxConsumerRouteTime?
@@ -55,7 +79,7 @@ var DirectionsBody = React.createClass({
         <div>{Math.ceil(route.totalDistance*MILES_IN_METER)} miles</div>
         {
           route.legs.map(function(leg, index){
-            if(leg.start_address != leg.end_address){  
+            if(leg.start_address != leg.end_address){
               routeTime.add(leg.duration.value + self.props.vehicleWaitTime,'s')
             }
             return(
