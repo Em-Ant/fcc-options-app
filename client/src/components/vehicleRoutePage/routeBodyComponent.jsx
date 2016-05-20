@@ -48,7 +48,7 @@ var RouteBodyComponent = React.createClass({
           </div>
         </div>
       </div>
-      {this.props.vehicle. consumers.length?
+      {this.props.vehicle.consumers.length?
         <div>
         <table className="table table-striped table-hover">
           <thead>
@@ -80,11 +80,38 @@ var RouteBodyComponent = React.createClass({
     )
   }
 })
+
+import { createSelector } from 'reselect'
+
+const getCData = (state) => state.consumers.data
+const getVehicle = (state, props) => state.vehicles.data[props.vehicleId]
+var assembleWaypts = createSelector (
+  [getCData, getVehicle],
+  function(cData, vehicle) {
+  var waypoints = [];
+  var addWpts = vehicle.additionalWpts.slice();
+  var wptHead = addWpts[0];
+  vehicle.consumers.forEach(function(c, ind) {
+    while (wptHead && (wptHead.beforeConsumer == ind )) {
+      waypoints.push(wptHead);
+      addWpts.shift();
+      wptHead = addWpts[0];
+    }
+    waypoints.push(cData[c]);
+  })
+  waypoints = waypoints.concat(addWpts);
+  console.log('routeBodyComponent-waypoints', waypoints) //DEBUG
+  return waypoints;
+});
+
+
 var mapStateToProps = function(state, ownProps) {
   return {
+    waypoints: assembleWaypts(state, ownProps),
     vehicle: state.vehicles.data[ownProps.vehicleId]
   }
 }
+
 var mapDispatchToProps = function(dispatch) {
   return {
     onConsumerReorder: function(vehicle, startConsumerPosition, endConsumerPosition) {

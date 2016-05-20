@@ -13,6 +13,8 @@ var v_actions = new ModelActions(models.VEHICLES);
 var s_actions = new ModelActions(models.SETTINGS);
 var c_actions = new ModelActions(models.CONSUMERS);
 
+var vr_actions = require('../../actions/vehicleRouteActions')
+
 var LoadingComponent = React.createClass({
   render:function(){
     return(
@@ -39,6 +41,20 @@ var VehicleRouteComponent = React.createClass({
     if(this.props.settingsNeedToBeFetched)
       this.props.loadSettings();
    },
+   addWpt: function (e) {
+     e.preventDefault();
+     var newWpt = {};
+
+     newWpt.type = "_wpt"
+     newWpt.name = this.refs.wname.value;
+     newWpt.address = this.refs.waddr.value;
+     newWpt.beforeConsumer = this.props.vehicle.consumers.length;
+     this.props.addWpt(this.props.vehicle, newWpt);
+   },
+   resetWpts: function (e) {
+     e.preventDefault();
+     this.props.resetWpts(this.props.vehicle);
+   },
     render: function() {
     var vehicle = this.props.vehicle;
     if(!vehicle){
@@ -55,7 +71,14 @@ var VehicleRouteComponent = React.createClass({
               {this.props.displayDirections?
                 <Directions/>:
                 <VehiclePanel vehicleId={vehicle._id}/>
-                }
+              }
+              {/* Temporary form to test additionalWpts*/}
+              <form onSubmit={this.addWpt}>
+                <button type="button" onClick={this.resetWpts}>RESET</button>
+                <input type="text" placeholder="wpt name" ref="wname"></input>
+                <input type="text" placeholder="wpt address" ref="waddr"></input>
+                <button type="submit">SUBMIT</button>
+              </form>
             </div>
             <div className="col-md-7 col-sm-7 col-xs-7">
               <MapComponent vehicleId={vehicle._id}/>
@@ -92,6 +115,12 @@ var mapDispatchToProps = function(dispatch) {
     },
     loadSettings: function() {
       dispatch(s_actions.fetch())
+    },
+    addWpt: function (v, newWpt) {
+      dispatch(vr_actions.addWpt(v, newWpt))
+    },
+    resetWpts: function (v) {
+      dispatch(vr_actions.resetWpts(v))
     }
   }
 }

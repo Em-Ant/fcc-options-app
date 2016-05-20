@@ -6,6 +6,7 @@ var _ = require('lodash');
 var async = require("async");
 
 var getWaypoints = require('../utils/directionsUtils').getWaypointDirections;
+var geocoder = require('../utils/geocoder.js');
 
 function VehicleHandler() {
   var getErrorMessage = function(err){
@@ -33,7 +34,6 @@ function VehicleHandler() {
 
     // if query param 'populate' === 'true' populate consumers refs
     if(req.query.populate === 'true') {
-      console.log('ok');
       Vehicle.find({})
       .populate('consumers')
       .exec(function(err, vehicles) {
@@ -91,6 +91,11 @@ function VehicleHandler() {
         updated.optimized = undefined;
         updated.maxPassengerDuration = undefined;
       }
+      if(req.body.additionalWpts){
+        updated.markModified('additionalWpts');
+        updated.optimized = undefined;
+        updated.maxPassengerDuration = undefined;
+      }
       updated.save(function(err, savedVehicle) {
         if (err) {
           return res.status(400).json({
@@ -111,26 +116,45 @@ function VehicleHandler() {
     delete req.body.__v;
 
     if (req.body.insert) {
-      // if inserting a consumer, validate that is not already assigned
-      var c_id = req.body.insert;
-      delete req.body.insert;
-      Vehicle.findOne({consumers: c_id}, function(err, vehicle){
-        if(vehicle) {
-          return res.status(400).json({
-            msg: 'Consumer is already on a vehicle'
-          });
-        }
+      if(req.body.insert === 'additionalWpt') {
+        // adding an additional waypoint
 
-        if (err) {
-          return res.status(400).json({
-            msg: 'There was an error finding vehicles'
-          });
-        }
-        // consumer is valid -> update vehicle
-        updateVehicle(req, res);
-      });
+        // geolocate it
+        // new waypoint is pushed into the array, so it's the last element
+        var newWpt =
+          req.body.additionalWpts[req.body.additionalWpts.length-1];
+        geocoder.getCoords(newWpt.address, function(err, coords){
+          if(err) { return res.status(404).json({msg: 'Geolocator error'}); }
+          //geocoder could not get coords for address
+          if(!coords){
+            return res.status(404).json({msg: 'Invalid Address'});
+          }
+          //set the coords to the waypoint
+          newWpt.position = coords;
+          updateVehicle(req, res);
+        });
+      } else {
+        // if inserting a consumer, validate that is not already assigned
+        var c_id = req.body.insert;
+        delete req.body.insert;
+        Vehicle.findOne({consumers: c_id}, function(err, vehicle){
+          if(vehicle) {
+            return res.status(400).json({
+              msg: 'Consumer is already on a vehicle'
+            });
+          }
+
+          if (err) {
+            return res.status(400).json({
+              msg: 'There was an error finding vehicles'
+            });
+          }
+          // consumer is valid -> update vehicle
+          updateVehicle(req, res);
+        });
+      }
     } else {
-      // not inserting a consumer -> update vehicle
+      // not inserting a consumer/waypoint -> update vehicle
       updateVehicle(req, res);
     }
   }
@@ -194,9 +218,11 @@ function VehicleHandler() {
       },
       get_optimized_wpts: ['get_options_inc_address', 'get_vehicle', function(results, callback) {
 
-        if(results.get_vehicle.consumers.length <= 1
+        if(results.get_vehicle.consumers.length +
+            results.get_vehicle.additionalWpts.length <= 1
           || (results.get_vehicle.optimized === req.query.origin)
           || (!req.query.origin && results.get_vehicle.optimized === 'auto')) {
+
           var cIds = results.get_vehicle.consumers.map(c => c._id)
           results.get_vehicle.consumers = cIds;
           res.status(200).json(results.get_vehicle);

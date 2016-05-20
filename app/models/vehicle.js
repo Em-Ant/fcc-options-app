@@ -36,6 +36,8 @@ var Vehicle = new Schema({
     ref: 'Consumer'
   }],
 
+  additionalWpts: Array,
+
   driver: {
     type: Boolean,
     default: true

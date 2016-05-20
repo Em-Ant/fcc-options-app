@@ -14,7 +14,6 @@ var VehiclePanelComponent = React.createClass({
   render: function() {
     var vehicle = this.props.vehicle
     vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
-    console.log(vehicle);
     var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs
       ? 'avail-color'
       : 'unavail-color';
