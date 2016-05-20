@@ -45,7 +45,7 @@ var VehicleRouteComponent = React.createClass({
      e.preventDefault();
      var newWpt = {};
 
-     newWpt.type = "_wpt"
+     newWpt._type = "wpt"
      newWpt.name = this.refs.wname.value;
      newWpt.address = this.refs.waddr.value;
      newWpt.beforeConsumer = this.props.vehicle.consumers.length;
@@ -117,7 +117,8 @@ var mapDispatchToProps = function(dispatch) {
       dispatch(s_actions.fetch())
     },
     addWpt: function (v, newWpt) {
-      dispatch(vr_actions.addWpt(v, newWpt))
+      newWpt.index = v.additionalWpts.length;
+      dispatch(vr_actions.addWpt(v, newWpt));
     },
     resetWpts: function (v) {
       dispatch(vr_actions.resetWpts(v))

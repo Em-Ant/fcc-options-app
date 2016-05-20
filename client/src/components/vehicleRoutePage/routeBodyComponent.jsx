@@ -16,7 +16,12 @@ var RouteBodyComponent = React.createClass({
       stop: function( event, ui ) {
         var endSortPosition = ui.item.index();
         if(startSortPosition != endSortPosition){
-          self.props.onConsumerReorder(self.props.vehicle,startSortPosition, endSortPosition);
+          var waypts = self.props.waypoints.slice();
+          var startWpt = waypts.splice(startSortPosition, 1);
+          waypts.splice(endSortPosition, 0, startWpt[0]);
+          var vData = disassembleWaypts(waypts);
+          self.props.onConsumerReorder(self.props.vehicle, vData);
+          $( "#sortable-" + self.props.vehicle._id ).sortable('cancel');
         }
       },
       start: function(event, ui) {
@@ -24,6 +29,12 @@ var RouteBodyComponent = React.createClass({
       }
     });
     $( "#sortable-" + self.props.vehicle._id ).disableSelection();
+  },
+  delWpt: function(ind) {
+    var waypoints = this.props.vehicle.additionalWpts.slice();
+    var wptToBeRemoved = this.props.waypoints[ind].index;
+    waypoints.splice(wptToBeRemoved,1);
+    this.props.delWpt(this.props.vehicle._id, waypoints);
   },
   render: function() {
     return (
@@ -57,15 +68,17 @@ var RouteBodyComponent = React.createClass({
               <th>Stop</th>
               <th>Name</th>
               <th>Needs</th>
+              <th></th>
             </tr>
           </thead>
           <tbody id={"sortable-" + this.props.vehicle._id} ref={"tbody"}>
             {
-              this.props.vehicle.consumers.map(function(c_id, index) {
+              this.props.waypoints.map((w, index) => {
                 return (
                   <ConsumerInfoBox
-                    consumerId={c_id}
-                    key={c_id + index}
+                    delWpt={this.delWpt}
+                    waypoint={w}
+                    key={'wpt_' + index}
                     index={index}
                   />
                 )
@@ -81,39 +94,62 @@ var RouteBodyComponent = React.createClass({
   }
 })
 
+function assembleWaypts(cData, vehicle) {
+var waypoints = [];
+var addWpts = vehicle.additionalWpts.slice();
+var wptHead = addWpts[0];
+vehicle.consumers.forEach(function(c, ind) {
+  while (wptHead && (wptHead.beforeConsumer == ind )) {
+    waypoints.push(wptHead);
+    addWpts.shift();
+    wptHead = addWpts[0];
+  }
+  waypoints.push(cData[c]);
+})
+waypoints = waypoints.concat(addWpts);
+return waypoints;
+};
+
+function disassembleWaypts(waypts) {
+  var wpts = waypts.slice();
+  var cIds = [];
+  var addWpts = [];
+  var wIndex = 0;
+  var cIndex = 0;
+  wpts.forEach(function(w) {
+    if (w._type !== 'wpt') {
+      cIds.push(w._id);
+      ++cIndex;
+    } else {
+      w.beforeConsumer = cIndex;
+      w.index = wIndex++;
+      addWpts.push(w);
+    }
+  })
+  return {consumersIds: cIds, additionalWpts: addWpts}
+}
+
 import { createSelector } from 'reselect'
 
 const getCData = (state) => state.consumers.data
 const getVehicle = (state, props) => state.vehicles.data[props.vehicleId]
-var assembleWaypts = createSelector (
+var assembleWayptsSelector = createSelector (
   [getCData, getVehicle],
-  function(cData, vehicle) {
-  var waypoints = [];
-  var addWpts = vehicle.additionalWpts.slice();
-  var wptHead = addWpts[0];
-  vehicle.consumers.forEach(function(c, ind) {
-    while (wptHead && (wptHead.beforeConsumer == ind )) {
-      waypoints.push(wptHead);
-      addWpts.shift();
-      wptHead = addWpts[0];
-    }
-    waypoints.push(cData[c]);
-  })
-  waypoints = waypoints.concat(addWpts);
-  console.log('routeBodyComponent-waypoints', waypoints) //DEBUG
-  return waypoints;
-});
-
+  assembleWaypts
+)
 
 var mapStateToProps = function(state, ownProps) {
   return {
-    waypoints: assembleWaypts(state, ownProps),
+    waypoints: assembleWayptsSelector(state, ownProps),
     vehicle: state.vehicles.data[ownProps.vehicleId]
   }
 }
 
 var mapDispatchToProps = function(dispatch) {
   return {
+    delWpt: function(v_id, newWpts) {
+      dispatch(actions.editWpts(v_id, newWpts))
+    },
     onConsumerReorder: function(vehicle, startConsumerPosition, endConsumerPosition) {
       dispatch(actions.reorderConsumer(vehicle, startConsumerPosition, endConsumerPosition))
     }

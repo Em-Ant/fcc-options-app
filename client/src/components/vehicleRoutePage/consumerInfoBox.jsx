@@ -5,17 +5,23 @@ var connect = require('react-redux').connect;
 var _addFlags = require('../../utils/addConsumerFlags');
 
 var ConsumerInfoBox = React.createClass({
-
     render: function() {
-    var consumer = this.props.consumer;
-    var flags = _addFlags(consumer);
-    var createMarkup = function(s) {return {__html: s}}
-    var needFlags = flags.needs
-      ? (
-        <div
-          dangerouslySetInnerHTML={createMarkup(flags.flagsString)}
-        />
-      ) : null;
+    var waypoint = this.props.waypoint;
+    var desc;
+    if(waypoint._type !== 'wpt'){
+      var flags = _addFlags(waypoint);
+      var createMarkup = function(s) {return {__html: s}}
+      desc = flags.needs
+        ? (
+          <div
+            dangerouslySetInnerHTML={createMarkup(flags.flagsString)}
+          />
+        ) : null;
+    } else {
+      desc = 'additional waypoint'
+    }
+
+
     return (
     <tr
       className="clickable"
@@ -28,20 +34,24 @@ var ConsumerInfoBox = React.createClass({
       </td>
 
         <td>
-          {consumer.name}
+          {waypoint.name}
       </td>
       <td>
-        {needFlags}
+        {desc}
+      </td>
+      <td>
+        {waypoint._type === 'wpt'
+          ? <i
+          className="fa fa-times cust-btn"
+          onClick={this.props.delWpt.bind(null, this.props.index)}></i>
+        : waypoint._type
+        }
       </td>
     </tr>
   )}
 })
 
-var mapStateToProps = function(state, ownProps){
-  return {
-    consumer: state.consumers.data[ownProps.consumerId]
-  }
-}
+
 var mapDispatchToProps = function(dispatch) {
   return {
     nameHoverOn: function(c_id) {
@@ -56,4 +66,4 @@ var mapDispatchToProps = function(dispatch) {
   }
 }
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(ConsumerInfoBox);
+module.exports = connect(undefined, mapDispatchToProps)(ConsumerInfoBox);

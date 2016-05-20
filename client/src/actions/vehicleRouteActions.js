@@ -60,6 +60,33 @@ module.exports.addWpt = function(v, newWpt) {
   }
 }
 
+module.exports.editWpts = function(v_id, newWpts) {
+  return function(dispatch) {
+    dispatch({
+      type: 'EDIT_WPT_TEST_REQUEST',
+    });
+
+
+    Ajax.post('/api/vehicle/' + v_id, {
+        additionalWpts: newWpts,
+      },
+      function(err, response) {
+        if (err) {
+          return dispatch({
+            type: 'EDIT_WPT_TEST_ERROR',
+            error: err
+          });
+        }
+
+        dispatch({
+          type: 'EDIT_WPT_TEST_SUCCESS',
+          v_id: v_id,
+          vehicle: response
+        })
+    })
+  }
+}
+
 module.exports.resetWpts = function(v) {
 
   return function(dispatch) {
@@ -87,14 +114,12 @@ module.exports.resetWpts = function(v) {
   }
 }
 
-module.exports.reorderConsumer = function(vehicle, startConsumerPosition, endConsumerPosition) {
-  var consumers = vehicle.consumers.slice();
-  //remove at start position, and place in end position
-  var removedConsumers = consumers.splice(startConsumerPosition, 1);
-  consumers.splice(endConsumerPosition, 0, removedConsumers[0]);
+module.exports.reorderConsumer = function(vehicle, vData) {
+
 
   var updatedVehicle = Object.assign({}, vehicle, {
-    consumers: consumers
+    consumers: vData.consumersIds,
+    additionalWpts: vData.additionalWpts
   })
   return vehicleActions.update(updatedVehicle);
 }
