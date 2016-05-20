@@ -4,9 +4,10 @@ var React = require('react');
 var connect = require('react-redux').connect;
 var Message = require('../message.jsx');
 var PrintableRoute = require('./printableRoute.jsx');
-
+var moment = require('moment');
 const MINUTES_IN_HOUR = 60;
 const MILES_IN_METER = 0.00062137;
+const TIME_FORMAT = "h:mm A";
 
 var DirectionsBody = React.createClass({
 
@@ -28,6 +29,8 @@ var DirectionsBody = React.createClass({
     var self = this;
     var route = this.props.route;
     var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/MINUTES_IN_HOUR);
+    var routeStartTime = moment(this.props.routeStartTime);
+    var routeTime = moment(this.props.routeStartTime);
     return(
       <div>
       <div className="btn btn-group">
@@ -52,11 +55,21 @@ var DirectionsBody = React.createClass({
         <div>{Math.ceil(route.totalDistance*MILES_IN_METER)} miles</div>
         {
           route.legs.map(function(leg, index){
+            if(leg.start_address != leg.end_address){  
+              routeTime.add(leg.duration.value + self.props.vehicleWaitTime,'s')
+            }
             return(
+
               <div key={index}>
-                <div> <b>{leg.start_location_name}</b></div>
-                <div> {leg.start_address} </div>
-                <p/>
+                {index==0?
+                  <div>
+                  <p/>
+                  <div> <b>{leg.start_location_name} - {routeStartTime.format(TIME_FORMAT)}</b></div>
+                  <div> {leg.start_address} </div>
+                  <p/>
+                  </div>
+                  :null
+                }
                 {
                   leg.steps.map(function(step,index){
                     return(
@@ -65,14 +78,9 @@ var DirectionsBody = React.createClass({
                   })
                 }
                 <p/>
-                {index==route.legs.length-1?
-                  <div>
-                  <div> <b>{leg.end_location_name}</b></div>
-                  <div> {leg.end_address} </div>
-                  <p/>
-                  </div>
-                  :null
-                }
+                <div> <b>{leg.end_location_name} - {routeTime.format(TIME_FORMAT)}</b></div>
+                <div> {leg.end_address} </div>
+                <p/>
               </div>
             )
           })
@@ -87,16 +95,21 @@ var DirectionsBody = React.createClass({
 })
 var mapStateToProps = function(state, ownProps){
   var route;
+  var routeStartTime;
   if(ownProps.routeType=="PM"){
     route = state.directions.eveningRoute;
+    routeStartTime = 1463781600000;
   }else{
     route = state.directions.morningRoute;
+    routeStartTime = 1463752800000;
   }
   return {
     vehicle: state.vehicles.data[state.directions.v_id],
     consumers: state.consumers.data,
     route : route,
-    maxConsumerRouteTime: state.settings.maxConsumerRouteTime
+    maxConsumerRouteTime: state.settings.maxConsumerRouteTime,
+    routeStartTime: routeStartTime,
+    vehicleWaitTime: 180
   }
 }
 module.exports = connect(mapStateToProps)(DirectionsBody)

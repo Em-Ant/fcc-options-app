@@ -54,6 +54,7 @@
     "htmlparser2": "^3.9.0",
     "json-loader": "^0.5.4",
     "lodash": "^4.8.2",
+    "moment": "^2.13.0",
     "mongoose": "^4.1.0",
     "mongoose-id-validator": "^0.3.0",
     "mongoose-unique-validator": "^1.0.2",
