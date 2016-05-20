@@ -6,7 +6,14 @@ var addFlags = require('../../utils/addConsumerFlags');
 var ConsumerMarkerInfo = React.createClass({
 
   render: function() {
-    var flags = addFlags(this.props.consumer);
+    /*
+    HACK:  When this consumer gets deleted, for some reason, react still tries
+    render this component.
+    */
+    if(!this.props.consumer){
+      return <div></div>
+    }
+    var flags =addFlags(this.props.consumer);
     return (
       <div>
       <div>{this.props.consumer.name}</div>
@@ -28,7 +35,6 @@ var mapStateToProps = function(state, ownProps){
   var assignedVehicleId = state.vehicles.consumersToVehiclesMap[ownProps.consumerId];
   return {
     consumer: state.consumers.data[ownProps.consumerId],
-    flags:addFlags(state.consumers.data[ownProps.consumerId]),
     assignedVehicle: state.vehicles.data[assignedVehicleId]
   }
 }
