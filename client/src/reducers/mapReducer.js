@@ -223,6 +223,18 @@ var clusterInfoClose = function(state, cluster) {
     displayClusters: clusters
   })
 }
+var removeConsumerFromClusters = function(state, id) {
+  var clusters = state.displayClusters.slice();
+  var clusterIndex = findConsumerClusterIndex(clusters, id);
+  var consumerCluster = clusters[clusterIndex];
+  var markerIndex = consumerCluster.markers.findIndex(function(marker){
+    return marker.consumerId == id
+  });
+  consumerCluster.markers.splice(markerIndex, 1);
+  return Object.assign({}, state, {
+    displayClusters: clusters
+  })
+}
 var saveClusters = function(state, clusters_) {
   var clusters = [];
   clusters_.forEach(function(cluster_) {
@@ -398,8 +410,10 @@ var reducer = function(state, action) {
       if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.SUCCESS)
         return success(state)
     case (modelActionTypes.DELETE):
-      if (action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS)
-        return removeConsumerMarker(state, action.id)
+      if (action.model == modelConst.CONSUMERS && action.status == modelActionTypes.SUCCESS){
+          var newState = removeConsumerFromClusters(state, action.id)
+          return removeConsumerMarker(newState, action.id)
+      }
       if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.SUCCESS)
         return checkActiveVehicleIdForDelete(state, action.id)
 
