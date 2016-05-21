@@ -10,6 +10,18 @@ var InfoWindow = require('react-google-maps').InfoWindow;
 var Marker = require('react-google-maps').Marker;
 var Polyline = require('react-google-maps').Polyline;
 
+var fontawesome = require('fontawesome-markers');
+
+var wptIcon = {
+      path: fontawesome.FLAG,
+      scale: 0.4,
+      strokeWeight: 1,
+      strokeColor: '#111',
+      strokeOpacity: 1,
+      fillOpacity: 0.9,
+      fillColor: "#5AA02C"
+}
+
 var MapMain = React.createClass({
   _googleMapComponent:null,
 
@@ -90,6 +102,14 @@ var MapMain = React.createClass({
                 </Marker>
               )
             })}
+            {self.props.waypoints.map((w, i) =>
+              <Marker
+                key={'addWpt_' + i}
+                position={w.position}
+                title={w.name}
+                icon={wptIcon}>
+              </Marker>
+            )}
             {self.props.displayDirections?
             <Polyline
               path={self.props.vehiclePath}
@@ -124,6 +144,7 @@ var mapStateToProps = function(state, ownProps){
     return state.vehicles.consumersToVehiclesMap[consumerMarker.consumerId] == ownProps.vehicleId
   })
   return {
+    waypoints: state.vehicles.data[ownProps.vehicleId].additionalWpts,
     consumerMarkers: consumerMarkers,
     optionsIncMarker: state.mapPage.optionsIncMarker,
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,

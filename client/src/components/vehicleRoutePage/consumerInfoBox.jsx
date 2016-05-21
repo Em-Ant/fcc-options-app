@@ -25,9 +25,9 @@ var ConsumerInfoBox = React.createClass({
     return (
     <tr
       className="clickable"
-      onMouseOver={this.props.nameHoverOn.bind(null,this.props.consumerId)}
-      onMouseOut={this.props.nameHoverOff.bind(null,this.props.consumerId)}
-      onClick={this.props.clickConsumer.bind(null,this.props.consumerId)}>
+      onMouseOver={this.props.nameHoverOn.bind(null,this.props.waypoint._id)}
+      onMouseOut={this.props.nameHoverOff.bind(null,this.props.waypoint._id)}
+      onClick={this.props.clickConsumer.bind(null,this.props.waypoint._id)}>
       <td><i className="fa fa-arrows-v cust-btn draggable"></i></td>
       <td>
         {this.props.index + 1}

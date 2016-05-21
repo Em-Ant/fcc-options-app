@@ -60,7 +60,7 @@ var RouteBodyComponent = React.createClass({
           </div>
         </div>
       </div>
-      {this.props.vehicle.consumers.length?
+      {this.props.waypoints.length?
         <div>
         <table className="table table-striped table-hover">
           <thead>
