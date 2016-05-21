@@ -61,7 +61,7 @@ var WMarkerComponent = React.createClass({
       google.maps.event.addListener(_markerClusterer, "mouseout", function (c) {
         self.clusterMouseout(c);
       });
-      google.maps.event.addListener(_markerClusterer, "clusteringEnd", self.props.onClusteringEnd);
+      google.maps.event.addListener(_markerClusterer, "clusteringend", self.props.onClusteringend);
     }
     if(self.marker && self.marker.state && self.props.consumerId){
       self.marker.state.marker.consumerId=self.props.consumerId;
@@ -178,7 +178,7 @@ var MapMain = React.createClass({
   componentWillUnmount:function(){
     // This fixes a bug where clusters wouldn't show up after first render.
     // If a user clicks away from the map page, we must manually clear out the
-    // clusterer 
+    // clusterer
     _markerClusterer = null;
   },
   componentDidUpdate:function(prevProps){
