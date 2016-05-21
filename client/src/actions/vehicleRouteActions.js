@@ -63,3 +63,24 @@ module.exports.optimizeRoute = function(v_id, mode) {
     })
   }
 }
+
+module.exports.saveRouteStartTime = function(vehicleId, routeStartTime) {
+  return function(dispatch) {
+    dispatch({
+      type: actionTypes.SAVE_ROUTE_TIME_REQUEST
+    });
+    Ajax.put('/api/directions/' + vehicleId, routeStartTime,
+     function(err, response) {
+      if (err) {
+        return dispatch({
+          type: actionTypes.SAVE_ROUTE_TIME_FAILURE,
+          error: err
+        });
+      }
+      dispatch({
+        type: actionTypes.SAVE_ROUTE_TIME_SUCCESS,
+        response: response
+      })
+    })
+  }
+}

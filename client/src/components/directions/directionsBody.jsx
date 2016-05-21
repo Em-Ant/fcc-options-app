@@ -4,10 +4,14 @@ var React = require('react');
 var connect = require('react-redux').connect;
 var Message = require('../message.jsx');
 var PrintableRoute = require('./printableRoute.jsx');
+var actions = require('../../actions/vehicleRouteActions');
 var moment = require('moment');
 const MINUTES_IN_HOUR = 60;
 const MILES_IN_METER = 0.00062137;
 const TIME_FORMAT = "h:mm A";
+const VEHICLE_WAIT_TIME_SECONDS = 180;
+const PM_ROUTE_TYPE = "PM";
+var inputTimer;
 
 var DirectionsBody = React.createClass({
   componentDidMount:function(){
@@ -22,12 +26,20 @@ var DirectionsBody = React.createClass({
     }
   },
   handleTimeChange:function(e){
+    var self = this;
     var time = moment(e.target.value, TIME_FORMAT);
     if(time.isValid()){
+      var routeStartTime = time.unix()*1000;
       this.setState({
-        routeStartTime:time.unix()*1000,
+        routeStartTime:routeStartTime,
         startRouteTimeField:e.target.value
       })
+      //save route when user is done typing
+      clearTimeout(inputTimer);
+      inputTimer=setTimeout(function(){
+        self.props.saveRouteStartTime(self.props.vehicle._id, self.props.routeType, routeStartTime )
+      }, 500)
+
     }
     this.setState({
       startRouteTimeField:e.target.value
@@ -65,7 +77,7 @@ var DirectionsBody = React.createClass({
       </div>
       <div>
         <div><b>Start Route Time</b></div>
-        <div><input type="text" value = {self.state.startRouteTimeField} onChange={this.handleTimeChange}/> </div>
+        <div><input type="text" placeholder="9:00AM, 12:00PM" value = {self.state.startRouteTimeField} onChange={this.handleTimeChange}/> </div>
         <div><b>Max Passenger Duration (w/out stops and traffic) </b></div>
         <div>{maxPassengerDuration} minutes</div>
         {maxPassengerDuration > this.props.maxConsumerRouteTime?
@@ -120,21 +132,38 @@ var DirectionsBody = React.createClass({
 var mapStateToProps = function(state, ownProps){
   var route;
   var routeStartTime;
-  if(ownProps.routeType=="PM"){
+  if(ownProps.routeType==PM_ROUTE_TYPE){
     route = state.directions.eveningRoute;
     routeStartTime = state.directions.eveningStartTime;
   }else{
     route = state.directions.morningRoute;
     routeStartTime = state.directions.morningStartTime;
   }
-  console.log(state.directions);
   return {
     vehicle: state.vehicles.data[state.directions.v_id],
     consumers: state.consumers.data,
     route : route,
     maxConsumerRouteTime: state.settings.maxConsumerRouteTime,
     routeStartTime: routeStartTime,
-    vehicleWaitTime: 180
+    vehicleWaitTime: VEHICLE_WAIT_TIME_SECONDS
   }
 }
-module.exports = connect(mapStateToProps)(DirectionsBody)
+
+var mapDispatchToProps = function(dispatch, ownProps) {
+  return {
+    saveRouteStartTime: function(vehicleId, routeType, routeStartTime) {
+      var startingTime;
+      if (routeType == PM_ROUTE_TYPE) {
+        startingTime = {
+          eveningStartTime: routeStartTime
+        }
+      } else {
+        startingTime = {
+          morningStartTime: routeStartTime
+        }
+      }
+      dispatch(actions.saveRouteStartTime(vehicleId, startingTime))
+    }
+  }
+}
+module.exports = connect(mapStateToProps, mapDispatchToProps)(DirectionsBody)
