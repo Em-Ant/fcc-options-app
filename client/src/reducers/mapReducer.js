@@ -330,6 +330,15 @@ var centerConsumerMarker = function(state, consumerId) {
   })
 }
 
+var centerWaypointMarker = function(state, waypoint) {
+
+  var marker = Object.assign({}, waypoint);
+  marker._id = 'wpt_' + waypoint.index;
+  return Object.assign({}, state, {
+    centerMarker: marker,
+  })
+}
+
 /**
  * TODO IMPORTANT handle errors
  */
@@ -378,6 +387,8 @@ var reducer = function(state, action) {
       return closeMarkerInfo(state, action.consumerId)
     case (actionTypes.MAP_CENTER_CONSUMER_MARKER):
       return centerConsumerMarker(state, action.consumerId)
+    case (actionTypes.MAP_CENTER_WAYPOINT_MARKER):
+      return centerWaypointMarker(state, action.waypoint)
     case (actionTypes.MAP_SAVE_CLUSTERS):
       return saveClusters(state, action.clusters_);
     case (modelActionTypes.FETCH):

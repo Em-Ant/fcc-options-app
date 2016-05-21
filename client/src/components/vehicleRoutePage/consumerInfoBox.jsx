@@ -27,7 +27,10 @@ var ConsumerInfoBox = React.createClass({
       className="clickable"
       onMouseOver={this.props.nameHoverOn.bind(null,this.props.waypoint._id)}
       onMouseOut={this.props.nameHoverOff.bind(null,this.props.waypoint._id)}
-      onClick={this.props.clickConsumer.bind(null,this.props.waypoint._id)}>
+      onClick={
+        this.props.clickConsumer.bind(
+          null,this.props.waypoint._id, this.props.waypoint)
+        }>
       <td><i className="fa fa-arrows-v cust-btn draggable"></i></td>
       <td>
         {this.props.index + 1}
@@ -60,8 +63,11 @@ var mapDispatchToProps = function(dispatch) {
     nameHoverOff: function(c_id) {
       dispatch(actions.highlightMarkerOff(c_id))
     },
-    clickConsumer: function(c_id) {
-      dispatch(actions.clickConsumer(c_id))
+    clickConsumer: function(c_id, w) {
+      if (c_id)
+        dispatch(actions.clickConsumer(c_id))
+      else
+        dispatch(actions.clickWaypoint(w))
     }
   }
 }

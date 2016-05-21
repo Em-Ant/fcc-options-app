@@ -27,7 +27,7 @@ var MapMain = React.createClass({
 
   centerMarker:function(marker){
     this._googleMapComponent.panTo(marker.position);
-    this.props.markerInfoOpen(marker);
+    //this.props.markerInfoOpen(marker);
   },
   didCenterMarkerChange(newCenterMarker, prevCenterMarker){
     return (newCenterMarker != null &&

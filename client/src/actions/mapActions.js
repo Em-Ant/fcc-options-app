@@ -152,6 +152,13 @@ module.exports.clickConsumer = function(c_id) {
   }
 }
 
+module.exports.clickWaypoint = function(w) {
+  return {
+    type: actionTypes.MAP_CENTER_WAYPOINT_MARKER,
+    waypoint: w
+  }
+}
+
 module.exports.markerInfoOpen = function(marker) {
   return {
     type: actionTypes.MAP_OPEN_MARKER_INFO,
