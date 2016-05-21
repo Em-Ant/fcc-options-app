@@ -1,12 +1,14 @@
 
 var React = require('react');
 var connect = require('react-redux').connect;
+var moment = require('moment');
 var _addFlags = require('../../utils/addConsumerFlags');
 
 const MINUTES_IN_HOUR = 60;
 const MILES_IN_METER = 0.00062137;
-
-
+const PM_ROUTE_TYPE = "PM";
+const TIME_FORMAT = "h:mm A";
+const VEHICLE_WAIT_TIME_SECONDS = 180;
 
 var PrintableRoute = React.createClass({
   render:function(){
@@ -14,6 +16,8 @@ var PrintableRoute = React.createClass({
     var route = this.props.route;
     var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/MINUTES_IN_HOUR);
     var consumers =  self.props.vehicle.consumers;
+    var routeStartTime = moment(this.props.routeStartTime);
+    var routeTime = moment(this.props.routeStartTime);
     var routeHasMeds = consumers.some(function(consumerId){
       var consumer = self.props.consumers[consumerId];
       return consumer.hasMedications
@@ -27,7 +31,7 @@ var PrintableRoute = React.createClass({
         <div>
         <div className="text-center"><h3>{this.props.vehicle.name} {this.props.routeType} Route </h3></div>
         {routeHasMeds?<div className="text-center"><h4>THIS ROUTE HAS MEDS</h4></div>:null}
-       
+
         <p/>
         <table className="table">
           <thead>
@@ -57,11 +61,21 @@ var PrintableRoute = React.createClass({
         <p/>
         {
           route.legs.map(function(leg, index){
+            if(leg.start_address != leg.end_address){
+              routeTime.add(leg.duration.value + self.props.vehicleWaitTime,'s')
+            }
             return(
+
               <div key={index}>
-                <div> <h3>{leg.start_location_name}</h3></div>
-                <div> {leg.start_address} </div>
-                <p/>
+                {index==0?
+                  <div>
+                  <p/>
+                  <div> <b>{leg.start_location_name} - {routeStartTime.format(TIME_FORMAT)}</b></div>
+                  <div> {leg.start_address} </div>
+                  <p/>
+                  </div>
+                  :null
+                }
                 {
                   leg.steps.map(function(step,index){
                     return(
@@ -70,14 +84,9 @@ var PrintableRoute = React.createClass({
                   })
                 }
                 <p/>
-                {index==route.legs.length-1?
-                  <div>
-                  <div> <h3>{leg.end_location_name}</h3></div>
-                  <div> {leg.end_address} </div>
-                  <p/>
-                  </div>
-                  :null
-                }
+                <div> <b>{leg.end_location_name} - {routeTime.format(TIME_FORMAT)}</b></div>
+                <div> {leg.end_address} </div>
+                <p/>
               </div>
             )
           })
@@ -92,16 +101,21 @@ var PrintableRoute = React.createClass({
 
 var mapStateToProps = function(state, ownProps){
   var route;
-  if(ownProps.routeType=="PM"){
+  var routeStartTime;
+  if(ownProps.routeType==PM_ROUTE_TYPE){
     route = state.directions.eveningRoute;
+    routeStartTime = state.directions.eveningStartTime;
   }else{
     route = state.directions.morningRoute;
+    routeStartTime = state.directions.morningStartTime;
   }
   return {
     vehicle: state.vehicles.data[state.directions.v_id],
     consumers: state.consumers.data,
     route : route,
-    maxConsumerRouteTime: state.settings.maxConsumerRouteTime
+    routeStartTime: routeStartTime,
+    maxConsumerRouteTime: state.settings.maxConsumerRouteTime,
+    vehicleWaitTime: VEHICLE_WAIT_TIME_SECONDS
   }
 }
 module.exports = connect(mapStateToProps)(PrintableRoute)
