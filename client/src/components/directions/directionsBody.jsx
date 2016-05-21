@@ -5,19 +5,15 @@ var connect = require('react-redux').connect;
 var Message = require('../message.jsx');
 var PrintableRoute = require('./printableRoute.jsx');
 var actions = require('../../actions/vehicleRouteActions');
+var routeConstants = require('../../constants/routeConstants.js');
 var moment = require('moment');
-const MINUTES_IN_HOUR = 60;
-const MILES_IN_METER = 0.00062137;
-const TIME_FORMAT = "h:mm A";
-const VEHICLE_WAIT_TIME_SECONDS = 180;
-const PM_ROUTE_TYPE = "PM";
 var inputTimer;
 
 var DirectionsBody = React.createClass({
   componentDidMount:function(){
     this.setState({
       routeStartTime:this.props.routeStartTime,
-      startRouteTimeField:moment(this.props.routeStartTime).format(TIME_FORMAT)
+      startRouteTimeField:moment(this.props.routeStartTime).format(routeConstants.TIME_FORMAT)
     })
   },
   getInitialState:function(){
@@ -27,7 +23,7 @@ var DirectionsBody = React.createClass({
   },
   handleTimeChange:function(e){
     var self = this;
-    var time = moment(e.target.value, TIME_FORMAT);
+    var time = moment(e.target.value, routeConstants.TIME_FORMAT);
     if(time.isValid()){
       var routeStartTime = time.unix()*1000;
       this.setState({
@@ -62,7 +58,7 @@ var DirectionsBody = React.createClass({
   render:function(){
     var self = this;
     var route = this.props.route;
-    var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/MINUTES_IN_HOUR);
+    var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/routeConstants.MINUTES_IN_HOUR);
     var routeStartTime = moment(this.state.routeStartTime);
     var routeTime = moment(this.state.routeStartTime);
     return(
@@ -85,10 +81,10 @@ var DirectionsBody = React.createClass({
           :null
         }
         <div><b>Total Duration (w/out stops and traffic) </b></div>
-        <div>{Math.ceil(route.totalDuration/MINUTES_IN_HOUR)} minutes</div>
+        <div>{Math.ceil(route.totalDuration/routeConstants.MINUTES_IN_HOUR)} minutes</div>
 
         <div><b>Total Distance</b> </div>
-        <div>{Math.ceil(route.totalDistance*MILES_IN_METER)} miles</div>
+        <div>{Math.ceil(route.totalDistance*routeConstants.MILES_IN_METER)} miles</div>
         {
           route.legs.map(function(leg, index){
             if(leg.start_address != leg.end_address){
@@ -100,7 +96,7 @@ var DirectionsBody = React.createClass({
                 {index==0?
                   <div>
                   <p/>
-                  <div> <b>{leg.start_location_name} - {routeStartTime.format(TIME_FORMAT)}</b></div>
+                  <div> <b>{leg.start_location_name} - {routeStartTime.format(routeConstants.TIME_FORMAT)}</b></div>
                   <div> {leg.start_address} </div>
                   <p/>
                   </div>
@@ -114,7 +110,7 @@ var DirectionsBody = React.createClass({
                   })
                 }
                 <p/>
-                <div> <b>{leg.end_location_name} - {routeTime.format(TIME_FORMAT)}</b></div>
+                <div> <b>{leg.end_location_name} - {routeTime.format(routeConstants.TIME_FORMAT)}</b></div>
                 <div> {leg.end_address} </div>
                 <p/>
               </div>
@@ -132,7 +128,7 @@ var DirectionsBody = React.createClass({
 var mapStateToProps = function(state, ownProps){
   var route;
   var routeStartTime;
-  if(ownProps.routeType==PM_ROUTE_TYPE){
+  if(ownProps.routeType==routeConstants.PM_ROUTE_TYPE){
     route = state.directions.eveningRoute;
     routeStartTime = state.directions.eveningStartTime;
   }else{
@@ -145,7 +141,7 @@ var mapStateToProps = function(state, ownProps){
     route : route,
     maxConsumerRouteTime: state.settings.maxConsumerRouteTime,
     routeStartTime: routeStartTime,
-    vehicleWaitTime: VEHICLE_WAIT_TIME_SECONDS
+    vehicleWaitTime: routeConstants.VEHICLE_WAIT_TIME_SECONDS
   }
 }
 
@@ -153,7 +149,7 @@ var mapDispatchToProps = function(dispatch, ownProps) {
   return {
     saveRouteStartTime: function(vehicleId, routeType, routeStartTime) {
       var startingTime;
-      if (routeType == PM_ROUTE_TYPE) {
+      if (routeType == routeConstants.PM_ROUTE_TYPE) {
         startingTime = {
           eveningStartTime: routeStartTime
         }

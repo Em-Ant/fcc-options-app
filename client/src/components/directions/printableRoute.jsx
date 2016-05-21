@@ -2,19 +2,14 @@
 var React = require('react');
 var connect = require('react-redux').connect;
 var moment = require('moment');
+var routeConstants = require('../../constants/routeConstants.js');
 var _addFlags = require('../../utils/addConsumerFlags');
-
-const MINUTES_IN_HOUR = 60;
-const MILES_IN_METER = 0.00062137;
-const PM_ROUTE_TYPE = "PM";
-const TIME_FORMAT = "h:mm A";
-const VEHICLE_WAIT_TIME_SECONDS = 180;
 
 var PrintableRoute = React.createClass({
   render:function(){
     var self = this;
     var route = this.props.route;
-    var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/MINUTES_IN_HOUR);
+    var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/routeConstants.MINUTES_IN_HOUR);
     var consumers =  self.props.vehicle.consumers;
     var routeStartTime = moment(this.props.routeStartTime);
     var routeTime = moment(this.props.routeStartTime);
@@ -70,7 +65,7 @@ var PrintableRoute = React.createClass({
                 {index==0?
                   <div>
                   <p/>
-                  <div> <b>{leg.start_location_name} - {routeStartTime.format(TIME_FORMAT)}</b></div>
+                  <div> <b>{leg.start_location_name} - {routeStartTime.format(routeConstants.TIME_FORMAT)}</b></div>
                   <div> {leg.start_address} </div>
                   <p/>
                   </div>
@@ -84,7 +79,7 @@ var PrintableRoute = React.createClass({
                   })
                 }
                 <p/>
-                <div> <b>{leg.end_location_name} - {routeTime.format(TIME_FORMAT)}</b></div>
+                <div> <b>{leg.end_location_name} - {routeTime.format(routeConstants.TIME_FORMAT)}</b></div>
                 <div> {leg.end_address} </div>
                 <p/>
               </div>
@@ -102,7 +97,7 @@ var PrintableRoute = React.createClass({
 var mapStateToProps = function(state, ownProps){
   var route;
   var routeStartTime;
-  if(ownProps.routeType==PM_ROUTE_TYPE){
+  if(ownProps.routeType==routeConstants.PM_ROUTE_TYPE){
     route = state.directions.eveningRoute;
     routeStartTime = state.directions.eveningStartTime;
   }else{
@@ -115,7 +110,7 @@ var mapStateToProps = function(state, ownProps){
     route : route,
     routeStartTime: routeStartTime,
     maxConsumerRouteTime: state.settings.maxConsumerRouteTime,
-    vehicleWaitTime: VEHICLE_WAIT_TIME_SECONDS
+    vehicleWaitTime: routeConstants.VEHICLE_WAIT_TIME_SECONDS
   }
 }
 module.exports = connect(mapStateToProps)(PrintableRoute)
