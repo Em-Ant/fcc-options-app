@@ -10,6 +10,10 @@ var Directions = require("../models/directions");
 var officegen = require('officegen');
 var htmlparser = require('htmlparser2');
 
+var moment = require('moment');
+
+var routeConstants = require('../../client/src/constants/routeConstants.js');
+
 var async = require("async");
 
 function ReportHandler() {
@@ -229,7 +233,6 @@ function ReportHandler() {
       pObj.addLineBreak();
       if (routeHasMeds) pObj.addText('THIS ROUTE HAS MEDS', {bold: false, font_size: 16})
 
-
       pObj = docx.createP();
       var consumers = vehicle.consumers;
       if(routeType === 'PM') consumers.reverse() ;
@@ -242,26 +245,39 @@ function ReportHandler() {
         pObj.addLineBreak();
       })
 
+
+      var startTime;
+      if(routeType=='PM'){
+        startTime = directions.eveningStartTime;
+      }else{
+        startTime = directions.morningStartTime;
+      }
+      var routeStartTime = moment(startTime);
+      var routeTime = moment(startTime);
+      var vehicleWaitTime =
       directions[route].legs.forEach(function(l, index) {
+        if(l.start_address != l.end_address){
+          routeTime.add(l.duration.value + routeConstants.VEHICLE_WAIT_TIME_SECONDS,'s')
+        }
         pObj = docx.createP();
-        pObj.addText(l.start_location_name, {bold: true, font_size: 16})
-        pObj.addLineBreak();
-        pObj.addText(l.start_address.toUpperCase(), {bold: false, font_size: 12})
-        pObj.addLineBreak();
-        pObj.addLineBreak();
+        if(index === 0) {
+          pObj.addLineBreak();
+          pObj.addText(l.start_location_name + " - " +  routeStartTime.format(routeConstants.TIME_FORMAT), {bold: true, font_size: 16})
+          pObj.addLineBreak();
+          pObj.addText(l.start_address.toUpperCase(), {bold: false, font_size: 12})
+          pObj.addLineBreak();
+          pObj.addLineBreak();
+        }
+
         l.steps.forEach(function(s) {
           parser.write(s.html_instructions);
           parser.end();
           pObj.addLineBreak();
         })
-
-        if(index === directions[route].legs.length-1) {
-          pObj.addLineBreak();
-          pObj.addText(l.end_location_name, {bold: true, font_size: 16})
-          pObj.addLineBreak();
-          pObj.addText(l.end_address.toUpperCase(), {bold: false, font_size: 12})
-          pObj.addLineBreak();
-        }
+        pObj.addLineBreak();
+        pObj.addText(l.end_location_name + " - " +  routeTime.format(routeConstants.TIME_FORMAT), {bold: true, font_size: 16})
+        pObj.addLineBreak();
+        pObj.addText(l.end_address.toUpperCase(), {bold: false, font_size: 12})
       })
 
       var d = new Date();
