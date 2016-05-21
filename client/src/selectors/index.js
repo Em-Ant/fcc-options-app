@@ -123,3 +123,17 @@ export const removeUIDFromLIstAndSort = createSelector(
     return userIds
   }
 )
+
+const getWpts = (state) => state.directions.waypoints
+const getRouteType = (state, props) => props.routeType
+
+export const waypointsSelector = createSelector(
+  [getWpts, getRouteType],
+  function(wpts, route) {
+    if (route === 'PM') {
+      return wpts.slice().reverse();
+    } else {
+      return wpts;
+    }
+  }
+)

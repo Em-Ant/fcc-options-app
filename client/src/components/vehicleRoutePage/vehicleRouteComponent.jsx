@@ -48,6 +48,7 @@ var VehicleRouteComponent = React.createClass({
      newWpt._type = "wpt"
      newWpt.name = this.refs.wname.value;
      newWpt.address = this.refs.waddr.value;
+     newWpt.description = this.refs.wdesc.value || 'Additional Waypoint';
      newWpt.beforeConsumer = this.props.vehicle.consumers.length;
      this.props.addWpt(this.props.vehicle, newWpt);
    },
@@ -77,6 +78,7 @@ var VehicleRouteComponent = React.createClass({
                 <button type="button" onClick={this.resetWpts}>RESET</button>
                 <input type="text" placeholder="wpt name" ref="wname"></input>
                 <input type="text" placeholder="wpt address" ref="waddr"></input>
+                <input type="text" placeholder="wpt description" ref="wdesc"></input>
                 <button type="submit">SUBMIT</button>
               </form>
             </div>

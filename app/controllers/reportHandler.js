@@ -232,7 +232,11 @@ function ReportHandler() {
 
       pObj = docx.createP();
       var consumers = vehicle.consumers;
-      if(routeType === 'PM') consumers.reverse() ;
+      var waypoints = directions.waypoints;
+      if(routeType === 'PM') {
+        consumers.reverse() ;
+        waypoints.reverse();
+      }
       consumers.forEach(function(c, i) {
         pObj.addText((i+1) + ' - ' + c.name, {bold: true, font_size: 12});
         var needs = needsString(c);
@@ -245,6 +249,8 @@ function ReportHandler() {
       directions[route].legs.forEach(function(l, index) {
         pObj = docx.createP();
         pObj.addText(l.start_location_name, {bold: true, font_size: 16})
+        if(index > 0 && waypoints[index-1] && waypoints[index-1].description)
+          pObj.addText(' - ' + waypoints[index-1].description, {bold: false, font_size: 16})
         pObj.addLineBreak();
         pObj.addText(l.start_address.toUpperCase(), {bold: false, font_size: 12})
         pObj.addLineBreak();

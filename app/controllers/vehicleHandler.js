@@ -7,6 +7,7 @@ var async = require("async");
 
 var getWaypoints = require('../utils/directionsUtils').getWaypointDirections;
 var geocoder = require('../utils/geocoder.js');
+var wpt = require('../utils/waypointsUtils');
 
 function VehicleHandler() {
   var getErrorMessage = function(err){
@@ -231,9 +232,9 @@ function VehicleHandler() {
 
         var optionsAddress = results.get_options_inc_address.optionsIncAddress;
         var optionsCoords = results.get_options_inc_address.optionsIncCoords;
-        var consumers = results.get_vehicle.consumers;
+        var waypoints = wpt.assembleWaypts(results.get_vehicle);
 
-        var wptAsyncFn = getWaypointsAsyncFn(consumers, optionsAddress);
+        var wptAsyncFn = getWaypointsAsyncFn(waypoints, optionsAddress);
 
         if(!req.query.origin) req.query.origin = 'auto';
 
@@ -246,7 +247,9 @@ function VehicleHandler() {
         if(req.query.origin !== 'auto') {
           originIndexes.push(originIndex);
         } else {
-          originIndexes = consumers.map((c,i) => i)
+          waypoints.forEach((w,i) => {
+            if(w._type !== 'wpt') originIndexes.push(i)
+          })
         }
 
         // call Google API to optimize each route
@@ -294,27 +297,30 @@ function VehicleHandler() {
         if(!results.get_optimized_wpts) return;
 
         var wptOrder = results.get_optimized_wpts.routes[0].waypoint_order;
-        var consumers = results.get_vehicle.consumers;
+        var waypoints = wpt.assembleWaypts(results.get_vehicle);
         var maxDuration = results.get_optimized_wpts.maxPassengerDuration;
 
-        // generate map waypoints -> consumers
+        // generate map Optimized waypoints -> start waypoints
         // i.e an array of indexes, without farthestIndex
-        var map = consumers.map(function(c, i) { return i});
+        var map = waypoints.map(function(c, i) { return i});
         map.splice(results.get_optimized_wpts.originIndex, 1);
 
-        var optimizedConsumerIds = []
+        var optimizedWpts = []
 
         // push the farthest first...
-        optimizedConsumerIds.push(consumers[results.get_optimized_wpts.originIndex]._id);
+        optimizedWpts.push(waypoints[results.get_optimized_wpts.originIndex]);
 
         wptOrder.forEach(function(w) {
           // push the optimized list, mapped to vehicle.consumers array
-          optimizedConsumerIds.push(consumers[map[w]]._id)
+          optimizedWpts.push(waypoints[map[w]])
         })
 
         var vehicle = results.get_vehicle;
-        vehicle.consumers = optimizedConsumerIds;
+        var vData = wpt.disassembleWaypts(optimizedWpts);
+        vehicle.consumers = vData.consumers;
+        vehicle.additionalWpts = vData.additionalWpts;
         vehicle.markModified('consumers');
+        vehicle.markModified('additionalWpts');
         vehicle.optimized = req.query.origin || 'auto';
         vehicle.maxPassengerDuration = maxDuration;
         vehicle.save(function(err, saved) {

@@ -6,6 +6,9 @@ var _addFlags = require('../../utils/addConsumerFlags');
 const MINUTES_IN_HOUR = 60;
 const MILES_IN_METER = 0.00062137;
 
+function _hasDescription(waypoints, index) {
+  return (index > 0 && waypoints[index-1] && waypoints[index-1].description)
+}
 
 
 var PrintableRoute = React.createClass({
@@ -27,7 +30,7 @@ var PrintableRoute = React.createClass({
         <div>
         <div className="text-center"><h3>{this.props.vehicle.name} {this.props.routeType} Route </h3></div>
         {routeHasMeds?<div className="text-center"><h4>THIS ROUTE HAS MEDS</h4></div>:null}
-       
+
         <p/>
         <table className="table">
           <thead>
@@ -59,7 +62,17 @@ var PrintableRoute = React.createClass({
           route.legs.map(function(leg, index){
             return(
               <div key={index}>
-                <div> <h3>{leg.start_location_name}</h3></div>
+                <div>
+                  <h3>
+                    {leg.start_location_name}
+                    <span className="wpt-desc">
+                      {
+                        _hasDescription(self.props.waypoints, index)
+                        ? ' - ' + _hasDescription(self.props.waypoints, index)
+                        : ''
+                      }
+                    </span>
+                  </h3></div>
                 <div> {leg.start_address} </div>
                 <p/>
                 {
@@ -90,6 +103,8 @@ var PrintableRoute = React.createClass({
 
 })
 
+import { waypointsSelector } from '../../selectors'
+
 var mapStateToProps = function(state, ownProps){
   var route;
   if(ownProps.routeType=="PM"){
@@ -98,6 +113,7 @@ var mapStateToProps = function(state, ownProps){
     route = state.directions.morningRoute;
   }
   return {
+    waypoints: waypointsSelector(state, ownProps),
     vehicle: state.vehicles.data[state.directions.v_id],
     consumers: state.consumers.data,
     route : route,

@@ -18,7 +18,7 @@ var ConsumerInfoBox = React.createClass({
           />
         ) : null;
     } else {
-      desc = 'additional waypoint'
+      desc = waypoint.description
     }
 
 

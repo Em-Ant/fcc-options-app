@@ -8,6 +8,10 @@ var PrintableRoute = require('./printableRoute.jsx');
 const MINUTES_IN_HOUR = 60;
 const MILES_IN_METER = 0.00062137;
 
+function _hasDescription(waypoints, index) {
+  return (index > 0 && waypoints[index-1] && waypoints[index-1].description)
+}
+
 var DirectionsBody = React.createClass({
 
   print: function(e) {
@@ -54,7 +58,14 @@ var DirectionsBody = React.createClass({
           route.legs.map(function(leg, index){
             return(
               <div key={index}>
-                <div> <b>{leg.start_location_name}</b></div>
+                <div>
+                  <b>{leg.start_location_name}</b>&nbsp;
+                    {
+                      _hasDescription(self.props.waypoints, index)
+                        ? ' - ' + _hasDescription(self.props.waypoints, index)
+                        : ''
+                    }
+                </div>
                 <div> {leg.start_address} </div>
                 <p/>
                 {
@@ -85,6 +96,9 @@ var DirectionsBody = React.createClass({
     )
   }
 })
+
+import { waypointsSelector } from '../../selectors'
+
 var mapStateToProps = function(state, ownProps){
   var route;
   if(ownProps.routeType=="PM"){
@@ -93,6 +107,7 @@ var mapStateToProps = function(state, ownProps){
     route = state.directions.morningRoute;
   }
   return {
+    waypoints : waypointsSelector(state, ownProps),
     vehicle: state.vehicles.data[state.directions.v_id],
     consumers: state.consumers.data,
     route : route,
