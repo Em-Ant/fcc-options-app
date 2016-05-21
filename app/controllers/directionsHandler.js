@@ -76,7 +76,8 @@ function DirectionsHandler() {
             Directions.findOneAndUpdate({
               v_id: directions.v_id
             }, directions, {
-              upsert: true
+              upsert: true,
+              new:true
             }, function(err, response) {
               callback(err, response);
             });
