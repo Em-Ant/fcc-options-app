@@ -296,6 +296,18 @@ var openMarkerInfo = function(state, consumerId) {
   })
 }
 
+var openWptInfo = function (state, wptIndex) {
+  return Object.assign({}, state, {openWptInfo: wptIndex})
+}
+
+var closeWptInfo = function (state, wptIndex) {
+  return Object.assign({}, state, {openWptInfo: undefined})
+}
+
+var highlightWpt = function (state, wptIndex) {
+  return Object.assign({}, state, {highlightedWpt: wptIndex})
+}
+
 var closeMarkerInfo = function(state, consumerId) {
   //check if consumer is in cluster
   var clusterIndex = findConsumerClusterIndex(state.clusters, consumerId);
@@ -333,7 +345,7 @@ var centerConsumerMarker = function(state, consumerId) {
 var centerWaypointMarker = function(state, waypoint) {
 
   var marker = Object.assign({}, waypoint);
-  marker._id = 'wpt_' + waypoint.index;
+  marker.consumerId = 'wpt_' + waypoint.index;
   return Object.assign({}, state, {
     centerMarker: marker,
   })
@@ -365,6 +377,8 @@ var reducer = function(state, action) {
       return error(state, action.error);
     case (actionTypes.MAP_HIGHLIGHT_MARKER):
       return highlightMarker(state, action.id);
+    case (actionTypes.MAP_HIGHLIGHT_WPT):
+      return highlightWpt(state, action.wptIndex);
     case (actionTypes.MAP_HIGHLIGHT_MARKER_OFF):
       return highlightMarkerOff(state, action.id);
     case (actionTypes.DIRECTIONS_LOAD_REQUEST):
@@ -383,8 +397,12 @@ var reducer = function(state, action) {
       return mapZoomChanged(state)
     case (actionTypes.MAP_OPEN_MARKER_INFO):
       return openMarkerInfo(state, action.consumerId)
+    case (actionTypes.MAP_OPEN_WPT_INFO):
+      return openWptInfo(state, action.wptIndex)
     case (actionTypes.MAP_CLOSE_MARKER_INFO):
       return closeMarkerInfo(state, action.consumerId)
+    case (actionTypes.MAP_CLOSE_WPT_INFO):
+      return closeWptInfo(state, action.wptIndex)
     case (actionTypes.MAP_CENTER_CONSUMER_MARKER):
       return centerConsumerMarker(state, action.consumerId)
     case (actionTypes.MAP_CENTER_WAYPOINT_MARKER):

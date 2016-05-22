@@ -68,7 +68,7 @@ var RouteBodyComponent = React.createClass({
               <th></th>
               <th>Stop</th>
               <th>Name</th>
-              <th>Needs</th>
+              <th>Details</th>
               <th></th>
             </tr>
           </thead>

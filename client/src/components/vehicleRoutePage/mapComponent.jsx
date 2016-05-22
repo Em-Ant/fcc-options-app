@@ -11,6 +11,8 @@ var Marker = require('react-google-maps').Marker;
 var Polyline = require('react-google-maps').Polyline;
 
 var fontawesome = require('fontawesome-markers');
+const BASE = require('../../constants/map').SELECTED_ASSIGNED_CONSUMER_COLOR;
+const HIGHLIGHT = require('../../constants/map').HIGHLIGHTED_CONSUMER_COLOR;
 
 var wptIcon = {
       path: fontawesome.FLAG,
@@ -19,15 +21,23 @@ var wptIcon = {
       strokeColor: '#111',
       strokeOpacity: 1,
       fillOpacity: 0.9,
-      fillColor: "#5AA02C"
+      fillColor: BASE
 }
+
+var wptIconHighlight = Object.assign({}, wptIcon);
+wptIconHighlight.fillColor = HIGHLIGHT;
+
 
 var MapMain = React.createClass({
   _googleMapComponent:null,
 
   centerMarker:function(marker){
     this._googleMapComponent.panTo(marker.position);
-    //this.props.markerInfoOpen(marker);
+    if(marker.consumerId.match('wpt_')) {
+        this.props.wptInfoOpen(parseInt(marker.consumerId.replace('wpt_','')))
+      } else {
+        this.props.markerInfoOpen(marker);
+      }
   },
   didCenterMarkerChange(newCenterMarker, prevCenterMarker){
     return (newCenterMarker != null &&
@@ -38,7 +48,12 @@ var MapMain = React.createClass({
     var prevCenterMarker = prevProps.centerMarker;
     if(this.didCenterMarkerChange(newCenterMarker, prevCenterMarker)){
       if(prevCenterMarker) {
-        this.props.markerInfoClose(prevCenterMarker)
+        let marker = prevCenterMarker;
+        if(marker.consumerId.match('wpt_')) {
+            this.props.wptInfoClose(parseInt(marker.consumerId.replace('wpt_','')))
+          } else {
+            this.props.markerInfoClose(marker);
+          }
       }
       this.centerMarker(newCenterMarker);
     }
@@ -46,6 +61,17 @@ var MapMain = React.createClass({
   getInitialState:function(){
     return {
     }
+  },
+  renderWptInfoWindow(waypoint) {
+    return (
+    <InfoWindow onCloseclick={this.props.wptInfoClose.bind(null, waypoint.index)}>
+      <div>
+        <div>{waypoint.name}</div>
+        <div>{waypoint.address}</div>
+        <div>{waypoint.description}</div>
+      </div>
+    </InfoWindow>
+    )
   },
   renderInfoWindow(marker) {
     var assignedVehicleId = this.props.consumersToVehiclesMap[marker.consumerId];
@@ -107,7 +133,13 @@ var MapMain = React.createClass({
                 key={'addWpt_' + i}
                 position={w.position}
                 title={w.name}
-                icon={wptIcon}>
+                icon={self.props.highlightedWpt === i ? wptIconHighlight : wptIcon}
+                onMouseover={self.props.wptInfoOpen.bind(null, i)}
+                onMouseout={self.props.wptInfoClose.bind(null, i)}
+                >
+                {this.props.wptInfo === i ?
+                  self.renderWptInfoWindow(w) : null
+                }
               </Marker>
             )}
             {self.props.displayDirections?
@@ -150,7 +182,9 @@ var mapStateToProps = function(state, ownProps){
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
     displayDirections: state.mapPage.displayDirections,
     vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points),
-    centerMarker: state.mapPage.centerMarker
+    centerMarker: state.mapPage.centerMarker,
+    wptInfo: state.mapPage.openWptInfo,
+    highlightedWpt: state.mapPage.highlightedWpt
   }
 }
 var mapDispatchToProps = function(dispatch) {
@@ -160,6 +194,12 @@ var mapDispatchToProps = function(dispatch) {
     },
     markerInfoOpen:function(marker){
       dispatch(mActions.markerInfoOpen(marker))
+    },
+    wptInfoOpen: function(index) {
+      dispatch(mActions.wptInfoOpen(index))
+    },
+    wptInfoClose: function(index) {
+      dispatch(mActions.wptInfoClose(index))
     },
     markerMouseout:function(marker){
       dispatch(mActions.markerInfoClose(marker))

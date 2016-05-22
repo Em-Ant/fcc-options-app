@@ -166,6 +166,27 @@ module.exports.markerInfoOpen = function(marker) {
   }
 }
 
+module.exports.wptInfoOpen = function(index) {
+  return {
+    type: actionTypes.MAP_OPEN_WPT_INFO,
+    wptIndex : index
+  }
+}
+
+module.exports.wptInfoClose = function(index) {
+  return {
+    type: actionTypes.MAP_CLOSE_WPT_INFO,
+    wptIndex : index
+  }
+}
+
+module.exports.highlightWpt = function(index) {
+  return {
+    type: actionTypes.MAP_HIGHLIGHT_WPT,
+    wptIndex : index
+  }
+}
+
 module.exports.markerInfoClose = function(marker) {
   return {
     type: actionTypes.MAP_CLOSE_MARKER_INFO,

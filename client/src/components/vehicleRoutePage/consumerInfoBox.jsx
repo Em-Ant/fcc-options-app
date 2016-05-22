@@ -25,12 +25,10 @@ var ConsumerInfoBox = React.createClass({
     return (
     <tr
       className="clickable"
-      onMouseOver={this.props.nameHoverOn.bind(null,this.props.waypoint._id)}
-      onMouseOut={this.props.nameHoverOff.bind(null,this.props.waypoint._id)}
+      onMouseOver={this.props.nameHoverOn.bind(null, waypoint)}
+      onMouseOut={this.props.nameHoverOff.bind(null, waypoint)}
       onClick={
-        this.props.clickConsumer.bind(
-          null,this.props.waypoint._id, this.props.waypoint)
-        }>
+        this.props.clickConsumer.bind(null, waypoint)}>
       <td><i className="fa fa-arrows-v cust-btn draggable"></i></td>
       <td>
         {this.props.index + 1}
@@ -57,15 +55,21 @@ var ConsumerInfoBox = React.createClass({
 
 var mapDispatchToProps = function(dispatch) {
   return {
-    nameHoverOn: function(c_id) {
-      dispatch(actions.highlightMarker(c_id))
+    nameHoverOn: function(w) {
+      if (w._type !== 'wpt')
+        dispatch(actions.highlightMarker(w._id))
+      else
+        dispatch(actions.highlightWpt(w.index))
     },
-    nameHoverOff: function(c_id) {
-      dispatch(actions.highlightMarkerOff(c_id))
+    nameHoverOff: function(w) {
+      if (w._type !== 'wpt')
+        dispatch(actions.highlightMarkerOff(w._id))
+      else
+        dispatch(actions.highlightWpt())
     },
-    clickConsumer: function(c_id, w) {
-      if (c_id)
-        dispatch(actions.clickConsumer(c_id))
+    clickConsumer: function(w) {
+      if (w._type !== 'wpt')
+        dispatch(actions.clickConsumer(w._id))
       else
         dispatch(actions.clickWaypoint(w))
     }
