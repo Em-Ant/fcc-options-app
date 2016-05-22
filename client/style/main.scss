@@ -121,6 +121,15 @@
   font-family: 'FontAwesome', sans-serif;
   font-size: 12px;
 }
+
+#wpt_form {
+  span {
+    margin-right: 10px;
+  }
+  input {
+    margin-right: 5px;
+  }
+}
 /* MAP PAGE PANELS */
 .flex {
   display: -webkit-box;

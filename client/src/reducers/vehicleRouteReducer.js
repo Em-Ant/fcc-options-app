@@ -68,9 +68,15 @@ var reducer = function(state, action) {
     case (actionTypes.DIRECTIONS_HIDE):
       return hideDirections(state)
     case (actionTypes.OPTIMIZE_ROUTE_REQUEST):
+    case ('ADD_WPT_REQUEST'):
+    case ('EDIT_WPT_REQUEST'):
+    case ('RESET_WPT_REQUEST'):
       return request(state);
     case (actionTypes.OPTIMIZE_ROUTE_ERROR):
       return error(state, action.error)
+    case ('ADD_WPT_SUCCESS'):
+    case ('EDIT_WPT_SUCCESS'):
+    case ('RESET_WPT_SUCCESS'):
     case (actionTypes.OPTIMIZE_ROUTE_SUCCESS):
       return success(state)
     case (modelActionTypes.UPDATE):

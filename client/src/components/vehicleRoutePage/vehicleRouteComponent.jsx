@@ -41,21 +41,6 @@ var VehicleRouteComponent = React.createClass({
     if(this.props.settingsNeedToBeFetched)
       this.props.loadSettings();
    },
-   addWpt: function (e) {
-     e.preventDefault();
-     var newWpt = {};
-
-     newWpt._type = "wpt"
-     newWpt.name = this.refs.wname.value;
-     newWpt.address = this.refs.waddr.value;
-     newWpt.description = this.refs.wdesc.value || 'Additional Waypoint';
-     newWpt.beforeConsumer = this.props.vehicle.consumers.length;
-     this.props.addWpt(this.props.vehicle, newWpt);
-   },
-   resetWpts: function (e) {
-     e.preventDefault();
-     this.props.resetWpts(this.props.vehicle);
-   },
     render: function() {
     var vehicle = this.props.vehicle;
     if(!vehicle){
@@ -73,14 +58,6 @@ var VehicleRouteComponent = React.createClass({
                 <Directions/>:
                 <VehiclePanel vehicleId={vehicle._id}/>
               }
-              {/* Temporary form to test additionalWpts*/}
-              <form onSubmit={this.addWpt}>
-                <button type="button" onClick={this.resetWpts}>RESET</button>
-                <input type="text" placeholder="wpt name" ref="wname"></input>
-                <input type="text" placeholder="wpt address" ref="waddr"></input>
-                <input type="text" placeholder="wpt description" ref="wdesc"></input>
-                <button type="submit">SUBMIT</button>
-              </form>
             </div>
             <div className="col-md-7 col-sm-7 col-xs-7">
               <MapComponent vehicleId={vehicle._id}/>
@@ -117,13 +94,6 @@ var mapDispatchToProps = function(dispatch) {
     },
     loadSettings: function() {
       dispatch(s_actions.fetch())
-    },
-    addWpt: function (v, newWpt) {
-      newWpt.index = v.additionalWpts.length;
-      dispatch(vr_actions.addWpt(v, newWpt));
-    },
-    resetWpts: function (v) {
-      dispatch(vr_actions.resetWpts(v))
     }
   }
 }

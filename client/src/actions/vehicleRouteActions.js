@@ -33,7 +33,7 @@ module.exports.hideDirections = function() {
 module.exports.addWpt = function(v, newWpt) {
   return function(dispatch) {
     dispatch({
-      type: 'ADD_WPT_TEST_REQUEST',
+      type: 'ADD_WPT_REQUEST',
     });
 
     var wpts = v.additionalWpts.slice();
@@ -46,13 +46,13 @@ module.exports.addWpt = function(v, newWpt) {
       function(err, response) {
         if (err) {
           return dispatch({
-            type: 'ADD_WPT_TEST_ERROR',
+            type: 'ADD_WPT_ERROR',
             error: err
           });
         }
 
         dispatch({
-          type: 'ADD_WPT_TEST_SUCCESS',
+          type: 'ADD_WPT_SUCCESS',
           v_id: v._id,
           vehicle: response
         })
@@ -63,7 +63,7 @@ module.exports.addWpt = function(v, newWpt) {
 module.exports.editWpts = function(v_id, newWpts) {
   return function(dispatch) {
     dispatch({
-      type: 'EDIT_WPT_TEST_REQUEST',
+      type: 'EDIT_WPT_REQUEST',
     });
 
 
@@ -73,13 +73,13 @@ module.exports.editWpts = function(v_id, newWpts) {
       function(err, response) {
         if (err) {
           return dispatch({
-            type: 'EDIT_WPT_TEST_ERROR',
+            type: 'EDIT_WPT_ERROR',
             error: err
           });
         }
 
         dispatch({
-          type: 'EDIT_WPT_TEST_SUCCESS',
+          type: 'EDIT_WPT_SUCCESS',
           v_id: v_id,
           vehicle: response
         })
@@ -91,7 +91,7 @@ module.exports.resetWpts = function(v) {
 
   return function(dispatch) {
     dispatch({
-      type: 'RESET_WPT_TEST_REQUEST',
+      type: 'RESET_WPT_REQUEST',
     });
 
 
@@ -101,12 +101,12 @@ module.exports.resetWpts = function(v) {
       function(err, response) {
         if (err) {
           return dispatch({
-            type: 'RESET_WPT_TEST_ERROR',
+            type: 'RESET_WPT_ERROR',
             error: err
           });
         }
         dispatch({
-          type: 'RESET_WPT_TEST_SUCCESS',
+          type: 'RESET_WPT_SUCCESS',
           v_id: v._id,
           vehicle: response
         })

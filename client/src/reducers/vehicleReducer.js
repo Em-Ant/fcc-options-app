@@ -67,9 +67,9 @@ var vehiclesReducer = function(state, action) {
     needToBeFetched: true
   };
   switch (action.type) {
-    case 'ADD_WPT_TEST_SUCCESS':
-    case 'RESET_WPT_TEST_SUCCESS':
-    case 'EDIT_WPT_TEST_SUCCESS':
+    case 'ADD_WPT_SUCCESS':
+    case 'EDIT_WPT_SUCCESS':
+    case 'RESET_WPT_SUCCESS':
       return commonCRUD.update(state, action.vehicle)
     case mapActions.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS:
     case mapActions.MAP_ADD_TO_ACTIVE_BUS_SUCCESS:
