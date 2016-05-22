@@ -3,6 +3,7 @@
 var Vehicle = require('../models/vehicle.js');
 var Settings = require('../models/settings.js');
 var directionsUtils = require('../utils/directionsUtils');
+var assembleWaypts = require('../utils/waypointsUtils').assembleWaypts;
 var Directions = require("../models/directions");
 var _ = require("lodash");
 
@@ -49,9 +50,11 @@ function DirectionsHandler() {
         if (!results.get_saved_directions) {
           return callback(null, false);
         }
-        var savedWaypoints = results.get_saved_directions.waypoints.slice().map(function (waypoint) {
-          return {
+
+        var savedWaypoints = results.get_saved_directions.waypoints.slice().map(function(waypoint){
+          return{
             name: waypoint.name,
+            description: waypoint.description,
             address: waypoint.address
           }
         })
@@ -61,15 +64,17 @@ function DirectionsHandler() {
           waypoints: savedWaypoints
         });
 
-        var newWaypoints = results.get_vehicle.consumers.map(function (consumer) {
-          return {
-            name: consumer.name,
-            address: consumer.address
+        var vehicleWaypts = assembleWaypts(results.get_vehicle);
+        var newWaypoints = vehicleWaypts.map(function(w){
+          return{
+            name: w.name,
+            description: w.description,
+            address: w.address
           }
         })
         var newDirections = {
-          origin_address: results.get_options_inc_address,
-          destination_address: results.get_options_inc_address,
+          origin_address:results.get_options_inc_address,
+          destination_address:results.get_options_inc_address,
           waypoints: newWaypoints
         }
         if (_.isEqual(savedDirections, newDirections)) {

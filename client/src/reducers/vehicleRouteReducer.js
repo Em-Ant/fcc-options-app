@@ -57,6 +57,7 @@ var hideDirections = function(state) {
 }
 var initState = {}
 var reducer = function(state, action) {
+  console.log(action.type);
   state = state || initState;
   switch (action.type) {
     case (actionTypes.DIRECTIONS_LOAD_REQUEST):
@@ -68,9 +69,18 @@ var reducer = function(state, action) {
     case (actionTypes.DIRECTIONS_HIDE):
       return hideDirections(state)
     case (actionTypes.OPTIMIZE_ROUTE_REQUEST):
+    case ('ADD_WPT_REQUEST'):
+    case ('EDIT_WPT_REQUEST'):
+    case ('RESET_WPT_REQUEST'):
       return request(state);
     case (actionTypes.OPTIMIZE_ROUTE_ERROR):
+    case ('ADD_WPT_ERROR'):
+    case ('EDIT_WPT_ERROR'):
+    case ('RESET_WPT_ERROR'):
       return error(state, action.error)
+    case ('ADD_WPT_SUCCESS'):
+    case ('EDIT_WPT_SUCCESS'):
+    case ('RESET_WPT_SUCCESS'):
     case (actionTypes.OPTIMIZE_ROUTE_SUCCESS):
       return success(state)
     case (modelActionTypes.UPDATE):

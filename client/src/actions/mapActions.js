@@ -3,6 +3,7 @@ var actionTypes = require('../constants/actionTypes/mapActionTypes.js');
 var ModelActions = require('./modelActions');
 var models = require('../constants/models.js');
 var vehicleActions = new ModelActions(models.VEHICLES);
+
 var vehicleBoxClick = module.exports.vehicleBoxClick = function(v_id) {
   return {
     type: actionTypes.MAP_VEHICLE_BOX_CLICK,
@@ -151,10 +152,38 @@ module.exports.clickConsumer = function(c_id) {
   }
 }
 
+module.exports.clickWaypoint = function(w) {
+  return {
+    type: actionTypes.MAP_CENTER_WAYPOINT_MARKER,
+    waypoint: w
+  }
+}
+
 module.exports.markerInfoOpen = function(marker) {
   return {
     type: actionTypes.MAP_OPEN_MARKER_INFO,
     consumerId: marker.consumerId
+  }
+}
+
+module.exports.wptInfoOpen = function(index) {
+  return {
+    type: actionTypes.MAP_OPEN_WPT_INFO,
+    wptIndex : index
+  }
+}
+
+module.exports.wptInfoClose = function(index) {
+  return {
+    type: actionTypes.MAP_CLOSE_WPT_INFO,
+    wptIndex : index
+  }
+}
+
+module.exports.highlightWpt = function(index) {
+  return {
+    type: actionTypes.MAP_HIGHLIGHT_WPT,
+    wptIndex : index
   }
 }
 

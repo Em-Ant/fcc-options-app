@@ -13,6 +13,8 @@ var v_actions = new ModelActions(models.VEHICLES);
 var s_actions = new ModelActions(models.SETTINGS);
 var c_actions = new ModelActions(models.CONSUMERS);
 
+var vr_actions = require('../../actions/vehicleRouteActions')
+
 var LoadingComponent = React.createClass({
   render:function(){
     return(
@@ -55,7 +57,7 @@ var VehicleRouteComponent = React.createClass({
               {this.props.displayDirections?
                 <Directions/>:
                 <VehiclePanel vehicleId={vehicle._id}/>
-                }
+              }
             </div>
             <div className="col-md-7 col-sm-7 col-xs-7">
               <MapComponent vehicleId={vehicle._id}/>

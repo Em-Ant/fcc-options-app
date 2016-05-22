@@ -11,10 +11,32 @@ var VehiclePanelComponent = React.createClass({
   optimizeRoute: function (v_id) {
     this.props.optimizeRoute(v_id, this.refs.optimizeMode.value);
   },
+  componentDidMount : function() {
+    // make panel body responsive
+    $(window).resize(function() {
+      var footerHeight = $('#r_footer').height();
+      $("#r_body").css('bottom', (footerHeight + 15) + 'px');
+    });
+  },
+  componentWillUnmount: function() {
+    $(window).unbind('resize');
+  },
+  addWpt: function (e) {
+    e.preventDefault();
+    var newWpt = {};
+    newWpt._type = "wpt"
+    newWpt.name = this.refs.wname.value;
+    newWpt.address = this.refs.waddr.value;
+    newWpt.description = this.refs.wdesc.value || 'Additional Waypoint';
+    newWpt.beforeConsumer = this.props.vehicle.consumers.length;
+    this.props.addWpt(this.props.vehicle, newWpt);
+    this.refs.wname.value = '';
+    this.refs.wdesc.value = '';
+    this.refs.waddr.value = '';
+  },
   render: function() {
     var vehicle = this.props.vehicle
     vehicle = vehicleUtils.setVehicleCapacity(vehicle, this.props.consumers);
-    console.log(vehicle);
     var availWheels = vehicle.occupiedWheelchairs < vehicle.wheelchairs
       ? 'avail-color'
       : 'unavail-color';
@@ -74,10 +96,31 @@ var VehiclePanelComponent = React.createClass({
                   </span>: null}
                 </div>
               </div>
-              <div className="box-body" >
+              <div className="box-body" id="r_body">
                 <RouteBody vehicleId={vehicle._id}/>
               </div>
-              <div className="box-footer">
+              <div className="box-footer" id="r_footer">
+                <form className="form-inline" id="wpt_form" onSubmit={this.addWpt}>
+                  <div className="form-title"><strong>Additional Waypoints</strong></div>
+                  <div className="form-group float">
+                    <label className="sr-only" htmlFor="wpt_1">Waypoint Name</label>
+                    <input className="form-control" id="wpt_1" type="text" placeholder="Name" ref="wname"></input>
+                  </div>
+                  <div className="form-group float">
+                    <label className="sr-only" htmlFor="wpt_2">Waypoint Description</label>
+                    <input className="form-control"  id="wpt_2" type="text" placeholder="Description" ref="wdesc"></input>
+                  </div>
+                  <div className="form-group float">
+                    <label className="sr-only" htmlFor="wpt_3">Waypoint Address</label>
+                    <input className="form-control" type="text" id="wpt_3" placeholder="Address" ref="waddr"></input>
+                  </div>
+                  <div className="float b-div">
+                    <button className="btn btn-default btn-flat btn-block" type="submit">Submit</button>
+                  </div>
+                  <div className="spacer"></div>
+                </form>
+
+                <hr></hr>
                 <form className="form-inline" style={{display: 'inline-block'}}>
                   <label>
                     Optimizer Mode: &nbsp;
@@ -85,9 +128,6 @@ var VehiclePanelComponent = React.createClass({
                       defaultValue={this.props.vehicle.optimized || 'auto'} className="form-control opt-select" ref="optimizeMode">
                       <option value="auto" title="Automatic Optimizer (Requires many Google API calls)">Auto &#xf071;</option>
                       <option value="first" title="Consumer in pos #1 is picked first">First Consumer</option>
-                      {
-                        //<option value="furthest" title="Furthest Consumer from Options, Inc. is picked first">Furthest Consumer</option>
-                      }
                     </select>
                   </label>
                 </form>
@@ -128,6 +168,13 @@ var mapDispatchToProps = function(dispatch) {
     },
     onDirectionsClick: function(v_id) {
       dispatch(actions.displayDirections(v_id))
+    },
+    addWpt: function (v, newWpt) {
+      newWpt.index = v.additionalWpts.length;
+      dispatch(actions.addWpt(v, newWpt));
+    },
+    resetWpts: function (v) {
+      dispatch(actions.resetWpts(v))
     }
   }
 }

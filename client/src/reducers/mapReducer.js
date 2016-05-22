@@ -38,7 +38,9 @@ var success = function(state) {
   return Object.assign({}, state, {
     markerLoading: undefined,
     vehicleLoading: false,
-    serverSuccess: true
+    serverSuccess: true,
+    highlightedWpt: undefined,
+    openWptInfo: undefined
   });
 }
 
@@ -312,6 +314,18 @@ var openMarkerInfo = function(state, consumerId) {
   })
 }
 
+var openWptInfo = function (state, wptIndex) {
+  return Object.assign({}, state, {openWptInfo: wptIndex})
+}
+
+var closeWptInfo = function (state, wptIndex) {
+  return Object.assign({}, state, {openWptInfo: undefined})
+}
+
+var highlightWpt = function (state, wptIndex) {
+  return Object.assign({}, state, {highlightedWpt: wptIndex})
+}
+
 var closeMarkerInfo = function(state, consumerId) {
   //check if consumer is in cluster
   var clusterIndex = findConsumerClusterIndex(state.clusters, consumerId);
@@ -346,9 +360,19 @@ var centerConsumerMarker = function(state, consumerId) {
   })
 }
 
+
 var clearCenterConsumerMarker = function(state) {
   return Object.assign({}, state, {
-    centerMarker: null,
+    centerMarker: null
+  })
+}
+
+var centerWaypointMarker = function(state, waypoint) {
+
+  var marker = Object.assign({}, waypoint);
+  marker.consumerId = 'wpt_' + waypoint.index;
+  return Object.assign({}, state, {
+    centerMarker: marker
   })
 }
 
@@ -373,11 +397,16 @@ var reducer = function(state, action) {
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_REQUEST):
       return request(state, action.id);
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_SUCCESS):
+    case ('ADD_WPT_SUCCESS'):
+    case ('EDIT_WPT_SUCCESS'):
+    case ('RESET_WPT_SUCCESS'):
       return success(state);
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_ERROR):
       return error(state, action.error);
     case (actionTypes.MAP_HIGHLIGHT_MARKER):
       return highlightMarker(state, action.id);
+    case (actionTypes.MAP_HIGHLIGHT_WPT):
+      return highlightWpt(state, action.wptIndex);
     case (actionTypes.MAP_HIGHLIGHT_MARKER_OFF):
       return highlightMarkerOff(state, action.id);
     case (actionTypes.DIRECTIONS_LOAD_REQUEST):
@@ -396,12 +425,18 @@ var reducer = function(state, action) {
       return mapZoomChanged(state)
     case (actionTypes.MAP_OPEN_MARKER_INFO):
       return openMarkerInfo(state, action.consumerId)
+    case (actionTypes.MAP_OPEN_WPT_INFO):
+      return openWptInfo(state, action.wptIndex)
     case (actionTypes.MAP_CLOSE_MARKER_INFO):
       return closeMarkerInfo(state, action.consumerId)
+    case (actionTypes.MAP_CLOSE_WPT_INFO):
+      return closeWptInfo(state, action.wptIndex)
     case (actionTypes.MAP_CENTER_CONSUMER_MARKER):
       return centerConsumerMarker(state, action.consumerId)
     case (actionTypes.MAP_CENTER_CONSUMER_MARKER_SUCCESS):
       return clearCenterConsumerMarker(state)
+    case (actionTypes.MAP_CENTER_WAYPOINT_MARKER):
+      return centerWaypointMarker(state, action.waypoint)
     case (actionTypes.MAP_SAVE_CLUSTERS):
       return saveClusters(state, action.clusters_);
     case (modelActionTypes.FETCH):

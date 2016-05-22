@@ -7,11 +7,13 @@ var config = {
 var gmAPI = new GoogleMapsAPI(config);
 var async = require("async");
 
+var assembleWaypts = require('../utils/waypointsUtils').assembleWaypts;
+
 module.exports.getWaypointDirections = getWaypointDirections;
 module.exports.getDirections = function(vehicle, origin, destination, done) {
-  var morningConsumers = vehicle.consumers;
+  var morningConsumers = assembleWaypts(vehicle);
   var morningWaypoints = getWaypoints(morningConsumers);
-  var eveningConsumers = vehicle.consumers.slice().reverse();
+  var eveningConsumers = assembleWaypts(vehicle).slice().reverse();
   var eveningWaypoints = getWaypoints(eveningConsumers);
   var morningDirections;
   var eveningDirections;
@@ -40,6 +42,7 @@ module.exports.getDirections = function(vehicle, origin, destination, done) {
       var waypoints = morningConsumers.map(function(consumer){
         return{
           name:consumer.name,
+          description: consumer.description,
           address:consumer.address
         }
       });

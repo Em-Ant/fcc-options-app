@@ -30,14 +30,96 @@ module.exports.hideDirections = function() {
   }
 };
 
-module.exports.reorderConsumer = function(vehicle, startConsumerPosition, endConsumerPosition) {
-  var consumers = vehicle.consumers.slice();
-  //remove at start position, and place in end position
-  var removedConsumers = consumers.splice(startConsumerPosition, 1);
-  consumers.splice(endConsumerPosition, 0, removedConsumers[0]);
+module.exports.addWpt = function(v, newWpt) {
+  return function(dispatch) {
+    dispatch({
+      type: 'ADD_WPT_REQUEST',
+    });
+
+    var wpts = v.additionalWpts.slice();
+    wpts.push(newWpt);
+
+    Ajax.post('/api/vehicle/' + v._id, {
+        additionalWpts: wpts,
+        insert: 'additionalWpt'
+      },
+      function(err, response) {
+        if (err) {
+          return dispatch({
+            type: 'ADD_WPT_ERROR',
+            error: err
+          });
+        }
+
+        dispatch({
+          type: 'ADD_WPT_SUCCESS',
+          v_id: v._id,
+          vehicle: response
+        })
+    })
+  }
+}
+
+module.exports.editWpts = function(v_id, newWpts) {
+  return function(dispatch) {
+    dispatch({
+      type: 'EDIT_WPT_REQUEST',
+    });
+
+
+    Ajax.post('/api/vehicle/' + v_id, {
+        additionalWpts: newWpts,
+      },
+      function(err, response) {
+        if (err) {
+          return dispatch({
+            type: 'EDIT_WPT_ERROR',
+            error: err
+          });
+        }
+
+        dispatch({
+          type: 'EDIT_WPT_SUCCESS',
+          v_id: v_id,
+          vehicle: response
+        })
+    })
+  }
+}
+
+module.exports.resetWpts = function(v) {
+
+  return function(dispatch) {
+    dispatch({
+      type: 'RESET_WPT_REQUEST',
+    });
+
+
+    Ajax.post('/api/vehicle/' + v._id, {
+        additionalWpts: []
+      },
+      function(err, response) {
+        if (err) {
+          return dispatch({
+            type: 'RESET_WPT_ERROR',
+            error: err
+          });
+        }
+        dispatch({
+          type: 'RESET_WPT_SUCCESS',
+          v_id: v._id,
+          vehicle: response
+        })
+    })
+  }
+}
+
+module.exports.reorderConsumer = function(vehicle, vData) {
+
 
   var updatedVehicle = Object.assign({}, vehicle, {
-    consumers: consumers
+    consumers: vData.consumersIds,
+    additionalWpts: vData.additionalWpts
   })
   return vehicleActions.update(updatedVehicle);
 }

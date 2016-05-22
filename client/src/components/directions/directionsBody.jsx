@@ -9,6 +9,10 @@ var routeConstants = require('../../constants/routeConstants.js');
 var moment = require('moment');
 var inputTimer;
 
+function _hasDescription(waypoints, index) {
+  return (index > 0 && waypoints[index] && waypoints[index].description)
+}
+
 var DirectionsBody = React.createClass({
   componentDidMount:function(){
     this.setState({
@@ -91,7 +95,6 @@ var DirectionsBody = React.createClass({
               routeTime.add(leg.duration.value + self.props.vehicleWaitTime,'s')
             }
             return(
-
               <div key={index}>
                 {index==0?
                   <div>
@@ -102,6 +105,7 @@ var DirectionsBody = React.createClass({
                   </div>
                   :null
                 }
+
                 {
                   leg.steps.map(function(step,index){
                     return(
@@ -110,7 +114,13 @@ var DirectionsBody = React.createClass({
                   })
                 }
                 <p/>
-                <div> <b>{leg.end_location_name} - {routeTime.format(routeConstants.TIME_FORMAT)}</b></div>
+                <div> <b>{leg.end_location_name} - {routeTime.format(routeConstants.TIME_FORMAT)}</b>
+                  {
+                      _hasDescription(self.props.waypoints, index)
+                      ? <span> {' - ' + _hasDescription(self.props.waypoints, index)}</span>
+                    : null
+                  }
+                </div>
                 <div> {leg.end_address} </div>
                 <p/>
               </div>
@@ -125,6 +135,9 @@ var DirectionsBody = React.createClass({
     )
   }
 })
+
+import { waypointsSelector } from '../../selectors'
+
 var mapStateToProps = function(state, ownProps){
   var route;
   var routeStartTime;
@@ -136,6 +149,7 @@ var mapStateToProps = function(state, ownProps){
     routeStartTime = state.directions.morningStartTime;
   }
   return {
+    waypoints : waypointsSelector(state, ownProps),
     vehicle: state.vehicles.data[state.directions.v_id],
     consumers: state.consumers.data,
     route : route,
