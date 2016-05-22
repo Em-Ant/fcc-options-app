@@ -346,6 +346,12 @@ var centerConsumerMarker = function(state, consumerId) {
   })
 }
 
+var clearCenterConsumerMarker = function(state) {
+  return Object.assign({}, state, {
+    centerMarker: null,
+  })
+}
+
 /**
  * TODO IMPORTANT handle errors
  */
@@ -394,6 +400,8 @@ var reducer = function(state, action) {
       return closeMarkerInfo(state, action.consumerId)
     case (actionTypes.MAP_CENTER_CONSUMER_MARKER):
       return centerConsumerMarker(state, action.consumerId)
+    case (actionTypes.MAP_CENTER_CONSUMER_MARKER_SUCCESS):
+      return clearCenterConsumerMarker(state)
     case (actionTypes.MAP_SAVE_CLUSTERS):
       return saveClusters(state, action.clusters_);
     case (modelActionTypes.FETCH):

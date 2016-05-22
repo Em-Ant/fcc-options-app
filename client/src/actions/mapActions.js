@@ -171,3 +171,8 @@ module.exports.saveClusters = function(clusters_) {
     clusters_: clusters_
   }
 }
+module.exports.centerMarkerSuccess = function() {
+  return {
+    type: actionTypes.MAP_CENTER_CONSUMER_MARKER_SUCCESS
+  }
+}

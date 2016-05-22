@@ -182,12 +182,15 @@ var MapMain = React.createClass({
     _markerClusterer = null;
   },
   componentDidUpdate:function(prevProps){
+    var self = this;
     if(this.props.centerMarker != null &&
       (prevProps.centerMarker== null || this.props.centerMarker.consumerId != prevProps.centerMarker.consumerId)){
       if(prevProps.centerMarker) {
         this.props.markerInfoClose(prevProps.centerMarker)
       }
-      this.centerMarker(this.props.centerMarker);
+      this.centerMarker(this.props.centerMarker, function(){
+        self.props.centerMarkerSuccess();
+      });
     }
 
     //HACK: force repaint of clusters when active vechicleId changes
@@ -211,12 +214,13 @@ var MapMain = React.createClass({
   clearClusterTimer:function(){
     clearTimeout(clusterMouseoverTimer);
   },
-  centerMarker:function(marker){
+  centerMarker:function(marker, done){
     var self = this;
     this._googleMapComponent.panTo(marker.position);
     // this listener allows us to wait for the clusters to form
     google.maps.event.addListenerOnce(this._googleMapComponent.props.map, 'idle', function(){
       self.props.markerInfoOpen(marker);
+      done();
     })
   },
   makeErrorControl(controlDiv, error) {
@@ -475,8 +479,10 @@ var mapDispatchToProps = function(dispatch) {
     },
     onClusteringend:function(markerClusterer){
       dispatch(mActions.saveClusters(markerClusterer.clusters_))
+    },
+    centerMarkerSuccess:function(){
+      dispatch(mActions.centerMarkerSuccess())
     }
-
   }
 }
 var WMarker = connect(mapStateToProps, mapDispatchToProps)(WMarkerComponent);
