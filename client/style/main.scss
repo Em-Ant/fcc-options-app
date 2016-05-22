@@ -124,10 +124,11 @@
 
 #wpt_form {
   span {
-    margin-right: 10px;
+    margin-right: 8px;
   }
   input {
-    margin-right: 5px;
+    width: 97%;
+    min-width: 80px;
   }
 }
 /* MAP PAGE PANELS */
@@ -143,6 +144,17 @@
   flex-direction: column;
 }
 
+.flex-row {
+  display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   -ms-flex-wrap: wrap;
+       flex-wrap: wrap;
+   -webkit-box-align: center;
+       -ms-flex-align: center;
+           align-items: center;
+}
+
 @mixin flex($g, $s:1) {
   -webkit-box-flex : $g $s;
   -webkit-flex : $g $s;
@@ -152,6 +164,10 @@
 
 .flex-1 {
   @include flex(1);
+}
+
+.flex-2 {
+  @include flex(2);
 }
 .abs-body {
   position: absolute;

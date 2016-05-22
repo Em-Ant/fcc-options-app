@@ -102,21 +102,23 @@ var VehiclePanelComponent = React.createClass({
                 <RouteBody vehicleId={vehicle._id}/>
               </div>
               <div className="box-footer" id="r_footer">
-                <form className="form-inline" id="wpt_form" onSubmit={this.addWpt}>
-                  <span><strong>Add Waypoint</strong></span>
-                  <div className="form-group">
-                    <label className="sr-only" htmlFor="wpt_1">Name</label>
-                    <input className="form-control" id="wpt_1" type="text" placeholder="Waypoint name" ref="wname"></input>
+                <form className="form-inline flex-row" id="wpt_form" onSubmit={this.addWpt}>
+                  <span className="flex-1"><strong>Add Waypoint</strong></span>
+                  <div className="form-group flex-2">
+                    <label className="sr-only" htmlFor="wpt_1">Waypoint Name</label>
+                    <input className="form-control" id="wpt_1" type="text" placeholder="Name" ref="wname"></input>
                   </div>
-                  <div className="form-group">
-                    <label className="sr-only" htmlFor="wpt_2">Description</label>
-                    <input className="form-control"  id="wpt_2" type="text" placeholder="Waypoint description" ref="wdesc"></input>
+                  <div className="form-group flex-2">
+                    <label className="sr-only" htmlFor="wpt_2">Waypoint Description</label>
+                    <input className="form-control"  id="wpt_2" type="text" placeholder="Description" ref="wdesc"></input>
                   </div>
-                  <div className="form-group">
-                    <label className="sr-only" htmlFor="wpt_3">Address</label>
-                    <input className="form-control" type="text" id="wpt_3" placeholder="Waypoint address" ref="waddr"></input>
+                  <div className="form-group flex-2">
+                    <label className="sr-only" htmlFor="wpt_3">Waypoint Address</label>
+                    <input className="form-control" type="text" id="wpt_3" placeholder="Address" ref="waddr"></input>
                   </div>
-                  <button className="btn btn-default btn-flat" type="submit">Submit</button>
+                  <div className="flex-1">
+                    <button className="btn btn-default btn-block" type="submit">Submit</button>
+                  </div>
                 </form>
                 <hr></hr>
                 <form className="form-inline" style={{display: 'inline-block'}}>
