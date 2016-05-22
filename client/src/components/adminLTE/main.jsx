@@ -18,8 +18,7 @@ var Main = React.createClass({
   render: function() {
     return (
       <div className="wrapper">
-        <Header/>
-        <Sidebar router={this.props}/>
+        <Header router={this.props}/>
         {this.props.children}
         <ControlSidebar/>
         <PwdModal modalId="pwd-change"></PwdModal>

@@ -5,6 +5,11 @@ var Link = require('react-router').Link
 var connect = require('react-redux').connect;
 var actions = require('../../actions/authActions');
 
+const MAP_PAGE = "/";
+const CONSUMERS_PAGE = "/consumers";
+const VEHICLES_PAGE = "/vehicles";
+const USERS_PAGE = "/users";
+const ADMIN = "admin";
 
 var Header = React.createClass({
   componentDidMount:function(){
@@ -29,31 +34,40 @@ var Header = React.createClass({
   render: function() {
     return (
       <header className="main-header">
-        <a href="/" className="logo">
-          <span className="logo-mini">
-            <img src="/img/opt_logo_wht.png" height="30px"></img></span>
-          <span className="logo-lg">
-            <b>Options</b> Inc.</span>
-        </a>
-
         <nav className="navbar navbar-static-top" role="navigation">
-          <a href="#" className="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span className="sr-only">Toggle navigation</span>
-          </a>
+          <div className="navbar-header">
+            <a href="/" className="navbar-brand"><b>Options</b> Inc.</a>
+            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+              <i className="fa fa-bars"></i>
+            </button>
+          </div>
+          <div className="collapse navbar-collapse pull-left" id="navbar-collapse">
+          <ul className="nav navbar-nav">
+
+            <li className={this.props.activeLink==MAP_PAGE?"active":null}><Link to={MAP_PAGE}><i className="fa fa-map"></i>&nbsp;Map</Link></li>
+            <li className={this.props.activeLink==CONSUMERS_PAGE?"active":null}><Link to={CONSUMERS_PAGE}><i className="fa fa-users"></i>&nbsp;Consumers</Link></li>
+            <li className={this.props.activeLink==VEHICLES_PAGE?"active":null}><Link to={VEHICLES_PAGE}><i className="fa fa-bus"></i>&nbsp;Vehicles</Link></li>
+
+            {this.props.userRole==ADMIN?
+              <li className={this.props.activeLink==USERS_PAGE?"active":null}><Link to={USERS_PAGE}><i className="fa fa-dashboard"></i>&nbsp;Users</Link></li>
+                :null
+            }
+          </ul>
+        </div>
           <div className="navbar-custom-menu">
             <ul className="nav navbar-nav">
 
               <li className="dropdown user user-menu">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                   <img src="/static/adminLTE/dist/img/default_avatar.jpg" className="user-image" alt="User Image"/>
-                  <span className="hidden-xs">{this.props.user}</span>
+                  <span className="hidden-xs">{this.props.auth.user}</span>
                 </a>
                 <ul className="dropdown-menu">
                   <li className="user-header">
                     <img src="/static/adminLTE/dist/img/default_avatar.jpg" className="img-circle" alt="User Image"/>
 
-                    <p>{this.props.user}</p>
-                    <p>{this.props.role}</p>
+                    <p>{this.props.auth.user}</p>
+                    <p>{this.props.auth.role}</p>
 
                   </li>
                   <li className="user-footer">
@@ -86,8 +100,12 @@ var Header = React.createClass({
 });
 
 
-var mapStateToProps = function(state){
-  return state.auth
+var mapStateToProps = function(state, ownProps){
+  return {
+    auth:state.auth,
+    activeLink: ownProps.router.location.pathname,
+    userRole: localStorage.role
+  }
 
 }
 var mapDispatchToProps = function(dispatch) {
