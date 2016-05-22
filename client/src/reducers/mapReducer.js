@@ -226,6 +226,10 @@ var clusterInfoClose = function(state, cluster) {
 var removeConsumerFromClusters = function(state, id) {
   var clusters = state.displayClusters.slice();
   var clusterIndex = findConsumerClusterIndex(clusters, id);
+  if(clusterIndex == -1){
+    //consumer is not in a cluster
+    return state;
+  }
   var consumerCluster = clusters[clusterIndex];
   var markerIndex = consumerCluster.markers.findIndex(function(marker){
     return marker.consumerId == id
