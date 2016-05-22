@@ -79,7 +79,9 @@ function removeConsumerFromVehicle(consumerId, vehicle, next) {
   }, {
     $pull: {
       consumers: consumerId
-    }
+    },
+    optimized: undefined,
+    maxPassengerDuration: undefined
   }, next);
 }
 
