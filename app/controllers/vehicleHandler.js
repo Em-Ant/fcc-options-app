@@ -119,11 +119,15 @@ function VehicleHandler() {
     if (req.body.insert) {
       if(req.body.insert === 'additionalWpt') {
         // adding an additional waypoint
-
-        // geolocate it
         // new waypoint is pushed into the array, so it's the last element
         var newWpt =
           req.body.additionalWpts[req.body.additionalWpts.length-1];
+
+        // validate name and address
+        if(!newWpt.name) return res.status(404).json({msg: 'Waypoint name is required'});
+        if(!newWpt.address) return res.status(404).json({msg: 'Waypoint address is required'});
+
+        // geolocate
         geocoder.getCoords(newWpt.address, function(err, coords){
           if(err) { return res.status(404).json({msg: 'Geolocator error'}); }
           //geocoder could not get coords for address

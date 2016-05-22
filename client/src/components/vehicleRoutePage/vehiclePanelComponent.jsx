@@ -15,7 +15,7 @@ var VehiclePanelComponent = React.createClass({
     // make panel body responsive
     $(window).resize(function() {
       var footerHeight = $('#r_footer').height();
-      $("#r_body").css('bottom', (footerHeight + 5) + 'px');
+      $("#r_body").css('bottom', (footerHeight + 15) + 'px');
     });
   },
   componentWillUnmount: function() {
@@ -29,9 +29,7 @@ var VehiclePanelComponent = React.createClass({
     newWpt.address = this.refs.waddr.value;
     newWpt.description = this.refs.wdesc.value || 'Additional Waypoint';
     newWpt.beforeConsumer = this.props.vehicle.consumers.length;
-    if (newWpt.name && newWpt.address) {
-      this.props.addWpt(this.props.vehicle, newWpt);
-    }
+    this.props.addWpt(this.props.vehicle, newWpt);
     this.refs.wname.value = '';
     this.refs.wdesc.value = '';
     this.refs.waddr.value = '';
@@ -116,12 +114,10 @@ var VehiclePanelComponent = React.createClass({
                     <label className="sr-only" htmlFor="wpt_3">Waypoint Address</label>
                     <input className="form-control" type="text" id="wpt_3" placeholder="Address" ref="waddr"></input>
                   </div>
-                  <div className="btn-group spacer">
-                    <button
-                      className="btn btn-default btn-sm"
-                      onClick={this.props.resetWpts.bind(null, this.props.vehicle)}>Clear All</button>
-                    <button className="btn btn-default btn-sm" type="submit">Submit</button>
+                  <div className="float b-div">
+                    <button className="btn btn-default btn-flat btn-block" type="submit">Submit</button>
                   </div>
+                  <div className="spacer"></div>
                 </form>
 
                 <hr></hr>

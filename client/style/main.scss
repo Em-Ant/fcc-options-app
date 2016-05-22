@@ -124,17 +124,19 @@
 
 #wpt_form {
   .float {
+    width: 27%;
     float: left;
-    width: 33%;
     padding-right:  5px;
     min-width: 80px;
     margin-bottom: 6px;
+  }
+  .b-div {
+    width: 10%;
   }
   .spacer {
     clear: both;
   }
   input {
-    margin: 0 auto;
     width: 100%;
     min-width: 78px;
     margin-bottom: 2px;

@@ -38,7 +38,9 @@ var success = function(state) {
   return Object.assign({}, state, {
     markerLoading: undefined,
     vehicleLoading: false,
-    serverSuccess: true
+    serverSuccess: true,
+    highlightedWpt: undefined,
+    openWptInfo: undefined
   });
 }
 
@@ -372,6 +374,9 @@ var reducer = function(state, action) {
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_REQUEST):
       return request(state, action.id);
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_SUCCESS):
+    case ('ADD_WPT_SUCCESS'):
+    case ('EDIT_WPT_SUCCESS'):
+    case ('RESET_WPT_SUCCESS'):
       return success(state);
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_ERROR):
       return error(state, action.error);
