@@ -123,7 +123,9 @@
 }
 
 #wpt_form {
-  span {
+  span, input, div {
+    margin-bottom: 3px;
+  } span {
     margin-right: 8px;
   }
   input {
