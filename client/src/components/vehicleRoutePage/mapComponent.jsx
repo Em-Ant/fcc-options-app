@@ -31,6 +31,15 @@ var MapMain = React.createClass({
       this.centerMarker(newCenterMarker);
     }
   },
+  componentWillUnmount:function(){
+    //clear out all infowindows
+    var self = this;
+    self.props.consumerMarkers.forEach(function(marker){
+      if(marker.showInfo){
+        self.props.markerInfoClose(marker)
+      }
+    })
+  },
   getInitialState:function(){
     return {
     }

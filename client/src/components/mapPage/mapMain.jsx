@@ -180,6 +180,13 @@ var MapMain = React.createClass({
     // If a user clicks away from the map page, we must manually clear out the
     // clusterer
     _markerClusterer = null;
+    //clear out all infowindows
+    var self = this;
+    self.props.consumerMarkers.forEach(function(marker){
+      if(marker.showInfo){
+        self.props.markerInfoClose(marker)
+      }
+    })
   },
   componentDidUpdate:function(prevProps){
     var self = this;
