@@ -3,7 +3,9 @@
 var React = require('react');
 var connect = require('react-redux').connect;
 var RouteBody = require('./routeBodyComponent.jsx')
-var actions = require('../../actions/vehicleRouteActions')
+var actions = require('../../actions/vehicleRouteActions');
+
+var Message = require('../message.jsx');
 
 var vehicleUtils = require('../../utils/vehicleUtils');
 
@@ -100,19 +102,29 @@ var VehiclePanelComponent = React.createClass({
                 <RouteBody vehicleId={vehicle._id}/>
               </div>
               <div className="box-footer" id="r_footer">
+                {
+                  this.props.error
+                  ? <Message message={{type: 'error', msg: this.props.error}}/>
+                : null
+                }
+
                 <form className="form-inline" id="wpt_form" onSubmit={this.addWpt}>
                   <div className="form-title"><strong>Additional Waypoints</strong></div>
                   <div className="form-group float">
                     <label className="sr-only" htmlFor="wpt_1">Waypoint Name</label>
-                    <input className="form-control" id="wpt_1" type="text" placeholder="Name" ref="wname"></input>
+                    <input className="form-control" id="wpt_1" type="text" placeholder="Name"
+                      ref="wname"
+                      onChange={this.props.clearError}></input>
                   </div>
                   <div className="form-group float">
                     <label className="sr-only" htmlFor="wpt_2">Waypoint Description</label>
-                    <input className="form-control"  id="wpt_2" type="text" placeholder="Description" ref="wdesc"></input>
+                    <input className="form-control"  id="wpt_2" type="text" placeholder="Description"
+                      ref="wdesc" onChange={this.props.clearError}></input>
                   </div>
                   <div className="form-group float">
                     <label className="sr-only" htmlFor="wpt_3">Waypoint Address</label>
-                    <input className="form-control" type="text" id="wpt_3" placeholder="Address" ref="waddr"></input>
+                    <input className="form-control" type="text" id="wpt_3" placeholder="Address"
+                      ref="waddr" onChange={this.props.clearError}></input>
                   </div>
                   <div className="float b-div">
                     <button className="btn btn-default btn-flat btn-block" type="submit">Submit</button>
@@ -158,7 +170,8 @@ var mapStateToProps = function(state, ownProps) {
     maxPassengerDuration : state.settings.maxConsumerRouteTime,
     vehicle: state.vehicles.data[ownProps.vehicleId],
     consumers: state.consumers.data,
-    isLoading: state.vehicleRoutePage.vehicleLoading || state.vehicleRoutePage.directionsLoading
+    isLoading: state.vehicleRoutePage.vehicleLoading || state.vehicleRoutePage.directionsLoading,
+    error: state.vehicleRoutePage.error
   }
 }
 var mapDispatchToProps = function(dispatch) {
@@ -175,6 +188,9 @@ var mapDispatchToProps = function(dispatch) {
     },
     resetWpts: function (v) {
       dispatch(actions.resetWpts(v))
+    },
+    clearError: function() {
+      dispatch(actions.wptFormsChanged())
     }
   }
 }

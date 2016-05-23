@@ -55,11 +55,18 @@ var hideDirections = function(state) {
     displayDirections: false
   })
 }
+
+var clearError = function(state) {
+  return Object.assign({}, state, {error: undefined})
+}
+
 var initState = {}
 var reducer = function(state, action) {
   console.log(action.type);
   state = state || initState;
   switch (action.type) {
+    case ('WPT_FORMS_CHANGED'):
+      return clearError(state);
     case (actionTypes.DIRECTIONS_LOAD_REQUEST):
       return loadDirectionsRequest(state)
     case (actionTypes.DIRECTIONS_LOAD_FAILURE):

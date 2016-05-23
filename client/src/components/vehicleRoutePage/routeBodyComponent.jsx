@@ -30,7 +30,8 @@ var RouteBodyComponent = React.createClass({
     });
     $( "#sortable-" + self.props.vehicle._id ).disableSelection();
   },
-  delWpt: function(ind) {
+  delWpt: function(ind, e) {
+    e.stopPropagation();
     var waypoints = this.props.vehicle.additionalWpts.slice();
     var wptToBeRemoved = this.props.waypoints[ind].index;
     waypoints.splice(wptToBeRemoved,1);

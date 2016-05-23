@@ -114,6 +114,10 @@ module.exports.resetWpts = function(v) {
   }
 }
 
+module.exports.wptFormsChanged = function() {
+  return {type: 'WPT_FORMS_CHANGED'}
+}
+
 module.exports.reorderConsumer = function(vehicle, vData) {
 
 
