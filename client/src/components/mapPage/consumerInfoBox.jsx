@@ -67,7 +67,8 @@ var mapDispatchToProps = function(dispatch) {
     nameHoverOff: function(c_id) {
       dispatch(actions.highlightMarkerOff(c_id))
     },
-    removeConsumerFromActiveBus: function(c_id, active_v) {
+    removeConsumerFromActiveBus: function(c_id, active_v, e) {
+      e.stopPropagation();
       dispatch(actions.removeFromActiveBus(c_id, active_v))
     },
     clickConsumer: function(c_id) {
