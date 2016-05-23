@@ -73,7 +73,7 @@ var reducer = function(state, action) {
     case ('EDIT_WPT_REQUEST'):
     case ('RESET_WPT_REQUEST'):
       return request(state);
-    case (actionTypes.OPTIMIZE_ROUTE_ERROR):
+    case (actionTypes.OPTIMIZE_ROUTE_FAILURE):
     case ('ADD_WPT_ERROR'):
     case ('EDIT_WPT_ERROR'):
     case ('RESET_WPT_ERROR'):

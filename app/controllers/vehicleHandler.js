@@ -258,6 +258,14 @@ function VehicleHandler() {
 
         // call Google API to optimize each route
         async.map(originIndexes, wptAsyncFn, function(err, results) {
+          
+          var statusFail = results.some(function(result) {
+              return result.status !== 'OK';
+          });
+          
+          if (statusFail) return callback('error');
+        
+          
           if (results.length === 1) {
             let r = results[0];
             r.maxPassengerDuration = Math.ceil(
