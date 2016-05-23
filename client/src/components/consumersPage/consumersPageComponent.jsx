@@ -282,6 +282,9 @@ var ModelActions = require('../../actions/modelActions.js');
 var models = require('../../constants/models.js');
 var actions = new ModelActions(models.CONSUMERS);
 var vehicleActions = new ModelActions(models.VEHICLES);
+var filterActions = require('../../actions/consumerFilterActions.js');
+
+var connect = require('react-redux').connect;
 
 import {paginateAndSort, filterByString, filterByNeeds} from '../../selectors'
 
@@ -324,25 +327,15 @@ var mapDispatchToProps = function(dispatch){
     filterChecks: function(e) {
       var filter = {};
       filter[e.target.name] = e.target.checked;
-      dispatch({
-        type: 'FILTER_NEEDS',
-        model: 'CONSUMERS',
-        value: filter
-      })
+      dispatch(filterActions.setConsumersFilterNeeds(filter))
     },
     setFilterString : function (e) {
-      dispatch({
-        type: 'FILTER_STRING',
-        model: 'CONSUMERS',
-        value: e.target.value
-      })
+      var s = e.target.value;
+      dispatch(filterActions.setConsumersFilterString(s))
     },
     setFilterType : function (e) {
-      dispatch({
-        type: 'FILTER_TYPE',
-        model: 'CONSUMERS',
-        value: e.target.value
-      })
+      var s = e.target.value;
+      dispatch(filterActions.setConsumersFilterType(s));
     },
     loadConsumers: function () {
       dispatch(actions.fetch());

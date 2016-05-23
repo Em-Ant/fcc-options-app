@@ -1,5 +1,6 @@
 
 var actionTypes = require('../constants/actionTypes/modelActionTypes');
+var filterATypes = require('../constants/actionTypes/consumerFilterActionTypes');
 const CONSUMERS = require('../constants/models').CONSUMERS;
 
 function loadingConsumers(state) {
@@ -190,11 +191,11 @@ var reducer = function(state, action) {
       return resetEditMode(state);
     case actionTypes.SET_PAGE :
       return setPage(state, action.page)
-    case 'FILTER_STRING' :
+    case filterATypes.CONSUMER_FILTER_STRING:
       return Object.assign({}, state, {filterString: action.value})
-    case 'FILTER_TYPE' :
+    case filterATypes.CONSUMER_FILTER_TYPE:
       return Object.assign({}, state, {filter: action.value})
-    case 'FILTER_NEEDS' :
+    case filterATypes.CONSUMER_FILTER_NEEDS:
       return setNeedsFilter(state, action.value)
     default:
       return state;
