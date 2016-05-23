@@ -63,7 +63,6 @@ var clearError = function(state) {
 
 var initState = {}
 var reducer = function(state, action) {
-  console.log(action.type);
   state = state || initState;
   switch (action.type) {
     case (wptATypes.WPT_FORMS_CHANGED):

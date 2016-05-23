@@ -10,7 +10,6 @@ var Message = require('./message.jsx');
 */
 var AlertModal = React.createClass({
   handleSubmit: function(e) {
-    console.log('submit');
     e.preventDefault();
     var pwd_1 = this.state.pwd1
     var pwd_2 = this.state.pwd2;

@@ -79,7 +79,6 @@ var ConsumerForm = React.createClass({
     if(!nextProps.loading){
       this.setDefaults(nextProps);
     }
-    console.log('msg', nextProps.msg);
   },
   render: function() {
     var boxClass = this.props.verb === "Edit" ? "box box-warning" : "box box-info";

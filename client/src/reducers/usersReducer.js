@@ -25,7 +25,6 @@ var reducer = function(state, action) {
       }
     case actionTypes.UPDATE:
       if (action.status === actionTypes.SUCCESS) {
-        console.log('update role',action.response)
         return commons.update(state, action.response);
       }
     case actionTypes.CREATE:
