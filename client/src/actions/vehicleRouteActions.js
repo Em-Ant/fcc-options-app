@@ -3,6 +3,7 @@ var actionTypes = require('../constants/actionTypes/vehicleRouteActionTypes.js')
 var ModelActions = require('./modelActions');
 var models = require('../constants/models.js');
 var vehicleActions = new ModelActions(models.VEHICLES);
+var wptActions = require('../constants/actionTypes/waypointsActionTypes');
 
 module.exports.displayDirections = function(v_id) {
   return function(dispatch) {
@@ -33,7 +34,7 @@ module.exports.hideDirections = function() {
 module.exports.addWpt = function(v, newWpt) {
   return function(dispatch) {
     dispatch({
-      type: 'ADD_WPT_REQUEST',
+      type: wptActions.WPT_ADD_REQUEST
     });
 
     var wpts = v.additionalWpts.slice();
@@ -46,13 +47,13 @@ module.exports.addWpt = function(v, newWpt) {
       function(err, response) {
         if (err) {
           return dispatch({
-            type: 'ADD_WPT_ERROR',
+            type: wptActions.WPT_ADD_FAILURE,
             error: err
           });
         }
 
         dispatch({
-          type: 'ADD_WPT_SUCCESS',
+          type: wptActions.WPT_ADD_SUCCESS,
           v_id: v._id,
           vehicle: response
         })
@@ -63,7 +64,7 @@ module.exports.addWpt = function(v, newWpt) {
 module.exports.editWpts = function(v_id, newWpts) {
   return function(dispatch) {
     dispatch({
-      type: 'EDIT_WPT_REQUEST',
+      type: wptActions.WPT_EDIT_REQUEST
     });
 
 
@@ -73,13 +74,13 @@ module.exports.editWpts = function(v_id, newWpts) {
       function(err, response) {
         if (err) {
           return dispatch({
-            type: 'EDIT_WPT_ERROR',
+            type: wptActions.WPT_EDIT_FAILURE,
             error: err
           });
         }
 
         dispatch({
-          type: 'EDIT_WPT_SUCCESS',
+          type: wptActions.WPT_EDIT_SUCCESS,
           v_id: v_id,
           vehicle: response
         })
@@ -87,35 +88,9 @@ module.exports.editWpts = function(v_id, newWpts) {
   }
 }
 
-module.exports.resetWpts = function(v) {
-
-  return function(dispatch) {
-    dispatch({
-      type: 'RESET_WPT_REQUEST',
-    });
-
-
-    Ajax.post('/api/vehicle/' + v._id, {
-        additionalWpts: []
-      },
-      function(err, response) {
-        if (err) {
-          return dispatch({
-            type: 'RESET_WPT_ERROR',
-            error: err
-          });
-        }
-        dispatch({
-          type: 'RESET_WPT_SUCCESS',
-          v_id: v._id,
-          vehicle: response
-        })
-    })
-  }
-}
 
 module.exports.wptFormsChanged = function() {
-  return {type: 'WPT_FORMS_CHANGED'}
+  return {type: wptActions.WPT_FORMS_CHANGED}
 }
 
 module.exports.reorderConsumer = function(vehicle, vData) {

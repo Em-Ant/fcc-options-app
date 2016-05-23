@@ -1,4 +1,5 @@
 var actionTypes = require('../constants/actionTypes/vehicleRouteActionTypes.js');
+var wptATypes = require('../constants/actionTypes/waypointsActionTypes.js');
 const modelConst = require('../constants/models');
 const mapConst = require('../constants/map');
 var modelActionTypes = require('../constants/actionTypes/modelActionTypes');
@@ -65,7 +66,7 @@ var reducer = function(state, action) {
   console.log(action.type);
   state = state || initState;
   switch (action.type) {
-    case ('WPT_FORMS_CHANGED'):
+    case (wptATypes.WPT_FORMS_CHANGED):
       return clearError(state);
     case (actionTypes.DIRECTIONS_LOAD_REQUEST):
       return loadDirectionsRequest(state)
@@ -76,18 +77,15 @@ var reducer = function(state, action) {
     case (actionTypes.DIRECTIONS_HIDE):
       return hideDirections(state)
     case (actionTypes.OPTIMIZE_ROUTE_REQUEST):
-    case ('ADD_WPT_REQUEST'):
-    case ('EDIT_WPT_REQUEST'):
-    case ('RESET_WPT_REQUEST'):
+    case (wptATypes.WPT_ADD_REQUEST):
+    case (wptATypes.WPT_EDIT_REQUEST):
       return request(state);
     case (actionTypes.OPTIMIZE_ROUTE_FAILURE):
-    case ('ADD_WPT_ERROR'):
-    case ('EDIT_WPT_ERROR'):
-    case ('RESET_WPT_ERROR'):
+    case (wptATypes.WPT_ADD_FAILURE):
+    case (wptATypes.WPT_EDIT_FAILURE):
       return error(state, action.error)
-    case ('ADD_WPT_SUCCESS'):
-    case ('EDIT_WPT_SUCCESS'):
-    case ('RESET_WPT_SUCCESS'):
+    case (wptATypes.WPT_ADD_SUCCESS):
+    case (wptATypes.WPT_EDIT_SUCCESS):
     case (actionTypes.OPTIMIZE_ROUTE_SUCCESS):
       return success(state)
     case (modelActionTypes.UPDATE):

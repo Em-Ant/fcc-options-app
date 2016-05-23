@@ -5,6 +5,7 @@ var commonCRUD = require('../commons/commonReducerFunctions');
 var mapActions = require('../constants/actionTypes/mapActionTypes.js');
 var vehicleRouteActions = require('../constants/actionTypes/vehicleRouteActionTypes.js');
 var _ = require('lodash');
+var wptATypes = require('../constants/actionTypes/waypointsActionTypes.js')
 
 function updateConsumersArray(state, v_id, cArray) {
   var data = Object.assign({}, state.data);
@@ -67,9 +68,8 @@ var vehiclesReducer = function(state, action) {
     needToBeFetched: true
   };
   switch (action.type) {
-    case 'ADD_WPT_SUCCESS':
-    case 'EDIT_WPT_SUCCESS':
-    case 'RESET_WPT_SUCCESS':
+    case (wptATypes.WPT_ADD_SUCCESS):
+    case (wptATypes.WPT_EDIT_SUCCESS):
       return commonCRUD.update(state, action.vehicle)
     case mapActions.MAP_REMOVE_FROM_ACTIVE_BUS_SUCCESS:
     case mapActions.MAP_ADD_TO_ACTIVE_BUS_SUCCESS:
