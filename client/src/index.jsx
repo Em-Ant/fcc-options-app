@@ -13,7 +13,7 @@ var Logout = require('./components/auth/logoutComponent.jsx');
 var VehicleRoute = require('./components/vehicleRoutePage/vehicleRouteComponent.jsx');
 var Vehicles = require('./components/vehiclesPage/vehiclesComponent.jsx');
 
-var Consumers = require('./containers/consumersPageContainer.jsx');
+var Consumers = require('./components/consumersPage/consumersPageComponent.jsx').ConsumersContainer;
 
 var MapPage = require('./components/mapPage/mapWrapper.jsx');
 
