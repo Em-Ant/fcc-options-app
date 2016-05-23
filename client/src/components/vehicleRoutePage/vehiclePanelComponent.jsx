@@ -171,7 +171,7 @@ var mapStateToProps = function(state, ownProps) {
     vehicle: state.vehicles.data[ownProps.vehicleId],
     consumers: state.consumers.data,
     isLoading: state.vehicleRoutePage.vehicleLoading || state.vehicleRoutePage.directionsLoading,
-    error: state.vehicleRoutePage.error
+    error: state.vehicleRoutePage.error || state.mapPage.error
   }
 }
 var mapDispatchToProps = function(dispatch) {

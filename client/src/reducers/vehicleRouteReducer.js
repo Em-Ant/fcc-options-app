@@ -35,13 +35,14 @@ var error = function(state, err) {
 var loadDirectionsRequest = function(state, directions) {
   return Object.assign({}, state, {
     directionsLoading: true,
-    displayDirections: false
+    displayDirections: false,
   })
 }
 var loadDirectionsFailure = function(state, error) {
   return Object.assign({}, state, {
     directionsLoading: false,
-    displayDirections: false
+    displayDirections: false,
+    error: error.responseJSON.msg,
   })
 }
 var loadDirectionsSuccess = function(state, directions) {

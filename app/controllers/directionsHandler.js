@@ -85,11 +85,14 @@ function DirectionsHandler() {
       get_directions: ['get_options_inc_address', 'get_vehicle', 'check_modified', function (results, callback) {
         var optionsIncAddress = results.get_options_inc_address;
         directionsUtils.getDirections(results.get_vehicle, optionsIncAddress, optionsIncAddress, function (err, response) {
+
+          if (!response.statusOk) return callback('Directions error');
           callback(err, response);
         })
       }],
       save_directions: ['get_directions', function (results, callback) {
         var directions = results.get_directions;
+        if (!directions) return callback('Directions error');
         var maxPassDurationMinutes =
           Math.ceil(results.get_directions.morningRoute.maxPassengerDuration / 60);
         // update vehicle max pass duration
@@ -113,7 +116,6 @@ function DirectionsHandler() {
       }]
     }, function (err, results) {
       if (err) {
-        console.log(err);
         return res.status(500).json({
           msg: 'Could not get directions'
         });

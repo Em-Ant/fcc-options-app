@@ -78,30 +78,7 @@ var checkActiveVehicleIdForDelete = function(state, id) {
   }
   return state;
 }
-var loadDirectionsRequest = function(state, directions) {
-  return Object.assign({}, state, {
-    directionsLoading: true,
-    displayDirections: false
-  })
-}
-var loadDirectionsFailure = function(state, error) {
-  return Object.assign({}, state, {
-    directionsLoading: false,
-    displayDirections: false
-  })
-}
-var loadDirectionsSuccess = function(state, directions) {
-  return Object.assign({}, state, {
-    directionsLoading: false,
-    displayDirections: true
-  })
-}
-var hideDirections = function(state) {
-  return Object.assign({}, state, {
-    directionsLoading: false,
-    displayDirections: false
-  })
-}
+
 var setOptionsIncMarker = function(state, settings) {
   var icon = Object.assign({}, mapConst.icon);
   icon.fillColor = mapConst.OPTIONS_INC_MARKER_COLOR;
@@ -397,9 +374,6 @@ var reducer = function(state, action) {
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_REQUEST):
       return request(state, action.id);
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_SUCCESS):
-    case ('ADD_WPT_SUCCESS'):
-    case ('EDIT_WPT_SUCCESS'):
-    case ('RESET_WPT_SUCCESS'):
       return success(state);
     case (actionTypes.MAP_ADD_TO_ACTIVE_BUS_ERROR):
       return error(state, action.error);
@@ -409,14 +383,6 @@ var reducer = function(state, action) {
       return highlightWpt(state, action.wptIndex);
     case (actionTypes.MAP_HIGHLIGHT_MARKER_OFF):
       return highlightMarkerOff(state, action.id);
-    case (actionTypes.DIRECTIONS_LOAD_REQUEST):
-      return loadDirectionsRequest(state)
-    case (actionTypes.DIRECTIONS_LOAD_FAILURE):
-      return loadDirectionsFailure(state, action.error)
-    case (actionTypes.DIRECTIONS_LOAD_SUCCESS):
-      return loadDirectionsSuccess(state)
-    case (actionTypes.DIRECTIONS_HIDE):
-      return hideDirections(state)
     case (actionTypes.MAP_CLUSTER_MOUSEOVER):
       return clusterMouseover(state, action.cluster_)
     case (actionTypes.MAP_CLUSTER_INFO_CLOSE):

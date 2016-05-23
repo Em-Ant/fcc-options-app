@@ -53,7 +53,8 @@ module.exports.getDirections = function(vehicle, origin, destination, done) {
         eveningRoute: eveningDirections.routes[0],
         waypoints: waypoints,
         origin_address: origin,
-        destination_address:destination
+        destination_address:destination,
+        statusOk : morningDirections.status === 'OK' && eveningDirections.status === 'OK'
 
       }
       return done(null, directions);
@@ -78,40 +79,44 @@ function getWaypointDirections(waypoints, origin, destination, done) {
 
 
 function addAppDataToDirections(directions, consumers, routeType) {
-  var totalDuration = 0;
-  var maxPassengerDuration = 0;
-  var totalDistance = 0;
-  var legs = directions.routes[0].legs;
-  legs.forEach(function(leg, index) {
-    totalDuration += leg.duration.value;
-    maxPassengerDuration += leg.duration.value;
-    totalDistance += leg.distance.value;
-    if (index == 0) {
-      leg.start_location_name = "Options Inc.";
-    } else {
-      var consumer = consumers[index - 1];
-      leg.start_location_name = consumer.name;
-    }
-    if (index == legs.length - 1) {
-      leg.end_location_name = "Options Inc.";
-    } else {
-      var consumer = consumers[index];
-      leg.end_location_name = consumer.name;
-    }
-  })
-  if (routeType === 'AM') {
-    // AM route
-    maxPassengerDuration -= legs[0].duration.value;
-    // AM route
-  } else {
-    // PM route
-    maxPassengerDuration -= legs[legs.length - 1].duration.value;
-  }
-  directions.routes[0].totalDuration = totalDuration;
-  directions.routes[0].maxPassengerDuration = maxPassengerDuration;
-  directions.routes[0].totalDistance = totalDistance;
-  return directions;
+  if(directions.status === 'OK') {
 
+    var totalDuration = 0;
+    var maxPassengerDuration = 0;
+    var totalDistance = 0;
+
+    var legs = directions.routes[0].legs;
+    legs.forEach(function(leg, index) {
+      totalDuration += leg.duration.value;
+      maxPassengerDuration += leg.duration.value;
+      totalDistance += leg.distance.value;
+      if (index == 0) {
+        leg.start_location_name = "Options Inc.";
+      } else {
+        var consumer = consumers[index - 1];
+        leg.start_location_name = consumer.name;
+      }
+      if (index == legs.length - 1) {
+        leg.end_location_name = "Options Inc.";
+      } else {
+        var consumer = consumers[index];
+        leg.end_location_name = consumer.name;
+      }
+    })
+
+    if (routeType === 'AM') {
+      // AM route
+      maxPassengerDuration -= legs[0].duration.value;
+      // AM route
+    } else {
+      // PM route
+      maxPassengerDuration -= legs[legs.length - 1].duration.value;
+    }
+    directions.routes[0].totalDuration = totalDuration;
+    directions.routes[0].maxPassengerDuration = maxPassengerDuration;
+    directions.routes[0].totalDistance = totalDistance;
+  }
+  return directions;
 }
 
 var getWaypoints = function(consumers) {

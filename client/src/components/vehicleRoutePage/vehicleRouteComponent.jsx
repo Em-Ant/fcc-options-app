@@ -77,7 +77,7 @@ var mapStateToProps = function(state, ownProps){
     settingsNeedToBeFetched: state.settings.needToBeFetched,
     dataLoaded : (state.consumers.loaded
       && state.vehicles.loaded && state.settings.optionsIncAddress),
-    displayDirections: state.mapPage.displayDirections,
+    displayDirections: state.vehicleRoutePage.displayDirections,
     activeVehicleId:state.mapPage.activeVehicleId
   }
 }
