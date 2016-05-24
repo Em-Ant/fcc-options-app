@@ -6,37 +6,6 @@ var printStyle = require('raw!./printStyle_css')
 var BusBoxBody = require('./busBoxBody.jsx');
 var BusBox = require('./collapsibleBusBox.jsx');
 
-/*
-<div className="box-body cust-height">
-  <div className="box-group" id="vehicle-accrd" role="tablist" aria-multiselectable="true">
-  {
-    this.props.vehiclesIds.map(function(id, index) {
-      return (
-        <CollapsibleBusBox
-          vehicleId={id}
-          parentId={'vehicle-accrd'}
-          key={index}
-        />
-      )
-    }.bind(this))
-  }
-  </div>
-</div>
-
-<div className="box box-primary box-solid" style={{height: '100%'}}>
-  <div className="box-header with-border">
-    <h3 className="box-title">{this.props.vehicles[this.props.activeVehicleId].name}</h3>
-  </div>
-  <div className="box-body" style={{height: '70%', 'overflow-y': 'auto', 'overflow-x': 'hidden'}}>
-    <BusBoxBody vehicle={this.props.vehicles[this.props.activeVehicleId]}/>
-  </div>
-  <div className="box-footer">
-    The footer of the box
-  </div>
-</div>
-
-*/
-
 var VehiclePanel = React.createClass({
   componentDidMount: function () {
     if(!this.props.activeVehicleId) {
@@ -58,11 +27,35 @@ var VehiclePanel = React.createClass({
     //w.close();
   },
   render : function() {
+    var availWheels = this.props.vehicleStats.occupiedWheelchairs < this.props.vehicleStats.wheelchairs ?
+      'avail-color' : 'unavail-color';
+    var availSeats = this.props.vehicleStats.occupiedSeats < this.props.vehicleStats.seats ?
+      'avail-color' : 'unavail-color';
+    var availFlexSeats = this.props.vehicleStats.occupiedFlexSeats < this.props.vehicleStats.flexSeats ?
+      'avail-color' : 'unavail-color';
     return (
       <div className="box box-widget map-height pad-bot-10">
         <div className="box-header with-border">
           <h3 className="box-title">Vehicles</h3>
           <div className="pull-right">
+            <span
+              className={'cust-label ' + availSeats}
+              title="Seats">
+              <i className="fa fa-male"></i>&nbsp;
+              {this.props.vehicleStats.occupiedSeats}/{this.props.vehicleStats.seats}
+            </span>
+            <span
+                  className={'cust-label ' + availFlexSeats}
+                  title="Flex seats: 2 Seats / 1 Wheelchair">
+                <i className="fa fa-exchange"></i>&nbsp;
+              {this.props.vehicleStats.occupiedFlexSeats}/{this.props.vehicleStats.flexSeats}
+            </span>
+            <span
+                  className={'cust-label ' + availWheels}
+                  title="Wheelchairs">
+                <i className="fa fa-wheelchair"></i>&nbsp;
+              {this.props.vehicleStats.occupiedWheelchairs}/{this.props.vehicleStats.wheelchairs}
+            </span>
             <a href="#" onClick={this.print} title="Print Data Table">
               <i className="fa fa-print cust-btn"></i>
             </a>
@@ -97,13 +90,15 @@ var VehiclePanel = React.createClass({
 });
 
 import { sortAlphabetically } from '../../selectors'
+import { calculateVehicleStats } from '../../selectors/statistics'
 
 var mapStateToProps = function(state){
   return{
     vehiclesIds: sortAlphabetically(state.vehicles),
     vehicles: state.vehicles.data,
     consumers: state.consumers.data,
-    activeVehicleId: state.mapPage.activeVehicleId
+    activeVehicleId: state.mapPage.activeVehicleId,
+    vehicleStats: calculateVehicleStats(state)
   }
 }
 
