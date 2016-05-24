@@ -8,6 +8,7 @@ var async = require("async");
 var getWaypoints = require('../utils/directionsUtils').getWaypointDirections;
 var geocoder = require('../utils/geocoder.js');
 var wpt = require('../utils/waypointsUtils');
+var routeConstants = require("../../client/src/constants/routeConstants");
 
 function VehicleHandler() {
   var getErrorMessage = function(err){
@@ -270,7 +271,9 @@ function VehicleHandler() {
             let r = results[0];
             r.maxPassengerDuration = Math.ceil(
                 r.routes[0].legs.reduce(function (prev, curr) {
-                return prev + curr.duration.value;
+                  let duration = prev + curr.duration.value
+                  if (curr.start_address != curr.end_address) duration += routeConstants.VEHICLE_WAIT_TIME_SECONDS;
+                  return duration ;
               }, 0) / 60
             )
             callback(null, r);
@@ -278,7 +281,9 @@ function VehicleHandler() {
             // calculate max passenger durations
             let maxPassengerDurations = results.map(function (r) {
               return r.routes[0].legs.reduce(function (prev, curr) {
-                return prev + curr.duration.value;
+                let duration = prev + curr.duration.value
+                if (curr.start_address != curr.end_address) duration += routeConstants.VEHICLE_WAIT_TIME_SECONDS;
+                return duration ;
               }, 0)
             })
 

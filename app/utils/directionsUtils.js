@@ -6,6 +6,7 @@ var config = {
 };
 var gmAPI = new GoogleMapsAPI(config);
 var async = require("async");
+var routeConstants = require("../../client/src/constants/routeConstants");
 
 var assembleWaypts = require('../utils/waypointsUtils').assembleWaypts;
 
@@ -36,8 +37,8 @@ module.exports.getDirections = function(vehicle, origin, destination, done) {
       if (err) {
         return done(err);
       }
-      morningDirections = addAppDataToDirections(morningDirections, morningConsumers, 'AM');
-      eveningDirections = addAppDataToDirections(eveningDirections, eveningConsumers, 'PM');
+      morningDirections = addAppDataToDirections(morningDirections, morningConsumers, routeConstants.AM_ROUTE_TYPE);
+      eveningDirections = addAppDataToDirections(eveningDirections, eveningConsumers, routeConstants.PM_ROUTE_TYPE);
 
       var waypoints = morningConsumers.map(function(consumer){
         return{
@@ -87,6 +88,10 @@ function addAppDataToDirections(directions, consumers, routeType) {
 
     var legs = directions.routes[0].legs;
     legs.forEach(function(leg, index) {
+      if(leg.start_address != leg.end_address){
+        totalDuration += routeConstants.VEHICLE_WAIT_TIME_SECONDS;
+        maxPassengerDuration += routeConstants.VEHICLE_WAIT_TIME_SECONDS;
+      }
       totalDuration += leg.duration.value;
       maxPassengerDuration += leg.duration.value;
       totalDistance += leg.distance.value;
@@ -104,16 +109,16 @@ function addAppDataToDirections(directions, consumers, routeType) {
       }
     })
 
-    if (routeType === 'AM') {
+    if (routeType === routeConstants.AM_ROUTE_TYPE) {
       // AM route
-      maxPassengerDuration -= legs[0].duration.value;
+      maxPassengerDuration -= legs[0].duration.value ;
       // AM route
     } else {
       // PM route
-      maxPassengerDuration -= legs[legs.length - 1].duration.value;
+      maxPassengerDuration -= legs[legs.length - 1].duration.value ;
     }
     directions.routes[0].totalDuration = totalDuration;
-    directions.routes[0].maxPassengerDuration = maxPassengerDuration;
+    directions.routes[0].maxPassengerDuration = maxPassengerDuration - routeConstants.VEHICLE_WAIT_TIME_SECONDS;
     directions.routes[0].totalDistance = totalDistance;
   }
   return directions;
