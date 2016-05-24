@@ -56,6 +56,26 @@ const colorMarkers = createSelector(
     });
   }
 )
+
+const getVId = (state, props) => props.vehicleId
+const routeColorMarkers = createSelector(
+  [colorMarkers, getVId, getC2VMap],
+  function (cMarkers, vehicleId, c2vMap) {
+    let vehicleMarkers = cMarkers.filter(function(cMarker){
+      return c2vMap[cMarker.consumerId] == vehicleId
+    })
+    return vehicleMarkers
+  }
+)
+
+const getPath = (state) => state.directions.morningRoute.overview_polyline.points
+const decodedPath = createSelector(
+  [getPath],
+  (path) => {
+    return google.maps.geometry.encoding.decodePath(path)
+  }
+)
+
 import {
   isFiltered
 } from '../utils/consumerFilter'
@@ -73,4 +93,7 @@ export const filterMarkers = createSelector(
   }
 )
 
+
 module.exports.colorMarkers = colorMarkers
+module.exports.decodedPath = decodedPath
+module.exports.routeColorMarkers = routeColorMarkers

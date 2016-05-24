@@ -178,19 +178,15 @@ MapMain.contextTypes = {
   store: React.PropTypes.object.isRequired
 };
 
-import { colorMarkers } from '../../selectors/markerSelector'
+import { routeColorMarkers, decodedPath } from '../../selectors/markerSelector'
 var mapStateToProps = function(state, ownProps){
-  var consumerMarkers = colorMarkers(state);
-  consumerMarkers = consumerMarkers.filter(function(consumerMarker){
-    return state.vehicles.consumersToVehiclesMap[consumerMarker.consumerId] == ownProps.vehicleId
-  })
   return {
     waypoints: state.vehicles.data[ownProps.vehicleId].additionalWpts,
-    consumerMarkers: consumerMarkers,
+    consumerMarkers: routeColorMarkers(state, ownProps),
     optionsIncMarker: state.mapPage.optionsIncMarker,
     consumersToVehiclesMap:state.vehicles.consumersToVehiclesMap,
-    displayDirections: state.mapPage.displayDirections,
-    vehiclePath: google.maps.geometry.encoding.decodePath(state.directions.morningRoute.overview_polyline.points),
+    displayDirections: state.vehicleRoutePage.displayDirections,
+    vehiclePath: decodedPath(state),
     centerMarker: state.mapPage.centerMarker,
     wptInfo: state.mapPage.openWptInfo,
     highlightedWpt: state.mapPage.highlightedWpt
