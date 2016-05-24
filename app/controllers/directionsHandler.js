@@ -77,7 +77,9 @@ function DirectionsHandler() {
           destination_address:results.get_options_inc_address,
           waypoints: newWaypoints
         }
+        console.log('saved', savedDirections, 'new', newDirections)
         if (_.isEqual(savedDirections, newDirections)) {
+          console.log('dir equal');
           return res.status(200).json(results.get_saved_directions);
         }
         callback(null, false);

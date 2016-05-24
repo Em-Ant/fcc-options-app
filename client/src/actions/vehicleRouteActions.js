@@ -95,11 +95,11 @@ module.exports.wptFormsChanged = function() {
 
 module.exports.reorderConsumer = function(vehicle, vData) {
 
-
   var updatedVehicle = Object.assign({}, vehicle, {
-    consumers: vData.consumersIds,
+    consumers: vData.consumers,
     additionalWpts: vData.additionalWpts
   })
+
   return vehicleActions.update(updatedVehicle);
 }
 

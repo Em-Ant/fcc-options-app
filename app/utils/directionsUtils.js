@@ -117,8 +117,8 @@ function addAppDataToDirections(directions, consumers, routeType) {
       // PM route
       maxPassengerDuration -= legs[legs.length - 1].duration.value ;
     }
-    directions.routes[0].totalDuration = totalDuration;
-    directions.routes[0].maxPassengerDuration = maxPassengerDuration - routeConstants.VEHICLE_WAIT_TIME_SECONDS;
+    directions.routes[0].totalDuration = totalDuration - routeConstants.VEHICLE_WAIT_TIME_SECONDS;
+    directions.routes[0].maxPassengerDuration = maxPassengerDuration - 2*routeConstants.VEHICLE_WAIT_TIME_SECONDS;
     directions.routes[0].totalDistance = totalDistance;
   }
   return directions;

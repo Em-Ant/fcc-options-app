@@ -6,6 +6,9 @@ var models = require('../../constants/models.js');
 var vActions = new ModelActions(models.VEHICLES);
 var connect = require('react-redux').connect;
 
+var assembleWaypts = require('../../../../app/utils/waypointsUtils').assembleWaypts;
+var disassembleWaypts = require('../../../../app/utils/waypointsUtils').disassembleWaypts;
+
 var RouteBodyComponent = React.createClass({
   componentDidMount:function(){
     var self = this;
@@ -96,8 +99,7 @@ var RouteBodyComponent = React.createClass({
   }
 })
 
-var assembleWaypts = require('../../../../app/utils/waypointsUtils').assembleWaypts;
-var disassembleWaypts = require('../../../../app/utils/waypointsUtils').disassembleWaypts;
+
 
 
 import { createSelector } from 'reselect'
@@ -121,8 +123,8 @@ var mapDispatchToProps = function(dispatch) {
     delWpt: function(v_id, newWpts) {
       dispatch(actions.editWpts(v_id, newWpts))
     },
-    onConsumerReorder: function(vehicle, startConsumerPosition, endConsumerPosition) {
-      dispatch(actions.reorderConsumer(vehicle, startConsumerPosition, endConsumerPosition))
+    onConsumerReorder: function(vehicle, vData) {
+      dispatch(actions.reorderConsumer(vehicle, vData))
     }
   }
 }

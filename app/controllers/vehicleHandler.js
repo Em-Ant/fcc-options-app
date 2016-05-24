@@ -88,6 +88,7 @@ function VehicleHandler() {
         });
       }
       var updated = Object.assign(vehicle, req.body);
+      console.log(updated);
       if(req.body.consumers){
         updated.markModified('consumers');
         updated.optimized = undefined;
@@ -259,47 +260,35 @@ function VehicleHandler() {
 
         // call Google API to optimize each route
         async.map(originIndexes, wptAsyncFn, function(err, results) {
-          
+
           var statusFail = results.some(function(result) {
               return result.status !== 'OK';
           });
-          
+
           if (statusFail) return callback('error');
-        
-          
-          if (results.length === 1) {
-            let r = results[0];
-            r.maxPassengerDuration = Math.ceil(
-                r.routes[0].legs.reduce(function (prev, curr) {
-                  let duration = prev + curr.duration.value
-                  if (curr.start_address != curr.end_address) duration += routeConstants.VEHICLE_WAIT_TIME_SECONDS;
-                  return duration ;
-              }, 0) / 60
-            )
-            callback(null, r);
-          } else {
-            // calculate max passenger durations
-            let maxPassengerDurations = results.map(function (r) {
-              return r.routes[0].legs.reduce(function (prev, curr) {
-                let duration = prev + curr.duration.value
-                if (curr.start_address != curr.end_address) duration += routeConstants.VEHICLE_WAIT_TIME_SECONDS;
-                return duration ;
-              }, 0)
-            })
 
-            // find min duration
-            let minDurationIndex = 0;
-            maxPassengerDurations.forEach(function(d, i) {
-              if (d < maxPassengerDurations[minDurationIndex])
-                minDurationIndex = i;
-            })
+          // calculate max passenger durations
+          let maxPassengerDurations = results.map(function (r) {
+            return (r.routes[0].legs.reduce(function (prev, curr) {
+              let duration = prev + curr.duration.value
+              if (curr.start_address != curr.end_address) duration += routeConstants.VEHICLE_WAIT_TIME_SECONDS;
+              return duration ;
+            }, 0) - routeConstants.VEHICLE_WAIT_TIME_SECONDS )
+          })
 
-            // bubble up min duration route
-            let r = results[minDurationIndex];
-            r.maxPassengerDuration =
-              Math.ceil(maxPassengerDurations[minDurationIndex] / 60);
-            callback(null, results[minDurationIndex])
-          }
+          // find min duration
+          let minDurationIndex = 0;
+          maxPassengerDurations.forEach(function(d, i) {
+            if (d < maxPassengerDurations[minDurationIndex])
+              minDurationIndex = i;
+          })
+
+          // bubble up min duration route
+          let r = results[minDurationIndex];
+          r.maxPassengerDuration =
+            Math.ceil(maxPassengerDurations[minDurationIndex] / 60);
+          callback(null, results[minDurationIndex])
+
         })
       }]
     }, function (err, results) {
