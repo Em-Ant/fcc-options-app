@@ -1,2 +1,2 @@
 
-exports.DEFAULT_PASSWORD = 'default';
+exports.DEFAULT_PASSWORD = 'Options3684';

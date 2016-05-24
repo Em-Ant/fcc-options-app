@@ -60,14 +60,14 @@ var Header = React.createClass({
               <li className="dropdown user user-menu">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                   <img src="/static/adminLTE/dist/img/default_avatar.jpg" className="user-image" alt="User Image"/>
-                  <span className="hidden-xs">{this.props.auth.user}</span>
+                  <span className="hidden-xs">{this.props.auth.user || 'test user'}</span>
                 </a>
                 <ul className="dropdown-menu">
                   <li className="user-header">
                     <img src="/static/adminLTE/dist/img/default_avatar.jpg" className="img-circle" alt="User Image"/>
 
-                    <p>{this.props.auth.user}</p>
-                    <p>{this.props.auth.role}</p>
+                    <p>{this.props.auth.user || 'test user'}</p>
+                    <p>{this.props.auth.role || 'test'}</p>
 
                   </li>
                   <li className="user-footer">
