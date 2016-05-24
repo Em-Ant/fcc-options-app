@@ -13,7 +13,7 @@ var ConsumersPanel = React.createClass({
     return (
       <div className="box box-widget  map-height pad-bot-10">
         <div className="box-header with-border">
-          <h3 className="box-title">Consumers<div><small>Showing {this.props.consumers.length} consumers</small></div></h3>
+          <h3 className="box-title">Consumers<div><small>Showing {this.props.consumers.length} consumer{this.props.consumers.length!==1?"s":null}</small></div></h3>
         </div>
         <div className="box-body abs-body overflow">
           <table className="table table-striped table-hover clickable">
