@@ -40,19 +40,19 @@ var VehiclePanel = React.createClass({
           <div className="pull-right">
             <span
               className={'cust-label ' + availSeats}
-              title="Seats">
+              title="Total Seats">
               <i className="fa fa-male"></i>&nbsp;
               {this.props.vehicleStats.occupiedSeats}/{this.props.vehicleStats.seats}
             </span>
             <span
                   className={'cust-label ' + availFlexSeats}
-                  title="Flex seats: 2 Seats / 1 Wheelchair">
+                  title="Total Flex Seats: 2 Seats / 1 Wheelchair">
                 <i className="fa fa-exchange"></i>&nbsp;
               {this.props.vehicleStats.occupiedFlexSeats}/{this.props.vehicleStats.flexSeats}
             </span>
             <span
                   className={'cust-label ' + availWheels}
-                  title="Wheelchairs">
+                  title="Total Wheelchairs">
                 <i className="fa fa-wheelchair"></i>&nbsp;
               {this.props.vehicleStats.occupiedWheelchairs}/{this.props.vehicleStats.wheelchairs}
             </span>
