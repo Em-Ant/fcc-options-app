@@ -63,9 +63,12 @@ var PrintableRoute = React.createClass({
         </table>
         <p/>
         {
-          route.legs.map(function(leg, index){
+          route.legs.map(function(leg, index, arr){
             if(leg.start_address != leg.end_address){
-              routeTime.add(leg.duration.value + self.props.vehicleWaitTime,'s')
+              let wTime = index  === arr.length - 1
+                ? leg.duration.value
+                : leg.duration.value + self.props.vehicleWaitTime
+              routeTime.add(wTime,'s')
             }
             return(
 

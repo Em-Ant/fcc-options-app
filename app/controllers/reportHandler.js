@@ -259,9 +259,12 @@ function ReportHandler() {
       var routeStartTime = moment(startTime);
       var routeTime = moment(startTime);
       var vehicleWaitTime =
-      directions[route].legs.forEach(function(l, index) {
+      directions[route].legs.forEach(function(l, index, arr) {
         if(l.start_address != l.end_address){
-          routeTime.add(l.duration.value + routeConstants.VEHICLE_WAIT_TIME_SECONDS,'s')
+          let wTime = index  === arr.length - 1
+            ? l.duration.value
+            : l.duration.value + routeConstants.VEHICLE_WAIT_TIME_SECONDS
+          routeTime.add(wTime,'s')
         }
         pObj = docx.createP();
 

@@ -85,14 +85,17 @@ var DirectionsBody = React.createClass({
           :null
         }
         <div><b>Total Duration (w/out stops and traffic) </b></div>
-        <div>{Math.ceil(route.totalDuration/routeConstants.MINUTES_IN_HOUR)} minutes</div>
+        <div>{Math.floor(route.totalDuration/routeConstants.MINUTES_IN_HOUR)} minutes</div>
 
         <div><b>Total Distance</b> </div>
         <div>{Math.ceil(route.totalDistance*routeConstants.MILES_IN_METER)} miles</div>
         {
-          route.legs.map(function(leg, index){
+          route.legs.map(function(leg, index, arr){
             if(leg.start_address != leg.end_address){
-              routeTime.add(leg.duration.value + self.props.vehicleWaitTime,'s')
+              let wTime = index  === arr.length - 1
+                ? leg.duration.value
+                : leg.duration.value + self.props.vehicleWaitTime
+              routeTime.add(wTime,'s')
             }
             return(
               <div key={index}>
