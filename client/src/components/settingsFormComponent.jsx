@@ -35,6 +35,10 @@ var Settings = React.createClass({
     var form = Object.assign({}, this.state.form, {maxConsumerRouteTime: e.target.value});
     this.setState({form: form})
   },
+  handleRouteStopWaitTimeChange: function(e) {
+    var form = Object.assign({}, this.state.form, {routeStopWaitTime: e.target.value});
+    this.setState({form: form})
+  },
   getInitialState: function() {
     return ({form: {}})
   },
@@ -72,6 +76,11 @@ var Settings = React.createClass({
             Max route time (minutes)
           </label>
           <input type="number" className="form-control" value={this.state.form.maxConsumerRouteTime} onChange={this.handleMaxRouteTimeChange}/>
+
+          <label className="control-sidebar-subheading">
+            Route stop wait time (minutes)
+          </label>
+          <input type="number" className="form-control" value={this.state.form.routeStopWaitTime} onChange={this.handleRouteStopWaitTimeChange}/>
           <p/>
           <button type="submit" disabled={this.props.form.isLoading} className={this.props.form.isLoading
             ? "btn btn-success disabled"
