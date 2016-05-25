@@ -95,6 +95,8 @@ var reducer = function(state, action) {
         return error(state, action.error)
       if (action.model == modelConst.VEHICLES && action.status == modelActionTypes.SUCCESS)
         return success(state)
+      if (action.model == modelConst.SETTINGS && action.status == modelActionTypes.SUCCESS)
+        return hideDirections(state)
     default:
       return state;
   }

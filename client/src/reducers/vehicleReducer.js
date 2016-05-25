@@ -1,6 +1,7 @@
 var actionTypes = require('../constants/actionTypes/modelActionTypes');
 const VEHICLES = require('../constants/models').VEHICLES;
 const CONSUMERS = require('../constants/models').CONSUMERS;
+const SETTINGS = require('../constants/models').SETTINGS;
 var commonCRUD = require('../commons/commonReducerFunctions');
 var mapActions = require('../constants/actionTypes/mapActionTypes.js');
 var vehicleRouteActions = require('../constants/actionTypes/vehicleRouteActionTypes.js');
@@ -60,6 +61,16 @@ var setAmMaxPassDuration = function(state, directions) {
   data[directions.v_id] = vehicle;
   return Object.assign({}, state, {data: data});
 }
+
+var resetVehicleOptimizationStatus = function(state){
+  
+  var data = Object.assign({}, state.data);
+  state.ids.forEach(function(v_id) {
+    data[v_id] = Object.assign({}, data[v_id], {optimized: undefined, maxPassengerDuration: undefined});
+  })
+  return Object.assign({}, state, {data: data});
+}
+
 var vehiclesReducer = function(state, action) {
   state = state || {
     ids: [],
@@ -85,6 +96,11 @@ var vehiclesReducer = function(state, action) {
       var newState = removeConsumerFromVehicle(state, action.id);
       return mapConsumersToVehicles(newState);
     }
+    case actionTypes.UPDATE:
+      if(action.model === SETTINGS
+        && action.status === actionTypes.SUCCESS) {
+        return resetVehicleOptimizationStatus(state);
+      }
   }
 
   if (action.model != VEHICLES) {
