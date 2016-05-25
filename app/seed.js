@@ -96,7 +96,8 @@ function seedSettings(done) {
         lng: -93.69755090000001
       },
       maxPassengersPerVehicle: 14,
-      maxConsumerRouteTime: 90
+      maxConsumerRouteTime: 90,
+      routeStopWaitTime: 3
     }, function() {
       console.log('finished populating settings');
       done();

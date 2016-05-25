@@ -42,41 +42,41 @@ var FilterControls = React.createClass({
                       <div className="col-sm-4">
                         <div className="checkbox">
                           <label>
-                            <input type="checkbox" checked={this.props.filters.noNeeds} onChange={this.props.filterChange.bind(this, "noNeeds")}/>No Needs
+                            <input type="checkbox" checked={this.props.filters.noNeeds} onChange={this.props.filterChange.bind(this, "noNeeds")}/>No Needs <span title="Number of consumers with no needs">({this.props.statistics.noNeeds})</span>
                           </label>
                         </div>
                         <div className="checkbox">
                           <label>
-                            <input type="checkbox" checked={this.props.filters.hasWheelchair} onChange={this.props.filterChange.bind(this, "hasWheelchair")}/>Wheelchair
+                            <input type="checkbox" checked={this.props.filters.hasWheelchair} onChange={this.props.filterChange.bind(this, "hasWheelchair")}/>Wheelchair <span title="Number of consumers that have a wheelchair">({this.props.statistics.hasWheelchair})</span>
                           </label>
                         </div>
                         <div className="checkbox">
                           <label>
-                            <input type="checkbox" checked={this.props.filters.needsWave} onChange={this.props.filterChange.bind(this, "needsWave")}/>Needs Wave
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col-sm-4">
-                        <div className="checkbox">
-                          <label>
-                            <input type="checkbox" checked={this.props.filters.hasSeizures} onChange={this.props.filterChange.bind(this, "hasSeizures")}/>Seizures
-                          </label>
-                        </div>
-                        <div className="checkbox">
-                          <label>
-                            <input type="checkbox" checked={this.props.filters.needsTwoSeats} onChange={this.props.filterChange.bind(this, "needsTwoSeats")}/>Two Seats
+                            <input type="checkbox" checked={this.props.filters.needsWave} onChange={this.props.filterChange.bind(this, "needsWave")}/>Needs Wave <span title="Number of consumers that need a wave">({this.props.statistics.needsWave})</span>
                           </label>
                         </div>
                       </div>
                       <div className="col-sm-4">
                         <div className="checkbox">
                           <label>
-                            <input type="checkbox" checked={this.props.filters.behavioralIssues} onChange={this.props.filterChange.bind(this, "behavioralIssues")}/>Behavioral Issues
+                            <input type="checkbox" checked={this.props.filters.hasSeizures} onChange={this.props.filterChange.bind(this, "hasSeizures")}/>Seizures <span title="Number of consumers that have seizures">({this.props.statistics.hasSeizures})</span>
                           </label>
                         </div>
                         <div className="checkbox">
                           <label>
-                            <input type="checkbox" checked={this.props.filters.hasMedications} onChange={this.props.filterChange.bind(this, "hasMedications")}/>Medications
+                            <input type="checkbox" checked={this.props.filters.needsTwoSeats} onChange={this.props.filterChange.bind(this, "needsTwoSeats")}/>Two Seats <span title="Number of consumers that need two seats">({this.props.statistics.needsTwoSeats})</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div className="col-sm-4">
+                        <div className="checkbox">
+                          <label>
+                            <input type="checkbox" checked={this.props.filters.behavioralIssues} onChange={this.props.filterChange.bind(this, "behavioralIssues")}/>Behavioral Issues <span title="Number of consumers that have behavioral issues">({this.props.statistics.behavioralIssues})</span>
+                          </label>
+                        </div>
+                        <div className="checkbox">
+                          <label>
+                            <input type="checkbox" checked={this.props.filters.hasMedications} onChange={this.props.filterChange.bind(this, "hasMedications")}/>Medications <span title="Number of consumers that have medications">({this.props.statistics.hasMedications})</span>
                           </label>
                         </div>
 
@@ -95,7 +95,7 @@ var FilterControls = React.createClass({
                     <button type="button" className="btn btn-default btn-xs" onClick={this.props.setAllVehicleFilters.bind(this, this.props.vehiclesIds, false)}>Unselect All</button>
                     <div className="checkbox">
                       <label>
-                        <input type="checkbox" checked={this.props.filters.vehicleUnassigned} onChange={this.props.filterChange.bind(this, "vehicleUnassigned")}/>Not Assigned
+                        <input type="checkbox" checked={this.props.filters.vehicleUnassigned} onChange={this.props.filterChange.bind(this, "vehicleUnassigned")}/>Not Assigned ({this.props.statistics.notAssigned})
                       </label>
                     </div>
                     <div className="row">
@@ -106,7 +106,7 @@ var FilterControls = React.createClass({
                               return (
                                 <div key={vehicle._id} className="checkbox">
                                   <label>
-                                    <input type="checkbox" checked={self.props.filters.vehicleIds.indexOf(vehicle._id) !== -1} onChange={self.props.filterVehicleChange.bind(this, vehicle._id)}/>{vehicle.name}
+                                    <input type="checkbox" checked={self.props.filters.vehicleIds.indexOf(vehicle._id) !== -1} onChange={self.props.filterVehicleChange.bind(this, vehicle._id)}/>{vehicle.name} ({self.props.statistics.vehicleStats[vehicle._id]})
                                   </label>
                                 </div>
                               )
@@ -129,12 +129,14 @@ var FilterControls = React.createClass({
 });
 
 import {sortAlphabetically} from '../../selectors'
+import {calculateFilterStats} from '../../selectors/statistics'
 var actionTypes = require('../../constants/actionTypes/mapFilterActionTypes.js');
 var mapStateToProps = function(state) {
   return {
     vehicles: state.vehicles.data,
     vehiclesIds: sortAlphabetically(state.vehicles),
-    filters: state.mapFilters
+    filters: state.mapFilters,
+    statistics:  calculateFilterStats(state)
   }
 }
 

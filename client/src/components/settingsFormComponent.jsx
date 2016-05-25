@@ -76,10 +76,10 @@ var Settings = React.createClass({
             Max route time (minutes)
           </label>
           <input type="number" className="form-control" value={this.state.form.maxConsumerRouteTime} onChange={this.handleMaxRouteTimeChange}/>
-            <label className="control-sidebar-subheading">
-              Average Stop wait time (seconds)
-            </label>
-            <input type="number" className="form-control" value={this.state.form.averageStopWaitSeconds} onChange={this.handleStopWaitChange}/>
+          <label className="control-sidebar-subheading">
+            Average Stop wait time (seconds)
+          </label>
+          <input type="number" className="form-control" value={this.state.form.averageStopWaitSeconds} onChange={this.handleStopWaitChange}/>
           <p/>
           <button type="submit" disabled={this.props.form.isLoading} className={this.props.form.isLoading
             ? "btn btn-success disabled"

@@ -44,7 +44,7 @@ function SettingsHandler() {
     ], function(err, results) {
       if (err) {
         return res.status(400).json({
-          msg: 'Could preform settings pre-save tasks'
+          msg: 'Could not preform settings pre-save tasks'
         });
       }
       settings.save(function(err, savedSettings) {
