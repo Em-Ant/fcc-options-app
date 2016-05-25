@@ -37,7 +37,7 @@ app.use(favicon(process.cwd() + '/client/public/img/favicon.ico'));
 app.use('/', express.static(process.cwd() + '/client/public'));
 
 app.use(session({
-  secret: process.env.SECRET_SESSION || 'secretClementine',
+  secret: process.env.SESSION_SECRET || 'secretClementine',
   resave: false,
   saveUninitialized: true,
 }));

@@ -47,13 +47,15 @@ async.series([
     hasMedications: Boolean
 */
 var consumerSeed = require('./consumers');
+consumerSeed.push(function() {
+    done()
+    console.log('finished populating consumers');
+  }
+)
+
 function seedConsumers(done) {
   Consumer.find({}).remove(function() {
-    Consumer.create(...consumerSeed
-      , function() {
-        done()
-        console.log('finished populating consumers');
-      });
+    Consumer.create.apply(Consumer, seedConsumers);
   });
 }
 
@@ -73,13 +75,15 @@ function seedConsumers(done) {
 
 
 var vehicleSeed = require('./vehicles');
+vehicleSeed.push(function() {
+  done();
+  console.log('finished populating vehicles');
+  }
+)
 function seedVehicles(done) {
   Vehicle.find({}).remove(function() {
     // Consumers pre-population can be done here...
-    Vehicle.create(... vehicleSeed, function() {
-      done();
-      console.log('finished populating vehicles');
-    });
+    Vehicle.create.apply(Vehicle,vehicleSeed);
   });
 }
 
