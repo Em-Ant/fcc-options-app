@@ -21,12 +21,12 @@ var Directions = new Schema({
   morningStartTime:{
     type: Date,
     required:true,
-    default: 'Fri May 20 2016 07:00:00 GMT-0700 (PDT)'
+    default: 'Fri May 20 2016 07:00:00 GMT-0500 (CST)'
   },
   eveningStartTime:{
     type: Date,
     required:true,
-    default: 'Fri May 20 2016 15:00:00 GMT-0700 (PDT)'
+    default: 'Fri May 20 2016 15:00:00 GMT-0500 (CST)'
   }
 });
 
