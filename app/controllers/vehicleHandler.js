@@ -88,7 +88,6 @@ function VehicleHandler() {
         });
       }
       var updated = Object.assign(vehicle, req.body);
-      console.log(updated);
       if(req.body.consumers){
         updated.markModified('consumers');
         updated.optimized = undefined;
@@ -213,8 +212,8 @@ function VehicleHandler() {
 
   this.optimizeRoute = function (req, res) {
     async.auto({
-      get_options_inc_address: function(callback) {
-        Settings.findOne({},'optionsIncAddress optionsIncCoords', function(err, response) {
+      get_settings: function(callback) {
+        Settings.findOne({},'optionsIncAddress optionsIncCoords averageStopWaitSeconds', function(err, response) {
           callback(err, response);
         })
       },
@@ -223,7 +222,7 @@ function VehicleHandler() {
           callback(err, vehicle);
         })
       },
-      get_optimized_wpts: ['get_options_inc_address', 'get_vehicle', function(results, callback) {
+      get_optimized_wpts: ['get_settings', 'get_vehicle', function(results, callback) {
 
         if(results.get_vehicle.consumers.length +
             results.get_vehicle.additionalWpts.length <= 1
@@ -236,8 +235,9 @@ function VehicleHandler() {
           return callback();
         }
 
-        var optionsAddress = results.get_options_inc_address.optionsIncAddress;
-        var optionsCoords = results.get_options_inc_address.optionsIncCoords;
+        var optionsAddress = results.get_settings.optionsIncAddress;
+        var optionsCoords = results.get_settings.optionsIncCoords;
+        var waitTime = results.get_settings.averageStopWaitSeconds;
         var waypoints = wpt.assembleWaypts(results.get_vehicle);
 
         var wptAsyncFn = getWaypointsAsyncFn(waypoints, optionsAddress);
@@ -271,9 +271,9 @@ function VehicleHandler() {
           let maxPassengerDurations = results.map(function (r) {
             return (r.routes[0].legs.reduce(function (prev, curr) {
               let duration = prev + curr.duration.value
-              if (curr.start_address != curr.end_address) duration += routeConstants.VEHICLE_WAIT_TIME_SECONDS;
+              if (curr.start_address != curr.end_address) duration += waitTime;
               return duration ;
-            }, 0) - routeConstants.VEHICLE_WAIT_TIME_SECONDS )
+            }, 0) - waitTime )
           })
 
           // find min duration

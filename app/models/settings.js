@@ -27,6 +27,11 @@ var Settings = new Schema({
     type: Number,
     required: [true, 'Please enter the max consumer route time'],
     min: [1, 'The max consumer route time must be at least 1']
+  },
+  averageStopWaitSeconds: {
+    type: Number,
+    min: [0, 'The average stop wait time cannot be negative'],
+    default: 180
   }
 });
 

@@ -2,7 +2,11 @@
 
 var geocoder = require('../utils/geocoder.js');
 var Settings = require('../models/settings.js');
+var Vehicle = require('../models/vehicle.js');
+var Directions = require('../models/directions.js');
 var _ = require('lodash');
+
+var async = require("async");
 
 function SettingsHandler() {
 
@@ -24,14 +28,34 @@ function SettingsHandler() {
   }
 
   function saveSettings(settings, res) {
-    settings.save(function(err, savedSettings) {
-      if (err) {
-        return res.status(400).json({
-          msg: getErrorMessage(err)
+    async.parallel([
+      function(callback) {
+        Vehicle.update({}, {maxPassengerDuration: undefined, optimized: undefined},
+          {multi: true},
+          function(err, stat) {
+            callback(err, stat)
+        })
+      },
+      function (callback) {
+        Directions.find({}).remove(function(err, stat) {
+          callback(err, stat);
         });
       }
-      return res.status(200).json(savedSettings);
-    });
+    ], function(err, results) {
+      if (err) {
+        return res.status(400).json({
+          msg: 'Could preform settings pre-save tasks'
+        });
+      }
+      settings.save(function(err, savedSettings) {
+        if (err) {
+          return res.status(400).json({
+            msg: getErrorMessage(err)
+          });
+        }
+        return res.status(200).json(savedSettings);
+      });
+    })
   }
 
   this.update = function(req, res) {

@@ -158,7 +158,7 @@ var mapStateToProps = function(state, ownProps){
     route : route,
     maxConsumerRouteTime: state.settings.maxConsumerRouteTime,
     routeStartTime: routeStartTime,
-    vehicleWaitTime: routeConstants.VEHICLE_WAIT_TIME_SECONDS
+    vehicleWaitTime: state.settings.averageStopWaitSeconds
   }
 }
 

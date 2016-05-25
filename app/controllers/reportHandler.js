@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var Vehicle = mongoose.model('Vehicle');
 var Consumer = mongoose.model('Consumer');
 var Directions = require("../models/directions");
+var Settings = require('../models/settings.js');
 
 var officegen = require('officegen');
 var htmlparser = require('htmlparser2');
@@ -179,6 +180,11 @@ function ReportHandler() {
         Vehicle.findById(req.params.v_id).populate('consumers').exec(function(err, data) {
           callback(err, data);
         })
+      },
+      function(callback) {
+        Settings.findOne({},'averageStopWaitSeconds', function(err, data) {
+          callback(err, data);
+        })
       }
     ], function(err, results) {
       if (err) {
@@ -190,6 +196,7 @@ function ReportHandler() {
 
       var directions = results[0];
       var vehicle = results[1];
+      var avgWaitTime = results[2].averageStopWaitSeconds;
 
       var routeType = req.query.route ? req.query.route.toUpperCase() : 'AM';
       routeType = routeType === 'AM' ? routeType : 'PM';
@@ -263,7 +270,7 @@ function ReportHandler() {
         if(l.start_address != l.end_address){
           let wTime = index  === arr.length - 1
             ? l.duration.value
-            : l.duration.value + routeConstants.VEHICLE_WAIT_TIME_SECONDS
+            : l.duration.value + avgWaitTime;
           routeTime.add(wTime,'s')
         }
         pObj = docx.createP();

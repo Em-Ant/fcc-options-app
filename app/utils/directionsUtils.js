@@ -6,9 +6,12 @@ var config = {
 };
 var gmAPI = new GoogleMapsAPI(config);
 var async = require("async");
-var routeConstants = require("../../client/src/constants/routeConstants");
+
+var routeConstants = require('../../client/src/constants/routeConstants.js');
 
 var assembleWaypts = require('../utils/waypointsUtils').assembleWaypts;
+
+var Settings = require('../models/settings.js');
 
 module.exports.getWaypointDirections = getWaypointDirections;
 module.exports.getDirections = function(vehicle, origin, destination, done) {
@@ -31,14 +34,22 @@ module.exports.getDirections = function(vehicle, origin, destination, done) {
           eveningDirections = response;
           callback(err, response);
         })
+      },
+      function(callback) {
+        Settings.findOne({},'averageStopWaitSeconds', function(err, data) {
+          callback(err, data);
+        })
       }
     ],
     function(err, results) {
       if (err) {
         return done(err);
       }
-      morningDirections = addAppDataToDirections(morningDirections, morningConsumers, routeConstants.AM_ROUTE_TYPE);
-      eveningDirections = addAppDataToDirections(eveningDirections, eveningConsumers, routeConstants.PM_ROUTE_TYPE);
+      var avgWaitTime = results[2].averageStopWaitSeconds;
+      morningDirections = addAppDataToDirections(morningDirections, morningConsumers,
+        routeConstants.AM_ROUTE_TYPE, avgWaitTime);
+      eveningDirections = addAppDataToDirections(eveningDirections, eveningConsumers,
+        routeConstants.PM_ROUTE_TYPE, avgWaitTime);
 
       var waypoints = morningConsumers.map(function(consumer){
         return{
@@ -79,7 +90,7 @@ function getWaypointDirections(waypoints, origin, destination, done) {
 
 
 
-function addAppDataToDirections(directions, consumers, routeType) {
+function addAppDataToDirections(directions, consumers, routeType, avgWaitTime) {
   if(directions.status === 'OK') {
 
     var totalDuration = 0;
@@ -89,8 +100,8 @@ function addAppDataToDirections(directions, consumers, routeType) {
     var legs = directions.routes[0].legs;
     legs.forEach(function(leg, index) {
       if(leg.start_address != leg.end_address){
-        totalDuration += routeConstants.VEHICLE_WAIT_TIME_SECONDS;
-        maxPassengerDuration += routeConstants.VEHICLE_WAIT_TIME_SECONDS;
+        totalDuration += avgWaitTime;
+        maxPassengerDuration += avgWaitTime;
       }
       totalDuration += leg.duration.value;
       maxPassengerDuration += leg.duration.value;
@@ -117,8 +128,8 @@ function addAppDataToDirections(directions, consumers, routeType) {
       // PM route
       maxPassengerDuration -= legs[legs.length - 1].duration.value ;
     }
-    directions.routes[0].totalDuration = totalDuration - routeConstants.VEHICLE_WAIT_TIME_SECONDS;
-    directions.routes[0].maxPassengerDuration = maxPassengerDuration - 2*routeConstants.VEHICLE_WAIT_TIME_SECONDS;
+    directions.routes[0].totalDuration = totalDuration - avgWaitTime;
+    directions.routes[0].maxPassengerDuration = maxPassengerDuration - 2*avgWaitTime;
     directions.routes[0].totalDistance = totalDistance;
   }
   return directions;

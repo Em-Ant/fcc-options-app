@@ -131,7 +131,7 @@ var mapStateToProps = function(state, ownProps){
     route : route,
     routeStartTime: routeStartTime,
     maxConsumerRouteTime: state.settings.maxConsumerRouteTime,
-    vehicleWaitTime: routeConstants.VEHICLE_WAIT_TIME_SECONDS
+    vehicleWaitTime: state.settings.averageStopWaitSeconds
   }
 }
 module.exports = connect(mapStateToProps)(PrintableRoute)
