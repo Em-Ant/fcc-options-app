@@ -47,6 +47,21 @@ function DirectionsHandler() {
         })
       }],
       check_modified: ['get_options_inc_address', 'get_vehicle', 'get_saved_directions', function (results, callback) {
+
+        var vehicleWaypts = assembleWaypts(results.get_vehicle);
+        var newWaypoints = vehicleWaypts.map(function(w){
+          return{
+            name: w.name,
+            description: w.description,
+            address: w.address
+          }
+        })
+        if (newWaypoints.length === 0) {
+          return res.status(500).json({
+            msg: 'No waypoints supplied'
+          });
+        }
+
         if (!results.get_saved_directions) {
           return callback(null, false);
         }
@@ -64,14 +79,7 @@ function DirectionsHandler() {
           waypoints: savedWaypoints
         });
 
-        var vehicleWaypts = assembleWaypts(results.get_vehicle);
-        var newWaypoints = vehicleWaypts.map(function(w){
-          return{
-            name: w.name,
-            description: w.description,
-            address: w.address
-          }
-        })
+
         var newDirections = {
           origin_address:results.get_options_inc_address,
           destination_address:results.get_options_inc_address,
@@ -80,6 +88,7 @@ function DirectionsHandler() {
         if (_.isEqual(savedDirections, newDirections)) {
           return res.status(200).json(results.get_saved_directions);
         }
+
         callback(null, false);
       }],
       get_directions: ['get_options_inc_address', 'get_vehicle', 'check_modified', function (results, callback) {

@@ -128,8 +128,10 @@ function addAppDataToDirections(directions, consumers, routeType, avgWaitTime) {
       // PM route
       maxPassengerDuration -= legs[legs.length - 1].duration.value ;
     }
-    directions.routes[0].totalDuration = totalDuration - avgWaitTime;
-    directions.routes[0].maxPassengerDuration = maxPassengerDuration - 2*avgWaitTime;
+    directions.routes[0].totalDuration = totalDuration > avgWaitTime
+      ? totalDuration - avgWaitTime : 0;
+    directions.routes[0].maxPassengerDuration = maxPassengerDuration > 2*avgWaitTime
+      ? maxPassengerDuration - 2*avgWaitTime : 0;
     directions.routes[0].totalDistance = totalDistance;
   }
   return directions;
