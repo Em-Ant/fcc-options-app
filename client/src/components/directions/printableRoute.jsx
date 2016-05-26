@@ -10,7 +10,7 @@ const MINUTES_IN_HOUR = 60;
 const MILES_IN_METER = 0.00062137;
 
 function _hasDescription(waypoints, index) {
-  return (index > 0 && waypoints[index] && waypoints[index].description)
+  return (waypoints[index] && waypoints[index].description)
 }
 
 var PrintableRoute = React.createClass({

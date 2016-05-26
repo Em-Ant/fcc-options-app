@@ -10,7 +10,7 @@ var moment = require('moment');
 var inputTimer;
 
 function _hasDescription(waypoints, index) {
-  return (index > 0 && waypoints[index] && waypoints[index].description)
+  return (waypoints[index] && waypoints[index].description)
 }
 
 var DirectionsBody = React.createClass({
