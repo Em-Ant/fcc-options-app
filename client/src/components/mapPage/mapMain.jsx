@@ -72,6 +72,8 @@ var WMarkerComponent = React.createClass({
         _markerClusterer.addMarker(self.marker.state.marker)
       }
     }
+    $(".content-wrapper, .wrapper, .right-side, #appView, div[data-reactid='.0']")
+    .css('min-height', $(window).height() - $('.main-header').outerHeight());
   },
   componentWillUnmount:function(){
     // Needed to make filtering work properly
