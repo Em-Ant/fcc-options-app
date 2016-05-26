@@ -17,7 +17,7 @@ var DirectionsBody = React.createClass({
   componentDidMount:function(){
     this.setState({
       routeStartTime:this.props.routeStartTime,
-      startRouteTimeField:moment(this.props.routeStartTime).format(routeConstants.TIME_FORMAT)
+      startRouteTimeField:moment.utc(this.props.routeStartTime).format(routeConstants.TIME_FORMAT)
     })
   },
   getInitialState:function(){
@@ -27,7 +27,7 @@ var DirectionsBody = React.createClass({
   },
   handleTimeChange:function(e){
     var self = this;
-    var time = moment(e.target.value, routeConstants.TIME_FORMAT);
+    var time = moment.utc(e.target.value, routeConstants.TIME_FORMAT);
     if(time.isValid()){
       var routeStartTime = time.unix()*1000;
       this.setState({
@@ -63,8 +63,8 @@ var DirectionsBody = React.createClass({
     var self = this;
     var route = this.props.route;
     var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/routeConstants.MINUTES_IN_HOUR);
-    var routeStartTime = moment(this.state.routeStartTime);
-    var routeTime = moment(this.state.routeStartTime);
+    var routeStartTime = moment.utc(this.state.routeStartTime);
+    var routeTime = moment.utc(this.state.routeStartTime);
     return(
       <div>
       <div className="btn btn-group">

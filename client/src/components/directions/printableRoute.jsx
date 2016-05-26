@@ -19,8 +19,8 @@ var PrintableRoute = React.createClass({
     var route = this.props.route;
     var maxPassengerDuration = Math.ceil(route.maxPassengerDuration/routeConstants.MINUTES_IN_HOUR);
     var consumers =  self.props.vehicle.consumers;
-    var routeStartTime = moment(this.props.routeStartTime);
-    var routeTime = moment(this.props.routeStartTime);
+    var routeStartTime = moment.utc(this.props.routeStartTime);
+    var routeTime = moment.utc(this.props.routeStartTime);
     var routeHasMeds = consumers.some(function(consumerId){
       var consumer = self.props.consumers[consumerId];
       return consumer.hasMedications
