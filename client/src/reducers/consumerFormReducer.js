@@ -37,6 +37,7 @@ function setError(state, error) {
 }
 
 function setEditMode (state, id) {
+  $("html, body").animate({ scrollTop: $(document).height() }, "slow"); 
   return Object.assign({}, state, {
     editId: id,
     displayForm: true

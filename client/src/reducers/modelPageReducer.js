@@ -122,7 +122,7 @@ function destroy(state, id) {
 }
 
 function setEditMode(state, id) {
-
+  $("html, body").animate({ scrollTop: $(document).height() }, "slow"); 
   return Object.assign({}, state, {
     form: {
       display: true,
@@ -133,6 +133,7 @@ function setEditMode(state, id) {
 }
 
 function setAddMode(state) {
+  $("html, body").animate({ scrollTop: $(document).height() }, "slow");
   return Object.assign({}, state, {
     form: {
       display: true,
