@@ -9,6 +9,8 @@ var ModelActions = require('../../actions/modelActions.js');
 var models = require('../../constants/models.js');
 var actions = new ModelActions(models.VEHICLES);
 
+var Alert = require('../alertModal.jsx');
+
 var Vehicles = React.createClass({
   componentDidMount: function() {
     if(this.props.needToBeFetched)
@@ -17,8 +19,9 @@ var Vehicles = React.createClass({
   handleEditButton:function(id){
     this.props.onEditButtonClick(id);
   },
-  handleDeleteButton:function(id){
-    this.props.onDeleteButtonClick(id);
+  handleDeleteButton:function(){
+    this.props.onDeleteButtonClick(this.state.deleteId);
+    this.setState({deleteId: undefined});
   },
   handleAddButton:function(){
     this.props.onAddButtonClick();
@@ -29,6 +32,12 @@ var Vehicles = React.createClass({
       this.props.setPage(this.props.currPage + 1)
     }
   },
+  getInitialState: function() {
+    return {};
+  },
+  setDeleteIndex: function(id) {
+    this.setState({deleteId: id});
+  },
   decrPage : function (e) {
     e.preventDefault();
     if (this.props.currPage > 1) {
@@ -36,8 +45,18 @@ var Vehicles = React.createClass({
     }
   },
   render: function(){
+
+    var modalBody = this.state.deleteId !== undefined ?
+    "Are You sure You want to delete Vehicle '"
+      + this.props.vehicles[this.state.deleteId].name + "' ?"
+      : "";
+
 return (
   <div className="content-wrapper">
+    <Alert modalId="vehicle-delete-alert" modalTitle="Confirm Deletion..."
+      modalBody={modalBody}
+      handleConfirm={this.handleDeleteButton}
+    />
     <section className="content">
       <div className="row">
         <div className="col-md-12">
@@ -88,8 +107,8 @@ return (
                             <button
                               className="btn btn-sm btn-default in-table"
                               title="Delete"  data-toggle="modal"
-                              data-target="#myModal" type="button"
-                              onClick={this.handleDeleteButton.bind(null, vehicle._id)}>
+                              data-target="#vehicle-delete-alert"
+                              onClick={this.setDeleteIndex.bind(null, vehicle._id)}>
                               <i className="fa fa-trash-o"></i>
                             </button>
                         </td>
