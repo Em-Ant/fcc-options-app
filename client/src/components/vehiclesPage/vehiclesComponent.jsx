@@ -15,6 +15,7 @@ var Vehicles = React.createClass({
   componentDidMount: function() {
     if(this.props.needToBeFetched)
       this.props.fetchVehicles()
+    this.props.resizeContentWrapper();
   },
   handleEditButton:function(id){
     this.props.onEditButtonClick(id);
@@ -183,6 +184,9 @@ var mapDispatchToProps = function(dispatch){
     },
     setPage: function(page) {
       dispatch(actions.setPage(page))
+    },
+    resizeContentWrapper: function() {
+      dispatch({type: 'RESIZE_CONTENT_WRAPPER'});
     }
   }
 }

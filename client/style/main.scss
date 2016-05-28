@@ -1,5 +1,14 @@
 /* Add custom styles here */
 
+.wrapper , #appView, div[data-reactid=".0"] {
+  min-height : 100vh;
+}
+
+#map-loader {
+  padding: 20px;
+  color: #ECF0F5;
+}
+
 .label {
   float: left;
   margin: 3px 2px;

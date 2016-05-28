@@ -72,8 +72,14 @@ var WMarkerComponent = React.createClass({
         _markerClusterer.addMarker(self.marker.state.marker)
       }
     }
-    $(".content-wrapper, .wrapper, .right-side, #appView, div[data-reactid='.0']")
-    .css('min-height', $(window).height() - $('.main-header').outerHeight());
+    /*
+    AdminLTE init script should set div.content-wrapper min-height to
+    window height - header ( and footer) height.
+    Due to an early design mistake, content-wrapper is part of react components,
+    so gets re-rendered on every page switch. This action, dispatched on pages
+    component mounting fixes this bug.
+    */
+    this.props.resizeContentWrapper();
   },
   componentWillUnmount:function(){
     // Needed to make filtering work properly
@@ -491,6 +497,9 @@ var mapDispatchToProps = function(dispatch) {
     },
     centerMarkerSuccess:function(){
       dispatch(mActions.centerMarkerSuccess())
+    },
+    resizeContentWrapper: function() {
+      dispatch({type: 'RESIZE_CONTENT_WRAPPER'});
     }
   }
 }

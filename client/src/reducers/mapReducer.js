@@ -353,6 +353,21 @@ var centerWaypointMarker = function(state, waypoint) {
   })
 }
 
+var resizeContentWrapper = function (state) {
+    /*
+    AdminLTE init script should set div.content-wrapper min-height to
+    window height - header ( and footer) height.
+    Due to an early design mistake, content-wrapper is part of react components,
+    so gets re-rendered on every page switch. This action, dispatched on pages
+    component mounting fixes this bug.
+    */
+    
+    $(".content-wrapper")
+    .css('min-height', $(window).height() - $('.main-header').outerHeight());
+
+    return state;
+}
+
 /**
  * TODO IMPORTANT handle errors
  */
@@ -364,6 +379,8 @@ var initState = {
 var reducer = function(state, action) {
   state = state || initState;
   switch (action.type) {
+    case ('RESIZE_CONTENT_WRAPPER') :
+    return resizeContentWrapper(state);
     case (actionTypes.MAP_VEHICLE_BOX_CLICK):
       return vehicleBoxClick(state, action.id);
     case (actionTypes.MAP_REMOVE_FROM_ACTIVE_BUS_REQUEST):

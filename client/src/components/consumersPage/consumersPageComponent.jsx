@@ -13,6 +13,14 @@ var Consumers = React.createClass({
     if(this.props.vehiclesNeedToBeFetched) {
       this.props.loadVehicles();
     }
+    /*
+    AdminLTE init script should set div.content-wrapper min-height to
+    window height - header ( and footer) height.
+    Due to an early design mistake, content-wrapper is part of react components,
+    so gets re-rendered on every page switch. This action, dispatched on pages
+    component mounting fixes this bug.
+    */
+    this.props.resizeContentWrapper();
   },
   componentDidUpdate: function(prevProps) {
     if(prevProps.currPage > this.props.pages) {
@@ -363,6 +371,9 @@ var mapDispatchToProps = function(dispatch){
     },
     setPage: function(page) {
       dispatch(actions.setPage(page))
+    },
+    resizeContentWrapper: function() {
+      dispatch({type: 'RESIZE_CONTENT_WRAPPER'});
     }
   };
 }

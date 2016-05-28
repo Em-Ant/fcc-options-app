@@ -36,7 +36,7 @@ var MapWrapper = React.createClass({
 
     return (!this.props.dataLoaded
       ? <div id="map-loader">
-          <i className="fa fa-refresh fa-spin"></i>
+          <i className="fa fa-refresh fa-spin"></i>&nbsp;
           Loading data...
         </div>
       : <div className="content-wrapper">

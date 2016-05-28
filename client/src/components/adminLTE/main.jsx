@@ -9,10 +9,6 @@ var PwdModal = require('../changePasswordModal.jsx');
 var Main = React.createClass({
   componentDidMount: function() {
     //HACK to force adminLTE to resize
-    $(window).on('resize', function(){
-      $(".content-wrapper, .wrapper, .right-side, #appView, div[data-reactid='.0']")
-      .css('min-height', $(window).height() - $('.main-header').outerHeight());
-    })
     window.dispatchEvent(new Event('resize'));
   },
   componentDidUpdate: function() {
