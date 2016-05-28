@@ -27,7 +27,6 @@ var Login = React.createClass({
 
         <div className="login-box-body">
           <p className="login-box-msg">Sign in to start your session</p>
-          <p className="login-box-msg">admin@test.com / admin</p>
           {this.props.message
             ? <div className="alert alert-info">
                 <h4>
