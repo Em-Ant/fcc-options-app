@@ -67,6 +67,7 @@ var reducer = function(state, action) {
   state = state || initState;
   switch (action.type) {
     case (wptATypes.WPT_FORMS_CHANGED):
+    case('@@router/LOCATION_CHANGE'):
       return clearError(state);
     case (actionTypes.DIRECTIONS_LOAD_REQUEST):
       return loadDirectionsRequest(state)
