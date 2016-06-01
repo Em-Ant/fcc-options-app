@@ -21,12 +21,12 @@ var Directions = new Schema({
   morningStartTime:{
     type: Date,
     required:true,
-    default: 'Fri May 20 2016 07:00:00'
+    default: '1464764400000' // 06/01/2016-07:00AM
   },
   eveningStartTime:{
     type: Date,
     required:true,
-    default: 'Fri May 20 2016 15:00:00'
+    default: '1464793200000' // 06/01/2016-03:00PM
   }
 });
 

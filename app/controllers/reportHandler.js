@@ -263,8 +263,8 @@ function ReportHandler() {
       }else{
         startTime = directions.morningStartTime;
       }
-      var routeStartTime = moment(startTime);
-      var routeTime = moment(startTime);
+      var routeStartTime = moment.utc(startTime);
+      var routeTime = moment.utc(startTime);
       var vehicleWaitTime =
       directions[route].legs.forEach(function(l, index, arr) {
         if(l.start_address != l.end_address){
