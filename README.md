@@ -5,7 +5,7 @@
 This is transportation routing web application for Options Inc.  This is a non profit project for [Free Code Camp](http://www.freecodecamp.com)
 
 A demo version of this application can be found at https://transport-app-demo.herokuapp.com/
-
+You can login useing the test email account `admin@test.com`, password: `admin`.
 ## Build
 
 To build and run the project, you must have the following applications installed.
