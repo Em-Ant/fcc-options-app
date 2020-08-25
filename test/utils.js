@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 
-require('dotenv').load();
+require('dotenv').config({silent: true});
 
 // ensure the NODE_ENV is set to 'test'
 // this is helpful when you would like to change behavior when testing

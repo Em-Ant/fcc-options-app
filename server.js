@@ -13,11 +13,16 @@ var favicon = require('serve-favicon');
 
 var app = express();
 
-if (process.env.NODE_ENV !== 'production') require('dotenv').load();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config({silent: true});
 
 require('./app/auth/passport')(passport);
 
-mongoose.connect(process.env.DB_URI || process.env.MONGOLAB_URI, function(err){
+mongoose.connect(process.env.DB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+}, function(err){
   if(err){
       console.log('There was an error connecting to the database.');
       console.log(err);

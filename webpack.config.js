@@ -14,7 +14,10 @@ module.exports = {
     publicPath: '/static/'},
   target: "web",
   plugins: [
-   new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
+   new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
+   new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+}),
  ],
   module: {
     loaders: [
