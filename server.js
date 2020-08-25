@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').load();
 
 require('./app/auth/passport')(passport);
 
-mongoose.connect(process.env.MONGO_URI || process.env.MONGOLAB_URI, function(err){
+mongoose.connect(process.env.DB_URI || process.env.MONGOLAB_URI, function(err){
   if(err){
       console.log('There was an error connecting to the database.');
       console.log(err);

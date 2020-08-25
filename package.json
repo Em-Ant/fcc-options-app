@@ -25,7 +25,8 @@
   ],
   "scripts": {
     "start": "node server.js",
-    "postinstall": "webpack -p --config ./webpack.config.js",
+    "build": "webpack -p --config ./webpack.config.js",
+    "postinstall": "node ./replace-key.js",
     "test": "make test"
   },
   "author": "Emanuele Antonelli <joshua999x@gmail.com> (http://emant.altervista.org/)",
