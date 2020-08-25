@@ -8,7 +8,7 @@
     "url": "git+https://github.com/Em-Ant/fcc-options-app.git"
   },
   "engines": {
-    "node": "^8.0.0"
+    "node": "^12.0.0"
   },
   "homepage": "https://options-inc.herokuapp.com",
   "bugs": "https://github.com/Em-Ant/fcc-options-app/issues",
@@ -60,8 +60,8 @@
     "mongoose-id-validator": "^0.3.0",
     "mongoose-unique-validator": "^1.0.2",
     "node-geocoder": "^3.9.1",
-    "node-sass": "^3.4.2",
-    "officegen": "^0.2.9",
+    "node-sass": "^4.14.1",
+    "officegen": "^0.6.4",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "raw-loader": "^0.5.1",
