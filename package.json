@@ -55,7 +55,8 @@
     "node-sass": "^4.14.1",
     "officegen": "^0.6.4",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",
@@ -83,7 +84,6 @@
     "resolve-url": "^0.2.1",
     "resolve-url-loader": "^1.4.3",
     "sass-loader": "^3.1.2",
-    "serve-favicon": "^2.5.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",

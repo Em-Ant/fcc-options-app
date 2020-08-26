@@ -17,9 +17,9 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config({silent: tru
 
 require('./app/auth/passport')(passport);
 
+console.log(process.env.DB_URI);
 mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true,
 }, function(err){
