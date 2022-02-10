@@ -52,7 +52,7 @@
     "mongoose-id-validator": "^0.6.0",
     "mongoose-unique-validator": "^2.0.3",
     "node-geocoder": "^3.27.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "officegen": "^0.6.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
